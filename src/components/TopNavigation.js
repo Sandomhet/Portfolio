@@ -1,7 +1,8 @@
-import { AppBar } from "@mui/material";
+import { AppBar, Box } from "@mui/material";
 
 function TopNavigation() {
-  return <AppBar sx={{ position: "sticky" }}>Blogs</AppBar>;
+  return <Box></Box>;
+  // return <AppBar sx={{ position: "sticky" }}>Blogs</AppBar>;
 }
 
 export default TopNavigation;
