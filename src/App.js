@@ -1,6 +1,8 @@
 import { AppBar, Box, Container, Drawer } from "@mui/material";
 import { blue, deepPurple } from "@mui/material/colors";
 import TopNavigation from "./components/TopNavigation";
+import Profile from "./components/Profile";
+import ContentTabs from "./components/ContentTabs";
 
 function App() {
   return (
@@ -16,14 +18,15 @@ function App() {
           bgcolor: blue[500],
         }}
       >
-        Profile
+        <Profile />
       </Box>
-      <Box
-        sx={{ flex: 4, border: "5px solid yellow", bgcolor: deepPurple[500] }}
-      >
-        <TopNavigation />
+      <Box sx={{ flex: 4, border: "5px solid yellow", bgcolor: deepPurple[0] }}>
+        {/* <TopNavigation /> */}
         {/* <AppBar sx={{ position: "sticky" }}>Blogs</AppBar> */}
-        <Container>Latest News</Container>
+        <Container>
+          Latest News
+          <ContentTabs />
+        </Container>
       </Box>
     </Box>
   );
