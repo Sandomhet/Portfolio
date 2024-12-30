@@ -1,35 +1,33 @@
-import { AppBar, Box, Container, Drawer } from "@mui/material";
-import { blue, deepPurple } from "@mui/material/colors";
 import TopNavigation from "./components/TopNavigation";
-import Profile from "./components/Profile";
 import ContentTabs from "./components/ContentTabs";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import MarkdownViewer from "./components/MarkdownViewer";
+import { createTheme, ThemeProvider } from "@mui/material";
 
-function App() {
+const theme = createTheme({
+  palette: {
+    primary: { main: "#1976d2" }, // Custom primary color
+    secondary: { main: "#ff4081" }, // Custom secondary color
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: { fontSize: "2.5rem", fontWeight: 700 },
+  },
+});
+
+export default function App() {
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
-      <Box
-        sx={{
-          flex: 1,
-          width: 250,
-          // height: "100vh",
-          // margin: 1,
-          border: "5px solid red",
-          padding: "20px",
-          bgcolor: blue[500],
-        }}
-      >
-        <Profile />
-      </Box>
-      <Box sx={{ flex: 4, border: "5px solid yellow", bgcolor: deepPurple[0] }}>
-        {/* <TopNavigation /> */}
-        {/* <AppBar sx={{ position: "sticky" }}>Blogs</AppBar> */}
-        <Container>
-          Latest News
-          <ContentTabs />
-        </Container>
-      </Box>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <TopNavigation />
+        <Routes>
+          <Route path="" element={<HomePage />}>
+            <Route path=":category" element={<ContentTabs />} />
+          </Route>
+          <Route path=":category/:name" element={<MarkdownViewer />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
-
-export default App;

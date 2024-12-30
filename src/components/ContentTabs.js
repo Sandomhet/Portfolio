@@ -1,49 +1,34 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { Box, List, Typography } from "@mui/material";
+import PreviewWidget from "./PreviewWidget";
+import { useParams } from "react-router-dom";
+import files from "../assets/mdStorage.json";
 
-function ContentTabs() {
-  const [currentTab, setCurrentTab] = useState(0);
-  const handleTabSwitch = (event, newTab) => {
-    setCurrentTab(newTab);
-  };
+export default function ContentTabs() {
+  const { category } = useParams();
+  let filtered = files.filter((file) => {
+    // console.log(category);
+    if (category === undefined) {
+      return true;
+    }
+    return file.category === category;
+  });
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   return (
-    <TabContext value={currentTab}>
-      <TabList
-        onChange={handleTabSwitch}
-        aria-label="Main Content Tabs"
-        indicatorColor="secondary"
-        textColor="secondary"
-        // variant="fullWidth"
-        // centered
-      >
-        <Tab value={0} label="ALL" />
-        <Tab value={1} label="BLOGS" />
-        <Tab value={2} label="PROJECTS" />
-        <Tab value={3} label="GOSSIPS" />
-      </TabList>
-      <TabPanel value={0}>Item 000</TabPanel>
-      <TabPanel value={1}>Item 111</TabPanel>
-      <TabPanel value={2}>Item 222</TabPanel>
-      <TabPanel value={3}>Item 333</TabPanel>
-    </TabContext>
-    // <Box>
-    //   <Tabs value={currentTab} onChange={handleTabSwitch}>
-    //     <Tab label="Item 1" />
-    //     <Tab label="Item 2" />
-    //     <Tab label="Item 3" />
-    //   </Tabs>
-    //   < value={value} index={0}>
-    //     Content for Tab One
-    //   </TabPanel>
-    //   <TabPanel value={value} index={1}>
-    //     Content for Tab Two
-    //   </TabPanel>
-    //   <TabPanel value={value} index={2}>
-    //     Content for Tab Three
-    //   </TabPanel>
-    // </Box>
+    <Box>
+      <Typography variant="h2" sx={{ fontWeight: "Bold" }}>
+        {category ? capitalizeFirstLetter(category) : "All"}
+      </Typography>
+      <List>
+        {filtered.map((file) => (
+          <List key={file.name}>
+            <PreviewWidget file={file} key={file.name} />
+          </List>
+        ))}
+      </List>
+    </Box>
   );
 }
-export default ContentTabs;
