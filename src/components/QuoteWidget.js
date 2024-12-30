@@ -1,0 +1,55 @@
+import { Box, Divider, IconButton, Typography } from "@mui/material";
+import quotes from "../assets/quoteStorage.json";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import { useState } from "react";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { grey } from "@mui/material/colors";
+
+export default function QuoteWidget() {
+  const randomQuote = () => {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  };
+  const [quote, setQuote] = useState(randomQuote);
+  const refreshQuote = () => {
+    setQuote(randomQuote);
+  };
+
+  return (
+    <Box
+      sx={{
+        // border: 1,
+        background: "background.paper",
+        boxShadow: 1,
+        borderRadius: 2,
+      }}
+    >
+      <Box
+        sx={{
+          background: grey[300],
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <MenuBookOutlinedIcon />
+        <Typography variant="h6" sx={{ fontWeight: "Bold" }}>
+          Quote of the Day
+        </Typography>
+        <IconButton onClick={refreshQuote}>
+          <RefreshIcon />
+        </IconButton>
+      </Box>
+      <Divider />
+      <Box sx={{ color: "text.primary", fontSize: 17 }}>{quote.sentence}</Box>
+      <Box
+        sx={{
+          textAlign: "right",
+          color: "text.secondary",
+          fontSize: 13,
+        }}
+      >
+        --{quote.speaker} <br />
+        {quote.source}
+      </Box>
+    </Box>
+  );
+}
