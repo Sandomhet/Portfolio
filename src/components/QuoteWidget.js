@@ -1,4 +1,4 @@
-import {Box, Container, Divider, IconButton, Typography} from "@mui/material";
+import {Box, Divider, IconButton, Typography} from "@mui/material";
 import quotes from "../assets/quoteStorage.json";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import {useState} from "react";
@@ -33,7 +33,7 @@ export default function QuoteWidget() {
           <Box sx={{padding: 1}}>
             <MenuBookOutlinedIcon/>
           </Box>
-          <Box sx={{justifySelf: 'center'}}>
+          <Box sx={{padding: 0.5, justifySelf: 'center'}}>
             <Typography variant="h6" sx={{fontWeight: "Bold"}}>
               Quote of the Day
             </Typography>
@@ -43,17 +43,21 @@ export default function QuoteWidget() {
           </IconButton>
         </Box>
         <Divider/>
-        <Box sx={{color: "text.primary", fontSize: 17}}>{quote.quote}</Box>
-        <Box
-            sx={{
-              textAlign: "right",
-              color: "text.secondary",
-              fontSize: 13,
-            }}
-        >
-          --{quote.writer} <br/>
-          {quote.source}
+        <Box sx={{padding: 0.7}}>
+          <Box sx={{color: "text.primary", fontSize: 16}}>{quote.quote}</Box>
+          <Box
+              sx={{
+                textAlign: "right",
+                color: "text.secondary",
+                fontSize: 13,
+                padding: 0.1,
+              }}
+          >
+            {quote.writer && <span>--{quote.writer} <br/></span>}
+            <span style={{fontStyle: "italic"}}>{quote.source}</span>
+          </Box>
         </Box>
+      
       </Box>
   );
 }

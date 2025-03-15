@@ -13,6 +13,7 @@ import rehypePrism from "rehype-prism-plus";
 export default function MarkdownViewer() {
   const {category, name} = useParams();
   
+  // const [toc, setToc] = useState([]);
   const [presentMarkdown, setPresentMarkdown] = useState("");
   // const [processedMarkdown, setProcessedMarkdown] = useState("");
   
@@ -22,6 +23,8 @@ export default function MarkdownViewer() {
         .then((text) => setPresentMarkdown(text))
         .catch((err) => console.error("Error loading markdown file:", err));
   }, [category, name]);
+  useEffect(() => {
+  }, [presentMarkdown]);
   
   // useEffect(() => {
   //   const processMarkdown = async () => {
@@ -50,13 +53,27 @@ export default function MarkdownViewer() {
   //   processMarkdown();
   // }, [presentMarkdown]);
   
+  
   return (
       <Container>
+        {/*<div style={{width: '200px', padding: '20px', position: 'fixed', top: '0', left: '0'}}>*/}
+        {/*  <h3>Table of Contents</h3>*/}
+        {/*  <ul>*/}
+        {/*    {toc.map((item, index) => (*/}
+        {/*        <li key={index} style={{marginLeft: `${(item.level - 1) * 10}px`}}>*/}
+        {/*          <a href={`#${item.id}`} style={{textDecoration: 'none'}}>*/}
+        {/*            {item.content}*/}
+        {/*          </a>*/}
+        {/*        </li>*/}
+        {/*    ))}*/}
+        {/*  </ul>*/}
+        {/*</div>*/}
         {/*<div*/}
         {/*    dangerouslySetInnerHTML={{*/}
         {/*      __html: processedMarkdown, // The HTML string you want to render*/}
         {/*    }}*/}
         {/*/>*/}
+        {/*<ReactTOC markdownText={presentMarkdown}/>*/}
         <Markdown
             remarkPlugins={[remarkGfm, remarkMath, remarkToc]}
             rehypePlugins={[rehypeKatex, rehypeSlug, rehypePrism]}

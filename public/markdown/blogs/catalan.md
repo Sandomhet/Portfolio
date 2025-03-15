@@ -1,3 +1,15 @@
+---
+title: "TEST"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    toc_depth: 3
+    number_sections: true
+    theme: lumen
+---
+
 # Catalan Number
 
 与斐波那契数列类似，并没有什么特殊的含义，只是用来解决某些问题的模型。

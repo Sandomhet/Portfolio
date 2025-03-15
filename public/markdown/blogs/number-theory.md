@@ -1,7 +1,5 @@
 # Number Theory Algorithms
 
-## Table of Contents
-
 ## 辗转相除法求最大公约数
 
 ```cpp {2, 4} showLineNumbers

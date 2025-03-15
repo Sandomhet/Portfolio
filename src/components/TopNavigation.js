@@ -37,7 +37,7 @@ export default function TopNavigation() {
             <NavButton navto="/" text="ALL"/>
             <NavButton navto="/blogs" text="BLOGS"/>
             <NavButton navto="/projects" text="PROJECTS"/>
-            <NavButton navto="/thoughts" text="THOUGHTS"/>
+            <NavButton navto="/articles" text="ARTICLES"/>
           </Toolbar>
         </Box>
       </AppBar>
