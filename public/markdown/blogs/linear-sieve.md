@@ -1,3 +1,11 @@
+---
+category: "blogs"
+name: "linear-sieve"
+title: "Linear Sieve Algorithms"
+time: "Tue Dec 31, 2024"
+description: "Linear sieve algorithms that optimized number sieving problems"
+---
+
 # Linear Sieve Algorithms
 
 对于一个函数 $f(x)$，求解它有若干种方法：

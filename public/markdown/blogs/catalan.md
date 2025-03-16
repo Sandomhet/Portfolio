@@ -1,13 +1,9 @@
 ---
-title: "TEST"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    toc_collapsed: true
-    toc_depth: 3
-    number_sections: true
-    theme: lumen
+category: "blogs"
+name: "catalan"
+title: "Catalan Number"
+time: "Tue Dec 31, 2024"
+description: "Interesting equations and findings about Catalan Number"
 ---
 
 # Catalan Number

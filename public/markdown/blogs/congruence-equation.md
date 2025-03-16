@@ -1,3 +1,11 @@
+---
+category: "blogs"
+name: "congruence-equation"
+title: "Congruence Equation"
+time: "Tue Dec 31, 2024"
+description: "Congruence equation problems solutions"
+---
+
 # Congruence Equation
 
 ## Table of Contents

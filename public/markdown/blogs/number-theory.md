@@ -1,3 +1,11 @@
+---
+category: "blogs"
+name: "number-theory"
+title: "Number Theory"
+time: "Mon Dec 30, 2024"
+description: "Basic algorithms associated with number theory problems"
+---
+
 # Number Theory Algorithms
 
 ## 辗转相除法求最大公约数

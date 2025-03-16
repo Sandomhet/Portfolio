@@ -1,3 +1,11 @@
+---
+category: "projects"
+name: "nine-point-circle"
+title: "Nine-point Circle"
+time: "Tue Dec 31, 2024"
+description: "Nine-point circle prove"
+---
+
 # 九点圆问题
 
 由于今天考试爆零了，但是$T1、T4$都是结论题，况且$T1$还是一个经典的几何题（九点圆），自己的解析几何在考场上没有推出来，赛后也一直卡住很长时间，所以感到非常气愤，

@@ -1,40 +1,42 @@
 [
   {
-    "id": 1,
-    "name": "number-theory",
-    "category": "blogs",
-    "title": "Number Theory",
-    "time": "Mon Dec 30, 2024",
-    "description": "Basic algorithms associated with number theory problems"
+    "category": "articles",
+    "name": "gender-stereotype",
+    "title": "Don’t be Chained by Stereotype Buckets",
+    "time": "Mon Oct 1, 2024",
+    "description": "I cannot\nsay my gender identity is completely male, even though I have always identified myself as male."
   },
   {
-    "id": 2,
-    "name": "linear-sieve",
     "category": "blogs",
-    "title": "Linear Sieve Algorithms",
-    "time": "Tue Dec 31, 2024",
-    "description": "Linear sieve algorithms that optimized number sieving problems"
-  },
-  {
-    "id": 3,
-    "name": "congruence-equation",
-    "category": "blogs",
-    "title": "Congruence Equation",
-    "time": "Tue Dec 31, 2024",
-    "description": "Congruence equation problems solutions"
-  },
-  {
-    "id": 4,
     "name": "catalan",
-    "category": "blogs",
     "title": "Catalan Number",
     "time": "Tue Dec 31, 2024",
     "description": "Interesting equations and findings about Catalan Number"
   },
   {
-    "id": 5,
-    "name": "nine-point-circle",
+    "category": "blogs",
+    "name": "congruence-equation",
+    "title": "Congruence Equation",
+    "time": "Tue Dec 31, 2024",
+    "description": "Congruence equation problems solutions"
+  },
+  {
+    "category": "blogs",
+    "name": "linear-sieve",
+    "title": "Linear Sieve Algorithms",
+    "time": "Tue Dec 31, 2024",
+    "description": "Linear sieve algorithms that optimized number sieving problems"
+  },
+  {
+    "category": "blogs",
+    "name": "number-theory",
+    "title": "Number Theory",
+    "time": "Mon Dec 30, 2024",
+    "description": "Basic algorithms associated with number theory problems"
+  },
+  {
     "category": "projects",
+    "name": "nine-point-circle",
     "title": "Nine-point Circle",
     "time": "Tue Dec 31, 2024",
     "description": "Nine-point circle prove"

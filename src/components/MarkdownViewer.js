@@ -9,6 +9,7 @@ import remarkToc from "remark-toc";
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import rehypePrism from "rehype-prism-plus";
+import remarkFrontmatter from "remark-frontmatter";
 
 export default function MarkdownViewer() {
   const {category, name} = useParams();
@@ -75,7 +76,7 @@ export default function MarkdownViewer() {
         {/*/>*/}
         {/*<ReactTOC markdownText={presentMarkdown}/>*/}
         <Markdown
-            remarkPlugins={[remarkGfm, remarkMath, remarkToc]}
+            remarkPlugins={[remarkGfm, remarkMath, remarkToc, remarkFrontmatter]}
             rehypePlugins={[rehypeKatex, rehypeSlug, rehypePrism]}
         >
           {presentMarkdown}
