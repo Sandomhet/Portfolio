@@ -23,9 +23,9 @@ export default function App() {
           <TopNavigation/>
           <Routes>
             <Route path="" element={<HomePage/>}>
-              <Route path=":category" element={<ContentTabs/>}/>
+              <Route path=":type" element={<ContentTabs/>}/>
             </Route>
-            <Route path=":category/:name" element={<MarkdownViewer/>}/>
+            <Route path=":type/:category?/:name" element={<MarkdownViewer/>}/>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

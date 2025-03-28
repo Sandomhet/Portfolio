@@ -1,0 +1,144 @@
+---
+title: "Shortest Path Problem"
+description: "finding a path between two vertices in a graph such that the sum of the weights of its constituent edges is minimized."
+time: "Mon Feb 1, 2024"
+---
+
+# Shortest Path Problem
+
+链式前向星（模拟链表）
+
+```cpp
+struct edge { int v, w, ne; } e[Z << 1];
+int head[Z], cnt = 1;
+inline void add(int x, int y, int z)
+{
+    e[++cnt] = edge{y, head[x]};
+    head[x] = cnt;
+}
+```
+
+$Floyed$算法--多源最短路
+时间复杂度：$O（n^3）$
+
+```cpp
+void floyed_base()
+{
+    memset(dis, 63, sizeof(dis));
+    //最短路
+    for (int k = 1; k <= n; k++)
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+    //连通性
+    for (int k = 1; k <= n; k++)
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                dis[i][j] |= (dis[i][k] & dis[k][j]);
+}
+```
+
+```cpp
+void floyed_ring()//最小环
+{
+    memset(dis, 63, sizeof(dis));
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            g[i][j] = dis[i][j];//保存原数据
+    for (int k = 1; k <= n; k++)
+    {
+        for (int i = 1; i < k; i++)
+            for (int j = i + 1; j < k; j++)
+                ans = min(ans, dis[i][j] + g[i][k] + g[k][j]);
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+    }
+}
+```
+
+$dijkstra$算法--单源最短路
+时间复杂度：优先队列优化后$O（mlogn）$
+
+```cpp
+typedef pair<int, int> paint;
+priority_queue <paint, vector<paint>, greater<paint> > q;
+void dijk(int st)
+{
+    memset(dis, 63, sizeof(dis));
+    memset(vs, 0, sizeof(vs));
+    dis[st] = 0;
+    q.push(make_pair(dis[st], st));
+    while (!q.empty())
+    {
+        int u = q.top().second; q.pop();
+        if (vs[u]) continue; vs[u] = 1;
+        for (int i = head[u]; i; i = e[i].ne)
+        {
+            int v = e[i].v;
+            if (dis[v] > dis[u] + e[i].w)
+            {
+                dis[v] = dis[u] + e[i].w;
+                q.push(make_pair(dis[v], v));
+            }
+        }
+    }
+}
+```
+
+$spfa$算法--单源最短路
+时间复杂度：$O(玄学--极限n*m)$
+
+```cpp
+void spfa(int s)
+{
+    memset(dis, 63, sizeof(dis));
+    memset(vs, 0, sizeof(vs));
+    queue <int> q;
+    q.push(s), vs[s] = 1, dis[s] = 0;
+    while (!q.empty())
+    {
+        int u = q.front(); q.pop(), vs[u] = 0;
+        for (int i = head[u]; i; i = e[i].ne)
+        {
+            int v = e[i].v;
+            if (dis[v] > dis[u] + e[i].w)
+            {
+                dis[v] = dis[u] + e[i].w;
+                if (!vs[v]) q.push(v), vs[v] = 1;
+            }
+        }
+    }
+}
+```
+
+```cpp
+bool spfa(int s)//判断是否存在环
+{
+    memset(dis, 63, sizeof(dis));
+    memset(vs, 0, sizeof(vs));
+    memset(tim, 0, sizeof(tim));
+    queue <int> q;
+    q.push(s), vs[s] = 1, dis[s] = 0, tim[s] = 1;
+    while (!q.empty())
+    {
+        int u = q.front(); q.pop(), vs[u] = 0;
+        for (int i = head[u]; i; i = e[i].ne)
+        {
+            int v = e[i].v;
+            if (dis[v] > dis[u] + e[i].w)
+            {
+                dis[v] = dis[u] + e[i].w;
+                if (!vs[v])
+                {
+                    q.push(v), vs[v] = 1;
+                    if ((++tim[v]) > n - 1) return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+```
+
+$Bellman$\_$ford$算法（spfa 的非优化版本）

@@ -1,9 +1,7 @@
 ---
-category: "blogs"
-name: "catalan"
 title: "Catalan Number"
-time: "Tue Dec 31, 2024"
 description: "Interesting equations and findings about Catalan Number"
+time: "Tue Dec 31, 2024"
 ---
 
 # Catalan Number

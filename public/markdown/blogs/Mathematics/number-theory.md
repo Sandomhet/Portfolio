@@ -1,9 +1,7 @@
 ---
-category: "blogs"
-name: "number-theory"
 title: "Number Theory"
-time: "Mon Dec 30, 2024"
 description: "Basic algorithms associated with number theory problems"
+time: "Mon Dec 30, 2024"
 ---
 
 # Number Theory Algorithms

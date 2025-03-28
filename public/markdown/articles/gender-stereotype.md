@@ -1,5 +1,5 @@
 ---
-category: "articles"
+type: "articles"
 name: "gender-stereotype"
 title: "Don’t be Chained by Stereotype Buckets"
 time: "Mon Oct 1, 2024"

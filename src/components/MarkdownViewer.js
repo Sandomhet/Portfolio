@@ -10,20 +10,23 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import rehypePrism from "rehype-prism-plus";
 import remarkFrontmatter from "remark-frontmatter";
+import rehypeRaw from "rehype-raw";
 
 export default function MarkdownViewer() {
-  const {category, name} = useParams();
+  const {type, category, name} = useParams();
   
   // const [toc, setToc] = useState([]);
   const [presentMarkdown, setPresentMarkdown] = useState("");
   // const [processedMarkdown, setProcessedMarkdown] = useState("");
   
   useEffect(() => {
-    fetch(`/markdown/${category}/${name}.md`)
+    // const mdUrl = `/markdown/${type}/${category}/${name}`;
+    const mdUrl = `/markdown/${type}${category ? `/${category}` : ""}/${name}`
+    fetch(mdUrl)
         .then((response) => response.text())
         .then((text) => setPresentMarkdown(text))
         .catch((err) => console.error("Error loading markdown file:", err));
-  }, [category, name]);
+  }, [type, category, name]);
   useEffect(() => {
   }, [presentMarkdown]);
   
@@ -77,7 +80,7 @@ export default function MarkdownViewer() {
         {/*<ReactTOC markdownText={presentMarkdown}/>*/}
         <Markdown
             remarkPlugins={[remarkGfm, remarkMath, remarkToc, remarkFrontmatter]}
-            rehypePlugins={[rehypeKatex, rehypeSlug, rehypePrism]}
+            rehypePlugins={[rehypeKatex, rehypeRaw, rehypeSlug, rehypePrism]}
         >
           {presentMarkdown}
         </Markdown>

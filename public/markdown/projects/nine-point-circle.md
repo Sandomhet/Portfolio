@@ -1,9 +1,7 @@
 ---
-category: "projects"
-name: "nine-point-circle"
 title: "Nine-point Circle"
-time: "Tue Dec 31, 2024"
 description: "Nine-point circle prove"
+time: "Tue Dec 31, 2024"
 ---
 
 # 九点圆问题

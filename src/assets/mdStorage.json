@@ -1,44 +1,407 @@
 [
   {
-    "category": "articles",
-    "name": "gender-stereotype",
+    "type": "articles",
+    "category": "",
+    "name": "gender-stereotype.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/articles/gender-stereotype.md",
     "title": "Don’t be Chained by Stereotype Buckets",
-    "time": "Mon Oct 1, 2024",
-    "description": "I cannot\nsay my gender identity is completely male, even though I have always identified myself as male."
+    "description": "I cannot say my gender identity is completely male, even though I have always identified myself as male.",
+    "time": "Mon Oct 1, 2024"
   },
   {
-    "category": "blogs",
-    "name": "catalan",
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "balancing-bst.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/balancing-bst.md",
+    "title": "Self-balancing Binary Search Tree",
+    "description": "AVL trees and red–black trees; Splay trees and treaps",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "binary-tree.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/binary-tree.md",
+    "title": "Binary Tree",
+    "description": "binary tree, binary search tree, and heap.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "bit.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/bit.md",
+    "title": "Binary Indexed Tree (BIT)",
+    "description": "efficiently compute prefix sums of the values and update the values.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "cartesian-tree.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/cartesian-tree.md",
+    "title": "Cartesian Tree",
+    "description": "It is uniquely defined as a min-heap whose symmetric (in-order) traversal returns the original sequence.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "decomposition.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/decomposition.md",
+    "title": "Heavy-light Decomposition",
+    "description": "effectively solve many problems that come down to queries on a tree",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "k-d-tree.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/k-d-tree.md",
+    "title": "K-D Tree (k-dimensional tree)",
+    "description": "a space-partitioning data structure for organizing points in a k-dimensional space.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "segment-tree.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/segment-tree.md",
+    "title": "Segment Tree",
+    "description": "storing information about intervals or segments.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "sqrt-mo.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Data-Structures/sqrt-mo.md",
+    "title": "Square Root Decomposition and Mo's Algorithm",
+    "description": "devides a sequence into sqrt(n) blocks and solve by blocks",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "bipartite.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/bipartite.md",
+    "title": "Bipartite Graph",
+    "description": "a graph whose vertices can be divided into two disjoint and independent sets",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "mst.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/mst.md",
+    "title": "Minimum Spanning Tree (MST)",
+    "description": "a subset of the edges of a connected, edge-weighted undirected graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "network-flow.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/network-flow.md",
+    "title": "Network Flow Problem",
+    "description": "maximum flow problem, minimum-cost flow problem",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "shortest-path.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/shortest-path.md",
+    "title": "Shortest Path Problem",
+    "description": "finding a path between two vertices in a graph such that the sum of the weights of its constituent edges is minimized.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "tarjan.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/tarjan.md",
+    "title": "Tarjan's Algorithm",
+    "description": "strongly connected components",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "union.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Graph/union.md",
+    "title": "Disjoint-set/Union-find Forest",
+    "description": "stores a partition of a set into disjoint subsets.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "basis.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/basis.md",
+    "title": "Basis of a Vector Space",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "catalan.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/catalan.md",
     "title": "Catalan Number",
-    "time": "Tue Dec 31, 2024",
-    "description": "Interesting equations and findings about Catalan Number"
+    "description": "Interesting equations and findings about Catalan Number",
+    "time": "Tue Dec 31, 2024"
   },
   {
-    "category": "blogs",
-    "name": "congruence-equation",
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "combinatorics.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/combinatorics.md",
+    "title": "Combinatorics",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "congruence-equation.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/congruence-equation.md",
     "title": "Congruence Equation",
-    "time": "Tue Dec 31, 2024",
-    "description": "Congruence equation problems solutions"
+    "description": "Congruence equation problems solutions",
+    "time": "Tue Dec 31, 2024"
   },
   {
-    "category": "blogs",
-    "name": "linear-sieve",
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "gaussian-elimination.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/gaussian-elimination.md",
+    "title": "Gaussian Elimination",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "linear-sieve.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/linear-sieve.md",
     "title": "Linear Sieve Algorithms",
-    "time": "Tue Dec 31, 2024",
-    "description": "Linear sieve algorithms that optimized number sieving problems"
+    "description": "Linear sieve algorithms that optimized number sieving problems",
+    "time": "Tue Dec 31, 2024"
   },
   {
-    "category": "blogs",
-    "name": "number-theory",
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "matrix-multiplication.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/matrix-multiplication.md",
+    "title": "Matrix Multiplication",
+    "description": "C++ code of matrix multiplication implementation.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "möbius.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/möbius.md",
+    "title": "Möbius",
+    "description": "Introduces Mobius function and mobius inversion formula",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Mathematics",
+    "name": "number-theory.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Mathematics/number-theory.md",
     "title": "Number Theory",
-    "time": "Mon Dec 30, 2024",
-    "description": "Basic algorithms associated with number theory problems"
+    "description": "Basic algorithms associated with number theory problems",
+    "time": "Mon Dec 30, 2024"
   },
   {
-    "category": "projects",
-    "name": "nine-point-circle",
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "binary-answer.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/binary-answer.md",
+    "title": "Binary / Ternary Search on Answer",
+    "description": "Monotonicity Problem and Extreme Value Problem",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "cantor-expansion.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/cantor-expansion.md",
+    "title": "Cantor Expansion",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "centroid.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/centroid.md",
+    "title": "Centroid Decomposition",
+    "description": "点分治",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "divide-conquer.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/divide-conquer.md",
+    "title": "Divide-and-Conquer",
+    "description": "recursively breaks down a problem into two or more sub-problems of the same or related type",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "lifting-lca.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/lifting-lca.md",
+    "title": "Binary Lifting and Lowest Common Ancestor (LCA)",
+    "description": "query in O(log(n))",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "longest-palindromic.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/longest-palindromic.md",
+    "title": "Longest Palindromic Substring",
+    "description": "finding a maximum-length contiguous substring of a given string that is a palindrome",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "maxsum-sub.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/maxsum-sub.md",
+    "title": "Maximum Sum Subarray",
+    "description": "a contiguous subarray with the largest sum",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "random-algorithm.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/random-algorithm.md",
+    "title": "Hill Climbing and Simulated Annealing Algorithms",
+    "description": "爬山算法和模拟退火",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "virtual-tree.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Miscellaneous/virtual-tree.md",
+    "title": "Virtual/Auxiliary Trees",
+    "description": "虚树",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Polynomial",
+    "name": "fft.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Polynomial/fft.md",
+    "title": "Fast Fourier Transform (FFT)",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "String",
+    "name": "ac-alg.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/String/ac-alg.md",
+    "title": "Aho–Corasick Algorithm",
+    "description": "dictionary-matching algorithm that locates elements of a finite set of strings",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "String",
+    "name": "hash.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/String/hash.md",
+    "title": "Hash",
+    "description": "Hash string into numbers for quick query.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "String",
+    "name": "kmp.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/String/kmp.md",
+    "title": "Knuth–Morris–Pratt (KMP) Algorithm",
+    "description": "string-searching algorithm that searches for occurrences of a 'word' within a main 'text string'",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "String",
+    "name": "trie.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/String/trie.md",
+    "title": "Trie Tree",
+    "description": "prefix tree used to store and retrieve strings from a dictionary or set.",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "bignum.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/bignum.md",
+    "title": "Arbitrary-Precision Arithmetic (Bignum)",
+    "description": "Calculations are not limited to digits of the maximum of languages and computers",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "discretization.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/discretization.md",
+    "title": "Discretization",
+    "description": "transform continuous numbers to discrete numbers",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "encapsulation.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/encapsulation.md",
+    "title": "Encapsulation",
+    "description": "Several encapsulation struct methods implemented",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "fast-io.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/fast-io.md",
+    "title": "Fast Input and Output (Fast I/O)",
+    "description": "use string buffer read to accelerate read and write",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "starter.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/starter.md",
+    "title": "C++ Code Start Template",
+    "description": "description",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "stress-test.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/blogs/Templates/stress-test.md",
+    "title": "Stress Testing Harness",
+    "description": "automates the execution of tests, confirm if the results are correct, test extreme data limits",
+    "time": "Mon Feb 1, 2024"
+  },
+  {
+    "type": "projects",
+    "category": "",
+    "name": "nine-point-circle.md",
+    "path": "/Users/sandom/Documents/GitHub/portfolio/public/markdown/projects/nine-point-circle.md",
     "title": "Nine-point Circle",
-    "time": "Tue Dec 31, 2024",
-    "description": "Nine-point circle prove"
+    "description": "Nine-point circle prove",
+    "time": "Tue Dec 31, 2024"
   }
 ]

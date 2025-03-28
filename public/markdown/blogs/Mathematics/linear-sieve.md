@@ -1,9 +1,7 @@
 ---
-category: "blogs"
-name: "linear-sieve"
 title: "Linear Sieve Algorithms"
-time: "Tue Dec 31, 2024"
 description: "Linear sieve algorithms that optimized number sieving problems"
+time: "Tue Dec 31, 2024"
 ---
 
 # Linear Sieve Algorithms
