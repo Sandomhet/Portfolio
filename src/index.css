@@ -1,18 +1,25 @@
 /*@import "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.0/styles/github-dark.min.css";*/
 /*@import "@wooorm/starry-night/style/high-contrast";*/
 
-body {
+html, body {
   margin: 0;
-  /*background: mediumpurple;*/
-  /*background: darkseagreen;*/
-  /*background: linear-gradient(135deg, #1e3c72, #2a5298, #6dd5ed, #ffffff);*/
-  /*background-size: 400% 400%; !* Ensure the gradient expands for a smooth transition *!*/
-  /*animation: gradient 15s ease infinite;*/
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  background: rgb(144, 137, 249);
+  background: linear-gradient(152deg, rgba(144, 137, 249, 1) 5%, rgba(150, 192, 255, 1) 28%, rgba(211, 212, 253, 1) 55%, rgba(169, 240, 255, 1) 100%);
+  background-size: 150% 150%; /* Ensure the gradient expands for a smooth transition */
+  background-attachment: fixed;
+
+  /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
+  /*'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
+  /*sans-serif;*/
+  /*font: "Times New Roman";*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.cardStyle {
+  background: rgb(144, 137, 249);
+  background: linear-gradient(-50deg, rgba(144, 137, 249, 1) 10%, rgba(150, 192, 255, 1) 30%, rgba(211, 212, 253, 1) 55%, rgba(150, 192, 255, 1) 100%);
+  /*background-attachment: fixed;*/
 }
 
 code {

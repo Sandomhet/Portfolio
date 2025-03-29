@@ -26,7 +26,7 @@ export default function TopNavigation() {
   return (
       <AppBar
           sx={{
-            background: deepPurple[200],
+            background: deepPurple[300],
             position: "static",
           }}
       >

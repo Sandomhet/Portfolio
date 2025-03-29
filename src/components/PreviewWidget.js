@@ -1,11 +1,7 @@
 import {Card, CardContent, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
-
-const predesigntheme = {
-  borderRadius: 4,
-  boxShadow: 3,
-};
+import {deepPurple} from "@mui/material/colors";
 
 export default function PreviewWidget({file}) {
   return (
@@ -14,7 +10,12 @@ export default function PreviewWidget({file}) {
           to={`/${file.type}${file.category ? `/${file.category}` : ""}/${file.name}`}
           underline="none"
       >
-        <Card variant="outlined" sx={predesigntheme}>
+        <Card variant="outlined" className={"cardStyle"} sx={{
+          border: 1,
+          borderColor: "gray",
+          borderRadius: 5,
+          boxShadow: 5,
+        }}>
           <CardContent>
             <Typography
                 gutterBottom

@@ -10,38 +10,6 @@ const projectsFolder = path.join(markdownFolder, 'projects');
 // Define the output file where the JSON data will be saved
 const outputFile = path.join(__dirname, 'mdStorage.json');
 
-// const getFilesRecursively = (folderPath) => {
-//   let files = [];
-//   console.log(folderPath);
-//   fs.readdirSync(folderPath, {withFileTypes: true}).forEach((entry) => {
-//     const entryPath = path.join(folderPath, entry.name);
-//     if (entry.isDirectory()) {
-//       // If it's a folder, scan recursively
-//       files = [...files, ...getFilesRecursively(entryPath)];
-//     } else if (entry.isFile() && path.extname(entry.name) === ".md") {
-//       // If it's a markdown file, add it to the list
-//       files.push(entryPath);
-//     }
-//   });
-//   return files;
-// };
-// Helper function to read markdown files and extract metadata
-// const getFilesMetadata = (folderPath, type) => {
-//   const files = getFilesRecursively(folderPath);
-//
-//   return files.map((file) => {
-//     const fileContent = fs.readFileSync(file, 'utf-8');
-//     const {data} = matter(fileContent); // Extract metadata from frontmatter
-//
-//     return {
-//       type: type,
-//       name: data.name || file.name,
-//       title: data.title || "",
-//       time: data.time || " ",
-//       description: data.description || " ",
-//     };
-//   });
-// };
 const getFilesMetadata = (folderPath, type, category) => {
   let metadata = [];
   fs.readdirSync(folderPath, {withFileTypes: true}).forEach((entry) => {
