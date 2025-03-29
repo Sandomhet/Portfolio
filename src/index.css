@@ -11,7 +11,7 @@ html, body {
   /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
   /*'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
   /*sans-serif;*/
-  /*font: "Times New Roman";*/
+  font-family: "Times New Roman", "楷体", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,7 +19,7 @@ html, body {
 .cardStyle {
   background: rgb(144, 137, 249);
   background: linear-gradient(-50deg, rgba(144, 137, 249, 1) 10%, rgba(150, 192, 255, 1) 30%, rgba(211, 212, 253, 1) 55%, rgba(150, 192, 255, 1) 100%);
-  /*background-attachment: fixed;*/
+  background-attachment: fixed;
 }
 
 code {

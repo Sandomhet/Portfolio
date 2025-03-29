@@ -15,12 +15,9 @@ import rehypeRaw from "rehype-raw";
 export default function MarkdownViewer() {
   const {type, category, name} = useParams();
   
-  // const [toc, setToc] = useState([]);
   const [presentMarkdown, setPresentMarkdown] = useState("");
-  // const [processedMarkdown, setProcessedMarkdown] = useState("");
   
   useEffect(() => {
-    // const mdUrl = `/markdown/${type}/${category}/${name}`;
     const mdUrl = `/markdown/${type}${category ? `/${category}` : ""}/${name}`
     fetch(mdUrl)
         .then((response) => response.text())

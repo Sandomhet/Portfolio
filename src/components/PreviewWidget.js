@@ -11,8 +11,6 @@ export default function PreviewWidget({file}) {
           underline="none"
       >
         <Card variant="outlined" className={"cardStyle"} sx={{
-          border: 1,
-          borderColor: "gray",
           borderRadius: 5,
           boxShadow: 5,
         }}>
