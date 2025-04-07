@@ -29,10 +29,11 @@ const getFilesMetadata = (folderPath, type, category) => {
         title: data.title || entry.name,
         description: data.description || "description",
         time: data.time || "Mon Jan 1, 2024",
+        lang: data.lang || "zh",
       })
     }
   })
-  return metadata;
+  return metadata.sort((a, b) => new Date(b.time) - new Date(a.time));
 }
 
 // Function to generate the content.json file

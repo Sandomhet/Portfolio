@@ -2,6 +2,7 @@
 title: "Nine-point Circle"
 description: "Nine-point circle prove"
 time: "Tue Dec 31, 2024"
+lang: "zh"
 ---
 
 # 九点圆问题

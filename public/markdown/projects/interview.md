@@ -2,6 +2,7 @@
 title: "Tech Interview Essentials"
 description: ""
 time: "Mon Mar 31, 2025"
+lang: "zh"
 ---
 
 # Tech Interview Essentials

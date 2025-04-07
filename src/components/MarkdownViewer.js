@@ -11,17 +11,25 @@ import rehypeSlug from "rehype-slug";
 import rehypePrism from "rehype-prism-plus";
 import remarkFrontmatter from "remark-frontmatter";
 import rehypeRaw from "rehype-raw";
+import matter from "gray-matter";
 
 export default function MarkdownViewer() {
   const {type, category, name} = useParams();
   
+  const [metadata, setMetadata] = useState({});
   const [presentMarkdown, setPresentMarkdown] = useState("");
   
   useEffect(() => {
     const mdUrl = `/markdown/${type}${category ? `/${category}` : ""}/${name}`
     fetch(mdUrl)
         .then((response) => response.text())
-        .then((text) => setPresentMarkdown(text))
+        .then((text) => {
+          // const {data: frontmatter, content} = matter(text);
+          // console.log(frontmatter, " ", content);
+          // setMetadata(frontmatter);
+          // setPresentMarkdown(content);
+          setPresentMarkdown(text);
+        })
         .catch((err) => console.error("Error loading markdown file:", err));
   }, [type, category, name]);
   useEffect(() => {
@@ -56,19 +64,7 @@ export default function MarkdownViewer() {
   
   
   return (
-      <Container>
-        {/*<div style={{width: '200px', padding: '20px', position: 'fixed', top: '0', left: '0'}}>*/}
-        {/*  <h3>Table of Contents</h3>*/}
-        {/*  <ul>*/}
-        {/*    {toc.map((item, index) => (*/}
-        {/*        <li key={index} style={{marginLeft: `${(item.level - 1) * 10}px`}}>*/}
-        {/*          <a href={`#${item.id}`} style={{textDecoration: 'none'}}>*/}
-        {/*            {item.content}*/}
-        {/*          </a>*/}
-        {/*        </li>*/}
-        {/*    ))}*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
+      <Container className={type == "articles" ? "article-body" : "markdown-body"}>
         {/*<div*/}
         {/*    dangerouslySetInnerHTML={{*/}
         {/*      __html: processedMarkdown, // The HTML string you want to render*/}

@@ -8,12 +8,32 @@ html, body {
   background-size: 150% 150%; /* Ensure the gradient expands for a smooth transition */
   background-attachment: fixed;
 
+  font-family: "Georgia", "楷体", serif;
   /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
   /*'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
   /*sans-serif;*/
-  font-family: "Times New Roman", "楷体", serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /*-webkit-font-smoothing: antialiased;*/
+  /*-moz-osx-font-smoothing: grayscale;*/
+}
+
+.markdown-body {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.article-body {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.markdown-body :lang(en) {
+  /*font-size: 22px;*/
+}
+
+.markdown-body :lang(zh) {
+  font-size: 15px; /* slightly smaller for balance */
 }
 
 .cardStyle {
