@@ -16,24 +16,16 @@ html, body {
   /*-moz-osx-font-smoothing: grayscale;*/
 }
 
-.markdown-body {
-  font-size: 15px;
+.markdown-zh {
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.2;
 }
 
-.article-body {
+.markdown-en {
   font-size: 22px;
   font-weight: 500;
   line-height: 1.3;
-}
-
-.markdown-body :lang(en) {
-  /*font-size: 22px;*/
-}
-
-.markdown-body :lang(zh) {
-  font-size: 15px; /* slightly smaller for balance */
 }
 
 .cardStyle {

@@ -35,9 +35,10 @@ export default function TopNavigation() {
               sx={{display: "flex", justifyContent: "end", maxHeight: "48px"}}
           >
             <NavButton navto="/" text="ALL"/>
+            <NavButton navto="/articles" text="ARTICLES"/>
             <NavButton navto="/blogs" text="BLOGS"/>
             <NavButton navto="/projects" text="PROJECTS"/>
-            <NavButton navto="/articles" text="ARTICLES"/>
+            <NavButton navto="/notes" text="NOTES"/>
           </Toolbar>
         </Box>
       </AppBar>

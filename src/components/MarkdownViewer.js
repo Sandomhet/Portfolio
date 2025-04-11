@@ -11,27 +11,21 @@ import rehypeSlug from "rehype-slug";
 import rehypePrism from "rehype-prism-plus";
 import remarkFrontmatter from "remark-frontmatter";
 import rehypeRaw from "rehype-raw";
-import matter from "gray-matter";
+import files from "../assets/mdMap.json";
 
 export default function MarkdownViewer() {
-  const {type, category, name} = useParams();
+  const {type, name} = useParams();
   
-  const [metadata, setMetadata] = useState({});
   const [presentMarkdown, setPresentMarkdown] = useState("");
   
   useEffect(() => {
-    const mdUrl = `/markdown/${type}${category ? `/${category}` : ""}/${name}`
-    fetch(mdUrl)
+    console.log(files[name]["path"]);
+    // const mdUrl = `/markdown/${type}${category ? `/${category}` : ""}/${name}.md`
+    fetch(files[name]["path"])
         .then((response) => response.text())
-        .then((text) => {
-          // const {data: frontmatter, content} = matter(text);
-          // console.log(frontmatter, " ", content);
-          // setMetadata(frontmatter);
-          // setPresentMarkdown(content);
-          setPresentMarkdown(text);
-        })
+        .then((text) => setPresentMarkdown(text))
         .catch((err) => console.error("Error loading markdown file:", err));
-  }, [type, category, name]);
+  }, [type, name]);
   useEffect(() => {
   }, [presentMarkdown]);
   
@@ -64,7 +58,7 @@ export default function MarkdownViewer() {
   
   
   return (
-      <Container className={type == "articles" ? "article-body" : "markdown-body"}>
+      <Container className={files[name]["lang"] == "en" ? "markdown-en" : "markdown-zh"} lang={files[name]["lang"]}>
         {/*<div*/}
         {/*    dangerouslySetInnerHTML={{*/}
         {/*      __html: processedMarkdown, // The HTML string you want to render*/}

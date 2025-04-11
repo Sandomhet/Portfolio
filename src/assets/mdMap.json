@@ -1,5 +1,5 @@
-[
-  {
+{
+  "interview": {
     "type": "projects",
     "category": "",
     "name": "interview",
@@ -9,7 +9,7 @@
     "time": "Mon Mar 31, 2025",
     "lang": "zh"
   },
-  {
+  "Math6A": {
     "type": "notes",
     "category": "",
     "name": "Math6A",
@@ -19,7 +19,7 @@
     "time": "Thu Mar 20, 2025",
     "lang": "en"
   },
-  {
+  "Math4B": {
     "type": "notes",
     "category": "",
     "name": "Math4B",
@@ -29,7 +29,7 @@
     "time": "Tue Mar 18, 2025",
     "lang": "en"
   },
-  {
+  "tiktok-entertain": {
     "type": "articles",
     "category": "",
     "name": "tiktok-entertain",
@@ -39,7 +39,7 @@
     "time": "Sun Mar 9, 2025",
     "lang": "en"
   },
-  {
+  "soul-book": {
     "type": "articles",
     "category": "",
     "name": "soul-book",
@@ -49,7 +49,7 @@
     "time": "Thu Feb 13, 2025",
     "lang": "en"
   },
-  {
+  "catalan": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "catalan",
@@ -59,7 +59,7 @@
     "time": "Tue Dec 31, 2024",
     "lang": "zh"
   },
-  {
+  "congruence-equation": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "congruence-equation",
@@ -69,7 +69,7 @@
     "time": "Tue Dec 31, 2024",
     "lang": "zh"
   },
-  {
+  "linear-sieve": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "linear-sieve",
@@ -79,7 +79,7 @@
     "time": "Tue Dec 31, 2024",
     "lang": "zh"
   },
-  {
+  "nine-point-circle": {
     "type": "projects",
     "category": "",
     "name": "nine-point-circle",
@@ -89,7 +89,7 @@
     "time": "Tue Dec 31, 2024",
     "lang": "zh"
   },
-  {
+  "number-theory": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "number-theory",
@@ -99,7 +99,7 @@
     "time": "Mon Dec 30, 2024",
     "lang": "zh"
   },
-  {
+  "gender-stereotype": {
     "type": "articles",
     "category": "",
     "name": "gender-stereotype",
@@ -109,7 +109,7 @@
     "time": "Sat Nov 2, 2024",
     "lang": "en"
   },
-  {
+  "balancing-bst": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "balancing-bst",
@@ -119,7 +119,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "binary-tree": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "binary-tree",
@@ -129,7 +129,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "bit": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "bit",
@@ -139,7 +139,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "cartesian-tree": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "cartesian-tree",
@@ -149,7 +149,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "decomposition": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "decomposition",
@@ -159,7 +159,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "k-d-tree": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "k-d-tree",
@@ -169,7 +169,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "segment-tree": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "segment-tree",
@@ -179,7 +179,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "sqrt-mo": {
     "type": "blogs",
     "category": "Data-Structures",
     "name": "sqrt-mo",
@@ -189,7 +189,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "bipartite": {
     "type": "blogs",
     "category": "Graph",
     "name": "bipartite",
@@ -199,7 +199,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "mst": {
     "type": "blogs",
     "category": "Graph",
     "name": "mst",
@@ -209,7 +209,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "network-flow": {
     "type": "blogs",
     "category": "Graph",
     "name": "network-flow",
@@ -219,7 +219,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "shortest-path": {
     "type": "blogs",
     "category": "Graph",
     "name": "shortest-path",
@@ -229,7 +229,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "tarjan": {
     "type": "blogs",
     "category": "Graph",
     "name": "tarjan",
@@ -239,7 +239,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "union": {
     "type": "blogs",
     "category": "Graph",
     "name": "union",
@@ -249,7 +249,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "basis": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "basis",
@@ -259,7 +259,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "combinatorics": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "combinatorics",
@@ -269,7 +269,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "gaussian-elimination": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "gaussian-elimination",
@@ -279,7 +279,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "matrix-multiplication": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "matrix-multiplication",
@@ -289,7 +289,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "möbius": {
     "type": "blogs",
     "category": "Mathematics",
     "name": "möbius",
@@ -299,7 +299,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "binary-answer": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "binary-answer",
@@ -309,7 +309,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "cantor-expansion": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "cantor-expansion",
@@ -319,7 +319,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "centroid": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "centroid",
@@ -329,7 +329,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "divide-conquer": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "divide-conquer",
@@ -339,7 +339,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "lifting-lca": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "lifting-lca",
@@ -349,7 +349,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "longest-palindromic": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "longest-palindromic",
@@ -359,7 +359,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "maxsum-sub": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "maxsum-sub",
@@ -369,7 +369,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "random-algorithm": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "random-algorithm",
@@ -379,7 +379,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "virtual-tree": {
     "type": "blogs",
     "category": "Miscellaneous",
     "name": "virtual-tree",
@@ -389,7 +389,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "fft": {
     "type": "blogs",
     "category": "Polynomial",
     "name": "fft",
@@ -399,7 +399,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "ac-alg": {
     "type": "blogs",
     "category": "String",
     "name": "ac-alg",
@@ -409,7 +409,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "hash": {
     "type": "blogs",
     "category": "String",
     "name": "hash",
@@ -419,7 +419,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "kmp": {
     "type": "blogs",
     "category": "String",
     "name": "kmp",
@@ -429,7 +429,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "trie": {
     "type": "blogs",
     "category": "String",
     "name": "trie",
@@ -439,7 +439,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "bignum": {
     "type": "blogs",
     "category": "Templates",
     "name": "bignum",
@@ -449,7 +449,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "discretization": {
     "type": "blogs",
     "category": "Templates",
     "name": "discretization",
@@ -459,7 +459,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "encapsulation": {
     "type": "blogs",
     "category": "Templates",
     "name": "encapsulation",
@@ -469,7 +469,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "fast-io": {
     "type": "blogs",
     "category": "Templates",
     "name": "fast-io",
@@ -479,7 +479,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "starter": {
     "type": "blogs",
     "category": "Templates",
     "name": "starter",
@@ -489,7 +489,7 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  {
+  "stress-test": {
     "type": "blogs",
     "category": "Templates",
     "name": "stress-test",
@@ -499,4 +499,4 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   }
-]
+}

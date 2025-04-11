@@ -6,7 +6,6 @@ import files from "../assets/mdStorage.json";
 export default function ContentTabs() {
   const {type} = useParams();
   let filtered = files.filter((file) => {
-    // console.log(type);
     if (type === undefined) {
       return true;
     }

@@ -25,7 +25,7 @@ export default function App() {
             <Route path="" element={<HomePage/>}>
               <Route path=":type" element={<ContentTabs/>}/>
             </Route>
-            <Route path=":type/:category?/:name" element={<MarkdownViewer/>}/>
+            <Route path=":type/:name" element={<MarkdownViewer/>}/>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -4,11 +4,9 @@ const matter = require('gray-matter');
 
 // Define folder paths for articles, blogs, and projects
 const markdownFolder = path.join(__dirname, '../../public/markdown');
-const articlesFolder = path.join(markdownFolder, 'articles');
-const blogsFolder = path.join(markdownFolder, 'blogs');
-const projectsFolder = path.join(markdownFolder, 'projects');
 // Define the output file where the JSON data will be saved
 const outputFile = path.join(__dirname, 'mdStorage.json');
+const mapFile = path.join(__dirname, 'mdMap.json');
 
 const getFilesMetadata = (folderPath, type, category) => {
   let metadata = [];
@@ -24,9 +22,10 @@ const getFilesMetadata = (folderPath, type, category) => {
       metadata.push({
         type: type,
         category: category,
-        name: entry.name,
-        path: path.join(folderPath, entry.name),
-        title: data.title || entry.name,
+        name: entry.name.slice(0, -3),
+        // path: path.join(folderPath, entry.name),
+        path: `/markdown/${type}${category ? `/${category}` : ""}/${entry.name}`,
+        title: data.title || entry.name.slice(0, -3),
         description: data.description || "description",
         time: data.time || "Mon Jan 1, 2024",
         lang: data.lang || "zh",
@@ -38,21 +37,16 @@ const getFilesMetadata = (folderPath, type, category) => {
 
 // Function to generate the content.json file
 const generateContentJson = () => {
-  // // Fetch metadata from articles, blogs, and projects folders
-  // const articlesMetadata = getFilesMetadata(articlesFolder, 'articles');
-  // const blogsMetadata = getFilesMetadata(blogsFolder, 'blogs');
-  // const projectsMetadata = getFilesMetadata(projectsFolder, 'projects');
-  //
-  // // Combine all metadata into a single array
-  // const allContentMetadata = [
-  //   ...articlesMetadata,
-  //   ...blogsMetadata,
-  //   ...projectsMetadata,
-  // ];
   const allContentMetadata = getFilesMetadata(markdownFolder, "", "");
+  const allContentMapdata = allContentMetadata.reduce((acc, entry) => {
+    acc[entry.name] = entry;
+    return acc;
+  }, {});
+  
   
   // Write the combined metadata to content.json
   fs.writeFileSync(outputFile, JSON.stringify(allContentMetadata, null, 2));
+  fs.writeFileSync(mapFile, JSON.stringify(allContentMapdata, null, 2));
   console.log("content.json has been generated successfully!");
 };
 

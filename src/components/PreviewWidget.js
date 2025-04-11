@@ -7,7 +7,7 @@ export default function PreviewWidget({file}) {
   return (
       <Link
           component={RouterLink}
-          to={`/${file.type}${file.category ? `/${file.category}` : ""}/${file.name}`}
+          to={`/${file.type}/${file.name}`}
           underline="none"
       >
         <Card variant="outlined" className={"cardStyle"} sx={{
