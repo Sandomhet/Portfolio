@@ -2,7 +2,7 @@ import {Box, Button, Container, List, ToggleButton, ToggleButtonGroup, Typograph
 import PreviewWidget from "./PreviewWidget";
 import {useParams} from "react-router-dom";
 import files from "../assets/mdStorage.json";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function ContentTabs() {
   
@@ -17,6 +17,10 @@ export default function ContentTabs() {
       : [];
   
   const [activeCategory, setActiveCategory] = useState("All");
+  useEffect(() => {
+    setActiveCategory("All");
+  }, [type]);
+  
   const filtered = activeCategory === "All" ? filteredByType : filteredByType.filter(file => file.category === activeCategory);
   
   function capitalizeFirstLetter(string) {

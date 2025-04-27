@@ -9,6 +9,37 @@ lang: "zh"
 
 ## Table of Contents
 
+## Programming Language
+
+### Go
+
+goroutine的特点：空间小且可动态增长，函数前加go即可调度，GMP模型调度器  
+channel用来goroutine之间传递数据，类似于管道
+
+返回error来决定是否成功
+
+Interface可以用于定义对象的行为  
+空接口可以接受任何类型的值 interface{}
+
+defer延迟执行函数
+
+### C++
+
+new和malloc的区别：  
+项目 | new | malloc  
+类型 | 运算符（operator） | 函数（function）  
+功能 | 分配内存并调用构造函数 | 只分配内存，不调用构造函数  
+返回类型 | 返回正确类型指针（无需强转） | 返回 void*，需要强制类型转换  
+失败处理 | 抛出异常（std::bad_alloc） | 返回 NULL  
+释放方式 | 用 delete | 用 free()
+
+智能指针 | 特点  
+std::unique_ptr | 独占所有权，不可拷贝，只能移动（move）  
+std::shared_ptr | 多个指针可以共享同一份资源，内部有引用计数  
+std::weak_ptr | 辅助 shared_ptr，不增加引用计数，防止循环引用（memory leak）
+
+Singleton创建：懒汉式（需要时才创建），饿汉式（程序启动就创建），线程安全（mutex, call_once）
+
 ## Computer Network
 
 TCP/IP 四层网络模型：应用层，传输层，网络层，链路层。  
@@ -174,7 +205,7 @@ CPU 缓存：L1，L2, L3（多核共享）
 
 task_struct
 
-协程(Coroutine): 用户态的轻量级线程，程序并发。
+协程(Coroutine): 用户态的轻量级线程，由程序代码直接实现，例如goroutine, async/await。
 
 #### Process 进程
 
@@ -183,7 +214,7 @@ task_struct
 状态：运行状态，就绪状态，阻塞状态（await），创建状态，结束状态，挂起状态（在硬盘等待）。  
 控制：创建，终止，阻塞，唤醒。
 
-#### 进程通信
+**进程通信**：
 
 - 管道：单向通信；内核中的缓存，一端写入等待一端读出；匿名管道只能父子进程之间，命名管道可以跨进程
 - 消息队列：内核中的消息链表，自定义，通信不及时，大小受限，用户态和内核态的数据拷贝开销
@@ -482,4 +513,59 @@ Redis是惰性删除+定期删除。
 - 缓存穿透：访问数据不在缓存和数据库中；限制非法请求，返回默认值，布隆过滤器。
 
 缓存更新策略：Cache Aside（旁路缓存）先更新数据库，再删除缓存。  
-管道技术一次性处理多个请求  
+管道技术一次性处理多个请求
+
+## Middlewares
+
+同等条件下，kafka 吞吐量是每秒 17w ，rocketMQ 每秒 10w，而 RabbitMQ 则是 5w
+
+### ElasticSearch
+
+基于lucene  
+分布式，文档存储，搜索和分析，支持PB级数据
+
+近实时（文档写入到可搜索有1秒延迟），集群，
+Index -> Type -> Document (db->table->row)
+
+Segment：具备完整搜索功能的最小单元 (query and fetch)
+
+- Inverted Index倒排索引：每个单词对应包含它的文档ID，Finite State Transducer
+- Term Index：Trie优化单词索引
+- Stored Fields：文档ID对应文档内容
+- Doc Values：列式存储，排序和聚合
+
+### RabbitMQ
+
+Exchange组件包含路由方式和绑定关系，分配放入队列
+
+- 延时队列
+- 死信队列
+- 优先级队列
+
+- 普通集群：Broker互相同步Exchange，不同步Queue；没有提升单个Queue读写能力
+- 镜像队列集群：主从复制MQ（大部分仍在使用）
+- Quorum队列集群：主节点选举机制
+
+### Kafka
+
+分布式流式处理平台：持久化消息队列，流数据处理；极致的性能，生态兼容性高
+
+- 高性能：把消息队列分成多个topic，一个消费者只能订阅一个topic；1个topic可以分为多个partition，每个消费者负责不同的部分
+- 高扩展性：分布式机器
+- 高可用：主从复制备份
+- 持久化：写入磁盘，并添加过期删除策略
+
+ZooKeeper监听每个broker
+
+### Nginx
+
+支持动态配置多种通用网关能力和多种网络协议，单 master 多 worker 架构、多个worker进程之间共享内存和proxy
+cache，对外提供一个IP+端口，支持 http 服务器和反向代理的高性能网关服务
+
+### JWT (Json Web Token)
+
+安全的传递声明信息（用户登录验证）
+
+header(加密算法) + payload(数据信息) + signature(密钥签名)  
+特点：自包含，无状态，轻量级  
+Payload是明文可读的，不能存放敏感信息，JWT通过签名保证数据不被篡改
