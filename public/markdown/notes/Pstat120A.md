@@ -1,6 +1,6 @@
 ---
-title: "PSTAT 120A"
-description: ""
+title: "PSTAT 120A Introduction to Probability"
+description: "Content includes distributions, random variables..."
 time: "Sat May 10, 2025"
 lang: "en"
 ---
@@ -366,7 +366,7 @@ lang: "en"
 
 Probablity Density Function (pdf)
 
-$ \int_{-\infin}^{\infin} f(x)dx = 1 $
+$ \int_{-\infty}^{\infty} f(x)dx = 1 $
 $ P(a \leq X \leq b) = \int_{a}^{b} f(x)dx $
 
 Cumulative Distribution Function (cdf)
@@ -466,7 +466,7 @@ The pmf are defined only for discrete rvs and pdf are defined only for continuou
 
 - **Standard Normal**: $ Z \sim \mathcal{N}(0, 1) $, pdf $ \varphi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} $,
   CDF $ \Phi(z) = \int_{-\infty}^z \varphi(s) \, ds $.
-    - $ \int_{-\infin}^{+\infin} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
+    - $ \int_{-\infty}^{+\infty} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
     - $ E(Z) = 0 $, $ \operatorname{Var}(Z) = 1 $.
     - Symmetry: $ \varphi(z) = \varphi(-z) $, $ \Phi(z) = 1 - \Phi(-z) $.
 - **General Normal**: $ X = \sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2) $,
@@ -626,7 +626,7 @@ $
 - $ \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f(x_1, \ldots, x_n) dx_1 \cdots dx_n = 1 $
 
 **Expectation:
-** $ E[g(X_1, \ldots, X_n)] = \displaystyle\int_{-\infin}^{\infin} \cdots \int_{-\infin}^{\infin} g(x_1, \ldots, x_n) f(x_1, \ldots, x_n) dx_1 \cdots dx_n $
+** $ E[g(X_1, \ldots, X_n)] = \displaystyle\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} g(x_1, \ldots, x_n) f(x_1, \ldots, x_n) dx_1 \cdots dx_n $
 
 **Marginal PDF** $ X_j $:
 $
@@ -687,7 +687,7 @@ $
 
 - If $ X \sim \text{Poisson}(\lambda) $, $ Y \sim \text{Poisson}(\mu) $,
   then $ X + Y \sim \text{Poisson}(\lambda + \mu) $
-- If $ X \sim \text{Bin}(n_1, p) $, $ Y \sim \text{Bin}(n_1, p) $, then $ X + Y \sim \text{Bin}(n_1 + n_2, p) $
+- If $ X \sim \text{Bin}(n_1, p) $, $ Y \sim \text{Bin}(n_2, p) $, then $ X + Y \sim \text{Bin}(n_1 + n_2, p) $
 - If $ X, Y \sim \text{Ge}(p) $, then $ X + Y \sim \text{NB}(2, p),\ P(X + Y = n) = (n-1)p^2(1-p)^{n-2} $
   More generally: $ X_1 + \cdots + X_k \sim \text{NB}(k, p) $
   $ P(X_1 + \cdots + X_k = n) = \binom{n-1}{k-1} p^k (1-p)^{n-k} $
@@ -734,3 +734,35 @@ distribution.
   exchangeable.
 - If $ X_1, \ldots, X_n $ are exchangeable, then the sequence $ g(X_1), \ldots, g(X_n) $ for any function $ g $ is
   exchangable.
+
+## Expectation and Variance of Sums
+
+### Sum of Functions of a Random Vector
+
+- **Linearity of expectation**  
+  $ E\bigl[g_1(X_1)+\cdots+g_n(X_n)\bigr] = \sum\limits_{i=1}^n E\bigl[g_i(X_i)\bigr]. $
+  > *Note:* Independence is **not** required.
+- **Indicator Method**  
+  If $X=\sum I_i$ where each $I_i$ is an indicator (bernoulli) rv, then $ E[X] = \sum E[I_i] = \sum P(I_i=1). $
+- **Product of expectations**  
+  If $X_1,\dots,X_n$ are independent and $g_i$ are functions,
+  then $ E\Bigl[\prod\limits_{i=1}^n g_i(X_i)\Bigr] = \prod\limits_{i=1}^n E[\,g_i(X_i)\,] $.
+- **Variance of a sum**  
+  If $X_1,\dots,X_n$ are independent with $\operatorname{Var}(X_i)<\infty$,
+  then $ \operatorname{Var}\bigl(X_1+\cdots+X_n\bigr) = \sum\limits_{i=1}^n \operatorname{Var}(X_i) $.
+
+- **Sample mean and sample variance**  
+  Let $X_1, X_2, \dots$ be i.i.d. rvs with finite mean $\mu$ and variance $\sigma^2$. Define the sample mean of the
+  first $ n $ observations $ \overline{X}_n = \frac{1}{n}\sum\limits_{i=1}^n X_i $.
+  Then $ E[\overline{X}_n] = \mu, \ \operatorname{Var}(\overline{X}_n) = \frac{\sigma^2}{n} $.
+  > *Interpretation:* $\overline{X}_n$ is an unbiased estimator of $\mu$, and its variance shrinks at rate $1/n$.
+    - **The effect of averaging**: As $ n \to \infty $, $ \operatorname{Var}(\overline{X}_n) $ vanishes, and
+      so $ \overline{X}_n $ converges to mean $ \mu $.
+
+### Moment Generating Functions (MGFs) of Sums
+
+- **MGF of a sum**  
+  If $X$ and $Y$ are independent, then $ M_{X+Y}(t) = M_X(t)\,M_Y(t) $.
+  More generally, for independent $X_1,\dots,X_n$: $ M_{\sum\limits_i X_i}(t) = \prod\limits_{i=1}^n M_{X_i}(t) $.
+- **Uniqueness & distribution of sums**  
+  If $M_{X+Y}(t)$ matches the MGF of a known rv $Z$, then $X+Y$ and $Z$ share the same distribution.
