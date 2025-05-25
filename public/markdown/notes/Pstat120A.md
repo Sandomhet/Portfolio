@@ -740,7 +740,7 @@ distribution.
 ### Sum of Functions of a Random Vector
 
 - **Linearity of expectation**  
-  $ E\bigl[g_1(X_1)+\cdots+g_n(X_n)\bigr] = \sum\limits_{i=1}^n E\bigl[g_i(X_i)\bigr]. $
+  $ E\bigl[\sum\limits_{i=1}^n g_i(X_i) \bigr] = \sum\limits_{i=1}^n E\bigl[g_i(X_i)\bigr]. $
   > *Note:* Independence is **not** required.
 - **Indicator Method**  
   If $X=\sum I_i$ where each $I_i$ is an indicator (bernoulli) rv, then $ E[X] = \sum E[I_i] = \sum P(I_i=1). $
@@ -749,7 +749,7 @@ distribution.
   then $ E\Bigl[\prod\limits_{i=1}^n g_i(X_i)\Bigr] = \prod\limits_{i=1}^n E[\,g_i(X_i)\,] $.
 - **Variance of a sum**  
   If $X_1,\dots,X_n$ are independent with $\operatorname{Var}(X_i)<\infty$,
-  then $ \operatorname{Var}\bigl(X_1+\cdots+X_n\bigr) = \sum\limits_{i=1}^n \operatorname{Var}(X_i) $.
+  then $ \operatorname{Var}\bigl(\sum\limits_{i=1}^n X_i) = \sum\limits_{i=1}^n \operatorname{Var}(X_i) $.
 
 - **Sample mean and sample variance**  
   Let $X_1, X_2, \dots$ be i.i.d. rvs with finite mean $\mu$ and variance $\sigma^2$. Define the sample mean of the
@@ -766,3 +766,56 @@ distribution.
   More generally, for independent $X_1,\dots,X_n$: $ M_{\sum\limits_i X_i}(t) = \prod\limits_{i=1}^n M_{X_i}(t) $.
 - **Uniqueness & distribution of sums**  
   If $M_{X+Y}(t)$ matches the MGF of a known rv $Z$, then $X+Y$ and $Z$ share the same distribution.
+
+## Covariance
+
+- **Definition**: For random variables $X$ and $Y$, the **covariance**
+  is $ \mathrm{Cov}(X,Y) = E\bigl[(X-\mu_X)(Y-\mu_Y)\bigr] = E[XY] - E[X]E[Y] $
+- $ \mathrm{Cov}(X,X) = \mathrm{Var}(X) $
+- **Sign of Covariance**
+    - $\mathrm{Cov}(X,Y)>0$: *positively correlated*. $X$ and $Y$ tend to deviate together.
+    - $\mathrm{Cov}(X,Y)<0$: *negatively correlated*. $X$ and $Y$ tend to deviate in opposite directions.
+    - $\mathrm{Cov}(X,Y)=0$: *uncorrelated*.
+- Independent implies uncorrelated, but uncorrelated doesn't imply independent. If $X\perp Y$,
+  then $\mathrm{Cov}(X,Y)=0$.
+
+- If $I_A$ and $I_B$ are indicators of events $A$ and $B$,
+  then $ \mathrm{Cov}(I_A, I_B) = P(A\cap B) - P(A)P(B) = P(B)\bigl[P(A\mid B)-P(A)\bigr] $  
+  In particular, $\mathrm{Cov}(I_A,I_B)=0$ if and only if $A$ and $B$ are independent.
+
+### Variance of Sum (with Covariances)
+
+- For $X_1,\dots,X_n$ with finite variances and covariances,
+  $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) + 2\sum\limits_{1\le i<j\le n}\mathrm{Cov}(X_i,X_j) $  
+  If they are uncorrelated,
+  then $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) $.
+
+### Properties of Covariance
+
+1. **Symmetry**: $\mathrm{Cov}(X,Y)=\mathrm{Cov}(Y,X)$.
+2. **Linearity in First Argument**: $\mathrm{Cov}(aX+b,\,Y)=a\,\mathrm{Cov}(X,Y)$.
+3. **Bilinearity
+   **: $ \mathrm{Cov}\Bigl(\sum\limits_{i=1}^n a_iX_i, \sum\limits_{j=1}^m b_jY_j\Bigr) = \sum\limits_{i=1}^n\sum\limits_{j=1}^m a_i\,b_j \mathrm{Cov}(X_i,Y_j) $
+
+### Correlation Coefficient
+
+$ \mathrm{Corr}(X,Y) = \frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)}\sqrt{\mathrm{Var}(Y)}} $, $ \rho(X,Y) \in [-1, 1] $
+
+**Key Properties**
+
+1. $a\neq0$, then $ \mathrm{Corr}(aX + b, Y) = \frac{a}{\lvert a\rvert} \mathrm{Corr}(X,Y) $.
+2. $ \mathrm{Corr}(aX + b, cY + d) = \frac{ac}{\lvert ac\rvert}\mathrm{Corr}(X,Y) $
+3. $\mathrm{Corr}(X,Y)=1$ if and only if $ Y = aX + b $ for $a>0$ and $b\in\mathbb{R}$.
+4. $\mathrm{Corr}(X,Y)=-1$ if and only if $ Y = aX + b $ for $a<0$ and $b\in\mathbb{R}$.
+
+#### Multinomial Example
+
+- For $(X_1,\dots,X_k)\sim\mathrm{Multinomial}(n, k, p_1,\dots,p_k)$:
+  $ \mathrm{Cov}(X_i,X_j)
+  = \begin{cases}
+  n\,p_i(1-p_i), & i=j,\\
+  -n\,p_i\,p_j, & i\neq j.
+  \end{cases}
+  $
+  $ \mathrm{Corr}(X_i,X_j) = -\sqrt{\frac{p_i\,p_j}{(1-p_i)(1-p_j)}} $ for $i\neq j$.
+
