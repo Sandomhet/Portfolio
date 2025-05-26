@@ -287,12 +287,12 @@ lang: "en"
 
 - **General Definition**: RVs $ X_1, X_2, \ldots, X_n $ defined on the same probability space are independent if:
   $$
-  P(X_1 \in B_1, X_2 \in B_2, \ldots, X_n \in B_n) = \prod_{k=1}^n P(X_k \in B_k),
+  P(X_1 \in B_1, X_2 \in B_2, \ldots, X_n \in B_n) = Pod_{k=1}^n P(X_k \in B_k),
   $$
   for all subsets $ B_1, B_2, \ldots, B_n \subseteq \mathbb{R} $ and $ n \geq 2 $.
 - **Discrete RVs**: Discrete RVs $ X_1, X_2, \ldots, X_n $ are independent if:
   $$
-  P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{k=1}^n P(X_k = x_k),
+  P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = Pod_{k=1}^n P(X_k = x_k),
   $$
   for all possible values $ x_1, x_2, \ldots, x_n $.
 
@@ -650,7 +650,7 @@ For two RVs $ X, Y $: $ f_X(x) = \int_{-\infty}^\infty f_{X,Y}(x, y) dy $
   $
 - **CDFs:**
   $
-  F(x_1, \ldots, x_n) = \prod_{j=1}^n F_{X_j}(x_j)
+  F(x_1, \ldots, x_n) = Pod_{j=1}^n F_{X_j}(x_j)
   $
 - **Functional Independence:**
   If $ X_1, \ldots, X_{m+n} $ are independent, then $ Y = f(X_1, \ldots, X_m) $ and $ Z = g(X_{m+1}, \ldots, X_{m+n}) $
@@ -819,3 +819,107 @@ $ \mathrm{Corr}(X,Y) = \frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)}\sqrt{\mat
   $
   $ \mathrm{Corr}(X_i,X_j) = -\sqrt{\frac{p_i\,p_j}{(1-p_i)(1-p_j)}} $ for $i\neq j$.
 
+## Tail Bounds and Limit Theorems
+
+### Inequality
+
+- Lemma: If $X \ge Y$, then $ E[X] \ge E[Y] $
+- **Markov's Inequality**: $X$ is nonnegative rv and $c>0$, then $ P(X \ge c) \le \frac{E[X]}{c} $.
+- **Chebyshev's Inequality**: Let $X$ have mean $\mu$ and variance $\sigma^2$. For
+  any $c>0$, $ P(|X-\mu|\ge c) \le \frac{\sigma^2}{c^2} $.  
+  Equivalently, $ P(X\ge\mu+c)\le\frac{\sigma^2}{c^2}, \ P(X\le\mu-c)\le\frac{\sigma^2}{c^2}. $
+
+### Law of Large Numbers (LLN)
+
+Let $\{X_i\}$ be i.i.d. with mean $\mu$ and variance $\sigma^2$. Define $ S_n = X_1 + \cdots + X_n $
+Then for
+every $\varepsilon>0$, $ \lim\limits_{n\to\infty} P\bigl(\bigl|\frac{S_n}{n} - \mu\bigr|<\varepsilon\bigr) = 1 $  
+Strong LLN: $ P\bigl(\lim\limits_{n\to\infty} \frac{S_n}{n} = \mu \bigr) = 1 $
+
+### Continuity Theorem for MGFs
+
+Random variables $Y_1, Y_2, Y_3, \ldots$ satisfy $ \lim\limits_{n \to \infty} M_{Y_n}(t) = M_X(t) $ for all $t$ in the
+interval $(-\varepsilon, \varepsilon)$. Then for
+any $a \in \mathbb{R}$, $ \lim\limits_{n \to \infty} P(Y_n \le a) = P(X \le a) $
+
+### Central Limit Theorem (CLT)
+
+Let $X_1,\dots,X_n$ be i.i.d. with mean $\mu$ and variance $\sigma^2$.
+Define $ S_n = \sum\limits_{i=1}^n X_i, \ Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}} $  
+Then for any real $a \le b$, $ \lim\limits_{n\to\infty} P\bigl(a \le Z_n \le b\bigr) = \Phi(b) - \Phi(a) $
+
+#### Monte Carlo Method and Confidence Interval
+
+$
+\mu \approx \bar X_n = \frac{1}{n} \sum\limits_{i=1}^n X_i, \quad
+\sigma^2 \approx s_n^2 = \frac{1}{n-1}\sum\limits_{i=1}^n (X_i-\bar X_n)^2.
+$  
+$Z_n = \frac{(\bar X_n - \mu)\sqrt{n}}{s_n}$
+
+## Conditional Distribution
+
+### Conditioning Discrete RVs on an Event
+
+Let $X$ be a discrete rv and $B$ an event with $P(B)>0$.
+
+- The **conditional PMF** of $X$ given $B$:
+  $
+  p_{X\mid B}(k) = P(X=k\mid B) = \frac{P(\{X=k\}\cap B)}{P(B)}
+  $
+- The **conditional expectation** of $X$ given $B$:
+  $
+  E[X\mid B] = \sum\limits_k k\ p_{X\mid B}(k).
+  $
+
+Partitioning by events $B_1,\dots,B_n$ with $P(B_i)>0$:
+
+- **Unconditional PMF**:
+  $
+  p_X(k) = \sum\limits_{i=1}^n p_{X\mid B_i}(k) P(B_i).
+  $
+- **Unconditional expectation**:
+  $
+  E[X] = \sum\limits_{i=1}^n E[X | B_i] P(B_i).
+  $
+
+### Conditional Distribution for Discrete RVs
+
+Let $X,Y$ be discrete rvs and $y$ such that $P(Y=y)>0$
+
+- The **conditional PMF** of $X$ given $Y=y$:
+  $
+  p_{X\mid Y}(x\mid y) = P(X=x\mid Y=y) = \frac{p_{X,Y}(x,y)}{p_Y(y)}
+  $  
+  $ p_{X,Y}(x,y) = p_{X\mid Y}(x\mid y)\ p_Y(y) $
+- The **conditional expectation** of $g(X)$ given $Y=y$:
+  $
+  E[g(X)\mid Y=y] = \sum\limits_x g(x) p_{X\mid Y}(x\mid y)
+  $
+
+**Marginalization**:
+
+- $ p_X(x) = \sum\limits_y p_{X | Y}(x \mid y)\ p_Y(y) $
+- $ E[X] = \sum\limits_y E[X | Y=y]\ p_Y(y) $
+
+### Conditional Distribution for Jointly Continuous RVs
+
+**Definition.** Let $X,Y$ be jointly continuous with joint PDF $f_{X,Y}(x,y)$ and marginal $f_Y(y)>0$.
+
+- The **conditional PDF** of $X$ given $Y=y$:
+  $
+  f_{X\mid Y}(x\mid y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}
+  $  
+  $ f_{X,Y}(x,y) = f_{X\mid Y}(x\mid y) f_Y(y) $
+- The **conditional expectation** of $g(X)$ given $Y=y$:
+  $
+  E[g(X)\mid Y=y] = \int_{-\infty}^{\infty} g(x)\,f_{X\mid Y}(x\mid y)\,dx.
+  $
+- The **conditional probability** that $X \in A$ given $Y=y$:
+  $
+  P(X \in A \mid Y=y) = \int_A f_{X\mid Y}(x\mid y) dx
+  $
+
+**Averaging Identities**:
+
+- $ f_X(x) = \int_{-\infty}^{\infty} f_{X\mid Y}(x\mid y)\,f_Y(y)\,dy $
+- $ E[g(X)]\;=\;\int_{-\infty}^{\infty} E[g(X)\mid Y=y]\;f_Y(y)\,dy $
