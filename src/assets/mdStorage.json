@@ -2,6 +2,16 @@
   {
     "type": "notes",
     "category": "",
+    "name": "Cmpsc40",
+    "path": "/markdown/notes/Cmpsc40.md",
+    "title": "CMPSC 40 Discrete Mathematics",
+    "description": "discrete mathematics and mathematical proof",
+    "time": "Wed May 28, 2025",
+    "lang": "en"
+  },
+  {
+    "type": "notes",
+    "category": "",
     "name": "Pstat120A",
     "path": "/markdown/notes/Pstat120A.md",
     "title": "PSTAT 120A Introduction to Probability",
