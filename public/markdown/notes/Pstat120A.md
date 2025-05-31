@@ -922,4 +922,54 @@ Let $X,Y$ be discrete rvs and $y$ such that $P(Y=y)>0$
 **Averaging Identities**:
 
 - $ f_X(x) = \int_{-\infty}^{\infty} f_{X\mid Y}(x\mid y)\,f_Y(y)\,dy $
-- $ E[g(X)]\;=\;\int_{-\infty}^{\infty} E[g(X)\mid Y=y]\;f_Y(y)\,dy $
+- $ E[g(X)] = \int_{-\infty}^{\infty} E[g(X)\mid Y=y] f_Y(y)\,dy $
+
+## Conditional Expectation as a Random Variable
+
+**Definition**: $ v(y)  = E[X \mid Y=y] $ is a number. The **conditional expectation** of $X$ given $Y$ is the random
+variable $ E(X \mid Y)  = v(Y) $.  
+$ E(aX + b \mid Y) = aE(X \mid Y) + b $
+
+**Tower Property (Law of Total Expectation)**  
+$ E\bigl[E(X \mid Y)\bigr]  = E[X] $  
+$E[E(g(X)\mid Y)] = E[g(X)].$
+
+$ E[g(X) \mid X] = g(X) $, $ E(X \mid X) = X $
+
+### Multivariate Conditional Distributions
+
+- **Discrete case**  
+  $
+  p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{p_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{p_Y(y)}
+  $  
+  $
+  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \sum\limits_{x_1,\dots,x_n} g(x_1,\dots,x_n)\,p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)
+  $
+- **Continuous case**  
+  $
+  f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{f_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{f_Y(y)}
+  $  
+  $
+  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \int\cdots\int g(x_1,\dots,x_n)\,f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)\,dx_1\cdots dx_n.
+  $
+
+- **Multivariate law of total expectation:**  
+  $
+  E\bigl[E[\,g(X_1,\dots,X_n)\mid Y]\bigr] = E\bigl[g(X_1,\dots,X_n)\bigr].
+  $
+- $ E\bigl[g_1(X_1) + \cdots + g_n(X_n)\mid Y\bigr] = E\bigl[g_1(X_1)\mid Y\bigr] + \cdots + E\bigl[g_n(X_n)\mid Y\bigr] $
+
+### Conditioning and Independence
+
+$X$ and $Y$ are **independent** if and only if
+
+- Discrete: $p_{X\mid Y}(x\mid y)=p_X(x)$ for all $x$, $y$ with $p_Y(y)>0$.
+- Continuous: $f_{X\mid Y}(x\mid y)=f_X(x)$ for all $x$, $y$ with $f_Y(y)>0$.
+
+- If $X\perp Y$, then $ E[g(X)\mid Y]=E[g(X)] $ (a constant).
+
+### Conditioning on a random variable fixes its value
+
+$ E\bigl[h(X,Y)\mid Y = y\bigr] = E\bigl[h(X,y)\mid Y = y\bigr] $
+
+**"Pull‐out" property**: $ E\bigl[a(X)\,b(Y)\mid Y\bigr] = b(Y)E\bigl[a(X)\mid Y\bigr] $ 
