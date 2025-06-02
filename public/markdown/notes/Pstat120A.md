@@ -248,57 +248,83 @@ lang: "en"
     - Conditional independence given $ C $ does not imply marginal independence of $ A $ and $ B $.
     - Marginal independence of $ A $ and $ B $ does not imply conditional independence given $ C $.
 
-### Random Variable
+## Random Variable
 
 - **Definition**: A random variable (RV), denoted by $ X $, is a real-valued function on the sample space $ \Omega $.
   That is, $ X: \Omega \rightarrow \mathbb{R} $, where $ \mathbb{R} $ is the set of all real numbers.
 - **Notation**:
-    - RVs are denoted by capital letters (e.g., $ X, Y, Z $), unlike mathematical functions (e.g., $ f, g, h $).
+    - RVs are denoted by capital letters ($ X, Y, Z $), unlike mathematical functions ($ f, g, h $).
     - For a sample point $ \omega \in \Omega $, the value of RV $ X $ is $ X(\omega) $.
     - For a set $ B \subseteq \mathbb{R} $, the
       event $ \{X \in B\} = \{\omega \in \Omega : X(\omega) \in B\} = X^{-1}(B) $.
 - **Probability Distribution**: The set of probabilities $ \{P(X \in B) : B \subseteq \mathbb{R}\} $,
   where $ P(X \in B) = P(X^{-1}(B)) $, is called the probability distribution of $ X $.
+- **Support**: The set $ S(X) $ of possible values of $ X $ with positive probability is called the support of $ X $.
+
+**Degenerate RV**: A RV $ X $ is degenerate if there exists some real value $ a $ such that $ P(X = a) = 1 $.
 
 ### Discrete Random Variable
 
-- **Definition**: A RV $ X $ is discrete if it takes values in a finite or countably infinite set,
-  i.e., $ X \in \{k_1, k_2, \ldots\} $.
-- **Support**: The set $ S(X) $ of possible values of $ X $ with positive probability is called the support of $ X $.
+- **Definition**: A random variable $ X $ is discrete if it takes values in a finite or countably infinite
+  set, $ X \in \{k_1, k_2, \ldots\} $.
 - **Probability Mass Function (PMF)**: The PMF of a discrete RV $ X $ is the function $ p_X $ defined by:
-  $$
-  p_X(k) = P(X = k), \quad k \in S(X).
-  $$
-- **Probability for Events**: For any subset $ B \subseteq S(X) $:
-  $$
-  P(X \in B) = \sum_{k \in B} P(X = k) = \sum_{k \in B} p_X(k).
-  $$
+  $ p_X(k) = P(X = k) $
+- **Probability for Events**: For any subset $ B \subseteq S(X) $: $ P(X \in B) = \sum\limits_{k \in B} p_X(k) $.
 
-### Types of Random Variables
+### Continuous Random Variable
 
-- **Continuous RV**: A RV $ X $ is continuous if it assumes any value in a finite or infinite interval.
-- **Mixed RV**: A RV that is neither purely discrete nor continuous (beyond the scope of this course).
-- **Degenerate RV**: A RV $ X $ is degenerate if there exists some real value $ a $ such that:
-  $$
-  P(X = a) = 1.
-  $$
+A random variable $ X $ is **continuous** if it can assume any value in a finite or infinite interval.
+
+#### Probability Density Function (PDF)
+
+- **Definition**: A function $ f(x) $ is a PDF for a continuous rv $ X $ if:
+    - $ f(x) \geq 0 $ (non-negative).
+    - $ \int_{-\infty}^{\infty} f(x) \, dx = 1 $ (total area under the curve equals 1).
+- **Properties**:
+    - $ P(a \leq X \leq b) = \int_a^b f(x) \, dx $, representing the area under $ f(x) $ over $ [a, b] $.
+    - $ P(X = k) = \int_k^k f(x) \, dx = 0 $
+    - Probabilities are equal for inclusive/exclusive
+      endpoints: $ P(a \leq X \leq b) = P(a < X \leq b) = P(a \leq X < b) = P(a < X < b) $.
+
+**Infinitesimal Method**: If PDF $ f $ is continuous at $ a $, then for
+small $ \varepsilon $, $ P(a < X < a + \varepsilon) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a + \varepsilon) \approx f(a) \cdot 2\varepsilon $.
+
+### Cumulative Distribution Function (CDF)
+
+The PMF are defined only for discrete rvs and PDF are defined only for continuous rvs. But CDF apply to any rvs.
+
+- **Definition**: $ F(x) = P(X \leq x) $, defined for all $ x \in \mathbb{R} $. $ P(a < X \leq b) = F(b) - F(a) $.
+- **Discrete**: $ F(x) = \sum\limits_{k \leq x} P(X = k) $.  
+  $F$ is a **piecewise constant** function, or step function. The set of jump points
+  is $ S(X) = \{x : P(X = x) = F(x) − F(x^-) \} $
+- **Continuous**: $ F(x) = \int_{-\infty}^x f(t) \, dt $.  
+  If $ F $ is continuous and differentiable, then $ f(x) = F'(x) $. If not differentiable, then $ f(x) $ is arbitrary.
+- **Properties of CDF**:
+    - $ \lim\limits_{x \to -\infty} F(x) = 0 $, $ \lim\limits_{x \to \infty} F(x) = 1 $.
+    - **Monotonicity**: If $ x < y $, then $ F(x) \leq F(y) $.
+    - **Right continuity**: $ F(a) = \lim\limits_{x \to a^+} F(x) $.
+    - **Left limit**: $ F(a^-) = \lim\limits_{x \to a^-} F(x) = P(X < a) $.
+    - For discrete $ X $, $ P(X = a) = F(a) - F(a^-) $.  
+      For continuous $ X $, $ F(a) = F(a^-) $.
 
 ### Independence of Random Variables
 
 - **General Definition**: RVs $ X_1, X_2, \ldots, X_n $ defined on the same probability space are independent if:
   $$
-  P(X_1 \in B_1, X_2 \in B_2, \ldots, X_n \in B_n) = Pod_{k=1}^n P(X_k \in B_k),
+  P(X_1 \in B_1, X_2 \in B_2, \ldots, X_n \in B_n) = \prod_{k=1}^n P(X_k \in B_k),
   $$
-  for all subsets $ B_1, B_2, \ldots, B_n \subseteq \mathbb{R} $ and $ n \geq 2 $.
+  for all subsets $ B_1, B_2, \ldots, B_n \subseteq \mathbb{R} $.
 - **Discrete RVs**: Discrete RVs $ X_1, X_2, \ldots, X_n $ are independent if:
   $$
-  P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = Pod_{k=1}^n P(X_k = x_k),
+  P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) = \prod_{k=1}^n P(X_k = x_k),
   $$
   for all possible values $ x_1, x_2, \ldots, x_n $.
 
 ## Distribution
 
-### Bernoulli Distribution
+### Discrete Distribution
+
+#### Bernoulli Distribution
 
 - **Definition**: $ X \sim \text{Ber}(p) $ represents the result of a trial, success of fail, with success
   probablity $ p $, where $ 0 \leq p \leq 1 $, if $ X $ takes values in $ \{0, 1\} $ and:
@@ -307,7 +333,7 @@ lang: "en"
   $$
 - **Interpretation**: Represents the outcome of a single Bernoulli trial (1 for success, 0 for failure).
 
-### Binomial Distribution
+#### Binomial Distribution
 
 - **Definition**: $ X \sim \text{Bin}(n, p) $ represents the number of successful trials out of $ n $ independent trials
   with success probability $ p $. Its possible values are $ \{0, 1, \ldots, n\} $ and its PMF is:
@@ -323,7 +349,7 @@ lang: "en"
   \sum_{k=0}^n \binom{n}{k} p^k (1 - p)^{n - k} = (p + 1 - p)^n = 1.
   $$
 
-### Geometric Distribution
+#### Geometric Distribution
 
 - **Definition**: $ X \sim \operatorname{Ge}(p) $ represents the number of trials until the first success in repeated
   independent trials with success probability $ p $. Its support is $ S(X) = \{1, 2, 3, \ldots\} $ and its PMF
@@ -337,7 +363,7 @@ lang: "en"
   first $ n-1 $ failures).
 - **Special Case**: If $ p = 0 $, then $ P(X = \infty) = 1 $.
 
-### Negative Binomial Distribution
+#### Negative Binomial Distribution
 
 - **Definition**: $ X \sim \operatorname{NB}(k, p) $ represents the number of trials until the $ k $-th success in
   repeated independent trials with success probability $ p $. Its PMF
@@ -348,96 +374,66 @@ lang: "en"
 - **Representation**: $ X = X_1 + X_2 + \cdots + X_k $, where $ X_i \sim \operatorname{Ge}(p) $ are independent, each
   representing trials until the next success.
 
-### Hypergeometric Distribution
+#### Hypergeometric Distribution
 
 - **Definition**: $ X \sim \operatorname{HG}(N, N_A, n) $, represents the number of type $ A $ items in a sample
   of $ n $ items drawn without replacement from a population of $ N $ items.
 - **PMF**: Its PMF is $ P(X = k) = \frac{\binom{N_A}{k} \binom{N - N_A}{n - k}}{\binom{N}{n}} $,
   for $ k = 0, 1, \ldots, n $, where $ \max(0, n - N_B) \leq k \leq \min(n, N_A) $.
 
-### Poisson Distribution
+#### Poisson Distribution
 
 - **Definition**: $ X \sim \operatorname{Poi}(\lambda) $, $ \lambda > 0 $ represents the number of rare events in a
   fixed time period, with support $ S(X) = \{0, 1, 2, \ldots\} $ and
   PMF $ P(X = x) = \frac{e^{-\lambda} \lambda^x}{x!} $, for $ x = 0, 1, 2, \ldots $. Used for events like accidents,
   tornadoes, or disease cases.
+- **Poisson Distribution**: $ X \sim \operatorname{Poi}(\lambda) $,
+  PMF: $ P(X = k) = e^{-\lambda} \frac{\lambda^k}{k!} $, $ E(X) = \operatorname{Var}(X) = \lambda $.
 
-## Continuous Random Variable
+### Continuous Distribution
 
-Probablity Density Function (pdf)
-
-$ \int_{-\infty}^{\infty} f(x)dx = 1 $
-$ P(a \leq X \leq b) = \int_{a}^{b} f(x)dx $
-
-Cumulative Distribution Function (cdf)
-for any random varibles
-
-### Uniform Distribution
+#### Uniform Distribution
 
 $$ f(x \mid a, b) = \frac{1}{b - a} $$
-
-## Continuous Random Variables
-
-- **Definition**: A random variable $ X $ is continuous if it can assume any value in a finite or infinite interval.
-- **Probability Assignment**: Probabilities for a continuous rv $ X $, such as $ P(X \in B) $
-  for $ B \subset \mathbb{R} $, are defined via a probability density function (pdf). The pdf is conceptualized as the
-  limit of discrete histograms.
-
-## Probability Density Function (pdf)
-
-- **Definition**: A function $ f(x) $ is a pdf for a continuous rv $ X $ if:
-    - (i) $ f(x) \geq 0 $ (non-negative).
-    - (ii) $ \int_{-\infty}^{\infty} f(x) \, dx = 1 $ (total area under the curve equals 1).
-- **Probability Calculation**: For $ a \leq b $, $ P(a \leq X \leq b) = \int_a^b f(x) \, dx $, representing the area
-  under $ f(x) $ over $ [a, b] $. Since $ P(X = c) = \int_c^c f(x) \, dx = 0 $, probabilities are equal for
-  inclusive/exclusive endpoints: $ P(a \leq X \leq b) = P(a < X \leq b) = P(a \leq X < b) = P(a < X < b) $.
-
-### Uniform Distribution
 
 - **Definition**: A continuous rv $ X \sim U(a, b) $ has a uniform distribution on $ [a, b] $ if its pdf
   is $ f(x) = \frac{1}{b-a} $ for $ a \leq x \leq b $, 0 otherwise. Probability
   over $ [c, d] \subseteq [a, b] $: $ P(c \leq X \leq d) = \int_c^d \frac{1}{b-a} \, dx = \frac{d-c}{b-a} $.
 
-### Infinitesimal Method
+#### Gaussian (Normal) Distribution
 
-- **Concept**: The pdf $ f(x) $ is not a probability but approximates probabilities over tiny intervals. For a
-  continuous pdf $ f $, if $ f $ is continuous at $ a $,
-  then $ P(a < X < a + \varepsilon) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a) \approx f(a) \cdot \varepsilon $,
-  and $ P(a - \varepsilon < X < a + \varepsilon) \approx f(a) \cdot 2\varepsilon $ for small $ \varepsilon $.
-- **Example**: For $ f(x) = 3x^2 $ on $ (0, 1) $, 0 elsewhere, compare $ P(0.50 < X < 0.51) $:
-    - Exact: $ \int_{0.50}^{0.51} 3x^2 \, dx = 0.51^3 - 0.50^3 = 0.00765 $.
-    - Approximation: $ f(0.50) \cdot 0.01 = 3 \cdot 0.50^2 \cdot 0.01 = 0.0075 $. Relative error: 2%.
-- **Example (Finding pdf)**: A dart hits a board of radius 9 inches, with $ R $ as the distance from the center.
-  For $ t \in (0, 9) $, the
-  probability $ P(t < R < t + \varepsilon) \approx \frac{2\pi t \varepsilon + \pi \varepsilon^2}{\pi \cdot 9^2} $.
-  Thus, $ f_R(t) = \lim_{\varepsilon \to 0} \frac{1}{\varepsilon} P(t < R < t + \varepsilon) = \frac{2t}{81} $,
-  for $ t \in (0, 9) $, which is a valid pdf.
+- **Standard Normal**: $ Z \sim \mathcal{N}(0, 1) $, pdf $ \varphi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} $,
+  CDF $ \Phi(z) = \int_{-\infty}^z \varphi(s) \, ds $.
+    - $ \int_{-\infty}^{+\infty} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
+    - $ E(Z) = 0 $, $ \operatorname{Var}(Z) = 1 $.
+    - Symmetry: $ \varphi(z) = \varphi(-z) $, $ \Phi(z) = 1 - \Phi(-z) $.
+- **General Normal**: $ X = \sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2) $,
+  pdf $ f(x) = F'(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} $,
+  CDF $ F(x) = \Phi\left(\frac{x - \mu}{\sigma}\right) $.
+    - $ E(X) = \mu $, $ \operatorname{Var}(X) = \sigma^2 $.
 
-## Cumulative Distribution Function (cdf)
+#### Exponential Distribution
 
-The pmf are defined only for discrete rvs and pdf are defined only for continuous rvs. But cdf apply to any rvs.
+- **Definition**: $ X \sim \operatorname{Exp}(\lambda) $, pdf: $ f(x) = \lambda e^{-\lambda x} $ for $ x \geq 0 $, 0
+  otherwise.
+    - CDF: $ F(t) = 1 - e^{-\lambda t} $ for $ t \geq 0 $, 0 otherwise.
+    - $ P(X > t) = e^{-\lambda t} $.
+- **Moments
+  **: $ E(X) = \frac{1}{\lambda} $, $ E(X^2) = \frac{2}{\lambda^2} $, $ \operatorname{Var}(X) = \frac{1}{\lambda^2} $.
+- **Memoryless Property**: $ P(X > t + s \mid X > t) = P(X > s) = e^{-\lambda s} $.
+- **Example 6**: $ X \sim \operatorname{Exp}\left(\frac{1}{2}\right) $.
+    - $ P\left(X > \frac{7}{2}\right) = e^{-\frac{1}{2} \cdot \frac{7}{2}} = e^{-\frac{7}{4}} $.
+    - Median: Solve $ P(X \leq m) = 1 - e^{-\frac{m}{2}} = \frac{1}{2} $,
+      so $ e^{-\frac{m}{2}} = \frac{1}{2} $, $ m = 2 \ln 2 \approx 1.386 $.
 
-- **Definition**: The cdf of any rv $ X $ is $ F(x) = P(X \leq x) $, defined for all $ x \in \mathbb{R} $.
-  $ P(a < X \leq b) = F(b) - F(a) $.
-- **Form**: For a continuous rv, $ F(x) = \int_{-\infty}^x f(t) \, dt $. For a discrete
-  rv, $ F(x) = \sum_{k \leq x} P(X = k) $.
-- **Discrete cdf Properties**: The cdf graph is a step function, jumping at possible values of $ X $, with jump size
-  at $ a $ equal to $ P(X = a) = F(a) - F(a^-) $. The PMF can be recovered from the cdf.
+#### Gamma Distribution
 
-### CDF for Continuous RVs
-
-- **Definition**: For a continuous rv $ X $ with pdf $ f $, the CDF
-  is $ F(x) = P(X \leq x) = \int_{-\infty}^x f(t) \, dt $.
-- **Finding pdf from CDF**: If $ F $ is continuous and differentiable, the pdf is $ f(x) = F'(x) $. If not
-  differentiable, then $ f(x) $ is arbitrary.
-- If $ F $ is **piecewise constant** function, then X is a discrete rv with support, the set of jump
-  points, $ B = \{x : F(x) − F(x^-) = P(X = x) > 0\} $
-- **Properties of CDF**:
-    - $ \lim\limits_{x \to -\infty} F(x) = 0 $, $ \lim\limits_{x \to \infty} F(x) = 1 $.
-    - **Monotonicity**: If $ x < y $, then $ F(x) \leq F(y) $.
-    - **Right continuity**: $ F(a) = \lim\limits_{x \to a^+} F(x) $.
-    - **Left limit**: $ F(a^-) = \lim\limits_{x \to a^-} F(x) = P(X < a) $.
-    - $ P(X = a) = F(a) - F(a^-) $ (jump size at $ a $). For continuous $ X $, $ F(a) = F(a^-) $.
+- **Gamma Function**: $ \Gamma(r) = \int_0^\infty x^{r-1} e^{-x} \, dx $, $ \Gamma(n) = (n-1)! $ for integer $ n $.
+- **Definition**: $ X \sim \operatorname{Ga}(r, \lambda) $,
+  pdf: $ f(x) = \frac{\lambda^r}{\Gamma(r)} e^{-\lambda x} x^{r-1} $ for $ x \geq 0 $, 0 otherwise.
+    - If $ X_i \sim \operatorname{Exp}(\lambda) $, independent,
+      then $ \sum_{i=1}^n X_i \sim \operatorname{Ga}(n, \lambda) $.
+- **Moments**: $ E(X) = \frac{r}{\lambda} $, $ \operatorname{Var}(X) = \frac{r}{\lambda^2} $.
 
 ## Moments of a Random Variable
 
@@ -462,18 +458,6 @@ The pmf are defined only for discrete rvs and pdf are defined only for continuou
 - First and third quartiles: $ x_{0.25} $, $ x_{0.75} $.
 - For continuous $ X $, $ F(x_p) = p $, and quantiles are unique.
 
-## Gaussian (Normal) Distribution
-
-- **Standard Normal**: $ Z \sim \mathcal{N}(0, 1) $, pdf $ \varphi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}} $,
-  CDF $ \Phi(z) = \int_{-\infty}^z \varphi(s) \, ds $.
-    - $ \int_{-\infty}^{+\infty} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
-    - $ E(Z) = 0 $, $ \operatorname{Var}(Z) = 1 $.
-    - Symmetry: $ \varphi(z) = \varphi(-z) $, $ \Phi(z) = 1 - \Phi(-z) $.
-- **General Normal**: $ X = \sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2) $,
-  pdf $ f(x) = F'(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} $,
-  CDF $ F(x) = \Phi\left(\frac{x - \mu}{\sigma}\right) $.
-    - $ E(X) = \mu $, $ \operatorname{Var}(X) = \sigma^2 $.
-
 ## Central Limit Theorem (CLT) for Binomial Distribution
 
 - **Binomial Setup**: For $ S_n \sim \operatorname{Bin}(n, p) $, $ S_n = X_1 + \cdots + X_n $,
@@ -484,8 +468,8 @@ The pmf are defined only for discrete rvs and pdf are defined only for continuou
 - **CLT**: For large $ n $, the standardized binomial rv $ \frac{S_n - np}{\sqrt{npq}} $ approximates a standard
   normal $ Z \sim \mathcal{N}(0, 1) $.
     -
-    Theorem: $ \lim\limits_{n \to \infty} P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) = \int_a^b \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx = \Phi(b) - \Phi(a) $,
-    where $ \Phi $ is the standard normal CDF.
+  Theorem: $ \lim\limits_{n \to \infty} P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) = \int_a^b \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx = \Phi(b) - \Phi(a) $,
+  where $ \Phi $ is the standard normal CDF.
     - Denoted: $ \frac{S_n - np}{\sqrt{npq}} \xrightarrow{d} \mathcal{N}(0, 1) $ (convergence in distribution).
 - **Normal Approximation**: For large $ n $
   and $ npq > 10 $, $ P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) \approx \Phi(b) - \Phi(a) $.
@@ -511,29 +495,6 @@ The pmf are defined only for discrete rvs and pdf are defined only for continuou
 - For $ X \sim \text{Bin}(n, p) $ and $ Y \sim \text{Poi}(np) $, then for any
   subset $ A \subseteq \{0, 1, 2, \dots\} $, $ \left| P(X \in A) - P(Y \in A) \right| \leq np^2 $
 - **Normal vs. Poisson**: Use normal if $ np(1-p) > 10 $; use Poisson if $ np^2 $ is small.
-
-## Exponential Distribution
-
-- **Definition**: $ X \sim \operatorname{Exp}(\lambda) $, pdf: $ f(x) = \lambda e^{-\lambda x} $ for $ x \geq 0 $, 0
-  otherwise.
-    - CDF: $ F(t) = 1 - e^{-\lambda t} $ for $ t \geq 0 $, 0 otherwise.
-    - $ P(X > t) = e^{-\lambda t} $.
-- **Moments
-  **: $ E(X) = \frac{1}{\lambda} $, $ E(X^2) = \frac{2}{\lambda^2} $, $ \operatorname{Var}(X) = \frac{1}{\lambda^2} $.
-- **Memoryless Property**: $ P(X > t + s \mid X > t) = P(X > s) = e^{-\lambda s} $.
-- **Example 6**: $ X \sim \operatorname{Exp}\left(\frac{1}{2}\right) $.
-    - $ P\left(X > \frac{7}{2}\right) = e^{-\frac{1}{2} \cdot \frac{7}{2}} = e^{-\frac{7}{4}} $.
-    - Median: Solve $ P(X \leq m) = 1 - e^{-\frac{m}{2}} = \frac{1}{2} $,
-      so $ e^{-\frac{m}{2}} = \frac{1}{2} $, $ m = 2 \ln 2 \approx 1.386 $.
-
-## Gamma Distribution
-
-- **Gamma Function**: $ \Gamma(r) = \int_0^\infty x^{r-1} e^{-x} \, dx $, $ \Gamma(n) = (n-1)! $ for integer $ n $.
-- **Definition**: $ X \sim \operatorname{Ga}(r, \lambda) $,
-  pdf: $ f(x) = \frac{\lambda^r}{\Gamma(r)} e^{-\lambda x} x^{r-1} $ for $ x \geq 0 $, 0 otherwise.
-    - If $ X_i \sim \operatorname{Exp}(\lambda) $, independent,
-      then $ \sum_{i=1}^n X_i \sim \operatorname{Ga}(n, \lambda) $.
-- **Moments**: $ E(X) = \frac{r}{\lambda} $, $ \operatorname{Var}(X) = \frac{r}{\lambda^2} $.
 
 ## Moment Generating Functions (MGFs)
 
