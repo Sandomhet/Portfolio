@@ -392,3 +392,319 @@ Relations:
 | Nonnegative integers | $\mathbb{N}$   | countably infinite |
 | Rational numbers     | $\mathbb{Q}$   | countably infinite |
 | Real numbers         | $\mathbb{R}$   | uncountable        | 2}
+
+## Week 8 – Lecture Handout Highlights
+
+### Cardinality of Sets
+
+- **Finite Set:** A set $A$ is finite if it is empty or there exists a bijection $f: A \to \{1,2,\dots,n\}$ for
+  some $n\in\mathbb{N}$.
+- **Countably Infinite:** A set $A$ is countably infinite if there exists a bijection $f: \mathbb{N} \to A$.
+- **Countable:** A set $A$ is countable if it is either finite or countably infinite.
+
+### Sum and Product Rules
+
+- **Sum Rule (Disjoint Union):** If $A$ and $B$ are disjoint finite sets, then  
+  $
+  |A \cup B| \;=\; |A| + |B|.
+  $
+  **Product Rule (Cartesian Product):** If $A$ and $B$ are finite, then  
+  $
+  |A \times B| \;=\; |A|\times|B|.
+  $
+    - **Corollary:** $|A^2| = |A|^2$ for any finite set $A$.
+  #### Applications
+
+1. **RNA strings of length 5** over $\{A,C,U,G\}$:  
+   $
+   4^5 = 1024
+   $
+2. **Functions from $A$ to $B$:** If $|A|=m$ and $|B|=n$, then there are $n^m$ possible functions.
+3. **Choosing an instructor for CS40:** With 35 faculty + 100 grad students = 135 choices.
+
+- **Union of Non-Disjoint Sets:** If $A,B$ are finite (possibly overlapping),  
+  $
+  |A \cup B| = |A| + |B| - |A\cap B|.
+  $
+  **Example:** Bit strings of length 8 that start with 1 or end with 00:  
+  $
+  |\{\text{start with 1}\}| + |\{\text{end with 00}\}| - |\{\text{both}\}|
+  = 2^7 + 2^6 - 2^5 = 128 + 64 - 32 = 160.
+  $
+  ### Power Sets
+- **Definition:** The power set $\mathcal{P}(S)$ is the set of all subsets of $S$.  
+  If $|S| = n$, then $|\mathcal{P}(S)| = 2^n$.
+  **Example:** If $S = \{1,2,3\}$,  
+  $
+  \mathcal{P}(S) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}\}.
+  $
+  ### Permutations and Combinations
+- **Permutation:** An ordered arrangement of all elements of a set of size $n$.  
+  Number of permutations:  
+  $
+  P(n,n) = n!.
+  $
+- **$r$-Permutation:** An ordered arrangement of $r$ distinct elements chosen from $n$.  
+  $
+  P(n,r) = n \times (n-1) \times \cdots \times (n - r + 1) = \frac{n!}{(n - r)!}.
+  $
+- **Combination:** An unordered selection of $r$ elements from $n$.  
+  $
+  \binom{n}{r} = \frac{n!}{r! \, (n - r)!}.
+  $
+- **Example:** How many routes in the TSP with $n$ cities?  
+  $
+  (n-1)!
+  $
+  if you fix an origin and permute the remaining $n-1$.
+  ### Cantor–Schröder–Bernstein Theorem
+- **Statement:** For any nonempty sets $A,B$,
+  $ |A| = |B|\quad \Longleftrightarrow\quad (|A|\le |B| \text{and} |B|\le |A|). $
+  Equivalently, if there exist injections $f_1: A\to B$ and $f_2: B\to A$, then there exists a
+  bijection $A\leftrightarrow B$.
+
+### Cardinality Classifications
+
+- **Finite:** $\lvert A\rvert = n$ for some $n \in \mathbb{N}$.
+- **Countably Infinite:** $\lvert A\rvert = \lvert \mathbb{N}\rvert$.
+- **Uncountable:** cannot be put in bijection with $\mathbb{N}$.
+
+### Cantor’s Diagonalization (Uncountability of $\mathcal{P}(\mathbb{N})$)
+
+1. **Goal:** Show no bijection $f: \mathbb{N} \to \mathcal{P}(\mathbb{N})$ exists.
+2. **Assume** an arbitrary function $f: \mathbb{N} \to \mathcal{P}(\mathbb{N})$.
+3. **Construct**  
+   $
+   D_f = \{\,n \in \mathbb{N} \mid n \notin f(n)\}.
+   $
+4. **Claim:** $D_f \in \mathcal{P}(\mathbb{N})$ but $D_f\neq f(a)$ for every $a\in\mathbb{N}$.
+
+- If $a \in D_f$, then by definition $a \notin f(a)$. Thus $f(a)\neq D_f$.
+- If $a \notin D_f$, then $a \in f(a)$. Again $f(a)\neq D_f$.
+
+5. **Conclusion:** $f$ is not onto, so $\lvert \mathbb{N}\rvert \neq \lvert \mathcal{P}(\mathbb{N})\rvert$.
+   Hence $\mathcal{P}(\mathbb{N})$ is uncountable.
+
+### Power Set vs. Original Set
+
+- For any set $Y$,  
+  $
+  \lvert Y \rvert < \lvert \mathcal{P}(Y)\rvert.
+  $
+  In particular, $\lvert \mathbb{N}\rvert < \lvert \mathcal{P}(\mathbb{N})\rvert.$
+
+### Binomial Theorem
+
+- **Statement:** For $x,y$ and integer $n\ge0$,
+  $
+  (x+y)^n = \sum\limits_{r=0}^n \binom{n}{r}\,x^{\,n-r}\,y^r.
+  $
+
+## Binary Relations
+
+### Definition
+
+A **binary relation** $R$ **from** $A$ **to** $B$ is any subset $ R \subseteq A \times B $. $a\ R\ b$
+denote $(a, b) \in R$  
+If $ (a, b) \in R $, then $a$ is related to $b$ by $R$.
+
+When $A=B$, we say “$R$ is a relation **on** $A$.”
+
+$f: A\to B$ is a relation, $(a, f(a)) \in R_f$
+
+#### Alternative Representations
+
+1. **Characteristic Function** $f_{TF}$:  
+   $
+   f_{TF}\colon A \times B \,\to\, \{\text{T},\,\text{F}\},
+   \quad
+   f_{TF}(a,b) =
+   \begin{cases}
+   \text{T} & \text{if } (a,b)\in R,\\
+   \text{F} & \text{if } (a,b)\notin R.
+   \end{cases}
+   $
+2. **Adjacency Function** $f_{P}$:  
+   $
+   f_{P}\colon A \,\to\, \mathcal{P}(B),
+   \quad
+   f_{P}(a) \;=\; \{\,b\in B : (a,b)\in R\}.
+   $
+3. **Set‐of‐Pairs Notation**:  
+   $
+   R = \{\,(a,b)\in A\times B : \text{some condition holds}\}.
+   $
+
+#### Examples of Relations
+
+1. **Integer Inequality**:  
+   $
+   R = \{\, (x,y)\in \mathbb{Z}\times \mathbb{Z} : x < y \}.
+   $
+2. **Length‐Function Relation**:  
+   $
+   R = \{\, (\,w,n\,)\in \{0,1\}^*\times \mathbb{N} : |w| = n \}.
+   $
+3. **Custom Mapping** ($A=\{0,1,2\},\,B=\{a,b\}$):  
+   $
+   R = \{\, (0,a),\, (1,a),\, (1,b) \}.
+   $
+
+### Properties of Relations (on a Set $A$)
+
+Let $R\subseteq A\times A$. Then:
+
+1. **Reflexive**:
+   $
+   (a,a)\in R,\ \forall a\in A.
+   $
+2. **Symmetric**:
+   $
+   (a,b)\in R \to (b,a)\in R ,\ \forall a,b\in A.
+   $
+3. **Antisymmetric**:
+   $
+   ((a,b)\in R \land (b,a)\in R) \to a=b ,\ \forall a,b\in A.
+   $
+4. **Transitive**:
+   $ ((a,b)\in R \land (b,c)\in R) \to (a,c)\in R,\ \forall a,b,c\in A.
+   $
+
+### Combining Relations
+
+$R \subseteq A \times B$ and $S \subseteq B \times C$, then the composite of $R$ and $S$, $S \circ R$ is the relation
+consisting of all ordered pairs $(a, c)$, where $a \in A$, $c \in C$, and there exists an element $b \in B$ such
+that $(a, b) \in R$ and $(b, c) \in S$.
+
+If $R$ is a relation on $A$,  
+$R^{n+1} = R^n \circ R$
+
+### Congruence Modulo _m_ as an Equivalence Relation
+
+For a fixed integer $m>1$, define
+$
+R_{\bmod m} = \{\, (a,b)\in \mathbb{Z}\times \mathbb{Z} : a \equiv b \pmod m \}.
+$  
+Equivalently,
+$
+(a,b)\in R_{\bmod m} \;\Longleftrightarrow\; m \mid (a - b).
+$  
+We write $a \equiv b \,(\bmod\,m)$ when $(a,b)\in R_{\bmod m}.$
+
+## Equivalence Relations and Partitions
+
+### Equivalence Relation
+
+A relation $R\subseteq A\times A$ is an **equivalence relation** if it is reflexive, symmetric, and transitive.
+
+$a \sim b$ denotes $a$ and $b$ are equivalent elements with respect to a particular equivalence relation.
+
+### Equivalence Class
+
+For $a\in A$, the **equivalence class** of $a$ with respect to $R$ is $ [a]_R = \{\, x\in A : (a,\,x)\in R \} $  
+Every equivalence class is nonempty (since $a\in [a]_R$)  
+If $b \in [a]_R$, then $b$ is a representative of this equivalence class.
+
+### Partition Induced by an Equivalence Relation
+
+When $R$ is an equivalence relation on $A$, the collection  
+$
+\{\, [a]_R : a\in A \}
+$
+is a **partition** of $A$; that is,
+
+1. Each $[a]_R\neq \varnothing.$
+2. If $(a,b)\in R$, then $[a]_R = [b]_R.$
+3. If $(a,b)\notin R$, then $[a]_R \cap [b]_R = \varnothing.$
+4. $\bigcup\limits_{a\in A} [a]_R = A$
+
+#### Representing Equivalence Relations as Partitions (and Vice Versa)
+
+Let $R$ be an equivalence relation on a set $S$. Then the equivalence classes of $R$ form a partition of $S$.
+Conversely, given a partition $\{A_i \mid i \in I\}$ of the set $S$, there is an equivalence relation $R$ that has the
+sets $A_i$, $i \in I$, as its equivalence classes.
+
+- **From Equivalence Relation to Partition**:  
+  $
+  R \;\mapsto\; \{\,[a]_R : a\in A\,\}.
+  $
+- **From Partition to Equivalence Relation**:  
+  Given a partition $\{A_1,\dots,A_k\}$ of $A$, define  
+  $
+  R = \{ (x,y)\in A\times A : \exists i,\ x\in A_i \land y\in A_i \}.
+  $
+
+### Partial Order
+
+A relation $R\subseteq A\times A$ is a **partial order** if it is reflexive, antisymmetric, transitive.  
+$(A, R)$ is a **partially ordered set**, or *poset*. Members of $A$ are elements of the poset.
+
+### Hasse Diagram
+
+For a finite partially ordered set $(A,R)$, the **Hasse diagram** is drawn by:
+
+1. Omitting self-loops $(a,a)$.
+2. Omitting edges implied by transitivity: if $(a,c)$ follows from $(a,b)$ and $(b,c)$, do not draw $(a,c)$.
+3. Placing elements as nodes in the plane so that if $(a,b)\in R$ (and $a\neq b$), then $b$ is “above” $a$. Draw an
+   undirected edge between $a$ and $b$.
+
+## Application: Clustering Netflix Users
+
+### Scenario
+
+- Each user is represented by a 5-tuple of ratings from $\{-1,\,0,\,1\}$.
+    - $-1$: Did not like
+    - $0$: No preference
+    - $1$: Liked
+- We want to group (cluster) users who have “similar” rating patterns so they can be served a customized homepage.
+
+### Three Equivalence-Relation Proposals on $\{-1,0,1\}^5$
+
+1. **Projection Relation $\;E_{\text{proj}}$:**  
+   $
+   E_{\text{proj}} = \bigl\{\, (\,x,y\,)\in (\{-1,0,1\}^5)^2 : x_1=y_1,\;x_2=y_2,\;x_3=y_3 \bigr\}.
+   $
+
+- **Interpretation**: Two users are equivalent if they agree on the first three movie‐ratings.
+- **Properties**:
+    - Reflexive (every tuple matches itself).
+    - Symmetric (if $x_1=y_1,x_2=y_2,x_3=y_3$, then $y_1=x_1,y_2=x_2,y_3=x_3$).
+    - Transitive (agreement on the first three positions is transitive).
+    - **Not antisymmetric** unless all five positions are forced equal.
+
+2. **Distance-Based Relation $\;E_{\text{dist}}$:**  
+   Define $d(u,v) = \sum_{i=1}^5 |u_i - v_i|$. Then  
+   $
+   E_{\text{dist}} = \{\, (u,v) : d(u,v) \le 2 \}.
+   $
+
+- **Interpretation**: Two users are equivalent if their total “Manhattan distance” in rating‐space is at most 2.
+- **Properties**:
+    - Reflexive (distance 0).
+    - Symmetric (distance is symmetric).
+    - **Not transitive** in general (if $d(u,v)\le2$ and $d(v,w)\le2$, it might be that $d(u,w)>2$).
+    - Not antisymmetric (distinct points can be within distance 2).
+
+3. **“Circle” Relation $\;E_{\text{circ}}$:**  
+   Let $\mathbf{0}=(0,0,0,0,0)$. Define  
+   $
+   E_{\text{circ}} = \bigl\{\, (u,v): d(\mathbf{0},\,u) \;=\; d(\mathbf{0},\,v)\bigr\}.
+   $
+
+- **Interpretation**: Two users are equivalent if their sum‐of‐absolute‐ratings (distance from $\mathbf{0}$) is the
+  same.
+- **Properties**:
+    - Reflexive (distance from $\mathbf{0}$ to itself is equal).
+    - Symmetric (equality of distances is symmetric).
+    - Transitive (if two users each have the same distance from $\mathbf{0}$, then they all lie on the same “level
+      set”).
+    - **Not antisymmetric** (distinct users can share the same distance from $\mathbf{0}$).
+
+### Example Partition from $E_{\text{circ}}$
+
+The equivalence classes group all 5-tuples by their total “absolute sum.” For instance:
+
+- Distance 0 class: $\{(0,0,0,0,0)\}$
+- Distance 1 class: all 5-tuples with exactly one coordinate $\pm1$ and the rest 0 (size 10).
+- Distance 2 class: all 5-tuples whose coordinates sum (in absolute value) to 2 (size 20).
+- And so on, up to distance 5. 
