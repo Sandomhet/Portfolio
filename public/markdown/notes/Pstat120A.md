@@ -1,7 +1,7 @@
 ---
 title: "PSTAT 120A Introduction to Probability"
 description: "Content includes distributions, random variables..."
-time: "Sat May 10, 2025"
+time: "Fri Jun 6, 2025"
 lang: "en"
 ---
 
@@ -20,9 +20,8 @@ lang: "en"
 ## Set Theory
 
 - **Set**: A well-defined collection of objects or elements with no ambiguity about membership.
-    - **Notation**: Denoted by capital letters (e.g., $ A, B $); elements within curly brackets (
-      e.g., $ A = \{2, 4, 6\} $).
-    - **Membership**: $ \in $ means "belongs to"; $ \notin $ means "does not belong to."
+  - **Notation**: Denoted by capital letters ($ A, B $); elements within curly brackets ($ A = \{2, 4, 6\} $).
+  - **Membership**: $ \in $ means "belongs to"; $ \notin $ means "does not belong to."
 - **Subset**: $ Y \subseteq X $ if every element of $ Y $ is in $ X $.
 - **Proper Subset**: $ Y \subset X $ if $ Y \subseteq X $ and $ X $ has at least one element not in $ Y $.
 - **Universal Set ($ \Omega $ or $ S $)**: Contains all elements under consideration.
@@ -71,31 +70,26 @@ lang: "en"
 
 **Basic Principle of Counting**:
 
-- For a task with $ k $ independent stages, where stage $ i $ has $ n_i $ choices, total outcomes are:
-  $$
-  n_1 \times n_2 \times \cdots \times n_k.
-  $$
-
+- For a task with $ k $ independent stages, where stage $ i $ has $ n_i $ choices, total outcomes are: $\prod\limits_{i=1}^k n_i$
 - **Factorial**: $ n! = n \times (n-1) \times \cdots \times 1 $, with $ 0! = 1 $.
-- **Permutation $ (n)_k $**: $ n $ order $ k $:
+- **Permutation**: $ n $ order $ k $:
   $$
   (n)_k = \frac{n!}{(n-k)!}
   $$
-- **Combination $ \binom{n}{k} $**: $ n $ choose $ k $:
+- **Combination**: $ n $ choose $ k $:
   $$
   \binom{n}{k} = \frac{n!}{k!(n-k)!}.
   $$
 - **Multinomial Coefficient**: partition $ n $ items into $ k $ groups:
   $$
-  \binom{n}{n_1, n_2, \ldots, n_k} = \frac{n!}{n_1! n_2! \cdots n_k!}, \quad \text{where} \quad n_1 + n_2 + \cdots + n_k = n.
+  \binom{n}{n_1, n_2, \ldots, n_k} = \frac{n!}{n_1! n_2! \cdots n_k!},\quad \text{where} \sum\limits_{i=1}^k n_i = n.
   $$
 
 ## Probability
 
 ### Random Experiment
 
-- **Random Experiment**: An experiment where all possible outcomes are known, but the specific outcome on a given trial
-  cannot be predicted.
+- **Random Experiment**: An experiment where all possible outcomes are known, but the specific outcome on a given trial cannot be predicted.
 - **Sample Space ($ S $ or $ \Omega $)**: The set of all possible outcomes.
 - **Elementary Outcome**: A single outcome in the sample space.
 - **Event**: A subset of the sample space.
@@ -111,58 +105,51 @@ lang: "en"
   P(A) \approx \frac{\text{Number of times } A \text{ occurs in } n \text{ trials}}{n},
   $$
 - **Axiomatic Definition** (Kolmogorov, 1933):
-    - Probability is a function assigning a number $ P(A) $ to each event $ A $ in a class $ \mathcal{F} $ of subsets
-      of $ \Omega $, satisfying:
-        1. **Axiom 1**: $ 0 \leq P(A) \leq 1 $.
-        2. **Axiom 2**: $ P(\Omega) = 1 $.
-        3. **Axiom 3** (Countable Additivity): For disjoint events $ A_1, A_2, \ldots $,
-           $$
-           P\left( A_1 \cup A_2 \cup \cdots \right) = \sum_{i=1}^\infty P(A_i).
-           $$
-    - The triple $ (\Omega, \mathcal{F}, P) $ is called a **probability space**.
+  - Probability is a function assigning a number $ P(A) $ to each event $ A $ in a class $ \mathcal{F} $ of subsets of $ \Omega $, satisfying:
+    1. **Axiom 1**: $ 0 \leq P(A) \leq 1 $.
+    2. **Axiom 2**: $ P(\Omega) = 1 $.
+    3. **Axiom 3** (Countable Additivity): For disjoint events $ A_1, A_2, \ldots $,
+       $$
+       P\left( A_1 \cup A_2 \cup \cdots \right) = \sum_{i=1}^\infty P(A_i).
+       $$
+  - The triple $ (\Omega, \mathcal{F}, P) $ is called a **probability space**.
 
 - **Probability Rules** (from Axiomatic Definition):
-    - $ P(\phi) = 0 $.
-    - For finite disjoint events $ A_1, \ldots, A_n $:
-      $$
-      P\left( \bigcup_{i=1}^n A_i \right) = \sum_{i=1}^n P(A_i).
-      $$
-    - Complement: $ P(A^c) = 1 - P(A) $.
-    - If $ A \subset B $, then $ P(A) \leq P(B) $.
-    - Union of two events:
-      $$
-      P(A \cup B) = P(A) + P(B) - P(A \cap B).
-      $$
-    - Union of three events:
-      $$
-      P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(B \cap C) - P(A \cap C) + P(A \cap B \cap C).
-      $$
+  - $ P(\phi) = 0 $.
+  - For finite disjoint events $ A_1, \ldots, A_n $:
+    $$
+    P\left( \bigcup_{i=1}^n A_i \right) = \sum_{i=1}^n P(A_i).
+    $$
+  - Complement: $ P(A^c) = 1 - P(A) $.
+  - If $ A \subset B $, then $ P(A) \leq P(B) $.
+  - Union of two events:
+    $$
+    P(A \cup B) = P(A) + P(B) - P(A \cap B).
+    $$
+  - Union of three events:
+    $$
+    P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(B \cap C) - P(A \cap C) + P(A \cap B \cap C).
+    $$
 
 - **Equally Likely Outcomes**:
-    - For a finite sample space with equally likely outcomes, $ P(\omega) = \frac{1}{|\Omega|} $.
-    - Probability of event $ A $: $ P(A) = \frac{|A|}{|\Omega|} $.
-
+  - For a finite sample space with equally likely outcomes, $ P(\omega) = \frac{1}{|\Omega|} $.
+  - Probability of event $ A $: $ P(A) = \frac{|A|}{|\Omega|} $.
 
 - **Countable vs. Uncountable Sample Spaces**:
-    - **Countable**: Finite or countably infinite (e.g., natural numbers).
-        - Probabilities assigned as $ P(\omega_i) = \rho_i $, with $ \sum \rho_i = 1 $.
-    - **Uncountable**: Contains intervals (e.g., lifetime of a bulb).
-        - Uniform distribution: Picking a number $ X $ uniformly from $ [0, 1] $:
-          $$
-          P(X \in [a, b]) = b - a, \quad \text{for } 0 \leq a \leq b \leq 1.
-          $$
+  - **Countable**: Finite or countably infinite (e.g., natural numbers).
+  - **Uncountable**: Contains intervals (e.g., lifetime of a bulb).
 
 ### Sampling Mechanisms
 
 - **With Replacement, Order Matters**:
-    - Sample space: $ \Omega = S \times S \times \cdots \times S $ ($ k $-times), where $ S = \{1, 2, \ldots, n\} $.
-    - Size: $ |\Omega| = n^k $.
+  - Sample space: $ \Omega = S \times S \times \cdots \times S $ ($ k $-times), where $ S = \{1, 2, \ldots, n\} $.
+  - Size: $ |\Omega| = n^k $.
 - **Without Replacement, Order Matters**:
-    - Sample space: $ \Omega = \{(s_1, s_2, \ldots, s_k) : s_i \in S, s_i \neq s_j \text{ if } i \neq j\} $.
-    - Size: $ |\Omega| = (n)_k $.
+  - Sample space: $ \Omega = \{(s_1, s_2, \ldots, s_k) : s_i \in S, s_i \neq s_j \text{ if } i \neq j\} $.
+  - Size: $ |\Omega| = (n)_k $.
 - **Without Replacement, Order Does Not Matter**:
-    - Sample space: Subsets of size $ k $ from $ \{1, 2, \ldots, n\} $.
-    - Size: $ |\Omega| = \binom{n}{k} $.
+  - Sample space: Subsets of size $ k $ from $ \{1, 2, \ldots, n\} $.
+  - Size: $ |\Omega| = \binom{n}{k} $.
 
 ### Conditional Probability
 
@@ -170,8 +157,8 @@ lang: "en"
   $$
   P(A \mid B) = \frac{P(A B)}{P(B)}
   $$
-    - For fixed $ B $, $ P(\cdot \mid B) $ is a probability measure satisfying all probability axioms, called a
-      conditional probability measure.
+
+For fixed $ B $, $ P(\cdot \mid B) $ is a probability measure satisfying all probability axioms, called a conditional probability measure.
 
 ### Multiplication Rule
 
@@ -190,9 +177,7 @@ lang: "en"
 
 ### Law of Total Probability
 
-- **Partition of $ \Omega $**: A finite collection of events $ \{B_1, \ldots, B_n\} $ is a partition of $ \Omega $ if
-  they are pairwise disjoint ($ B_i \cap B_j = \emptyset $ for $ i \neq j $) and their union
-  is $ \Omega $ ($ \bigcup_{i=1}^n B_i = \Omega $).
+- **Partition of $ \Omega $**: A finite collection of events $ \{B_1, \ldots, B_n\} $ is a partition of $ \Omega $ if they are pairwise disjoint ($ B_i \cap B_j = \emptyset $ for $ i \neq j $) and their union is $ \Omega $ ($ \bigcup_{i=1}^n B_i = \Omega $).
 - **Law**: If $ \{B_1, \ldots, B_n\} $ is a partition of $ \Omega $, then for any event $ A $:
   $$
   P(A) = \sum_{i=1}^n P(A \cap B_i) = \sum_{i=1}^n P(A \mid B_i) P(B_i).
@@ -209,33 +194,31 @@ lang: "en"
   P(B_k \mid A) = \frac{P(A \mid B_k) P(B_k)}{\sum_{i=1}^n P(A \mid B_i) P(B_i)}.
   $$
 - **Terminology**:
-    - $ P(B_k) $: Prior probabilities (beliefs before observing $ A $).
-    - $ P(B_k \mid A) $: Posterior probabilities (updated beliefs after observing $ A $).
+  - $ P(B_k) $: Prior probabilities (beliefs before observing $ A $).
+  - $ P(B_k \mid A) $: Posterior probabilities (updated beliefs after observing $ A $).
 
 ### Independence of Events
 
 - **Two Events**: Events $ A $ and $ B $ are independent if:
   $ P(A B) = P(A) P(B) $ or equivalently, $ P(A \mid B) = P(A) $.
 - **Three Events**: Events $ A, B, C $ are mutually independent if:
-    - Pairwise independence holds:
-      $
-      P(A B) = P(A) P(B), \ P(A C) = P(A) P(C), \ P(B C) = P(B) P(C),
-      $
-    - And:
-      $$
-      P(A B C) = P(A) P(B) P(C).
-      $$
+  $$
+  P(A B) = P(A) P(B) \\
+  P(A C) = P(A) P(C) \\
+  P(B C) = P(B) P(C) \\
+  P(A B C) = P(A) P(B) P(C)
+  $$
 - **N Events**: $ 2 \leq k \leq n \text{ and } 1 \leq i_1 < i_2 < \cdots < i_k \leq n $
   $$
   P(A_{i_1}A_{i_2}\cdots A_{i_k}) = P(A_{i_1})P(A_{i_2})\cdots P(A_{i_k})
   $$
 - **Note**: Pairwise independence does not imply mutual independence.
 - **Independence Property**:
-    - If $ A $ and $ B $ are independent, then so are $ A $ and $ B^c $, $ A^c $ and $ B $, $ A^c $ and $ B^c $.
-    - Proof for $ A $ and $ B^c $:
-      $$
-      P(A \cap B^c) = P(A) - P(A \cap B) = P(A) - P(A) P(B) = P(A)(1 - P(B)) = P(A) P(B^c).
-      $$
+  - If $ A $ and $ B $ are independent, then so are $ A $ and $ B^c $, $ A^c $ and $ B $, $ A^c $ and $ B^c $.
+  - Proof for $ A $ and $ B^c $:
+    $$
+    P(A \cap B^c) = P(A) - P(A \cap B) = P(A) - P(A) P(B) = P(A)(1 - P(B)) = P(A) P(B^c).
+    $$
 
 ### Conditional Independence
 
@@ -245,28 +228,24 @@ lang: "en"
   $$
   Denoted as $ (A \perp B) \mid C $.
 - **Remarks**:
-    - Conditional independence given $ C $ does not imply marginal independence of $ A $ and $ B $.
-    - Marginal independence of $ A $ and $ B $ does not imply conditional independence given $ C $.
+  - Conditional independence given $ C $ does not imply marginal independence of $ A $ and $ B $.
+  - Marginal independence of $ A $ and $ B $ does not imply conditional independence given $ C $.
 
 ## Random Variable
 
-- **Definition**: A random variable (RV), denoted by $ X $, is a real-valued function on the sample space $ \Omega $.
-  That is, $ X: \Omega \rightarrow \mathbb{R} $, where $ \mathbb{R} $ is the set of all real numbers.
+- **Definition**: A random variable (RV), denoted by $ X $, is a real-valued function on the sample space $ \Omega $. That is, $ X: \Omega \rightarrow \mathbb{R} $, where $ \mathbb{R} $ is the set of all real numbers.
 - **Notation**:
-    - RVs are denoted by capital letters ($ X, Y, Z $), unlike mathematical functions ($ f, g, h $).
-    - For a sample point $ \omega \in \Omega $, the value of RV $ X $ is $ X(\omega) $.
-    - For a set $ B \subseteq \mathbb{R} $, the
-      event $ \{X \in B\} = \{\omega \in \Omega : X(\omega) \in B\} = X^{-1}(B) $.
-- **Probability Distribution**: The set of probabilities $ \{P(X \in B) : B \subseteq \mathbb{R}\} $,
-  where $ P(X \in B) = P(X^{-1}(B)) $, is called the probability distribution of $ X $.
+  - RVs are denoted by capital letters ($ X, Y, Z $), unlike mathematical functions ($ f, g, h $).
+  - For a sample point $ \omega \in \Omega $, the value of RV $ X $ is $ X(\omega) $.
+  - For a set $ B \subseteq \mathbb{R} $, the event $ \{X \in B\} = \{\omega \in \Omega : X(\omega) \in B\} = X^{-1}(B) $.
+- **Probability Distribution**: The set of probabilities $ \{P(X \in B) : B \subseteq \mathbb{R}\} $, where $ P(X \in B) = P(X^{-1}(B)) $, is called the probability distribution of $ X $.
 - **Support**: The set $ S(X) $ of possible values of $ X $ with positive probability is called the support of $ X $.
 
 **Degenerate RV**: A RV $ X $ is degenerate if there exists some real value $ a $ such that $ P(X = a) = 1 $.
 
 ### Discrete Random Variable
 
-- **Definition**: A random variable $ X $ is discrete if it takes values in a finite or countably infinite
-  set, $ X \in \{k_1, k_2, \ldots\} $.
+- **Definition**: A random variable $ X $ is discrete if it takes values in a finite or countably infinite set, $ X \in \{k_1, k_2, \ldots\} $.
 - **Probability Mass Function (PMF)**: The PMF of a discrete RV $ X $ is the function $ p_X $ defined by:
   $ p_X(k) = P(X = k) $
 - **Probability for Events**: For any subset $ B \subseteq S(X) $: $ P(X \in B) = \sum\limits_{k \in B} p_X(k) $.
@@ -278,16 +257,14 @@ A random variable $ X $ is **continuous** if it can assume any value in a finite
 #### Probability Density Function (PDF)
 
 - **Definition**: A function $ f(x) $ is a PDF for a continuous rv $ X $ if:
-    - $ f(x) \geq 0 $ (non-negative).
-    - $ \int_{-\infty}^{\infty} f(x) \, dx = 1 $ (total area under the curve equals 1).
+  - $ f(x) \geq 0 $ (non-negative).
+  - $ \int_{-\infty}^{\infty} f(x) \, dx = 1 $ (total area under the curve equals 1).
 - **Properties**:
-    - $ P(a \leq X \leq b) = \int_a^b f(x) \, dx $, representing the area under $ f(x) $ over $ [a, b] $.
-    - $ P(X = k) = \int_k^k f(x) \, dx = 0 $
-    - Probabilities are equal for inclusive/exclusive
-      endpoints: $ P(a \leq X \leq b) = P(a < X \leq b) = P(a \leq X < b) = P(a < X < b) $.
+  - $ P(a \leq X \leq b) = \int_a^b f(x) \, dx $, representing the area under $ f(x) $ over $ [a, b] $.
+  - $ P(X = k) = \int_k^k f(x) \, dx = 0 $
+  - Probabilities are equal for inclusive/exclusive endpoints: $ P(a \leq X \leq b) = P(a < X \leq b) = P(a \leq X < b) = P(a < X < b) $.
 
-**Infinitesimal Method**: If PDF $ f $ is continuous at $ a $, then for
-small $ \varepsilon $, $ P(a < X < a + \varepsilon) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a + \varepsilon) \approx f(a) \cdot 2\varepsilon $.
+**Infinitesimal Method**: If PDF $ f $ is continuous at $ a $, then for small $ \varepsilon $, $ P(a < X < a + \varepsilon) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a) \approx f(a) \cdot \varepsilon $, $ P(a - \varepsilon < X < a + \varepsilon) \approx f(a) \cdot 2\varepsilon $.
 
 ### Cumulative Distribution Function (CDF)
 
@@ -295,17 +272,16 @@ The PMF are defined only for discrete rvs and PDF are defined only for continuou
 
 - **Definition**: $ F(x) = P(X \leq x) $, defined for all $ x \in \mathbb{R} $. $ P(a < X \leq b) = F(b) - F(a) $.
 - **Discrete**: $ F(x) = \sum\limits_{k \leq x} P(X = k) $.  
-  $F$ is a **piecewise constant** function, or step function. The set of jump points
-  is $ S(X) = \{x : P(X = x) = F(x) − F(x^-) \} $
+  $F$ is a **piecewise constant** function, or step function. The set of jump points is $ S(X) = \{x : P(X = x) = F(x) − F(x^-) \} $
 - **Continuous**: $ F(x) = \int_{-\infty}^x f(t) \, dt $.  
   If $ F $ is continuous and differentiable, then $ f(x) = F'(x) $. If not differentiable, then $ f(x) $ is arbitrary.
 - **Properties of CDF**:
-    - $ \lim\limits_{x \to -\infty} F(x) = 0 $, $ \lim\limits_{x \to \infty} F(x) = 1 $.
-    - **Monotonicity**: If $ x < y $, then $ F(x) \leq F(y) $.
-    - **Right continuity**: $ F(a) = \lim\limits_{x \to a^+} F(x) $.
-    - **Left limit**: $ F(a^-) = \lim\limits_{x \to a^-} F(x) = P(X < a) $.
-    - For discrete $ X $, $ P(X = a) = F(a) - F(a^-) $.  
-      For continuous $ X $, $ F(a) = F(a^-) $.
+  - $ \lim\limits_{x \to -\infty} F(x) = 0 $, $ \lim\limits_{x \to \infty} F(x) = 1 $.
+  - **Monotonicity**: If $ x < y $, then $ F(x) \leq F(y) $.
+  - **Right continuity**: $ F(a) = \lim\limits_{x \to a^+} F(x) $.
+  - **Left limit**: $ F(a^-) = \lim\limits_{x \to a^-} F(x) = P(X < a) $.
+  - For discrete $ X $, $ P(X = a) = F(a) - F(a^-) $.  
+    For continuous $ X $, $ F(a) = F(a^-) $.
 
 ### Independence of Random Variables
 
@@ -329,28 +305,50 @@ The PMF are defined only for discrete rvs and PDF are defined only for continuou
 ## Moments of a Random Variable
 
 - **Expectation**: For a function $ g(X) $
-    - Discrete $ E[g(X)] = \sum\limits_k g(k) P(X = k) $
-    - Continuous $ E[g(X)] = \int_{-\infty}^\infty g(x) f(x)  dx $
+  - Discrete $ E[g(X)] = \sum\limits_k g(k) P(X = k) $
+  - Continuous $ E[g(X)] = \int_{-\infty}^\infty g(x) f(x)  dx $
 - **n-th Moment**: $ E(X^n) $, where $ g(x) = x^n $.
-    - Mean: $ \mu = E(X) = \sum\limits_k k P(X = k)  $.
-    - Variance: $ \sigma^2 = \operatorname{Var}(X) = E((X - \mu)^2) = E(X^2) - (E(X))^2 $.
-    - Standard Deviation: $ \sigma = \sqrt{\operatorname{Var}(X)} $.
+  - Mean: $ \mu = E(X) = \sum\limits_k k P(X = k)  $.
+  - Variance: $ \sigma^2 = \operatorname{Var}(X) = E((X - \mu)^2) = E(X^2) - (E(X))^2 $.
+  - Standard Deviation: $ \sigma = \sqrt{\operatorname{Var}(X)} $.
 - **Properties**:
-    - $ E(aX + b) = aE(X) + b $.
-    - $ \operatorname{Var}(aX + b) = a^2 \operatorname{Var}(X) $.
-    - $ \operatorname{Var}(X) = 0 $ if and only if $ P(X = c) = 1 $ for some constant $ c $.
-    - For rvs $ X_1, \ldots, X_n $: $ E\left(\sum\limits_{k=0}^n a_k X_k\right) = \sum\limits_{k=0}^n a_k E(X_k) $.
-    - If
-      independent: $ \operatorname{Var}\left(\sum\limits_{k=0}^n a_k X_k\right) = \sum\limits_{k=0}^n a_k^2 \operatorname{Var}(X_k) $.
+  - $ E(aX + b) = aE(X) + b $.
+  - $ \operatorname{Var}(aX + b) = a^2 \operatorname{Var}(X) $.
+  - $ \operatorname{Var}(X) = 0 $ if and only if $ P(X = c) = 1 $ for some constant $ c $.
+  - For rvs $ X_1, \ldots, X_n $: $ E\left(\sum\limits_{k=0}^n a_k X_k\right) = \sum\limits_{k=0}^n a_k E(X_k) $.
+  - If
+    independent: $ \operatorname{Var}\left(\sum\limits_{k=0}^n a_k X_k\right) = \sum\limits_{k=0}^n a_k^2 \operatorname{Var}(X_k) $.
 
 ## Distribution
 
 ### Discrete Distribution
 
+$$
+\begin{array}{|l|l|l|l|}
+\hline
+\textbf{Distribution} & p_X(k) & \mathrm{E}[X] & \mathrm{Var}(X) \\
+\hline
+\textbf{Bernoulli} (p) & p_X(1)=p,\ p_X(0)=1-p & p & p(1-p) \\
+\hline
+\textbf{Binomial} (n,p) & \dbinom{n}{k}p^k(1-p)^{n-k} & np & np(1-p) \\
+\hline
+\textbf{Geometric} (p) & (1-p)^{k-1}p & \dfrac{1}{p} & \dfrac{1-p}{p^2} \\
+\hline
+\textbf{Negative Binomial} (k,p) & \dbinom{n-1}{k-1}p^k(1-p)^{n-k} & \dfrac{k}{p} & k\,\dfrac{1-p}{p^2} \\
+\hline
+\textbf{Poisson} (\lambda) & \dfrac{e^{-\lambda}\,\lambda^k}{k!} & \lambda & \lambda \\
+\hline
+\textbf{Hypergeometric} (N,N_A,n)
+& \dfrac{\binom{N_A}{k}\,\binom{N-N_A}{n-k}}{\binom{N}{n}}
+& \dfrac{nN_A}{N}
+& n\,\dfrac{N_A(N-N_A)}{N^2}\,\dfrac{N-n}{N-1} \\
+\hline
+\end{array}
+$$
+
 #### Bernoulli Distribution
 
-- **Definition**: $ X \sim \text{Ber}(p) $ represents the result of a trial, success of fail, with success
-  probablity $ p $, where $ 0 \leq p \leq 1 $. $ X $ takes values in $ \{0, 1\} $ and:
+- **Definition**: $ X \sim \text{Ber}(p) $ represents the result of a trial, success of fail, with success probablity $ p $, where $ 0 \leq p \leq 1 $. $ X $ takes values in $ \{0, 1\} $ and:
   $$
   P(X = 1) = p, \ P(X = 0) = 1 - p.
   $$
@@ -358,13 +356,11 @@ The PMF are defined only for discrete rvs and PDF are defined only for continuou
 
 #### Binomial Distribution
 
-- **Definition**: $ X \sim \text{Bin}(n, p) $ represents the number of successful trials out of $ n $ independent trials
-  with success probability $ p $. Its possible values are $ \{0, 1, \ldots, n\} $ and its PMF is:
+- **Definition**: $ X \sim \text{Bin}(n, p) $ represents the number of successful trials out of $ n $ independent trials with success probability $ p $. Its possible values are $ \{0, 1, \ldots, n\} $ and its PMF is:
   $$
   P(X = k) = \binom{n}{k} p^k (1 - p)^{n - k}
   $$
-- **Nature**: Arises as the sum $ S_n = \sum\limits_{i=1}^n X_i $, where each $ X_i \sim \text{Ber}(p) $ (independent
-  identical distributions).
+- **Nature**: Arises as the sum $ S_n = \sum\limits_{i=1}^n X_i $, where each $ X_i \sim \text{Ber}(p) $ (independent identical distributions).
 - **Property**: The probabilities sum to 1, as the binomial theorem:
   $$
   \sum_{k=0}^n \binom{n}{k} p^k (1 - p)^{n - k} = (p + 1 - p)^n = 1.
@@ -372,116 +368,106 @@ The PMF are defined only for discrete rvs and PDF are defined only for continuou
 
 #### Geometric Distribution
 
-- **Definition**: $ X \sim \operatorname{Geo}(p) $ represents the number of trials until the first success in repeated
-  independent trials with success probability $ p $. Its support is $ S(X) = \{1, 2, 3, \ldots\} $ and its PMF is
+- **Definition**: $ X \sim \operatorname{Geo}(p) $ represents the number of trials until the first success in repeated independent trials with success probability $ p $. Its support is $ S(X) = \{1, 2, 3, \ldots\} $ and its PMF is
   $$ P(X = k) = (1-p)^{k-1} p $$
-- **Alternative**: $ Y = X - 1 $ represents the number of failures before the first success, with
-  support $ S(Y) = \{0, 1, 2, \ldots\} $ and PMF $ P(Y = k) = (1 - p)^k p $
-- **Memoryless Property**: $ P(X = n + k \mid X > n) = P(X = k) $, for $ n, k \geq 1 $. This means the probability of
-  needing $ k $ more trials to get a success, given $ n $ failures, is the same as needing $ k $ trials from the start.
-- **Tail Probability**: $ P(X \geq n) = (1-p)^{n-1} $, representing the probability of at least $ n $ trials (
-  first $ n-1 $ failures).
+- **Alternative**: $ Y = X - 1 $ represents the number of failures before the first success, with support $ S(Y) = \{0, 1, 2, \ldots\} $ and PMF $ P(Y = k) = (1 - p)^k p $
+- **Memoryless Property**: $ P(X = n + k \mid X > n) = P(X = k) $, for $ n, k \geq 1 $. This means the probability of needing $ k $ more trials to get a success, given $ n $ failures, is the same as needing $ k $ trials from the start.
+- **Tail Probability**: $ P(X \geq n) = (1-p)^{n-1} $, representing the probability of at least $ n $ trials (first $ n-1 $ failures).
 - **Special Case**: If $ p = 0 $, then $ P(X = \infty) = 1 $.
 
 #### Negative Binomial Distribution
 
-- **Definition**: $ X \sim \operatorname{NB}(k, p) $ represents the number of trials until the $ k $-th success in
-  repeated independent trials with success probability $ p $. The Support is $ n \in \{k, k+1, k+2, \ldots\} $. Its PMF
-  is
+- **Definition**: $ X \sim \operatorname{NB}(k, p) $ represents the number of trials until the $ k $-th success in repeated independent trials with success probability $ p $. The Support is $ n \in \{k, k+1, k+2, \ldots\} $. Its PMF is
   $$ P(X = n) = \binom{n-1}{k-1} p^k (1-p)^{n-k} $$
-- **Alternative**: $ Y = X - k $ represents the number of failures before the $ k $-th success, with
-  support $ S(Y) = \{0, 1, 2, \ldots\} $ and PMF $ P(Y = m) = \binom{m+k-1}{k-1} p^k (1-p)^m $.
+- **Alternative**: $ Y = X - k $ represents the number of failures before the $ k $-th success, with support $ S(Y) = \{0, 1, 2, \ldots\} $ and PMF $ P(Y = m) = \binom{m+k-1}{k-1} p^k (1-p)^m $.
 - Note: $ \operatorname{NB}(1, p) = \operatorname{Geo}(p) $.
-- **Representation**: $ X = X_1 + X_2 + \cdots + X_k $, where $ X_i \sim \operatorname{Geo}(p) $ are independent, each
-  representing trials until the next success.
+- **Representation**: $ X = X_1 + X_2 + \cdots + X_k $, where $ X_i \sim \operatorname{Geo}(p) $ are independent, each representing trials until the next success.
 
 #### Hypergeometric Distribution
 
-- **Definition**: $ X \sim \operatorname{HG}(N, N_A, n) $, represents the number of type $ A $ items in a sample
-  of $ n $ items drawn without replacement from a population of $ N $ items.
-- **PMF**: Its PMF is $$ P(X = k) = \frac{\binom{N_A}{k} \binom{N - N_A}{n - k}}{\binom{N}{n}} $$,
-  where $ \max(0, n - N_B) \leq k \leq \min(n, N_A) $.
+- **Definition**: $ X \sim \operatorname{HG}(N, N_A, n) $, represents the number of type $ A $ items in a sample of $ n $ items drawn without replacement from a population of $ N $ items.
+- **PMF**: Its PMF is $$ P(X = k) = \frac{\binom{N_A}{k} \binom{N - N_A}{n - k}}{\binom{N}{n}} $$, where $ \max(0, n - N_B) \leq k \leq \min(n, N_A) $.
 
 #### Poisson Distribution
 
-- **Definition**: $ X \sim \operatorname{Poi}(\lambda) $, $ \lambda > 0 $ represents the number of rare events in a
-  fixed time period, with support $ S(X) = \{0, 1, 2, \ldots\} $ and
-  PMF $$ P(X = k) = \frac{e^{-\lambda} \lambda^k}{k!} $$ Used for events like accidents, tornadoes, or disease cases.
+- **Definition**: $ X \sim \operatorname{Poi}(\lambda) $, $ \lambda > 0 $ represents the number of rare events in a fixed time period, with support $ S(X) = \{0, 1, 2, \ldots\} $ and PMF $$ P(X = k) = \frac{e^{-\lambda} \lambda^k}{k!} $$ Used for events like accidents, tornadoes, or disease cases.
 - $ E(X) = \operatorname{Var}(X) = \lambda $.
 
 ### Continuous Distribution
 
+$$
+\begin{array}{|l|l|l|l|}
+\hline
+\textbf{Distribution} & f(x) & \mathrm{E}[X] & \mathrm{Var}(X) \\
+\hline
+\textbf{Uniform} (a,b)
+& \dfrac1{b-a}
+& \dfrac{a+b}{2}
+& \dfrac{(b-a)^2}{12} \\
+\hline
+\textbf{Normal} (\mu,\sigma^2)
+& \dfrac{1}{\sqrt{2\pi\sigma^2}}e^{-\tfrac{(x-\mu)^2}{2\sigma^2}}
+& \mu
+& \sigma^2 \\
+\hline
+\textbf{Exponential} (\lambda)
+& \lambda e^{-\lambda x},
+& \dfrac{1}{\lambda}
+& \dfrac{1}{\lambda^2} \\
+\hline
+\textbf{Gamma} (k,\lambda)
+& \dfrac{\lambda^k}{\Gamma(k)}x^{\,k-1}e^{-\lambda x}
+& \dfrac{k}{\lambda}
+& \dfrac{k}{\lambda^2} \\
+\hline
+\end{array}
+$$
+
 #### Uniform Distribution
 
-- **Definition**: $ X \sim Unif(a, b) $ has a uniform distribution on $ [a, b] $ if its pdf
-  is $$ f(x) = \frac{1}{b-a} $$ for $ a \leq x \leq b $, 0 otherwise.
+- **Definition**: $ X \sim Unif(a, b) $ has a uniform distribution on $ [a, b] $ if its pdf is $$ f(x) = \frac{1}{b-a} $$ for $ a \leq x \leq b $, 0 otherwise.
 
 Probability over $ [c, d] \subseteq [a, b] $: $$ P(c \leq X \leq d) = \int_c^d \frac{1}{b-a} \, dx = \frac{d-c}{b-a} $$
 Uniform Distribution in higher dimensions.
 
 #### Normal Distribution (Gaussian Distribution)
 
-- **Standard Normal**: $ Z \sim \mathcal{N}(0, 1) $ with PDF $\varphi(z)$ and
-  CDF $\Phi(z)$. $$ \varphi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}},\quad \Phi(z) = \int_{-\infty}^z \varphi(s) ds $$
-    - $ \int_{-\infty}^{+\infty} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
-    - $ E(Z) = 0 $, $ \operatorname{Var}(Z) = 1 $.
-    - Symmetry: $ \varphi(z) = \varphi(-z) $, $ \Phi(z) = 1 - \Phi(-z) $.
-- **General Normal
-  **: $ X = \sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2) $. $$ f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}},\quad F(x) = \Phi\left(\frac{x - \mu}{\sigma}\right) $$
-    - $ E(X) = \mu $, $ \operatorname{Var}(X) = \sigma^2 $.
+- **Standard Normal**: $ Z \sim \mathcal{N}(0, 1) $ with PDF $\varphi(z)$ and CDF $\Phi(z)$.
+  $$ \varphi(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}},\quad \Phi(z) = \int_{-\infty}^z \varphi(s) ds $$
+  - $ \int_{-\infty}^{+\infty} e^{-\frac{s^2}{2}} ds = \sqrt{2\pi} $
+  - $ E(Z) = 0 $, $ \operatorname{Var}(Z) = 1 $.
+  - Symmetry: $ \varphi(z) = \varphi(-z) $, $ \Phi(z) = 1 - \Phi(-z) $.
+- **General Normal**: $ X = \sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2) $.
+  $$ f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}},\quad F(x) = \Phi\left(\frac{x - \mu}{\sigma}\right) $$
+  - $ E(X) = \mu $, $ \operatorname{Var}(X) = \sigma^2 $.
 
 #### Exponential Distribution
 
-- **Definition**: $ X \sim \operatorname{Exp}(\lambda) $ represents the waiting time until the first event in a process
-  where events happen at a constant average rate $\lambda$ per unit time, independently of each
-  other. $$ f(x) = \lambda e^{-\lambda x} $$ for $ x \geq 0 $, 0 otherwise.
-    - CDF: $ F(t) = 1 - e^{-\lambda t} $ for $ t \geq 0 $, 0 otherwise.
-    - $ P(X > t) = e^{-\lambda t} $.
+- **Definition**: $ X \sim \operatorname{Exp}(\lambda) $ represents the waiting time until the first event in a process where events happen at a constant average rate $\lambda$ per unit time, independently of each other. $$ f(x) = \lambda e^{-\lambda x} $$ for $ x \geq 0 $, 0 otherwise.
+  - CDF: $ F(t) = 1 - e^{-\lambda t} $ for $ t \geq 0 $, 0 otherwise.
+  - $ P(X > t) = e^{-\lambda t} $.
 - $ E(X) = \frac{1}{\lambda} $, $ E(X^2) = \frac{2}{\lambda^2} $, $ \operatorname{Var}(X) = \frac{1}{\lambda^2} $.
 - **Memoryless Property**: $ P(X > s + t \mid X > s) = P(X > t) $.
 
 #### Gamma Distribution
 
 - **Gamma Function**: $ \Gamma(k) = \int_0^\infty x^{k-1} e^{-x} \, dx $, $ \Gamma(n) = (n-1)! $ for integer $ n $.
-- **Definition**: $ X \sim \operatorname{Gamma}(k, \lambda) $ represents waiting time until the kth event in a Poisson
-  process. $$ f(x) = \frac{\lambda^k}{\Gamma(k)} e^{-\lambda x} x^{k-1} $$ for $ x \geq 0 $.
-- If independent $ X_i \sim \operatorname{Exp}(\lambda) $,
-  then $ \sum\limits_{i=1}^n X_i \sim \operatorname{Gamma}(n, \lambda) $.
+- **Definition**: $ X \sim \operatorname{Gamma}(k, \lambda) $ represents waiting time until the kth event in a Poisson process.
+  $$ f(x) = \frac{\lambda^k}{\Gamma(k)} e^{-\lambda x} x^{k-1} $$
+  for $ x \geq 0 $.
+- If independent $ X_i \sim \operatorname{Exp}(\lambda) $, then $ \sum\limits_{i=1}^n X_i \sim \operatorname{Gamma}(n, \lambda) $.
 - **Moments**: $ E(X) = \frac{k}{\lambda} $, $ \operatorname{Var}(X) = \frac{k}{\lambda^2} $.
 
-## Central Limit Theorem (CLT) for Binomial Distribution
+### Distribution of a function of a random variable $g(X)$
 
-$ S_n \sim \operatorname{Bin}(n, p) $
-
-$$ \lim\limits_{n \to \infty} P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) = \Phi(b) - \Phi(a) $$
-
-- **CLT**: For large $ n $, the standardized binomial rv $ \frac{S_n - np}{\sqrt{npq}} $ approximates a standard
-  normal $ Z \sim \mathcal{N}(0, 1) $.
-    -
-    Theorem: $$ \lim\limits_{n \to \infty} P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) = \int_a^b \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} dx = \Phi(b) - \Phi(a) $$
-    - Denoted: $ \frac{S_n - np}{\sqrt{npq}} \xrightarrow{d} \mathcal{N}(0, 1) $ (convergence in distribution).
-- **Normal Approximation**: For large $ n $
-  and $ npq > 10 $, $ P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\right) \approx \Phi(b) - \Phi(a) $.
-- **Continuity Correction**: For integer bounds $ k_1 \leq S_n \leq k_2 $, use:
-    - $ P(k_1 \leq S_n \leq k_2) = P(k_1 - \frac{1}{2} \leq S_n \leq k_2 + \frac{1}{2}) \approx \Phi\left(\frac{k_2 + 0.5 - np}{\sqrt{npq}}\right) - \Phi\left(\frac{k_1 - 0.5 - np}{\sqrt{npq}}\right) $.
-
-## Law of Large Numbers (LLN)
-
-- **Theorem**: For $ S_n \sim \operatorname{Bin}(n, p) $, the sample proportion $ \frac{S_n}{n} $ converges to $ p $:
-    - $ \lim\limits_{n \to \infty} P\left(\left|\frac{S_n}{n} - p\right| < \varepsilon\right) = 1 $ for
-      any $ \varepsilon > 0 $.
-- $ \hat{p} = \frac{S_n}{n} $, $ P(|\hat{p} - p| < \varepsilon) \approx 2\Phi\left(\frac{\varepsilon \sqrt{n}}{\sqrt{pq}}\right) - 1 \geq 2\Phi\left(2\varepsilon \sqrt{n}\right) - 1 $.
-
-## Poisson Approximation
-
-- **Law of Rare Events**:
-  For $ S_n \sim \operatorname{Bin}(n, \frac{\lambda}{n}) $, $ \lim\limits_{n \to \infty}P(S_n = k) = e^{-\lambda} \frac{\lambda^k}{k!} $
-    - $ \lim\limits_{n \to \infty} np_n = \lambda $, $ p_n = \frac{\lambda}{n} $
-- **General Case**: If $ X $ counts rare, weakly dependent
-  events, $ P(X = k) \approx e^{-\lambda} \frac{\lambda^k}{k!} $, where $ \lambda = E(X) $.
-- For $ X \sim \text{Bin}(n, p) $ and $ Y \sim \text{Poi}(np) $, then for any
-  subset $ A \subseteq \{0, 1, 2, \dots\} $, $ \left| P(X \in A) - P(Y \in A) \right| \leq np^2 $
-- **Normal vs. Poisson**: Use normal if $ np(1-p) > 10 $; use Poisson if $ np^2 $ is small.
+- **Discrete Case**:
+  - PMF: $ P(Y = y) = P(g(X) = y) = \sum\limits_{k: g(k) = y} P(X = k) $.
+  - If $ g $ is one-to-one, $ P(Y = y) = P(X = g^{-1}(y)) $.
+- **Continuous Case**:
+  - **CDF Method**: Find $ F_Y(y) = P(g(X) \leq y) $, then $ f_Y(y) = F_Y'(y) $.
+  - **Transformation Method (general)**:
+    - For one-to-one differentiable $ g $, $ f_Y(y) = f_X(g^{-1}(y)) \left| \frac{d}{dy}g^{-1}(y) \right| = \frac{f_X(g^{-1}(y))}{\left| g'(g^{-1}(y)) \right|} $ for $ y $ such that $ g^{-1}(y) $ exists and $ g'(g^{-1}(y)) \neq 0 $.
+    - For many-to-one differentiable $ g $: $ f_Y(y) = \sum\limits_{\substack{x : g(x) = y \\ g'(x) \neq 0}} \frac{f_X(x)}{|g'(x)|} $.
 
 ## Moment Generating Function (MGF)
 
@@ -493,37 +479,19 @@ $$ \lim\limits_{n \to \infty} P\left(a \leq \frac{S_n - np}{\sqrt{npq}} \leq b\r
 
 - **Property**: If $ M_X(t) $ is differentiable at $ t = 0 $, the $ n $-th moment is $ E[X^n] = M_X^{(n)}(0) $.
 - **(Bernoulli)**: $ X \sim \operatorname{Ber}(p) $. $ M_X(t) = (1-p) + p e^t $, $ M_X^{(n)}(t) = p e^t $.
-- **(Exponential)**: $ X \sim \operatorname{Exp}(\lambda) $, $ M_X(t) = \frac{\lambda}{\lambda - t} $
-  for $ t < \lambda $. $ M_X^{(n)}(t) = n! \lambda (\lambda - t)^{-n-1} $,
-  so $ E[X^n] = M_X^{(n)}(0) = n! \lambda^{-n} $.
+- **(Exponential)**: $ X \sim \operatorname{Exp}(\lambda) $, $ M_X(t) = \frac{\lambda}{\lambda - t} $ for $ t < \lambda $. $ M_X^{(n)}(t) = n! \lambda (\lambda - t)^{-n-1} $, so $ E[X^n] = M_X^{(n)}(0) = n! \lambda^{-n} $.
 - **(Standard Normal)**: $ Z \sim \mathcal{N}(0, 1) $, $ M_Z(t) = e^{t^2 / 2} $.
-    - Taylor expansion: $ e^{t^2 / 2} = \sum_{k=0}^\infty \frac{(t^2 / 2)^k}{k!} $.
-    - Moments: $ E[Z^n] = 0 $ if $ n $ is odd, $ E[Z^n] = (n-1)!! $ if $ n $ is even (double factorial).
+  - Taylor expansion: $ e^{t^2 / 2} = \sum_{k=0}^\infty \frac{(t^2 / 2)^k}{k!} $.
+  - Moments: $ E[Z^n] = 0 $ if $ n $ is odd, $ E[Z^n] = (n-1)!! $ if $ n $ is even (double factorial).
 
 ### Equality in Distribution
 
-- **Definition**: $ X \stackrel{d}{=} Y $ if $ P(X \in B) = P(Y \in B) $ for all subsets $ B \subseteq \mathbb{R} $.
-  Same PMF/PDF, MGF, Moments.
+- **Definition**: $ X \stackrel{d}{=} Y $ if $ P(X \in B) = P(Y \in B) $ for all subsets $ B \subseteq \mathbb{R} $. Same PMF/PDF, MGF, Moments.
 - **Theorem**: If $ M_X(t) = M_Y(t) $ for $ t \in (-\delta, \delta) $, then $ X \stackrel{d}{=} Y $.
-
-## Distribution of a function of a random variable $ g(X) $
-
-- **Discrete Case**:
-    - PMF: $ P(Y = y) = P(g(X) = y) = \sum\limits_{k: g(k) = y} P(X = k) $.
-    - If $ g $ is one-to-one, $ P(Y = y) = P(X = g^{-1}(y)) $.
-- **Continuous Case**:
-    - **CDF Method**: Find $ F_Y(y) = P(g(X) \leq y) $, then $ f_Y(y) = F_Y'(y) $.
-    - **Transformation Method (general)**:
-        - For one-to-one
-          differentiable $ g $, $ f_Y(y) = f_X(g^{-1}(y)) \left| \frac{d}{dy}g^{-1}(y) \right| = \frac{f_X(g^{-1}(y))}{\left| g'(g^{-1}(y)) \right|} $
-          for $ y $ such that $ g^{-1}(y) $ exists and $ g'(g^{-1}(y)) \neq 0 $.
-        - For many-to-one
-          differentiable $ g $: $ f_Y(y) = \sum\limits_{\substack{x : g(x) = y \\ g'(x) \neq 0}} \frac{f_X(x)}{|g'(x)|} $.
 
 ## Joint Distribution of Random Variables
 
-Let $ X_1, X_2, \ldots, X_n $ be random variables on a sample space $ \Omega $. The random vector is defined
-as: $ X = (X_1, X_2, \ldots, X_n): \Omega \rightarrow \mathbb{R}^n $  
+Let $ X_1, X_2, \ldots, X_n $ be random variables on a sample space $ \Omega $. The random vector is defined as: $ X = (X_1, X_2, \ldots, X_n): \Omega \rightarrow \mathbb{R}^n $  
 The **joint (multivariate) distribution** is: $ P(X \in B) = P((X_1, \ldots, X_n) \in B), B \subseteq \mathbb{R}^n $  
 **Marginal distributions** are the distributions of individual coordinates $ X_i $.  
 The **joint CDF** is $ F(x_1, \ldots, x_n) = P(X_1 \leq x_1, \ldots, X_n \leq x_n) $.
@@ -572,8 +540,7 @@ $$
 - $ f(x_1, \ldots, x_n) \geq 0 $
 - $ \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f(x_1, \ldots, x_n) dx_1 \cdots dx_n = 1 $
 
-**Expectation
-**: $ E[g(X_1, \ldots, X_n)] = \displaystyle\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} g(x_1, \ldots, x_n) f(x_1, \ldots, x_n) dx_1 \cdots dx_n $
+**Expectation**: $ E[g(X_1, \ldots, X_n)] = \displaystyle\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} g(x_1, \ldots, x_n) f(x_1, \ldots, x_n) dx_1 \cdots dx_n $
 
 **Marginal PDF**:
 $
@@ -582,24 +549,42 @@ $
 
 For two RVs $ X, Y $: $ f_X(x) = \int_{-\infty}^\infty f_{X,Y}(x, y) dy $
 
-**Infinitesimal method
-**: $ P\bigl(X_1 \in (a_1, a_1 + \varepsilon), \ldots, X_n \in (a_n, a_n + \varepsilon)\bigr) \approx f(a_1, \ldots, a_n) \cdot \varepsilon^n $
+**Infinitesimal method**: $ P\bigl(X_1 \in (a_1, a_1 + \varepsilon), \ldots, X_n \in (a_n, a_n + \varepsilon)\bigr) \approx f(a_1, \ldots, a_n) \cdot \varepsilon^n $
 
 ### Independence of RVs
 
 $ X_1, \ldots, X_n $ are independent if
-
 - **Discrete**: $ p(k_1, \ldots, k_n) = \prod\limits_{i=1}^n p_{X_i}(k_i) $
 - **Continuous**: $ f(x_1, \ldots, x_n) = \prod\limits_{i=1}^n f_{X_i}(x_i) $
 - **CDF**: $ F(x_1, \ldots, x_n) = \prod\limits_{i=1}^n F_{X_i}(x_i) $
-- **Functional Independence**: If $ X_1, \ldots, X_{m+n} $ are independent, then $ Y = f(X_1, \ldots, X_m) $
-  and $ Z = g(X_{m+1}, \ldots, X_{m+n}) $ are independent.
+- **Functional Independence**: If $ X_1, \ldots, X_{m+n} $ are independent, then $ Y = f(X_1, \ldots, X_m) $ and $ Z = g(X_{m+1}, \ldots, X_{m+n}) $ are independent.
+
+## Exchangeable Random Variables
+
+**Definition**: A sequence of rvs $ X_1, \ldots, X_n $ is **exchangeable** if for any permutation $ (k_1, \ldots, k_n) $ of $ (1, \ldots, n) $, $ (X_1, \ldots, X_n) \overset{d}{=} (X_{k_1}, \ldots, X_{k_n}) $
+
+**Consequences of Exchangeability**:
+
+- Joint probabilities remain invariant under permutation.
+- $ X_k $ are identically distributed and have the same marginal distributions. $ X_1 \overset{d}{=} X_{k_1} $ and further $ (X_1, \ldots, X_k) \overset{d}{=} (X_{i_1}, \ldots, X_{i_k}) $
+- PMF/PDF is symmetric.
+- Expectations of symmetric functions do not change under
+  permutation: $ E[g(X_1, \ldots, X_k)] = E[g(X_{i_1}, \ldots, X_{i_k})] $
+
+### Independent Identically Distributed (i.i.d) Random Variables
+
+A sequence $ X_1, X_2, \ldots $ is **i.i.d.** if all $ X_i $ are independent and each $ X_i $ has the same probability
+distribution.  
+**Theorem**: An i.i.d. sequence of random variables is exchangeable.
+
+- Let $ X_1, \ldots, X_k $ be sampled without replacement from $ \{1, 2, \ldots, n\} $. Then the sequence is exchangeable.
+- If $ X_1, \ldots, X_n $ are exchangeable, then the sequence $ g(X_1), \ldots, g(X_n) $ for any function $ g $ is exchangable.
 
 ## Sum of Random Variables
 
 **Convolution of Distributions**
 
-### Discrete Case
+### Discrete Sum
 
 $
 p_{X+Y}(n) = \sum\limits_k p_{X,Y}(k, n - k)
@@ -611,7 +596,7 @@ p_{X+Y}(n) = \sum\limits_k p_X(k) p_Y(n - k) = (p_X * p_Y)(n)
 $$
 This is called the **convolution** of $ X $ and $ Y $.
 
-### Continuous Case
+### Continuous Sum
 
 $
 f_{X+Y}(z) = \int_{-\infty}^{\infty} f_{X,Y}(x, z - x) dx
@@ -633,8 +618,7 @@ Denote $ S_n = \sum\limits_{i=1}^n X_i $ and each $ X_i $ is independent to each
 - $ X_i \sim \text{Exp}(\lambda) $, then $ S_n \sim \text{Gamma}(n, \lambda) $.  
   $ f_{X+Y}(z) = \lambda^2 z e^{-\lambda z} $
 - $ X_i \sim \text{Gamma}(k_i, \lambda) $, then $ S_n \sim \text{Gamma}(\sum\limits k_i, \lambda) $
-- $ X_i \sim \mathcal{N}(\mu_i, \sigma_i^2) $ and $ S_n = \sum\limits_{i = 1}^n a_i X_i + b $,
-  then $ S_n \sim \mathcal{N}(\mu, \sigma^2) $  
+- $ X_i \sim \mathcal{N}(\mu_i, \sigma_i^2) $ and $ S_n = \sum\limits_{i = 1}^n a_i X_i + b $, then $ S_n \sim \mathcal{N}(\mu, \sigma^2) $  
   $ \mu = \sum a_i \mu_i + b,\ \sigma^2 = \sum a_i^2 \sigma_i^2 $
 - If $ X, Y \sim \text{Unif}(0, 1) $, then
   $
@@ -646,92 +630,53 @@ Denote $ S_n = \sum\limits_{i=1}^n X_i $ and each $ X_i $ is independent to each
   \end{cases}
   $
 
-## Exchangeable Random Variables
-
-**Definition**: A sequence of rvs $ X_1, \ldots, X_n $ is **exchangeable** if for any permutation $ (k_1, \ldots, k_n) $
-of $ (1, \ldots, n) $, $ (X_1, \ldots, X_n) \overset{d}{=} (X_{k_1}, \ldots, X_{k_n}) $
-
-**Consequences of Exchangeability**:
-
-- Joint probabilities remain invariant under permutation.
-- $ X_k $ are identically distributed and have the same marginal distributions. $ X_1 \overset{d}{=} X_{k_1} $ and
-  further $ (X_1, \ldots, X_k) \overset{d}{=} (X_{i_1}, \ldots, X_{i_k}) $
-- PMF/PDF is symmetric.
-- Expectations of symmetric functions do not change under
-  permutation: $ E[g(X_1, \ldots, X_k)] = E[g(X_{i_1}, \ldots, X_{i_k})] $
-
-### Independent Identically Distributed (i.i.d) Random Variables
-
-A sequence $ X_1, X_2, \ldots $ is **i.i.d.** if all $ X_i $ are independent and each $ X_i $ has the same probability
-distribution.
-**Theorem**: An i.i.d. sequence of random variables is exchangeable.
-
-- Let $ X_1, \ldots, X_k $ be sampled without replacement from $ \{1, 2, \ldots, n\} $. Then the sequence is
-  exchangeable.
-- If $ X_1, \ldots, X_n $ are exchangeable, then the sequence $ g(X_1), \ldots, g(X_n) $ for any function $ g $ is
-  exchangable.
-
-## Expectation and Variance of Sums
-
-### Sum of Functions of a Random Vector
+### Expectation and Variance of Sums
 
 - **Linearity of expectation**  
   $ E\bigl[\sum\limits_{i=1}^n g_i(X_i) \bigr] = \sum\limits_{i=1}^n E\bigl[g_i(X_i)\bigr]. $
-  > *Note:* Independence is **not** required.
+  > (Independence is **not** required).
 - **Indicator Method**  
   If $X=\sum I_i$ where each $I_i$ is an indicator (bernoulli) rv, then $ E[X] = \sum E[I_i] = \sum P(I_i=1). $
 - **Product of expectations**  
-  If $X_1,\dots,X_n$ are independent and $g_i$ are functions,
-  then $ E\Bigl[\prod\limits_{i=1}^n g_i(X_i)\Bigr] = \prod\limits_{i=1}^n E[\,g_i(X_i)\,] $.
+  If $X_1,\dots,X_n$ are independent, then $ E\Bigl[\prod\limits_{i=1}^n g_i(X_i)\Bigr] = \prod\limits_{i=1}^n E[\,g_i(X_i)\,] $.
 - **Variance of a sum**  
-  If $X_1,\dots,X_n$ are independent with $\operatorname{Var}(X_i)<\infty$,
-  then $ \operatorname{Var}\bigl(\sum\limits_{i=1}^n X_i) = \sum\limits_{i=1}^n \operatorname{Var}(X_i) $.
+  If $X_1,\dots,X_n$ are independent with $\operatorname{Var}(X_i)<\infty$, then $ \operatorname{Var}\bigl(\sum\limits_{i=1}^n X_i) = \sum\limits_{i=1}^n \operatorname{Var}(X_i) $.
 
 - **Sample mean and sample variance**  
-  Let $X_1, X_2, \dots$ be i.i.d. rvs with finite mean $\mu$ and variance $\sigma^2$. Define the sample mean of the
-  first $ n $ observations $ \overline{X}_n = \frac{1}{n}\sum\limits_{i=1}^n X_i $.
-  Then $ E[\overline{X}_n] = \mu, \ \operatorname{Var}(\overline{X}_n) = \frac{\sigma^2}{n} $.
+  Let $X_1, X_2, \dots$ be i.i.d. rvs with finite mean $\mu$ and variance $\sigma^2$. Define the sample mean of the first $ n $ observations $ \overline{X}_n = \frac{1}{n}\sum\limits_{i=1}^n X_i $. Then $ E[\overline{X}_n] = \mu, \ \operatorname{Var}(\overline{X}_n) = \frac{\sigma^2}{n} $.
   > *Interpretation:* $\overline{X}_n$ is an unbiased estimator of $\mu$, and its variance shrinks at rate $1/n$.
-    - **The effect of averaging**: As $ n \to \infty $, $ \operatorname{Var}(\overline{X}_n) $ vanishes, and
-      so $ \overline{X}_n $ converges to mean $ \mu $.
+  - **The effect of averaging**: As $ n \to \infty $, $ \operatorname{Var}(\overline{X}_n) $ vanishes, and so $ \overline{X}_n $ converges to mean $ \mu $.
 
 ### Moment Generating Functions (MGFs) of Sums
 
-- **MGF of a sum**  
-  If $X$ and $Y$ are independent, then $ M_{X+Y}(t) = M_X(t)\,M_Y(t) $.
+- If $X$ and $Y$ are independent, then $ M_{X+Y}(t) = M_X(t)\,M_Y(t) $.  
   More generally, for independent $X_1,\dots,X_n$: $ M_{\sum\limits_i X_i}(t) = \prod\limits_{i=1}^n M_{X_i}(t) $.
 - **Uniqueness & distribution of sums**  
   If $M_{X+Y}(t)$ matches the MGF of a known rv $Z$, then $X+Y$ and $Z$ share the same distribution.
 
 ## Covariance
 
-- **Definition**: For random variables $X$ and $Y$, the **covariance**
-  is $ \mathrm{Cov}(X,Y) = E\bigl[(X-\mu_X)(Y-\mu_Y)\bigr] = E[XY] - E[X]E[Y] $
+- **Definition**: For random variables $X$ and $Y$, the **covariance** is $ \mathrm{Cov}(X,Y) = E\bigl[(X-\mu_X)(Y-\mu_Y)\bigr] = E[XY] - E[X]E[Y] $
 - $ \mathrm{Cov}(X,X) = \mathrm{Var}(X) $
 - **Sign of Covariance**
-    - $\mathrm{Cov}(X,Y)>0$: *positively correlated*. $X$ and $Y$ tend to deviate together.
-    - $\mathrm{Cov}(X,Y)<0$: *negatively correlated*. $X$ and $Y$ tend to deviate in opposite directions.
-    - $\mathrm{Cov}(X,Y)=0$: *uncorrelated*.
-- Independent implies uncorrelated, but uncorrelated doesn't imply independent. If $X\perp Y$,
-  then $\mathrm{Cov}(X,Y)=0$.
+  - $\mathrm{Cov}(X,Y)>0$: *positively correlated*. $X$ and $Y$ tend to deviate together.
+  - $\mathrm{Cov}(X,Y)<0$: *negatively correlated*. $X$ and $Y$ tend to deviate in opposite directions.
+  - $\mathrm{Cov}(X,Y)=0$: *uncorrelated*.
+- Independent implies uncorrelated, but uncorrelated doesn't imply independent. If $X\perp Y$, then $\mathrm{Cov}(X,Y)=0$.
 
-- If $I_A$ and $I_B$ are indicators of events $A$ and $B$,
-  then $ \mathrm{Cov}(I_A, I_B) = P(A\cap B) - P(A)P(B) = P(B)\bigl[P(A\mid B)-P(A)\bigr] $  
+- If $I_A$ and $I_B$ are indicators of events $A$ and $B$, then $ \mathrm{Cov}(I_A, I_B) = P(A\cap B) - P(A)P(B) = P(B)\bigl[P(A\mid B)-P(A)\bigr] $  
   In particular, $\mathrm{Cov}(I_A,I_B)=0$ if and only if $A$ and $B$ are independent.
 
 ### Variance of Sum (with Covariances)
 
-- For $X_1,\dots,X_n$ with finite variances and covariances,
-  $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) + 2\sum\limits_{1\le i<j\le n}\mathrm{Cov}(X_i,X_j) $  
-  If they are uncorrelated,
-  then $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) $.
+- For $X_1,\dots,X_n$ with finite variances and covariances, $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) + 2\sum\limits_{1\le i<j\le n}\mathrm{Cov}(X_i,X_j) $  
+  If they are uncorrelated, then $ \mathrm{Var}\Bigl(\sum\limits_{i=1}^n X_i\Bigr) = \sum\limits_{i=1}^n \mathrm{Var}(X_i) $.
 
 ### Properties of Covariance
 
 1. **Symmetry**: $\mathrm{Cov}(X,Y)=\mathrm{Cov}(Y,X)$.
 2. **Linearity in First Argument**: $\mathrm{Cov}(aX+b,\,Y)=a\,\mathrm{Cov}(X,Y)$.
-3. **Bilinearity
-   **: $ \mathrm{Cov}\Bigl(\sum\limits_{i=1}^n a_iX_i, \sum\limits_{j=1}^m b_jY_j\Bigr) = \sum\limits_{i=1}^n\sum\limits_{j=1}^m a_i\,b_j \mathrm{Cov}(X_i,Y_j) $
+3. **Bilinearity**: $ \mathrm{Cov}\Bigl(\sum\limits_{i=1}^n a_iX_i, \sum\limits_{j=1}^m b_jY_j\Bigr) = \sum\limits_{i=1}^n\sum\limits_{j=1}^m a_i\,b_j \mathrm{Cov}(X_i,Y_j) $
 
 ### Correlation Coefficient
 
@@ -752,7 +697,7 @@ $ \mathrm{Corr}(X,Y) = \frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)}\sqrt{\mat
   n\,p_i(1-p_i), & i=j,\\
   -n\,p_i\,p_j, & i\neq j.
   \end{cases}
-  $
+  $  
   $ \mathrm{Corr}(X_i,X_j) = -\sqrt{\frac{p_i\,p_j}{(1-p_i)(1-p_j)}} $ for $i\neq j$.
 
 ## Tail Bounds and Limit Theorems
@@ -761,30 +706,65 @@ $ \mathrm{Corr}(X,Y) = \frac{\mathrm{Cov}(X,Y)}{\sqrt{\mathrm{Var}(X)}\sqrt{\mat
 
 - Lemma: If $X \ge Y$, then $ E[X] \ge E[Y] $
 - **Markov's Inequality**: $X$ is nonnegative rv and $c>0$, then $ P(X \ge c) \le \frac{E[X]}{c} $.
-- **Chebyshev's Inequality**: Let $X$ have mean $\mu$ and variance $\sigma^2$. For
-  any $c>0$, $ P(|X-\mu|\ge c) \le \frac{\sigma^2}{c^2} $.  
+- **Chebyshev's Inequality**: Let $X$ have mean $\mu$ and variance $\sigma^2$. For any $c>0$, $ P(|X-\mu|\ge c) \le \frac{\sigma^2}{c^2} $.  
   Equivalently, $ P(X\ge\mu+c)\le\frac{\sigma^2}{c^2}, \ P(X\le\mu-c)\le\frac{\sigma^2}{c^2}. $
-
-### Law of Large Numbers (LLN)
-
-Let $\{X_i\}$ be i.i.d. with mean $\mu$ and variance $\sigma^2$. Define $ S_n = X_1 + \cdots + X_n $
-Then for
-every $\varepsilon>0$, $ \lim\limits_{n\to\infty} P\bigl(\bigl|\frac{S_n}{n} - \mu\bigr|<\varepsilon\bigr) = 1 $  
-Strong LLN: $ P\bigl(\lim\limits_{n\to\infty} \frac{S_n}{n} = \mu \bigr) = 1 $
 
 ### Continuity Theorem for MGFs
 
-Random variables $Y_1, Y_2, Y_3, \ldots$ satisfy $ \lim\limits_{n \to \infty} M_{Y_n}(t) = M_X(t) $ for all $t$ in the
-interval $(-\varepsilon, \varepsilon)$. Then for
-any $a \in \mathbb{R}$, $ \lim\limits_{n \to \infty} P(Y_n \le a) = P(X \le a) $
+Random variables $Y_1, Y_2, Y_3, \ldots$ satisfy $ \lim\limits_{n \to \infty} M_{Y_n}(t) = M_X(t) $ for all $t$ in the interval $(-\varepsilon, \varepsilon)$. Then for any $a \in \mathbb{R}$, $ \lim\limits_{n \to \infty} P(Y_n \le a) = P(X \le a) $
 
 ### Central Limit Theorem (CLT)
 
-Let $X_1,\dots,X_n$ be i.i.d. with mean $\mu$ and variance $\sigma^2$.
-Define $ S_n = \sum\limits_{i=1}^n X_i, \ Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}} $  
-Then for any real $a \le b$, $ \lim\limits_{n\to\infty} P\bigl(a \le Z_n \le b\bigr) = \Phi(b) - \Phi(a) $
+Let $\{X_i\}$ be i.i.d. with mean $\mu$ and variance $\sigma^2$ and $ S_n = \sum\limits_{i=1}^n X_i$  
+$$ \lim\limits_{n\to\infty} P\bigl(a \le \frac{S_n - n\mu}{\sqrt{n\sigma^2}} \le b\bigr) = \Phi(b) - \Phi(a) $$
 
-#### Monte Carlo Method and Confidence Interval
+#### Normal Approximation for Binomial Distribution by CLT
+
+$ S_n \sim \operatorname{Bin}(n, p) $ approximates $\mathcal{N}(\mu = np,\ \sigma^2 = np(1-p))$
+
+For large $n$ and $np(1-p) > 10$,
+$$ P\left(a \leq \frac{S_n - np}{\sqrt{np(1-p)}} \leq b\right) \approx \Phi(b) - \Phi(a) $$
+
+**Continuity Correction**: Since $S_n$ is discrete distribution, for integer bounds $ k_1 \leq S_n \leq k_2 $:
+$$
+\begin{aligned}
+P(k_1 \leq S_n \leq k_2) &= P(k_1 - 0.5 \leq S_n \leq k_2 + 0.5) \\
+&\approx \Phi\left(\frac{k_2 + 0.5 - np}{\sqrt{np(1-p)}}\right) - \Phi\left(\frac{k_1 - 0.5 - np}{\sqrt{np(1-p)}}\right)
+\end{aligned}
+$$
+
+### Law of Large Numbers (LLN)
+
+Let $\{X_i\}$ be i.i.d. with mean $\mu$ and variance $\sigma^2$. Define $ S_n = \sum\limits_{i=1}^n X_i $
+Then for every $\varepsilon>0$, $ \lim\limits_{n\to\infty} P\bigl(\bigl|\frac{S_n}{n} - \mu\bigr|<\varepsilon\bigr) = 1 $  
+**Strong LLN**: $ P\bigl(\lim\limits_{n\to\infty} \frac{S_n}{n} = \mu \bigr) = 1 $
+
+#### LLN for Binomial Distribution
+
+For $ S_n \sim \operatorname{Bin}(n, p) $, the sample proportion $ \frac{S_n}{n} $ converges to $ p $:  
+$ \lim\limits_{n \to \infty} P\left(\left|\frac{S_n}{n} - p\right| < \varepsilon\right) = 1 $ for any $ \varepsilon > 0 $.
+
+The **confidence interval** is $(\hat{p} - \varepsilon,\ \hat{p} + \varepsilon)$
+$$
+\begin{aligned}
+P(|\hat{p} - p| < \varepsilon) &= P(|\frac{S_n}{n} - p| < \varepsilon) \\
+&\approx 2\Phi\left(\frac{\varepsilon \sqrt{n}}{\sqrt{p(1-p)}}\right) - 1 \\
+&\geq 2\Phi\left(2\varepsilon \sqrt{n}\right) - 1
+\end{aligned}
+$$
+
+### Poisson Approximation for Binomial Distribution
+
+$ S_n \sim \operatorname{Bin}(n,\ p = \frac{\lambda}{n}) $  
+**Law of Rare Events**:
+
+$$
+\lim\limits_{n \to \infty} P(S_n = k) = \frac{e^{-\lambda}\lambda^k}{k!}
+$$
+
+Theorem: For $ X \sim \text{Bin}(n, p) $ and $ Y \sim \text{Poisson}(np) $, then for any subset $ A \subseteq \{0, 1, 2, \dots\} $, $ \left| P(X \in A) - P(Y \in A) \right| \leq np^2 $. Therefore, when $np^2$ is small, $X$ approimates $Y$.
+
+### Monte Carlo Method and Confidence Interval
 
 $
 \mu \approx \bar X_n = \frac{1}{n} \sum\limits_{i=1}^n X_i, \quad
@@ -799,13 +779,13 @@ $Z_n = \frac{(\bar X_n - \mu)\sqrt{n}}{s_n}$
 Let $X$ be a discrete rv and $B$ an event with $P(B)>0$.
 
 - The **conditional PMF** of $X$ given $B$:
-  $
+  $$
   p_{X\mid B}(k) = P(X=k\mid B) = \frac{P(\{X=k\}\cap B)}{P(B)}
-  $
+  $$
 - The **conditional expectation** of $X$ given $B$:
-  $
+  $$
   E[X\mid B] = \sum\limits_k k\ p_{X\mid B}(k).
-  $
+  $$
 
 Partitioning by events $B_1,\dots,B_n$ with $P(B_i)>0$:
 
@@ -820,17 +800,17 @@ Partitioning by events $B_1,\dots,B_n$ with $P(B_i)>0$:
 
 ### Conditional Distribution for Discrete RVs
 
-Let $X,Y$ be discrete rvs and $y$ such that $P(Y=y)>0$
+Let $X,Y$ be discrete rvs and $y$ such that $p_Y(y)>0$
 
 - The **conditional PMF** of $X$ given $Y=y$:
-  $
+  $$
   p_{X\mid Y}(x\mid y) = P(X=x\mid Y=y) = \frac{p_{X,Y}(x,y)}{p_Y(y)}
-  $  
+  $$
   $ p_{X,Y}(x,y) = p_{X\mid Y}(x\mid y)\ p_Y(y) $
 - The **conditional expectation** of $g(X)$ given $Y=y$:
-  $
+  $$
   E[g(X)\mid Y=y] = \sum\limits_x g(x) p_{X\mid Y}(x\mid y)
-  $
+  $$
 
 **Marginalization**:
 
@@ -839,28 +819,47 @@ Let $X,Y$ be discrete rvs and $y$ such that $P(Y=y)>0$
 
 ### Conditional Distribution for Jointly Continuous RVs
 
-**Definition.** Let $X,Y$ be jointly continuous with joint PDF $f_{X,Y}(x,y)$ and marginal $f_Y(y)>0$.
+Let $X,Y$ be jointly continuous rvs with joint PDF $f_{X,Y}(x,y)$ and $f_Y(y)>0$.
 
 - The **conditional PDF** of $X$ given $Y=y$:
-  $
+  $$
   f_{X\mid Y}(x\mid y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}
-  $  
+  $$  
   $ f_{X,Y}(x,y) = f_{X\mid Y}(x\mid y) f_Y(y) $
 - The **conditional expectation** of $g(X)$ given $Y=y$:
-  $
+  $$
   E[g(X)\mid Y=y] = \int_{-\infty}^{\infty} g(x)\,f_{X\mid Y}(x\mid y)\,dx.
-  $
+  $$
 - The **conditional probability** that $X \in A$ given $Y=y$:
-  $
+  $$
   P(X \in A \mid Y=y) = \int_A f_{X\mid Y}(x\mid y) dx
-  $
+  $$
 
 **Averaging Identities**:
 
 - $ f_X(x) = \int_{-\infty}^{\infty} f_{X\mid Y}(x\mid y)\,f_Y(y)\,dy $
 - $ E[g(X)] = \int_{-\infty}^{\infty} E[g(X)\mid Y=y] f_Y(y)\,dy $
 
-## Conditional Expectation as a Random Variable
+### Multivariate Conditional Distributions
+
+- **Discrete case**  
+  $$
+  p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{p_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{p_Y(y)}
+  $$
+  $$
+  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \sum\limits_{x_1,\dots,x_n} g(x_1,\dots,x_n)\,p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)
+  $$
+- **Continuous case**  
+  $$
+  f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{f_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{f_Y(y)}
+  $$  
+  $$
+  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \int\cdots\int g(x_1,\dots,x_n)\,f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)\,dx_1\cdots dx_n.
+  $$
+
+- $ E\bigl[g_1(X_1) + \cdots + g_n(X_n)\mid Y\bigr] = E\bigl[g_1(X_1)\mid Y\bigr] + \cdots + E\bigl[g_n(X_n)\mid Y\bigr] $
+
+### Conditional Expectation as a Random Variable
 
 **Definition**: $ v(y)  = E[X \mid Y=y] $ is a number. The **conditional expectation** of $X$ given $Y$ is the random
 variable $ E(X \mid Y)  = v(Y) $.  
@@ -868,44 +867,20 @@ $ E(aX + b \mid Y) = aE(X \mid Y) + b $
 
 **Tower Property (Law of Total Expectation)**  
 $ E\bigl[E(X \mid Y)\bigr]  = E[X] $  
-$E[E(g(X)\mid Y)] = E[g(X)].$
+$ E[E(g(X)\mid Y)] = E[g(X)] $  
+$ E\bigl[E[\,g(X_1,\dots,X_n)\mid Y]\bigr] = E\bigl[g(X_1,\dots,X_n)\bigr] $
 
+Identity:  
 $ E[g(X) \mid X] = g(X) $, $ E(X \mid X) = X $
-
-### Multivariate Conditional Distributions
-
-- **Discrete case**  
-  $
-  p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{p_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{p_Y(y)}
-  $  
-  $
-  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \sum\limits_{x_1,\dots,x_n} g(x_1,\dots,x_n)\,p_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)
-  $
-- **Continuous case**  
-  $
-  f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y) = \frac{f_{X_1,\dots,X_n,Y}(x_1,\dots,x_n,y)}{f_Y(y)}
-  $  
-  $
-  E\bigl[g(X_1,\dots,X_n)\mid Y=y\bigr] = \int\cdots\int g(x_1,\dots,x_n)\,f_{X_1,\dots,X_n\mid Y}(x_1,\dots,x_n\mid y)\,dx_1\cdots dx_n.
-  $
-
-- **Multivariate law of total expectation:**  
-  $
-  E\bigl[E[\,g(X_1,\dots,X_n)\mid Y]\bigr] = E\bigl[g(X_1,\dots,X_n)\bigr].
-  $
-- $ E\bigl[g_1(X_1) + \cdots + g_n(X_n)\mid Y\bigr] = E\bigl[g_1(X_1)\mid Y\bigr] + \cdots + E\bigl[g_n(X_n)\mid Y\bigr] $
-
-### Conditioning and Independence
-
-$X$ and $Y$ are **independent** if and only if
-
-- Discrete: $p_{X\mid Y}(x\mid y)=p_X(x)$ for all $x$, $y$ with $p_Y(y)>0$.
-- Continuous: $f_{X\mid Y}(x\mid y)=f_X(x)$ for all $x$, $y$ with $f_Y(y)>0$.
-
-- If $X\perp Y$, then $ E[g(X)\mid Y]=E[g(X)] $ (a constant).
-
-### Conditioning on a random variable fixes its value
 
 $ E\bigl[h(X,Y)\mid Y = y\bigr] = E\bigl[h(X,y)\mid Y = y\bigr] $
 
-**"Pull‐out" property**: $ E\bigl[a(X)\,b(Y)\mid Y\bigr] = b(Y)E\bigl[a(X)\mid Y\bigr] $ 
+**"Pull‐out" property**: $ E\bigl[a(X)\,b(Y)\mid Y\bigr] = b(Y)E\bigl[a(X)\mid Y\bigr] $
+
+### Independence by Conditioning
+
+$X\perp Y$ if and only if
+
+- Discrete: $p_{X\mid Y}(x\mid y)=p_X(x)$ for all $x$, $y$ with $p_Y(y)>0$.
+- Continuous: $f_{X\mid Y}(x\mid y)=f_X(x)$ for all $x$, $y$ with $f_Y(y)>0$.
+- $ E[g(X)\mid Y]=E[g(X)] $ (a constant).

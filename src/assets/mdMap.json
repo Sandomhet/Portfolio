@@ -1,4 +1,14 @@
 {
+  "Pstat120A": {
+    "type": "notes",
+    "category": "",
+    "name": "Pstat120A",
+    "path": "/markdown/notes/Pstat120A.md",
+    "title": "PSTAT 120A Introduction to Probability",
+    "description": "Content includes distributions, random variables...",
+    "time": "Fri Jun 6, 2025",
+    "lang": "en"
+  },
   "Cmpsc40": {
     "type": "notes",
     "category": "",
@@ -7,16 +17,6 @@
     "title": "CMPSC 40 Discrete Mathematics",
     "description": "discrete mathematics and mathematical proof",
     "time": "Wed May 28, 2025",
-    "lang": "en"
-  },
-  "Pstat120A": {
-    "type": "notes",
-    "category": "",
-    "name": "Pstat120A",
-    "path": "/markdown/notes/Pstat120A.md",
-    "title": "PSTAT 120A Introduction to Probability",
-    "description": "Content includes distributions, random variables...",
-    "time": "Sat May 10, 2025",
     "lang": "en"
   },
   "interview": {

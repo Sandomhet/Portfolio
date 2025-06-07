@@ -66,8 +66,8 @@ export default function MarkdownViewer() {
         {/*/>*/}
         {/*<ReactTOC markdownText={presentMarkdown}/>*/}
         <Markdown
-            remarkPlugins={[remarkGfm, remarkMath, remarkToc, remarkFrontmatter]}
-            rehypePlugins={[rehypeKatex, rehypeRaw, rehypeSlug, rehypePrism]}
+            remarkPlugins={[remarkGfm, remarkFrontmatter, remarkToc, remarkMath]}
+            rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug, rehypePrism]}
         >
           {presentMarkdown}
         </Markdown>
