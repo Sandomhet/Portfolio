@@ -26,7 +26,7 @@ existing propositions using logical operators.
 - Disjunction (OR): $ p \lor q $
 - Exclusive (XOR): $ p \oplus q $
 
-**(DNF)** Disjunctive normal form: OR of ANDs.
+**(DNF)** Disjunctive normal form: OR of ANDs.  
 **(CNF)** Conjunctive normal form: AND of ORs.
 
 ### Conditional Proposition
@@ -83,78 +83,136 @@ $ p \equiv q $ denotes logical equivalence if $ p \leftrightarrow q $ is a *taut
 
 **Conditional Disjunction Equivalence**: $ p \to q \equiv \neg p \lor q $
 
-Logical Equivalence Table:
-![alt text](image.png)
-![alt text](CDF5FA3C-7D20-4420-82B0-FCB23FC07F8D_1_102_o.jpeg)
+Logical Equivalence Table:  
+| Law                   | ∨-Version                                         | ∧-Version                                            |
+|:----------------------|:--------------------------------------------------|:-----------------------------------------------------|
+| **Idempotent laws**   | $p \lor p \equiv p$                               | $p \land p \equiv p$                                 |
+| **Associative laws**  | $(p \lor q) \lor r \equiv p \lor (q \lor r)$       | $(p \land q) \land r \equiv p \land (q \land r)$     |
+| **Commutative laws**  | $p \lor q \equiv q \lor p$                        | $p \land q \equiv q \land p$                         |
+| **Distributive laws** | $p \lor (q \land r) \equiv (p \lor q) \land (p \lor r)$ | $p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$ |
+| **Identity laws**     | $p \lor \mathrm{F} \equiv p$                      | $p \land \mathrm{T} \equiv p$                        |
+| **Domination laws**   | $p \lor \mathrm{T} \equiv \mathrm{T}$             | $p \land \mathrm{F} \equiv \mathrm{F}$               |
+| **Double negation**   | $\neg\neg p \equiv p$                             | $\neg\neg p \equiv p$                                |
+| **Complement laws**   | $p \lor \neg p \equiv \mathrm{T}$<br/>$\neg \mathrm{F} \equiv \mathrm{T}$ | $p \land \neg p \equiv \mathrm{F}$<br/>$\neg \mathrm{T} \equiv \mathrm{F}$ |
+| **De Morgan’s laws**  | $\neg(p \lor q) \equiv \neg p \land \neg q$       | $\neg(p \land q) \equiv \neg p \lor \neg q$          |
+| **Absorption laws**   | $p \lor (p \land q) \equiv p$                     | $p \land (p \lor q) \equiv p$                        |
+| **Conditional identities** | $p \to q \equiv \neg p \lor q$               | $p \leftrightarrow q \equiv (p \to q) \land (q \to p)$ |
+
+
+| Expression                                 | Equivalent Form                         |
+|:-------------------------------------------|:----------------------------------------|
+| $p \to q$                                 | $\neg p \lor q$                        |
+| $p \to q$                                 | $\neg q \to \neg p$                    |
+| $p \lor q$                                | $\neg p \to q$                         |
+| $p \land q$                               | $\neg\bigl(p \to \neg q\bigr)$         |
+| $\neg(p \to q)$                           | $p \land \neg q$                       |
+| $(p \to q) \land (p \to r)$               | $p \to (q \land r)$                    |
+| $(p \to r) \land (q \to r)$               | $(p \lor q) \to r$                     |
+| $(p \to q) \lor (p \to r)$                | $p \to (q \lor r)$                     |
+| $(p \to r) \lor (q \to r)$                | $(p \land q) \to r$                    |
+
+
+| Expression                                 | Equivalent Form                                      |
+|:-------------------------------------------|:-----------------------------------------------------|
+| $p \leftrightarrow q$                      | $(p \to q) \land (q \to p)$                          |
+| $p \leftrightarrow q$                      | $\neg p \leftrightarrow \neg q$                      |
+| $p \leftrightarrow q$                      | $(p \land q) \lor (\neg p \land \neg q)$             |
+| $\neg\bigl(p \leftrightarrow q\bigr)$     | $p \leftrightarrow \neg q$                           |
 
 ## Set
 
 Definition: unordered collection of elements.
 
 - **Set Equality**: $ A = B $ if they contain exactly the same elements.
-- **Subset**: $ A \subseteq B $ if every element of $ A $ is also an element
-  of $ B $. $ \forall x (x \in A \rightarrow x \in B) $.
+- **Subset**: $ A \subseteq B $ if every element of $ A $ is also an element of $ B $. $ \forall x (x \in A \rightarrow x \in B) $.
 - **Proper Subset**: $ A \subsetneq B $, if $ A \subseteq B $ and $ A \neq B $.
 - **Empty Set**: The set with no elements, denoted $ \{\} $ or $ \emptyset $.
 
-Roster method: list elements explicitly.
-Set-builder notation: describe elements via properties.
+Roster method: list elements explicitly.  
+Set-builder notation: describe elements via properties.  
 Recursion: basis and recursive step.
 
 **Concatenation**: $ A \circ B = \{ab \mid a \in A \text{ and } b \in B \} $
 
-**Function**: domain, codomain, rule mapping.  
-A function is well-defined if each input map to exactly one output.
-*Precondition*: statements that describe valid input.  
-*Postcondition*: conditions that output should satisfy.
+### Cardinality of Sets
+
+- A set $A$ is **finite** if $|A| = n$ for some $n\in\mathbb{N}$.
+- A set $A$ is **countably infinite** if there is a bijection $f:\mathbb{N}\to A$ or $\lvert A\rvert = \lvert \mathbb{N}\rvert$.
+- **Uncountable:** cannot be put in bijection with $\mathbb{N}$.
+
+| Set                  | Notation       | Cardinality        |
+|----------------------|----------------|--------------------|
+| Integers             | $\mathbb{Z}$   | countably infinite |
+| Positive integers    | $\mathbb{Z}^+$ | countably infinite |
+| Nonnegative integers | $\mathbb{N}$   | countably infinite |
+| Rational numbers     | $\mathbb{Q}$   | countably infinite |
+| Real numbers         | $\mathbb{R}$   | uncountable        |
+
+### Sum and Product Rules
+
+- **Sum Rule (Disjoint Union):** If $A$ and $B$ are disjoint finite sets, then $ |A \cup B| = |A| + |B| $.
+- **Union of Non-Disjoint Sets:** If $A,B$ are finite (possibly overlapping), $ |A \cup B| = |A| + |B| - |A\cap B| $.
+- **Product Rule (Cartesian Product):** If $A$ and $B$ are finite, then $ |A \times B| = |A|\times|B| $.
+    - **Corollary:** $|A^2| = |A|^2$ for any finite set $A$.
+
+### Power Sets
+
+**Definition:** The power set $\mathcal{P}(S)$ is the set of all subsets of $S$.
+- If $|S| = n$, then $|\mathcal{P}(S)| = 2^n$.
+- For any set $S$, $ \lvert S \rvert < \lvert \mathcal{P}(S)\rvert $
+
+**Example:** If $S = \{1,2,3\}$,  
+$
+\mathcal{P}(S) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}\}.
+$
 
 ## Predicate and Quantification
 
 ### Predicate
 
-**Predicate (propositional function)**: a function $ P(x) $ from a given domain to $ \{ T,F \} $
-Can be represented by: input-output table, rule or condition, truth set (elements where P(x) is true)
-For a predicate $ P $ with domain $ X_1 \times \cdots \times X_n $, write $ P(x_1, \ldots, x_n) $ to
-mean $ P((x_1, \ldots, x_n)) $.
+**Predicate (propositional function)**: a function $ P(x) $ from a given domain to $ \{ T,F \} $  
+Can be represented by: input-output table, rule or condition, truth set (elements where P(x) is true)  
+For a predicate $ P $ with domain $ X_1 \times \cdots \times X_n $, write $ P(x_1, \ldots, x_n) $ to mean $ P((x_1, \ldots, x_n)) $.
 
 ### Quantifier
 
 **Quantification**: to create a proposition from a propositional function.
-highest precedence over all other logical operators
+Highest precedence over all other logical operators
 
-- **Universal Quantification** $ \forall x P(x) $ : $ P(x) $ for all values of $ x $ in the domain. An element
-  where $ P(x) = F $ is a **counterexample**.
-- **Existential Quantification** $ \exists x P(x) $ : There exists an element $ x $ in the domain such that $ P(x) $. An
-  element where $ P(x) = T $ is a **witness**.
-- **Uniqueness Quantification** $ \exists! x P(x) $ or $ \exists_1 x P(x) $ : There exists a unique $ x $ such
-  that $ P(x) $. (uniqueness quantifier).
+- **Universal Quantification** $ \forall x P(x) $ : $ P(x) $ for all values of $ x $ in the domain. An element where $ P(x) = F $ is a **counterexample**.
+- **Existential Quantification** $ \exists x P(x) $ : There exists an element $ x $ in the domain such that $ P(x) $. An element where $ P(x) = T $ is a **witness**.
+- **Uniqueness Quantification** $ \exists! x P(x) $ or $ \exists_1 x P(x) $ : There exists a unique $ x $ such that $ P(x) $. (uniqueness quantifier).
 
 DeMorgan's Laws for Quantifiers:
-$
+$$
 \neg \forall xP(x) \equiv \exists x \neg P(x) \\
 \neg \exists xP(x) \equiv \forall x \neg P(x)
-$
+$$
 
 **Nested Quantifiers**: order matters, read left to right.
 
 ## Arguments and Validity
 
-An **argument** in propositional logic is a sequence of propositions. All but the final proposition in the argument are
-called **premises** and the final proposition is called the **conclusion**. An argument is **valid** if the truth of all
-its premises implies that the conclusion is true. An **argument form** in propositional logic is a sequence of compound
-propositions involving propositional variables. An argument form is valid if no matter which particular propositions are
-substituted for the propositional variables in its premises, the conclusion is true if the premises are all true.
+An **argument** in propositional logic is a sequence of propositions. All but the final proposition in the argument are called **premises** and the final proposition is called the **conclusion**. An argument is **valid** if the truth of all its premises implies that the conclusion is true. An **argument form** in propositional logic is a sequence of compound propositions involving propositional variables. An argument form is valid if no matter which particular propositions are substituted for the propositional variables in its premises, the conclusion is true if the premises are all true.
 
 ### Rules of Inference
 
-![alt text](7890D82C-0531-4D46-80E2-C674AC48BECA_1_201_a.jpeg)
+| Rule of Inference                                                                   | Tautology                                                      | Name                   |
+|:------------------------------------------------------------------------------------|:---------------------------------------------------------------|:-----------------------|
+| $\begin{aligned}p\\ p \to q\\ \hline \therefore q\end{aligned}$                     | $(p \land (p \to q)) \to q$                                    | Modus ponens           |
+| $\begin{aligned}\neg q\\ p \to q\\ \hline \therefore \neg p\end{aligned}$           | $(\neg q \land (p \to q)) \to \neg p$                          | Modus tollens          |
+| $\begin{aligned}p \to q\\ q \to r\\ \hline \therefore p \to r\end{aligned}$         | $((p \to q) \land (q \to r)) \to (p \to r)$                    | Hypothetical syllogism |
+| $\begin{aligned}p \lor q\\ \neg p\\ \hline \therefore q\end{aligned}$               | $((p \lor q) \land \neg p) \to q$                              | Disjunctive syllogism  |
+| $\begin{aligned}p\\ \hline \therefore p \lor q\end{aligned}$                        | $p \to (p \lor q)$                                             | Addition               |
+| $\begin{aligned}p \land q\\ \hline \therefore p\end{aligned}$                       | $(p \land q) \to p$                                            | Simplification         |
+| $\begin{aligned}p\\ q\\ \hline \therefore p \land q\end{aligned}$                   | $((p) \land (q)) \to (p \land q)$                              | Conjunction            |
+| $\begin{aligned}p \lor q\\ \neg p \lor r\\ \hline \therefore q \lor r\end{aligned}$ | $((p \lor q) \land (\neg p \lor r)) \to (q \lor r)$            | Resolution             |
 
 ### Rules of Inference for Quantified Statements
 
 - **Universal Instantiation**: If $ \forall x P(x) $ is true, then $ P(c) $ is true for any element $ c $ in the domain.
 - **Universal Generalization**: If $ P(c) $ is true for an arbitrary element $ c $, then $ \forall x P(x) $ is true.
-- **Existential Instantiation**: If $ \exists x P(x) $ is true, then there exists some element $ c $ such that $ P(c) $
-  is true.
+- **Existential Instantiation**: If $ \exists x P(x) $ is true, then there exists some element $ c $ such that $ P(c) $ is true.
 - **Existential Generalization**: If $ P(c) $ is true for some element $ c $, then $ \exists x P(x) $ is true.
 
 ## Proof
@@ -176,7 +234,7 @@ substituted for the propositional variables in its premises, the conclusion is t
     - **Proof by Contrapositive**: Instead of proving $ p \rightarrow q $, prove $ \neg q \rightarrow \neg p $.
     - **Vacuous Proof**: When $ p $ is always false, so the implication is trivially true.
     - **Trivial Proof**: When $ q $ is always true regardless of $ p $.
-    - **Proof by Contradiction**: Assume the negation of the statement and derive a contradiction.
+    - **Proof by Contradiction**: Assume the negation of the statement, which is $ \neg (p \rightarrow q) \equiv p \land \neg q $, and derive a contradiction.
 - Case-Based Proof
     - **Exhaustive Proof**: Check all possible cases individually.
     - **Proof by Cases**: Break the problem into a finite number of scenarios and prove each one.
@@ -184,68 +242,58 @@ substituted for the propositional variables in its premises, the conclusion is t
 - Existence Proof
     - **Constructive Proof**: Provide a specific example (witness) that satisfies the condition.
     - **Non-constructive Proof**: Show something exists by contradiction or logical argument, without exhibiting it.
-- Uniqueness Proof
-    - assume two elements $ x $ and $ y $ both satisfy the property, then show $ x = y $.
+- **Uniqueness Proof**: assume two elements $ x $ and $ y $ both satisfy the property, then show $ x = y $.
 - Reasoning Strategies
     - **Forward Reasoning**: Start from what you know and derive the conclusion step by step.
     - **Backward Reasoning**: Start from what you want to prove and figure out what needs to be true.
     - **Adapting Existing Proofs**: Modify or reuse the structure of known proofs for similar problems.
-    - **Looking for Counterexamples**: Search for examples that disprove a statement (especially useful in testing
-      conjectures).
+    - **Looking for Counterexamples**: Search for examples that disprove a statement (especially useful in testing conjectures).
     - **Universal Generalization**: Prove a property for an arbitrary element, and then conclude it holds for all.
 
 ### Mathematical Induction
 
-strong induction, structural induction.
-
-#### Structural Induction
-
-- **When to Use**: To prove $\forall x \in S.\; P(x)$ when $S$ is recursively defined.
-- **Proof Outline**:
-    1. **Basis Case**: Show $P(b)$ for each base element $b$.
-    2. **Recursive Case**: Assume $P$ holds for all smaller ("already constructed") elements; then show it holds for any
-       element formed by the recursive rule.
-
 #### Mathematical Induction
 
-- **When to Use**: To prove $\forall n \ge b.\; P(n)$ where $n$ ranges over integers $\ge b$.
-- **Proof Outline**:
-    1. **Base Case**: Prove $P(b)$.
-    2. **Inductive Step**: Assume $P(n)$ holds for some $n \ge b$; prove $P(n+1)$.
+To prove $\forall n \ge b, P(n)$:
+1. **Base Step**: Prove $P(b)$.
+2. **Inductive Step**: Assume $P(n)$ holds for some $n \ge b$, prove $P(n+1)$.
 
 #### Strong Induction
 
-To prove $\forall n\ge b,\;P(n)$:
+To prove $\forall n \ge b, P(n)$:
+1. **Base Step**: Prove $P(b),P(b+1),\dots,P(b+j)$.
+2. **Inductive Step**: Assume $P(b),\dots,P(n)$, prove $P(n+1)$.
 
-1. Prove $P(b),P(b+1),\dots,P(b+j)$.
-2. Assume $P(b),\dots,P(n)$, prove $P(n+1)$.
-   ![ ](image-1.png)
+#### Structural Induction
+
+To prove $\forall x \in S, P(x)$ when $S$ is recursively defined.
+1. **Basis Step**: Show $P(b)$ for each base element $b$.
+2. **Recursive Step**: Assume $P$ holds for all smaller ("already constructed") elements; then show it holds for any element formed by the recursive rule.
+
+![Proof](image-1.png)
 
 ## Number Theory
 
 ### Base-$b$ Expansion
 
-decimal (10), binary (2), octal (8), hexadecimal (16).
+decimal (10), binary (2), octal (8), hexadecimal (16).  
 **Base $b$ Expansion**: $(a_{k-1}\dots a_0)_b$.   
-Every positive integer $n$ has a unique
-expansion $ n = a_{k-1} b^{k-1} + a_{k-2} b^{k-2} + \cdots + a_1 b + a_0, \quad 0 \le a_i < b,\ a_{k-1}\neq 0. $
+Every positive integer $n$ has a unique expansion $ n = a_{k-1} b^{k-1} + a_{k-2} b^{k-2} + \cdots + a_1 b + a_0, \quad 0 \le a_i < b,\ a_{k-1}\neq 0. $
 
 ### Divisibility
 
-$ a \mid b $: $ a $ **divides** $ b $ and $ b $ is divisible by $ a $; $ a $ is $ a $ *factor* or *divisor*
-of $ b $, $ b $ is $ a $ *multiple* of a. ~ $ $ a $ \nmid $ b $ $
+$ a \mid b $: $ a $ **divides** $ b $ and $ b $ is divisible by $ a $; $ a $ is $ a $ *factor* or *divisor* of $ b $, $ b $ is a *multiple* of $a$. ~ $ $ a $ \nmid $ b $ $
 
 Let $a\neq0$ and $a,b,c$ be integers:
 
-1. If $a \mid b$ and $a \mid c$, then $a \mid (b + c)$
-2. If $a \mid b$, then $a \mid bc$ for all integers $ c $
-3. If $a \mid b$ and $b \mid c$, then $a \mid c$
-4. If $a \mid b$ and $a \mid c$, then $a \mid (sb + tc)$ for all integers $s, t$
+- If $a \mid b$ and $a \mid c$, then $a \mid (b + c)$
+- If $a \mid b$, then $a \mid bc$ for all integers $ c $
+- If $a \mid b$ and $b \mid c$, then $a \mid c$
+- If $a \mid b$ and $a \mid c$, then $a \mid (sb + tc)$ for all integers $s, t$
 
 #### The Division Algorithm
 
-Let $a$ be an integer and $d$ a positive integer. Then there are unique integers $q$ and $r$, with $0 \le r < d$, such
-that $ a = d\,q + r $
+Let $a$ be an integer and $d$ a positive integer. Then there are unique integers $q$ and $r$, with $0 \le r < d$, such that $ a = dq + r $
 
 $d$: **divisor**, $a$: **dividend**, $q$: **quotient**, $r$: **remainder**  
 $ q = a \text{ div } d,\ r = a \bmod d$
@@ -260,22 +308,19 @@ $ q = a \text{ div } d,\ r = a \bmod d$
 
 **Theorems**:
 If $a \equiv b \pmod{m}$ and $c \equiv d \pmod{m}$, then
-$a + c \equiv b + d \pmod{m}$ and $ac \equiv bd \pmod{m}$
-$a^n \equiv b^n \pmod{m}$
 
-$(a + b)\bmod m = \bigl((a\bmod m) + (b\bmod m)\bigr)\bmod m$  
-$(ab)\bmod m = \bigl((a\bmod m)\,(b\bmod m)\bigr)\bmod m$.
+- $a \pm c \equiv b \pm d \pmod{m}$
+- $ac \equiv bd \pmod{m}$
+- $a^n \equiv b^n \pmod{m}$
+
+Properties:
+- $(a + b)\bmod m = \bigl((a\bmod m) + (b\bmod m)\bigr)\bmod m$
+- $(ab)\bmod m = \bigl((a\bmod m)\,(b\bmod m)\bigr)\bmod m$.
 
 $\mathbb{Z}_m = \{0,1,\dots,m-1\}$
 
 - $ a +_m b = (a + b) \bmod m $
 - $ a \cdot_m b = (a \cdot b) \bmod m $
-
-Standard algebraic laws (addition, multiplication) carry over:
-
-- If $a\equiv b$ and $c\equiv d\pmod m$, then  
-  $a\pm c \equiv b\pm d$ and $a\,c\equiv b\,d\pmod m$.
-- Powers and inverses (when they exist) also respect congruence.
 
 #### Multiplicative Inverse
 
@@ -295,23 +340,22 @@ When $\gcd(x,n)=1$, the coefficient $s \pmod n$ is the inverse of $x$.
 
 ### Prime and Composite
 
-**Fundamental Theorem of Arithmetic**: Every integer $n > 1$ can be written **uniquely** as a product of
-primes: $ n = p_1^{c_1} p_2^{c_2} \cdots p_r^{c_r} $  
+**Fundamental Theorem of Arithmetic**: Every integer $n > 1$ can be written **uniquely** as a product of primes: $ n = p_1^{c_1} p_2^{c_2} \cdots p_r^{c_r} $  
 If $n$ is a composite integer, then there exists a prime $p$ such that $p \mid n$ and $ p \le \sqrt{n} $.
 
 ### Greatest Common Divisor (gcd)
 
-For integers $a$, $b$ (not both zero), the **greatest common divisor** $\gcd(a,b)$ is the largest positive integer $d$
-such that $d \mid a$ and $d \mid b$.
+For integers $a$, $b$ (not both zero), the **greatest common divisor** $\gcd(a,b)$ is the largest positive integer $d$ such that $d \mid a$ and $d \mid b$.
 
-If $ a = \prod\limits_i p_i^{c_i},\ b = \prod\limits_i p_i^{d_i} $,
-then $ \gcd(a,b) = \prod\limits_i p_i^{\min(c_i, d_i)} $.
+If $ a = \prod\limits_i p_i^{c_i},\ b = \prod\limits_i p_i^{d_i} $, then $ \gcd(a,b) = \prod\limits_i p_i^{\min(c_i, d_i)} $.
 
 The integers $a$ and $b$ are **relatively prime** if $\gcd(a, b) = 1$.
 
 ### Least Common Multiple (lcm)
 
-The **least common multiple** $\operatorname{lcm}(a,b)$ is the smallest positive integer divisible by both _a_ and _b_.
+The **least common multiple** $\operatorname{lcm}(a,b)$ is the smallest positive integer divisible by both $a$ and $b$.
+
+If $ a = \prod\limits_i p_i^{c_i},\ b = \prod\limits_i p_i^{d_i} $, then $ \operatorname{lcm}(a,b) = \prod\limits_i p_i^{\max(c_i, d_i)} $.
 
 $ ab = \gcd(a,b)\operatorname{lcm}(a,b) $
 
@@ -320,47 +364,17 @@ $ ab = \gcd(a,b)\operatorname{lcm}(a,b) $
 $ \gcd(a, b) = \gcd(a - b, b) $  
 $ \gcd(a, b) = \gcd(b, a \bmod b) $
 
-**Bezout's Theorem**: If $a$ and $b$ are positive integers, then there exist integers $s$ and $t$ such
-that $\gcd(a,b) = sa + tb$  
+**Bezout's Theorem**: If $a$ and $b$ are positive integers, then there exist integers $s$ and $t$ such that $\gcd(a,b) = sa + tb$
+
 If $a,b,c$ are positive integers such that $\gcd(a,b)=1$ and $a \mid bc$, then $a\mid c$.  
-Let $m$ be a positive integer and let $a,b,c$ be integers. If $ac \equiv bc \pmod{m}$ and $\gcd(c,m)=1$,
-then $a \equiv b \pmod{m}$
+Let $m$ be a positive integer and let $a,b,c$ be integers. If $ac \equiv bc \pmod{m}$ and $\gcd(c,m)=1$, then $a \equiv b \pmod{m}$
 
-## Week 8 - Monday Lecture Highlights
+## Functions
 
-### Proving Algorithm Correctness
+*Precondition*: statements that describe valid input.  
+*Postcondition*: conditions that output should satisfy.
 
-- **findMax Algorithm**
-    - **Specification:** returns the maximum of a sequence $a_1,\dots,a_n$.
-    - **Proof outline:** use induction on $n$, showing that scanning and maintaining a “current max” yields the true
-      maximum.
-
-- **Division Algorithm**
-    - **Specification:** given positive integers $n,d$, returns quotient $q$ and remainder $r$ such that  
-      $
-      n = dq + r,\quad 0\le r<d.
-      $
-    - **Proof outline:** strong induction on $n$, reducing $n$ by $d$ until the remainder falls below $d$.
-
----
-
-## Week 8 - Part 2 Highlights
-
-### Cardinality of Sets
-
-- **Finite vs. Infinite**
-    - A set $A$ is **finite** if $|A| = n$ for some $n\in\mathbb{N}$.
-    - A set is **infinite** if it is not finite.
-
-- **Countably Infinite**
-    - A set $A$ is **countably infinite** if there is a bijection $f:\mathbb{N}\to A$.
-    - Example: negative integers $\mathbb{Z}^- = \{-1,-2,-3,\dots\}$ via $f(n)=-n-1$.
-
----
-
-### Functions and Cardinality Relations
-
-A **function** $f\colon A \to B$ assigns exactly one element of $B$ to each element of $A$. We write $ f(a) = b $ if $b$
+A **function** $f\colon A \to B$ is **well-defined** if assigns exactly one element of $B$ to each element of $A$. We write $ f(a) = b $ if $b$
 is the unique element of $B$ that $f$ assigns to $a\in A$.
 
 - The **domain** of $f$ is $A$.
@@ -370,106 +384,15 @@ is the unique element of $B$ that $f$ assigns to $a\in A$.
 
 Relations:
 
-- **One-to-one (Injective)**  
-  if and only if $f(a)=f(b)\implies a=b$.
-    - $|A|\le|B|$ no bigger than
-
-- **Onto (Surjective):**  
-  if and only if $\forall b\in B\ \exists a\in A\ f(a)=b$.
-    - $|A|\ge|B|$ no smaller than
-
-- **Bijection:**  
-  $f$ is both injective and surjective.
+- **One-to-one (Injective)**: if and only if $f(a)=f(b)\implies a=b$.  
+  $|A|\le|B|$ no bigger than
+- **Onto (Surjective)**: if and only if $\forall b\in B\ \exists a\in A\ f(a)=b$.  
+  $|A|\ge|B|$ no smaller than
+- **Bijection**: $f$ is both injective and surjective.
     - $|A|=|B|$
     - **Cantor-Schroder-Bernstein Theorem**: $|A|=|B|$ if and only if $|A|\le|B|$ and $|B|\le|A|$.
 
-### Comparing Standard Sets
-
-| Set                  | Notation       | Cardinality        |
-|----------------------|----------------|--------------------|
-| Integers             | $\mathbb{Z}$   | countably infinite |
-| Positive integers    | $\mathbb{Z}^+$ | countably infinite |
-| Nonnegative integers | $\mathbb{N}$   | countably infinite |
-| Rational numbers     | $\mathbb{Q}$   | countably infinite |
-| Real numbers         | $\mathbb{R}$   | uncountable        | 2}
-
-## Week 8 – Lecture Handout Highlights
-
-### Cardinality of Sets
-
-- **Finite Set:** A set $A$ is finite if it is empty or there exists a bijection $f: A \to \{1,2,\dots,n\}$ for
-  some $n\in\mathbb{N}$.
-- **Countably Infinite:** A set $A$ is countably infinite if there exists a bijection $f: \mathbb{N} \to A$.
-- **Countable:** A set $A$ is countable if it is either finite or countably infinite.
-
-### Sum and Product Rules
-
-- **Sum Rule (Disjoint Union):** If $A$ and $B$ are disjoint finite sets, then  
-  $
-  |A \cup B| \;=\; |A| + |B|.
-  $
-  **Product Rule (Cartesian Product):** If $A$ and $B$ are finite, then  
-  $
-  |A \times B| \;=\; |A|\times|B|.
-  $
-    - **Corollary:** $|A^2| = |A|^2$ for any finite set $A$.
-  #### Applications
-
-1. **RNA strings of length 5** over $\{A,C,U,G\}$:  
-   $
-   4^5 = 1024
-   $
-2. **Functions from $A$ to $B$:** If $|A|=m$ and $|B|=n$, then there are $n^m$ possible functions.
-3. **Choosing an instructor for CS40:** With 35 faculty + 100 grad students = 135 choices.
-
-- **Union of Non-Disjoint Sets:** If $A,B$ are finite (possibly overlapping),  
-  $
-  |A \cup B| = |A| + |B| - |A\cap B|.
-  $
-  **Example:** Bit strings of length 8 that start with 1 or end with 00:  
-  $
-  |\{\text{start with 1}\}| + |\{\text{end with 00}\}| - |\{\text{both}\}|
-  = 2^7 + 2^6 - 2^5 = 128 + 64 - 32 = 160.
-  $
-  ### Power Sets
-- **Definition:** The power set $\mathcal{P}(S)$ is the set of all subsets of $S$.  
-  If $|S| = n$, then $|\mathcal{P}(S)| = 2^n$.
-  **Example:** If $S = \{1,2,3\}$,  
-  $
-  \mathcal{P}(S) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}\}.
-  $
-  ### Permutations and Combinations
-- **Permutation:** An ordered arrangement of all elements of a set of size $n$.  
-  Number of permutations:  
-  $
-  P(n,n) = n!.
-  $
-- **$r$-Permutation:** An ordered arrangement of $r$ distinct elements chosen from $n$.  
-  $
-  P(n,r) = n \times (n-1) \times \cdots \times (n - r + 1) = \frac{n!}{(n - r)!}.
-  $
-- **Combination:** An unordered selection of $r$ elements from $n$.  
-  $
-  \binom{n}{r} = \frac{n!}{r! \, (n - r)!}.
-  $
-- **Example:** How many routes in the TSP with $n$ cities?  
-  $
-  (n-1)!
-  $
-  if you fix an origin and permute the remaining $n-1$.
-  ### Cantor–Schröder–Bernstein Theorem
-- **Statement:** For any nonempty sets $A,B$,
-  $ |A| = |B|\quad \Longleftrightarrow\quad (|A|\le |B| \text{and} |B|\le |A|). $
-  Equivalently, if there exist injections $f_1: A\to B$ and $f_2: B\to A$, then there exists a
-  bijection $A\leftrightarrow B$.
-
-### Cardinality Classifications
-
-- **Finite:** $\lvert A\rvert = n$ for some $n \in \mathbb{N}$.
-- **Countably Infinite:** $\lvert A\rvert = \lvert \mathbb{N}\rvert$.
-- **Uncountable:** cannot be put in bijection with $\mathbb{N}$.
-
-### Cantor’s Diagonalization (Uncountability of $\mathcal{P}(\mathbb{N})$)
+### Cantor's Diagonalization (Uncountability of $\mathcal{P}(\mathbb{N})$)
 
 1. **Goal:** Show no bijection $f: \mathbb{N} \to \mathcal{P}(\mathbb{N})$ exists.
 2. **Assume** an arbitrary function $f: \mathbb{N} \to \mathcal{P}(\mathbb{N})$.
@@ -485,30 +408,37 @@ Relations:
 5. **Conclusion:** $f$ is not onto, so $\lvert \mathbb{N}\rvert \neq \lvert \mathcal{P}(\mathbb{N})\rvert$.
    Hence $\mathcal{P}(\mathbb{N})$ is uncountable.
 
-### Power Set vs. Original Set
+## Counting
 
-- For any set $Y$,  
+### Permutations and Combinations
+
+- **Permutation:** An ordered arrangement of all elements of a set of size $n$.  
+  Number of permutations:  
   $
-  \lvert Y \rvert < \lvert \mathcal{P}(Y)\rvert.
+  P(n,n) = n!.
   $
-  In particular, $\lvert \mathbb{N}\rvert < \lvert \mathcal{P}(\mathbb{N})\rvert.$
+- **$r$-Permutation:** An ordered arrangement of $r$ distinct elements chosen from $n$.  
+  $
+  P(n,r) = n \times (n-1) \times \cdots \times (n - r + 1) = \frac{n!}{(n - r)!}.
+  $
+- **Combination:** An unordered selection of $r$ elements from $n$.  
+  $
+  \binom{n}{r} = \frac{n!}{r! \, (n - r)!}.
+  $
 
 ### Binomial Theorem
 
-- **Statement:** For $x,y$ and integer $n\ge0$,
-  $
-  (x+y)^n = \sum\limits_{r=0}^n \binom{n}{r}\,x^{\,n-r}\,y^r.
-  $
+For $x,y$ and integer $n\ge0$,
+$$
+(x+y)^n = \sum\limits_{r=0}^n \binom{n}{r}\,x^{\,n-r}\,y^r.
+$$
 
 ## Binary Relations
 
-### Definition
+A **binary relation** $R$ **from** $A$ **to** $B$ is any subset $ R \subseteq A \times B $.  
+$a R b$ denote $(a, b) \in R$. If $ (a, b) \in R $, then $a$ is related to $b$ by $R$.
 
-A **binary relation** $R$ **from** $A$ **to** $B$ is any subset $ R \subseteq A \times B $. $a\ R\ b$
-denote $(a, b) \in R$  
-If $ (a, b) \in R $, then $a$ is related to $b$ by $R$.
-
-When $A=B$, we say “$R$ is a relation **on** $A$.”
+When $A=B$, then $R$ is a relation **on** $A$.
 
 $f: A\to B$ is a relation, $(a, f(a)) \in R_f$
 
@@ -535,22 +465,7 @@ $f: A\to B$ is a relation, $(a, f(a)) \in R_f$
    R = \{\,(a,b)\in A\times B : \text{some condition holds}\}.
    $
 
-#### Examples of Relations
-
-1. **Integer Inequality**:  
-   $
-   R = \{\, (x,y)\in \mathbb{Z}\times \mathbb{Z} : x < y \}.
-   $
-2. **Length‐Function Relation**:  
-   $
-   R = \{\, (\,w,n\,)\in \{0,1\}^*\times \mathbb{N} : |w| = n \}.
-   $
-3. **Custom Mapping** ($A=\{0,1,2\},\,B=\{a,b\}$):  
-   $
-   R = \{\, (0,a),\, (1,a),\, (1,b) \}.
-   $
-
-### Properties of Relations (on a Set $A$)
+### Properties of Relations
 
 Let $R\subseteq A\times A$. Then:
 
@@ -567,35 +482,21 @@ Let $R\subseteq A\times A$. Then:
    ((a,b)\in R \land (b,a)\in R) \to a=b ,\ \forall a,b\in A.
    $
 4. **Transitive**:
-   $ ((a,b)\in R \land (b,c)\in R) \to (a,c)\in R,\ \forall a,b,c\in A.
+   $
+   ((a,b)\in R \land (b,c)\in R) \to (a,c)\in R,\ \forall a,b,c\in A.
    $
 
 ### Combining Relations
 
-$R \subseteq A \times B$ and $S \subseteq B \times C$, then the composite of $R$ and $S$, $S \circ R$ is the relation
-consisting of all ordered pairs $(a, c)$, where $a \in A$, $c \in C$, and there exists an element $b \in B$ such
-that $(a, b) \in R$ and $(b, c) \in S$.
+$R \subseteq A \times B$ and $S \subseteq B \times C$, then the composite of $R$ and $S$, $S \circ R$ is the relation consisting of all ordered pairs $(a, c)$, where $a \in A$, $c \in C$, and there exists an element $b \in B$ such that $(a, b) \in R$ and $(b, c) \in S$.
 
-If $R$ is a relation on $A$,  
-$R^{n+1} = R^n \circ R$
-
-### Congruence Modulo _m_ as an Equivalence Relation
-
-For a fixed integer $m>1$, define
-$
-R_{\bmod m} = \{\, (a,b)\in \mathbb{Z}\times \mathbb{Z} : a \equiv b \pmod m \}.
-$  
-Equivalently,
-$
-(a,b)\in R_{\bmod m} \;\Longleftrightarrow\; m \mid (a - b).
-$  
-We write $a \equiv b \,(\bmod\,m)$ when $(a,b)\in R_{\bmod m}.$
+If $R$ is a relation on $A$, $R^{n+1} = R^n \circ R$
 
 ## Equivalence Relations and Partitions
 
 ### Equivalence Relation
 
-A relation $R\subseteq A\times A$ is an **equivalence relation** if it is reflexive, symmetric, and transitive.
+A relation $R\subseteq A\times A$ is an **equivalence relation** if it is **reflexive**, **symmetric**, and **transitive**.
 
 $a \sim b$ denotes $a$ and $b$ are equivalent elements with respect to a particular equivalence relation.
 
@@ -618,8 +519,6 @@ is a **partition** of $A$; that is,
 3. If $(a,b)\notin R$, then $[a]_R \cap [b]_R = \varnothing.$
 4. $\bigcup\limits_{a\in A} [a]_R = A$
 
-#### Representing Equivalence Relations as Partitions (and Vice Versa)
-
 Let $R$ be an equivalence relation on a set $S$. Then the equivalence classes of $R$ form a partition of $S$.
 Conversely, given a partition $\{A_i \mid i \in I\}$ of the set $S$, there is an equivalence relation $R$ that has the
 sets $A_i$, $i \in I$, as its equivalence classes.
@@ -636,7 +535,7 @@ sets $A_i$, $i \in I$, as its equivalence classes.
 
 ### Partial Order
 
-A relation $R\subseteq A\times A$ is a **partial order** if it is reflexive, antisymmetric, transitive.  
+A relation $R\subseteq A\times A$ is a **partial order** if it is **reflexive**, **antisymmetric**, **transitive**.  
 $(A, R)$ is a **partially ordered set**, or *poset*. Members of $A$ are elements of the poset.
 
 ### Hasse Diagram
@@ -645,66 +544,4 @@ For a finite partially ordered set $(A,R)$, the **Hasse diagram** is drawn by:
 
 1. Omitting self-loops $(a,a)$.
 2. Omitting edges implied by transitivity: if $(a,c)$ follows from $(a,b)$ and $(b,c)$, do not draw $(a,c)$.
-3. Placing elements as nodes in the plane so that if $(a,b)\in R$ (and $a\neq b$), then $b$ is “above” $a$. Draw an
-   undirected edge between $a$ and $b$.
-
-## Application: Clustering Netflix Users
-
-### Scenario
-
-- Each user is represented by a 5-tuple of ratings from $\{-1,\,0,\,1\}$.
-    - $-1$: Did not like
-    - $0$: No preference
-    - $1$: Liked
-- We want to group (cluster) users who have “similar” rating patterns so they can be served a customized homepage.
-
-### Three Equivalence-Relation Proposals on $\{-1,0,1\}^5$
-
-1. **Projection Relation $\;E_{\text{proj}}$:**  
-   $
-   E_{\text{proj}} = \bigl\{\, (\,x,y\,)\in (\{-1,0,1\}^5)^2 : x_1=y_1,\;x_2=y_2,\;x_3=y_3 \bigr\}.
-   $
-
-- **Interpretation**: Two users are equivalent if they agree on the first three movie‐ratings.
-- **Properties**:
-    - Reflexive (every tuple matches itself).
-    - Symmetric (if $x_1=y_1,x_2=y_2,x_3=y_3$, then $y_1=x_1,y_2=x_2,y_3=x_3$).
-    - Transitive (agreement on the first three positions is transitive).
-    - **Not antisymmetric** unless all five positions are forced equal.
-
-2. **Distance-Based Relation $\;E_{\text{dist}}$:**  
-   Define $d(u,v) = \sum_{i=1}^5 |u_i - v_i|$. Then  
-   $
-   E_{\text{dist}} = \{\, (u,v) : d(u,v) \le 2 \}.
-   $
-
-- **Interpretation**: Two users are equivalent if their total “Manhattan distance” in rating‐space is at most 2.
-- **Properties**:
-    - Reflexive (distance 0).
-    - Symmetric (distance is symmetric).
-    - **Not transitive** in general (if $d(u,v)\le2$ and $d(v,w)\le2$, it might be that $d(u,w)>2$).
-    - Not antisymmetric (distinct points can be within distance 2).
-
-3. **“Circle” Relation $\;E_{\text{circ}}$:**  
-   Let $\mathbf{0}=(0,0,0,0,0)$. Define  
-   $
-   E_{\text{circ}} = \bigl\{\, (u,v): d(\mathbf{0},\,u) \;=\; d(\mathbf{0},\,v)\bigr\}.
-   $
-
-- **Interpretation**: Two users are equivalent if their sum‐of‐absolute‐ratings (distance from $\mathbf{0}$) is the
-  same.
-- **Properties**:
-    - Reflexive (distance from $\mathbf{0}$ to itself is equal).
-    - Symmetric (equality of distances is symmetric).
-    - Transitive (if two users each have the same distance from $\mathbf{0}$, then they all lie on the same “level
-      set”).
-    - **Not antisymmetric** (distinct users can share the same distance from $\mathbf{0}$).
-
-### Example Partition from $E_{\text{circ}}$
-
-The equivalence classes group all 5-tuples by their total “absolute sum.” For instance:
-
-- Distance 0 class: $\{(0,0,0,0,0)\}$
-- Distance 1 class: all 5-tuples with exactly one coordinate $\pm1$ and the rest 0 (size 10).
-- Distance 2 class: all 5-tuples whose coordinates sum (in absolute value) to 2 (size 20).
-- And so on, up to distance 5. 
+3. Placing elements as nodes in the plane so that if $(a,b)\in R$ (and $a\neq b$), then $b$ is "above" $a$. Draw an undirected edge between $a$ and $b$.

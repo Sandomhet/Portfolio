@@ -518,5 +518,15 @@
     "description": "automates the execution of tests, confirm if the results are correct, test extreme data limits",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
+  },
+  "table": {
+    "type": "notes",
+    "category": "",
+    "name": "table",
+    "path": "/markdown/notes/table.md",
+    "title": "table",
+    "description": "description",
+    "time": "Mon Jan 1, 2024",
+    "lang": "zh"
   }
 }
