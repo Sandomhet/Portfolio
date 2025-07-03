@@ -9,26 +9,30 @@ time: "Mon Feb 1, 2024"
 树状数组（基础操作）
 
 ```cpp
-inline int lowbit(int x) { return x & -x; }//基本二分
-inline void update(int x, int y)//修改原数组下标为x的数据
-{
-    int sub = x;
-    for (int i = x; i <= n; i += lowbit(i))
+class BIT {
+public:
+    vector<int> c;
+    inline int lowbit(int x) { return x & -x; } //基本二分
+    inline void update(int x, int y) //修改原数组下标为x的数据
     {
-        c[i] += y;
-        //sum1[i] += y;
-        //sum2[i] += y * (sub - 1);
+        int sub = x;
+        for (int i = x; i <= n; i += lowbit(i))
+        {
+            c[i] += y;
+            //sum1[i] += y;
+            //sum2[i] += y * (sub - 1);
+        }
     }
-}
-inline int getsum(int x)//在原数组下标为x之前的所有数据的和
-{
-    int res = 0, sub = x;
-    for (int i = x; i; i -= lowbit(i))
+    inline int getsum(int x) //在原数组下标为x之前的所有数据的和
     {
-        res += c[i];
-        //res += sub * sum1[i] - sum2[i];
+        int res = 0, sub = x;
+        for (int i = x; i; i -= lowbit(i))
+        {
+            res += c[i];
+            //res += sub * sum1[i] - sum2[i];
+        }
+        return res;
     }
-    return res;
 }
 signed main()
 {

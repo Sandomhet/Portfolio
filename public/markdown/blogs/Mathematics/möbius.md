@@ -63,7 +63,8 @@ $$
 
 $$
 \begin{aligned}
-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}[\gcd(i,j)==k] &= \sum\limits_{i=1}^{\lfloor\frac{n}{k}\rfloor}\sum\limits_{j=1}^{\lfloor\frac{m}{k}\rfloor}[\gcd(i,j)==1] \\
+\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}[\gcd(i,j)==k]
+&= \sum\limits_{i=1}^{\lfloor\frac{n}{k}\rfloor}\sum\limits_{j=1}^{\lfloor\frac{m}{k}\rfloor}[\gcd(i,j)==1] \\
 &=\sum\limits_{i=1}^{\lfloor\frac{n}{k}\rfloor}\sum\limits_{j=1}^{\lfloor\frac{m}{k}\rfloor}\sum\limits_{d|\gcd(i, j)}\mu(d) \\
 &=\sum\limits_{d=1}^{n}\mu(d)\sum\limits_{i=1}^{\lfloor\frac{n}{kd}\rfloor}\sum\limits_{j=1}^{\lfloor\frac{m}{kd}\rfloor} \\
 &=\sum\limits_{d=1}^{n}\mu(d)\lfloor\frac{n}{kd}\rfloor\lfloor\frac{m}{kd}\rfloor \\
@@ -74,7 +75,8 @@ $$
 
 $$
 \begin{aligned}
-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\gcd(i,j) &=\sum\limits_{k=1}^{n}k\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}[\gcd(i, j)==k] \\
+\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\gcd(i,j)
+&=\sum\limits_{k=1}^{n}k\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}[\gcd(i, j)==k] \\
 &=\sum\limits_{k=1}^{n}k\sum\limits_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum\limits_{j=1}^{\lfloor \frac{m}{k} \rfloor}[\gcd(i, j)==1] \\
 &=\sum\limits_{k=1}^{n}k\sum\limits_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum\limits_{j=1}^{\lfloor \frac{m}{k} \rfloor}\sum\limits_{d|\gcd(i, j)}\mu(d) \\
 &=\sum\limits_{k=1}^{n}k\sum\limits_{d=1}^{n}\mu(d)\sum\limits_{i=1, d|i}^{\lfloor \frac{n}{k} \rfloor}\sum\limits_{j=1, d|j}^{\lfloor \frac{m}{k} \rfloor} \\
@@ -95,7 +97,8 @@ $$
 
 $$
 \begin{aligned}
-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}lcm(i,j)&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\frac{ij}{\gcd(i,j)} \\
+\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}lcm(i,j)
+&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\frac{ij}{\gcd(i,j)} \\
 &=\sum\limits_{k=1}^{n}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\frac{ij}{k}[\gcd(i,j)==k] \\
 &=\sum\limits_{k=1}^{n}\sum\limits_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum\limits_{j=1}^{\lfloor \frac{m}{k} \rfloor}\frac{ijk^2}{k}[\gcd(i,j)==1] \\
 &=\sum\limits_{k=1}^{n}k\sum\limits_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum\limits_{j=1}^{\lfloor \frac{m}{k} \rfloor}ij\sum\limits_{d|\gcd(i, j)}\mu(d) \\
@@ -127,7 +130,8 @@ $$
 
 $$
 \begin{aligned}
-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}d(ij)&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\sum\limits_{x|i}\sum\limits_{y|j}[\gcd(x,y)==1] \\
+\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}d(ij)
+&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\sum\limits_{x|i}\sum\limits_{y|j}[\gcd(x,y)==1] \\
 &=\sum\limits_{x=1}^{n}\sum\limits_{y=1}^{m}[\gcd(x,y)==1]\sum\limits_{i=1}^{\lfloor\frac{n}{x}\rfloor}\sum\limits_{j=1}^{{\lfloor\frac{m}{y}\rfloor}} \\
 &=\sum\limits_{d=1}^{n}\mu(d)\sum\limits_{x=1}^{\lfloor \frac{n}{d} \rfloor}\sum\limits_{y=1}^{\lfloor \frac{m}{d} \rfloor}\lfloor\frac{n}{xd}\rfloor \lfloor\frac{m}{yd}\rfloor \\
 &=\sum\limits_{d=1}^{n}\mu(d)\sum\limits_{x=1}^{\lfloor \frac{n}{d} \rfloor}\lfloor\frac{n}{xd}\rfloor\sum\limits_{y=1}^{\lfloor \frac{m}{d} \rfloor} \lfloor\frac{m}{yd}\rfloor \\
@@ -147,7 +151,7 @@ $$
 #define sandom signed
 #include <cstdio>
 #include <iostream>
-#define re register int
+#define int register int
 #define int long long 
 using namespace std;
 const int Z = 5e4 + 10;
@@ -161,10 +165,10 @@ int miu[Z], f[Z];
 void Mobius(int n)
 {
 miu[1] = 1;
-for (re i = 2; i <= n; i++)
+for (int i = 2; i <= n; i++)
 {
 if (!prime[i]) ip[++ip[0]] = i, miu[i] = -1;
-for (re j = 1; j <= ip[0]; j++)
+for (int j = 1; j <= ip[0]; j++)
 {
 int k = i * ip[j];
 if (k > n) break;
@@ -173,12 +177,12 @@ if (i % ip[j] == 0) { miu[k] = 0; break; }
 else miu[k] = -miu[i];
 }
 }
-for (re i = 1; i <= n; i++) miu[i] += miu[i - 1];//前缀和
+for (int i = 1; i <= n; i++) miu[i] += miu[i - 1];//前缀和
 }
 void init(int n)//整除分块预处理的函数
 {
-for (re k = 1; k <= n; k++)
-for (re l = 1, r; l <= k; l = r + 1)
+for (int k = 1; k <= n; k++)
+for (int l = 1, r; l <= k; l = r + 1)
 {
 r = k / (k / l);
 f[k] += (k / l) * (r - l + 1);
@@ -188,7 +192,7 @@ inline int NTB(int n, int m)
 {
 int k = min(n, m);
 int ans = 0;
-for (re l = 1, r; l <= k; l = r + 1)
+for (int l = 1, r; l <= k; l = r + 1)
 {
 r = min(n / (n / l), m / (m / l));
 ans += f[n / l] * f[m / l] * (miu[r] - miu[l - 1]);
@@ -223,7 +227,8 @@ return 0;
 
 $$
 \begin{aligned}
-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\varphi(ij)&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\frac{\varphi(i)\varphi(j)\gcd(i,j)}{\varphi(\gcd(i,j))} \\
+\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\varphi(ij)
+&=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{m}\frac{\varphi(i)\varphi(j)\gcd(i,j)}{\varphi(\gcd(i,j))} \\
 &=\sum\limits_{k=1}^{n}\frac{k}{\varphi(k)}\sum\limits_{i=1}^{n}\varphi(i)\sum\limits_{j=1}^{m}\varphi(j)[\gcd(i,j)==k] \\
 &=\sum\limits_{k=1}^{n}\frac{k}{\varphi(k)}\sum\limits_{i=1}^{\lfloor \frac{n}{k} \rfloor}\varphi(ik)\sum\limits_{j=1}^{\lfloor \frac{m}{k} \rfloor}\varphi(jk)\sum\limits_{d|\gcd(i,j)}\mu(d) \\
 &=\sum\limits_{k=1}^{n}\frac{k}{\varphi(k)}\sum\limits_{d=1}^{n}\mu(d)\sum\limits_{i=1}^{\lfloor \frac{n}{kd} \rfloor}\varphi(ikd)\sum\limits_{j=1}^{\lfloor \frac{m}{kd} \rfloor}\varphi(jkd) \\
@@ -255,8 +260,8 @@ $h$因为内存问题，显然不能全部预处理出来。而根据整除函�
 ```cpp
 #define sandom signed
 #include <bits/stdc++.h>
-#define re register int
-#define rep(i, a, b) for (re (i) = (a); (i) <= (b); ++(i))
+#define int register int
+#define rep(i, a, b) for (int (i) = (a); (i) <= (b); ++(i))
 using namespace std; 
 const int Z = 1e5 + 2; const int M = 50; const int mod = 998244353;
 inline char getc() { static char buf[1 << 18], *p1, *p2; if (p1 == p2) { p1 = buf, p2 = buf + fread(buf, 1, 1 << 18, stdin); if (p1 == p2) return EOF; } return *p1++; }
@@ -292,7 +297,7 @@ void Linear(int n)//线性筛莫比乌斯函数和欧拉函数
 }
 void init(int n, int m)//递推预处理相关函数
 {
-    rep(j, 1, n) for (re i = j; i <= n; i += j) (f[i] += 1ll * j * miu[i / j] * inv[j] % mod) %= mod;
+    rep(j, 1, n) for (int i = j; i <= n; i += j) (f[i] += 1ll * j * miu[i / j] * inv[j] % mod) %= mod;
     rep(j, 1, n)
     {
         int tmp = n / j;
@@ -315,7 +320,7 @@ int calc(int a, int b, int l, int r)//小块暴力
 int solve(int n, int m)//整除分块
 {
     ans = 0;
-    for (re l = 1, r; l <= n; l = r + 1)
+    for (int l = 1, r; l <= n; l = r + 1)
     {
         int tmp1 = n / l, tmp2 = m / l;
         r = min(n / tmp1, m / tmp2);

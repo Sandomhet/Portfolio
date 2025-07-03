@@ -45,7 +45,7 @@ int get_val(int rt, int rnk)//排名为rnk的权值
 }
 ```
 
-## $Treap$
+## Treap
 
 根据随机数据的平衡性，利用某一个评判标准（这里为大根堆），使二叉查找树有序化，使得其深度保持在$logn$。
 
@@ -110,7 +110,7 @@ void remove(int &rt, int val)//删除节点
 }
 ```
 
-## $Splay$
+## Splay
 
 每次对一个节点操作，都把它旋转到根，据说是有什么数据趋势平衡（玄学），精髓便在于$splay$函数。
 
@@ -196,7 +196,7 @@ void remove(int rt, int val)//删除节点
 }
 ```
 
-## $FHQ-Treap$
+## FHQ-Treap
 
 ```cpp
 #define BST FHQ-Treap

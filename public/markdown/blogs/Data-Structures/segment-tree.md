@@ -9,78 +9,84 @@ time: "Mon Feb 1, 2024"
 基础一维**线段树**，维护区间信息~~（模板：山海经）~~
 
 ```cpp
-#define ST Segment_Tree
-struct Segment_Tree
-{
-    int l, r;
-    int sum, max, min;
-    int lz;
-    Segment_Tree () { sum = 0, max = -1e9, min = 1e9; }
-    #define lk (rt << 1)
-    #define rk (rt << 1 | 1)
-    #define mid (tr[rt].l + tr[rt].r >> 1)
-}; Segment_Tree tr[Z << 2];
-//root初始都为1
-void change(int rt, int val)//修改线段树
-{
-    tr[rt].lz += val;
-    tr[rt].sum += (tr[rt].r - tr[rt].l + 1) * val;
-    tr[rt].max += val;
-    tr[rt].min += val;
-}
-void pushup(ST &rt, ST lc, ST rc)//向上更新信息
-{
-    rt.sum = lc.sum + rc.sum;
-    rt.max = max(lc.max, rc.max);
-    rt.min = min(lc.min, rc.min);
-}
-void pushdown(int rt)//向下更新延迟,下放标记
-{
-    if (tr[rt].lz)
+class SegmentTree {
+public:
+    struct TreeNode {
+        int l, r;
+        int sum, max;
+        int lz;
+        TreeNode () { sum = 0, max = -1e9; }
+        #define lk (rt << 1)
+        #define rk (rt << 1 | 1)
+        #define mid (tr[rt].l + tr[rt].r >> 1)
+    }; 
+    TreeNode tr[Z << 2];
+    // default root is index 1
+    void change(int rt, int val) //修改线段树
     {
-        change(lk, tr[rt].lz);
-        change(rk, tr[rt].lz);
-        tr[rt].lz = 0;
+        tr[rt].lz += val;
+        tr[rt].sum += (tr[rt].r - tr[rt].l + 1) * val;
+        tr[rt].max += val;
     }
-}
-void build(int rt, int l, int r)//建立线段树
-{
-    tr[rt].l = l, tr[rt].r = r;
-    if (l == r) { tr[rt].sum = tr[rt].max = tr[rt].min = w[l]; return; }
-    build(lk, l, mid);
-    build(rk, mid + 1, r);
-    pushup(tr[rt], tr[lk], tr[rk]);
-}
-void update(int rt, int l, int r, int val)//区间更新
-{
-    if (l <= tr[rt].l && r >= tr[rt].r) { change(rt, val); return; }//真子集
-    pushdown(rt);
-    if (l <= mid) update(lk, l, r, val);
-    if (r > mid)  update(rk, l, r, val);
-    pushup(tr[rt], tr[lk], tr[rk]);
-}
-ST query(int rt, int l, int r)//区间查询
-{
-    ST res;
-    if (l <= tr[rt].l && r >= tr[rt].r) return tr[rt];
-    pushdown(rt);
-    if (l <= mid) pushup(res, res, query(lk, l, r));
-    if (r > mid) pushup(res, res, query(rk, l, r));
-    return res;
-}
-void update(int rt, int pos, int val)//单点更新
-{
-    if (tr[rt].l == tr[rt].r) { change(rt, val); return; }
-    if (pos <= mid) update(lk, pos, val);
-    else update(rk, pos, val);
-    pushup(tr[rt], tr[lk], tr[rk]);
-}
-ST query(int rt, int pos)//单点查询
-{
-    if (tr[rt].l == tr[rt].r) return tr[rt];
-    pushdown(rt);
-    if (pos <= mid) return query(lk, pos);
-    else query(rk, pos);
+    void pushup(TreeNode &rt, TreeNode lc, TreeNode rc) //向上更新信息
+    {
+        rt.sum = lc.sum + rc.sum;
+        rt.max = max(lc.max, rc.max);
+    }
+    void pushdown(int rt) //向下更新延迟,下放标记
+    {
+        if (tr[rt].lz) {
+            change(lk, tr[rt].lz);
+            change(rk, tr[rt].lz);
+            tr[rt].lz = 0;
+        }
+    }
+    void build(int rt, int l, int r) //建立线段树
+    {
+        tr[rt].l = l, tr[rt].r = r;
+        if (l == r) {
+            tr[rt].sum = tr[rt].max = w[l];
+            return;
+        }
+        build(lk, l, mid);
+        build(rk, mid + 1, r);
+        pushup(tr[rt], tr[lk], tr[rk]);
+    }
+    void update(int rt, int l, int r, int val) //区间更新
+    {
+        if (l <= tr[rt].l && tr[rt].r <= r) { change(rt, val); return; }//真子集
+        pushdown(rt);
+        if (l <= mid) update(lk, l, r, val);
+        if (r > mid)  update(rk, l, r, val);
+        pushup(tr[rt], tr[lk], tr[rk]);
+    }
+    TreeNode query(int rt, int l, int r) //区间查询
+    {
+        if (l <= tr[rt].l && tr[rt].r <= r) return tr[rt];
+        pushdown(rt);
+        if (r <= mid) return query(lk, l, r);
+        if (l > mid) return query(rk, l, r);
+        // ST res;
+        return pushup(query(lk, l, r), query(rk, l, r));
+        // return res;
+        // if (l <= mid) pushup(res, res, query(lk, l, r));
+        // if (r > mid) pushup(res, res, query(rk, l, r));
+    }
+
+    void update(int rt, int pos, int val)//单点更新
+    {
+        if (tr[rt].l == tr[rt].r) { change(rt, val); return; }
+        if (pos <= mid) update(lk, pos, val);
+        else update(rk, pos, val);
+        pushup(tr[rt], tr[lk], tr[rk]);
+    }
+    TreeNode query(int rt, int pos) //单点查询
+    {
+        if (tr[rt].l == tr[rt].r) return tr[rt];
+        pushdown(rt);
+        if (pos <= mid) return query(lk, pos);
+        else return query(rk, pos);
+    }
 }
 ```
 
