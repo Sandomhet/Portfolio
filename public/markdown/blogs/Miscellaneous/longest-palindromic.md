@@ -19,21 +19,22 @@ time: "Mon Feb 1, 2024"
 算法正确性：当我们取到d[i]=d[j]时，在r范围内不进行扩展，因为如果i能够扩展，那么j也会扩展。所以d[i]
 只会在r右侧一点点扩展，r是单调指针，只一次次向右移动，直到n，因此时间复杂度为O(n)。
 
+```cpp
 int d[Z];//d[i]：以i为对称中心的最大回文串的半径为d[i]
 void manacher(char t[], int len)
 {
-n = len * 2 + 1;//新串
-s[0] = '{', s[n + 1] = '}';//防止字符串之间冲突
-for (re i = 1; i <= n; i++)
-s[i << 1] = t[i], s[(i << 1) - 1] = '|';//在字符中间加隔板
-s[n] = '|';
-int mid = 0, r = 0;
-for (re i = 1; i <= n; i++)
-{
-if (i <= r) d[i] = min(d[mid * 2 - i], r - i + 1);//取对称点
-else d[i] = 1;
-while (s[i - d[i]] == s[i + d[i]]) d[i]++;//扩展半径
-if (i + d[i] > r) r = i + d[i] - 1, mid = i;//扩展最右侧右端点
+    n = len * 2 + 1;//新串
+    s[0] = '{', s[n + 1] = '}';//防止字符串之间冲突
+    for (re i = 1; i <= n; i++)
+        s[i << 1] = t[i], s[(i << 1) - 1] = '|';//在字符中间加隔板
+    s[n] = '|';
+    int mid = 0, r = 0;
+    for (re i = 1; i <= n; i++)
+    {
+        if (i <= r) d[i] = min(d[mid * 2 - i], r - i + 1);//取对称点
+        else d[i] = 1;
+        while (s[i - d[i]] == s[i + d[i]]) d[i]++;//扩展半径
+        if (i + d[i] > r) r = i + d[i] - 1, mid = i;//扩展最右侧右端点
+    }
 }
-}
- 
+```

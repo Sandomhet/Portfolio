@@ -60,7 +60,7 @@ inline int A(int n, int m, int p)//排列数
 
 ### 卢卡斯定理
 
-$$ C*n^m = C*{n \mod p}^{m \mod p}\*C\_{\lfloor n/p \rfloor}^{\lfloor m/p \rfloor} \pmod p $$
+$$ C_n^m = C_{n \mod p}^{m \mod p} * C_{\lfloor n/p \rfloor}^{\lfloor m/p \rfloor} \pmod p $$
 
 ```cpp
 int lucas(int n, int m, int p)
@@ -74,21 +74,17 @@ int lucas(int n, int m, int p)
 
 ```cpp
 int a[Z], c[Z];
-int qpow(int a, int b, int p)
-{
+int qpow(int a, int b, int p) {
     int res = 1;
-    while (b)
-    {
+    while (b) {
         if (b & 1) res = res * a % p;
         a = a * a % p;
         b >>= 1;
     }
     return res;
 }
-int exgcd(int a, int b, int& x, int& y)
-{
-    if (b == 0)
-    {
+int exgcd(int a, int b, int& x, int& y) {
+    if (b == 0) {
         x = 1; y = 0;
         return a;
     }
@@ -96,8 +92,7 @@ int exgcd(int a, int b, int& x, int& y)
     y -= a / b * x;
     return gcd;
 }
-int inv(int a, int p)
-{
+int inv(int a, int p) {
     int x, y;
     exgcd(a, p, x, y);
     return (x % p + p) % p;
@@ -123,8 +118,7 @@ int C(int n, int m, int p, int pk)//C(n, m) mod p^k
     for (int i = n - m; i; i /= p) k3 += i / p;
     return f1 * inv(f2, pk) * inv(f3, pk) % pk * qpow(p, k1 - k2 - k3, pk) % pk;
 }
-int CRT(int n, int a[], int m[])
-{
+int CRT(int n, int a[], int m[]) {
     int b, c, x, y;
     int M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) M *= m[i];
@@ -136,8 +130,7 @@ int CRT(int n, int a[], int m[])
     }
     return (ans % M + M) % M;
 }
-int exlucas(int n, int m, int p)
-{
+int exlucas(int n, int m, int p) {
     int tmp = sqrt(p), cnt = 0;
     for (int i = 2; p > 1 && i <= tmp; ++i)
     {

@@ -6,6 +6,28 @@ time: "Mon Feb 1, 2024"
 
 # C++ Code Starter Template
 
+## Simple Version
+
+```cpp
+#define sandom signed
+#define fre(x, y) freopen(#x ".in", "r", stdin), freopen(#y ".out", "w", stdout);
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std; typedef long long ll; typedef unsigned long long ull; typedef pair<int, int> paint;
+const int Z = 1e5 + 10, inf = 2e9, mod = 998244353;
+
+int n, m, k, ans;
+
+sandom main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    return 0;
+}
+/**/
+```
+
+## Complex Version
+
 ```cpp
 #define sandom signed
 #define fre(x, y) freopen(#x ".in", "r", stdin), freopen(#y ".out", "w", stdout);
@@ -25,8 +47,7 @@ time: "Mon Feb 1, 2024"
 #define dwn(i, a, b) for (int i = (a); i >= (b); --i)
 // #define int long long
 using namespace std; typedef long long ll; typedef unsigned long long ull; typedef pair<int, int> paint;
-namespace IO
-{
+namespace IO {
     const int bif = 1 << 18; char buf[bif], *p1, *p2; int wrt[20], Tp = 0;
     inline char getc() { if (p1 == p2) { p2 = (p1 = buf) + fread(buf, 1, bif, stdin); if (p1 == p2) return EOF; } return *p1++; }
     inline char gotc() { char c = getc(); while (c == ' ' || c == '\n' || c == '\r') c = getc(); return c; }
@@ -38,10 +59,9 @@ inline int max(int a, int b) { return a > b ? a : b; } inline int min(int a, int
 
 int n, m, k, ans;
 
-sandom main()
-{
+sandom main() {
     fre(test, test);
-    // ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
     return 0;
 }
 /*

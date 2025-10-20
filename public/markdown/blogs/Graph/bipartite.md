@@ -10,19 +10,16 @@ time: "Mon Feb 1, 2024"
 
 ```cpp
 int col[Z];
-bool dfs(int rt, int color)
-{
+bool dfs(int rt, int color) {
     col[rt] = color;
-    for (int i = head[rt]; i; i = e[i].ne)
-    {
+    for (int i = head[rt]; i; i = e[i].ne) {
         int son = e[i].v;
         if (!col[son] && !dfs(son, 3 - color)) return false;//子节点集合中有冲突
         if (col[son] == color) return false;//一条边相连的两个节点属于同一个二分集合
     }
     return true;
 }
-inline bool judge()
-{
+inline bool judge() {
     for (int i = 1; i <= n; ++i)
         if (!col[i] && !dfs(i, 1)) return false;
     return true;
@@ -46,16 +43,12 @@ inline bool judge()
 ```cpp
 bool vs[Z];
 int match[Z];
-bool dfs(int rt)
-{
-    for (int i = head[rt]; i; i = e[i].ne)
-    {
+bool dfs(int rt) {
+    for (int i = head[rt]; i; i = e[i].ne) {
         int son = e[i].v;
-        if (!vs[son])
-        {
+        if (!vs[son]) {
             vs[son] = 1;
-            if (!match[son] || dfs(match[son]))
-            {
+            if (!match[son] || dfs(match[son])) {
                 match[son] = rt;//目标点还未匹配 或 目标点能与原匹配点脱离
                 return true;
             }
@@ -63,11 +56,9 @@ bool dfs(int rt)
     }
     return false;
 }
-sandom main()
-{
+sandom main() {
     int ans = 0;
-    for (int i = 1; i <= n; ++i)
-    {
+    for (int i = 1; i <= n; ++i) {
         memset(vs, 0, sizeof(vs));
         if (dfs(i)) ++ans;
     }

@@ -4,7 +4,7 @@ description: "string-searching algorithm that searches for occurrences of a 'wor
 time: "Mon Feb 1, 2024"
 ---
 
-# Knuth–Morris–Pratt (KMP) Algorithm
+# Knuth-Morris-Pratt (KMP) Algorithm
 
 一对相等的真前缀与真后缀的个数（$nxt$数组）
 

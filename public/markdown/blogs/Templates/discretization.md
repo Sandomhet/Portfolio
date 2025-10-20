@@ -8,8 +8,7 @@ time: "Mon Feb 1, 2024"
 
 ```cpp
 int ls[Z], len;
-void discrete(int num[], int nm)
-{
+void discrete(int num[], int nm) {
     for (int i = 1; i <= nm; i++)    ls[i] = num[i];//转移临时数组
     sort(ls + 1, ls + 1 + nm);//排序
     len = unique(ls + 1, ls + 1 + nm) - ls - 1;//去重

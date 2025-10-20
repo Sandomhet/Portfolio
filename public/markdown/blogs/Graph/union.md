@@ -9,16 +9,12 @@ time: "Mon Feb 1, 2024"
 这里是最基础的并查集操作
 
 ```cpp
-inline void init(int n)//初始化
-{
-    for (int i = 1; i <= n; ++i) fa[i] = i;
-}
-inline int find(int x)//寻找父亲节点+路径压缩
-{
-    return x == fa[x] ? x : fa[x] = find(fa[x]);
-}
-inline void un(int x, int y)//合并集合
-{
+//初始化
+inline void init(int n) { for (int i = 1; i <= n; ++i) fa[i] = i; }
+//寻找父亲节点+路径压缩
+inline int find(int x) { return x == fa[x] ? x : fa[x] = find(fa[x]); }
+//合并集合
+inline void un(int x, int y) {
     x = find(x), y = find(y);
     if (x == y) return;
     fa[y] = x, sz[x] += sz[y];

@@ -11,14 +11,14 @@ time: "Mon Feb 1, 2024"
 ```cpp
 int middle(int l, int r)//二分答案
 {
-int ans = 0;
-while (l <= r)
-{
-int mid = (l + r) >> 1;
-if (check(mid)) l = mid + 1, ans = mid;
-else r = mid - 1;
-}
-return ans;
+    int ans = 0;
+    while (l <= r)
+    {
+        int mid = (l + r) >> 1;
+        if (check(mid)) l = mid + 1, ans = mid;
+        else r = mid - 1;
+    }
+    return ans;
 }
 ```
 
@@ -27,12 +27,12 @@ return ans;
 ```cpp
 int two_middle(int l, int r)
 {
-while (l <= r)
-{
-int lmid = (2 * l + r) / 3, rmid = (l + 2 * r) / 3;
-if (f(lmid) < f(rmid)) r = rmid;
-else l = lmid;
-}
-return f(l);
+    while (l <= r)
+    {
+        int lmid = (2 * l + r) / 3, rmid = (l + 2 * r) / 3;
+        if (f(lmid) < f(rmid)) r = rmid;
+        else l = lmid;
+    }
+    return f(l);
 }
 ```

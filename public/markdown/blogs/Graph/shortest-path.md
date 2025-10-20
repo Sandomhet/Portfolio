@@ -4,6 +4,84 @@ description: "finding a path between two vertices in a graph such that the sum o
 time: "Mon Feb 1, 2024"
 ---
 
+# Shortest Path Algorithms
+
+## Single Source Shortest Path (SSSP)
+
+### BFS For Unweighted Graphs
+
+BFS from source. $O(V+E)$
+
+```cpp
+vector<int> adj[Z]; // adjacency list
+// int dis[Z]; // distance array
+vector<int> dis(Z, -1); // distance array
+void bfs(int s) {
+    memset(dis, -1, sizeof(dis));
+    queue<int> q;
+    q.push(s);
+    dis[s] = 0;
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int v : adj[u]) {
+            if (dis[v] == -1) {
+                dis[v] = dis[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}
+```
+
+### DAG Shortest Path
+
+Topological sort + relax edges. $O(V+E)$
+weights can be negative but no negative cycles.
+
+```cpp
+void dag_shortest_path(int n, vector<int> adj[], vector<int>& dis) {
+    vector<int> in_degree(n, 0);
+    for (int u = 0; u < n; u++) {
+        for (int v : adj[u]) {
+            in_degree[v]++;
+        }
+    }
+    queue<int> q;
+    for (int i = 0; i < n; i++) {
+        if (in_degree[i] == 0) q.push(i);
+    }
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int v : adj[u]) {
+            dis[v] = min(dis[v], dis[u] + 1); // Assuming edge weight = 1
+            if (--in_degree[v] == 0) q.push(v);
+        }
+    }
+}
+```
+
+### Dijkstra's Algorithm
+
+Dijkstra's algorithm for weighted graphs with non-negative weights. Uses a priority queue. $O((V+E) \log V)$
+```cpp
+typedef pair<int, int> pii;
+priority_queue<pii, vector<pii>, greater<pii>> pq;
+void dijkstra(int s, vector<int> adj[], vector<int>& dis) {
+    memset(dis, 63, sizeof(dis));
+    dis[s] = 0;
+    pq.push({0, s});
+    while (!pq.empty()) {
+        int u = pq.top().second; pq.pop();
+        for (int v : adj[u]) {
+            if (dis[v] > dis[u] + 1) { // Assuming edge weight not 1
+                dis[v] = dis[u] + 1;
+                pq.push({dis[v], v});
+            }
+        }
+    }
+}
+```
+
 # Shortest Path Problem
 
 链式前向星（模拟链表）

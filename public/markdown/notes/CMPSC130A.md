@@ -1,0 +1,63 @@
+---
+title: "PSTAT 120A Introduction to Probability"
+description: "Content includes distributions, random variables..."
+time: "Fri Jun 6, 2025"
+lang: "en"
+---
+
+# CMPSC 130A
+
+## Table of Contents
+
+## Algorithm Analysis
+
+Topologial sort of DAG (directed acyclic graph)
+source: no incoming edges
+sink: no outgoing edges
+
+Connected components in undirected graph.  
+SCCs in directed graph.  
+
+## Shortest Path Algorithms
+
+### Unweighted Graphs
+
+BFS from source. $O(V+E)$
+
+### Dijkstra's Algorithm
+
+Dijkstra's algorithm for weighted graphs with non-negative weights. Uses a priority queue. $O((V+E) \log V)$
+
+(priority queue implemented with a binary heap)
+
+### Bellman-Ford Algorithm
+
+Handles graphs with negative weights. Detects negative weight cycles. $O(VE)$
+
+## 2-SAT Algorithm
+
+(Satisfiability of boolean formulas with 2 literals per clause)
+
+CNF is AND of ORs.
+
+Given a 2-CNF formula, construct an implication graph.  
+Each variable $x_i$ has two nodes: $x_i$ and $\neg x_i$.  
+For each clause $(a \lor b)$, add edges $\neg a \to b$ and $\neg b \to a$.  
+The formula is satisfiable if and only if no variable and its negation are in the same SCC.  
+Use Kosaraju's or Tarjan's algorithm to find SCCs. $O(V+E)$
+
+k-SAT is NP-complete for $k \geq 3$, where input is in CNF with $k$ literals per clause.
+
+## Minimum Spanning Tree (MST)
+
+A minimum spanning tree of a weighted, connected, undirected graph is a subset of edges that connects all vertices with the minimum possible total edge weight.
+
+Forest is a collection of trees. A tree is an acyclic connected graph.
+
+### Kruskal's Algorithm
+
+Sort edges by weight. Add edges in order, skipping those that form a cycle. Use a union-find data structure. $O(E \log E)$
+
+### Prim's Algorithm
+
+Start from a vertex, grow the MST by adding the minimum weight edge connecting the tree to a new vertex. Use a priority queue. $O((V+E) \log V)$
