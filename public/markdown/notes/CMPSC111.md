@@ -1,3 +1,9 @@
+---
+title: "CMPSC 111 - Numerical Linear Algebra"
+description: "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel."
+time: "Fri Jun 6, 2025"
+lang: "en"
+---
 
 # CMPSC 111 - Numerical Linear Algebra
 

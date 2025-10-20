@@ -1,7 +1,7 @@
 ---
-title: "PSTAT 120A Introduction to Probability"
-description: "Content includes distributions, random variables..."
-time: "Fri Jun 6, 2025"
+title: "CMPSC 130A"
+description: "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree."
+time: "Fri Oct 19, 2025"
 lang: "en"
 ---
 

@@ -9,6 +9,16 @@
     "time": "Mon Oct 20, 2025",
     "lang": "zh"
   },
+  "CMPSC130A": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC130A",
+    "path": "/markdown/notes/CMPSC130A.md",
+    "title": "CMPSC 130A",
+    "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
+    "time": "Fri Oct 19, 2025",
+    "lang": "en"
+  },
   "traversal": {
     "type": "blogs",
     "category": "Graph",
@@ -19,23 +29,13 @@
     "time": "Thu Oct 16, 2025",
     "lang": "zh"
   },
-  "CMPSC130A": {
+  "CMPSC111": {
     "type": "notes",
     "category": "",
-    "name": "CMPSC130A",
-    "path": "/markdown/notes/CMPSC130A.md",
-    "title": "PSTAT 120A Introduction to Probability",
-    "description": "Content includes distributions, random variables...",
-    "time": "Fri Jun 6, 2025",
-    "lang": "en"
-  },
-  "CMPSC181": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC181",
-    "path": "/markdown/notes/CMPSC181.md",
-    "title": "PSTAT 120A Introduction to Probability",
-    "description": "Content includes distributions, random variables...",
+    "name": "CMPSC111",
+    "path": "/markdown/notes/CMPSC111.md",
+    "title": "CMPSC 111 - Numerical Linear Algebra",
+    "description": "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel.",
     "time": "Fri Jun 6, 2025",
     "lang": "en"
   },
@@ -569,12 +569,12 @@
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
   },
-  "CMPSC111": {
+  "CMPSC181": {
     "type": "notes",
     "category": "",
-    "name": "CMPSC111",
-    "path": "/markdown/notes/CMPSC111.md",
-    "title": "CMPSC111",
+    "name": "CMPSC181",
+    "path": "/markdown/notes/CMPSC181.md",
+    "title": "CMPSC181",
     "description": "description",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"

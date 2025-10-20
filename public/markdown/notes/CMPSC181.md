@@ -1,9 +1,3 @@
----
-title: "PSTAT 120A Introduction to Probability"
-description: "Content includes distributions, random variables..."
-time: "Fri Jun 6, 2025"
-lang: "en"
----
 
 # CMPSC 130A
 
