@@ -1,6 +1,26 @@
 [
   {
     "type": "blogs",
+    "category": "Graph",
+    "name": "shortest-path",
+    "path": "/markdown/blogs/Graph/shortest-path.md",
+    "title": "Shortest Path Problem",
+    "description": "finding a path between two vertices in a graph such that the sum of the weights of its constituent edges is minimized.",
+    "time": "Mon Oct 27, 2025",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "cc-scc",
+    "path": "/markdown/blogs/Graph/cc-scc.md",
+    "title": "Connected Components and Strongly Connected Components",
+    "description": "Finding connected components and strongly connected components in graphs.",
+    "time": "Fri Oct 24, 2025",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
     "category": "Miscellaneous",
     "name": "divide-conquer",
     "path": "/markdown/blogs/Miscellaneous/divide-conquer.md",
@@ -276,16 +296,6 @@
     "path": "/markdown/blogs/Graph/network-flow.md",
     "title": "Network Flow Problem",
     "description": "maximum flow problem, minimum-cost flow problem",
-    "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
-  {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "shortest-path",
-    "path": "/markdown/blogs/Graph/shortest-path.md",
-    "title": "Shortest Path Problem",
-    "description": "finding a path between two vertices in a graph such that the sum of the weights of its constituent edges is minimized.",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },

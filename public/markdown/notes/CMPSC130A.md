@@ -61,3 +61,19 @@ Sort edges by weight. Add edges in order, skipping those that form a cycle. Use 
 ### Prim's Algorithm
 
 Start from a vertex, grow the MST by adding the minimum weight edge connecting the tree to a new vertex. Use a priority queue. $O((V+E) \log V)$
+
+## Union-Find Data Structure
+
+Union-Find (Disjoint Set Union) is a data structure that keeps track of a partition of a set into disjoint subsets. It supports two main operations:
+
+Union by rank and path compression are common optimizations.
+
+1. **Find**: Determine which subset a particular element is in.
+2. **Union**: Join two subsets into a single subset.
+
+Applications:
+- Detecting cycles in graphs.
+- Kruskal's MST algorithm.
+- Dynamic connectivity problems.
+
+Time complexity: $O(\alpha(n))$ per operation, where $\alpha(n)$ is the inverse Ackermann function, which grows very slowly and is effectively constant for practical purposes.

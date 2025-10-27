@@ -58,3 +58,14 @@ int kruskal(int n, int m) {
     return 0;
 }
 ```
+
+## Cut Property
+
+A cut $(S, V-S)$ of a graph is a partition of its vertices into two disjoint subsets $S$ and $V-S$.  
+
+If $S$ is any subset of the vertices, and $(u, v)$ is the minimum-weight edge with one endpoint in $S$ and the other in $V-S$, then this edge is in the MST.  
+Consider $X$ the set of edges in the MST that have both endpoints in $S$. The set $X$ must connect all the vertices in $S$ (otherwise the MST would not be connected). Adding the edge $(u, v)$ to $X$ creates a spanning tree for the vertices in $S \cup \{v\}$. Since $(u, v)$ is the minimum-weight edge crossing the cut, any other edge connecting $S$ to $V-S$ must have weight at least as large as $(u, v)$. Therefore, including $(u, v)$ in the MST does not increase its total weight, and it must be part of the MST.
+
+## Dynamic MST
+
+（维护一个动态连通性的数据结构，如 Link/Cut Tree 或 Euler Tour Tree）

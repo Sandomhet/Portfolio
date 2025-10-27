@@ -110,6 +110,33 @@ A high condition number indicates that the matrix is ill-conditioned, meaning th
 
 ## Gradient Descent
 
+
 Solving $Ax = b$ is equivalent to minimizing the quadratic function $f(x) = \frac{1}{2} x^T A x - b^T x$.  
 The gradient of $f(x)$ is $\nabla f(x) = Ax - b$.  
 The update rule is $x^{(k+1)} = x^{(k)} - \alpha \nabla f(x^{(k)})$, where $\alpha$ is the step size. $\alpha$ can be chosen using line search or fixed.
+
+$A$ is:
+    1. symmetric: $A = A^T$
+    2. positive definite: $x^T A x > 0$ for all non-zero vectors $x$. $f$ is strictly convex, has a unique minimum.
+
+$$
+\begin{aligned}
+f'(x) &= \lim\limits_{h \to 0} \frac{f(x+h) - f(x)}{h} \\
+&= \lim\limits_{h \to 0} \frac{\frac{1}{2}(x+h)^T A (x+h) - b^T (x+h) - \left(\frac{1}{2} x^T A x - b^T x\right)}{h} \\
+&= \lim\limits_{h \to 0} \frac{\frac{1}{2}(x^T A h + h^T A x + h^T A h) - b^T h}{h} \\
+&= \lim\limits_{h \to 0} \frac{\frac{1}{2}(2 x^T A h + h^T A h) - b^T h}{h} \\
+&= \lim\limits_{h \to 0} \left(x^T A - b^T + \frac{1}{2} h^T A\right) \\
+&= x^T A - b^T \\
+&= (Ax - b)^T
+\end{aligned}
+$$
+
+$\nabla f(x) = (f'(x))^T = Ax - b$
+
+how to choose $\alpha$?
+
+$R^{[k]} = b - A x^{(k)} = -\nabla f(x^{(k)})$ is the residual at iteration $k$.  
+
+$$\alpha = \frac{R^{[k]T} R^{[k]}}{R^{[k]T} A R^{[k]}}$$
+
+$-\nabla f(x^{(k)})$ is orthogonal to $-\nabla f(x^{(k+1)})$.
