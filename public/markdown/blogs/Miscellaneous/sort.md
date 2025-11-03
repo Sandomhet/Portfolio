@@ -20,13 +20,13 @@ time: "Sun Nov 2, 2025"
 Stability in sorting algorithms refers to the preservation of the relative order of records with equal values. A stable sort will maintain the order of equal elements as they appear in the input.
 
 Table of comparisons:
-| Algorithm       | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity | Stability      |
+| Algorithm       | (Best) Time <br> Complexity | (Average) Time <br> Complexity | (Worst) Time <br> Complexity | Space <br> Complexity | Stability      |
 |-----------------|------------------------|---------------------------|-------------------------|------------------|-----------------|
 | Selection Sort  | $O(n^2)$                 | $O(n^2)$                    | $O(n^2)$                  | $O(1)$             | Not Stable      |
-| Bubble Sort     | $O(n)$                   | $O(n^2)$                    | $O(n^2)$                  | $O(1)$             | Stable          |
+| Bubble Sort     | $O(n)$ or $O(n^2)$           | $O(n^2)$                    | $O(n^2)$                  | $O(1)$             | Stable          |
 | Insertion Sort  | $O(n)$                   | $O(n^2)$                    | $O(n^2)$                  | $O(1)$             | Stable          |
 | Merge Sort      | $O(n \log n)$            | $O(n \log n)$               | $O(n \log n)$             | $O(n)$             | Stable          |
-| Quick Sort      | $O(n \log n)$            | $O(n \log n)$               | $O(n^2)$                  | $O(\log n)$        | Not Stable      |
+| Quick Sort      | $O(n \log n)$            | $O(n \log n)$               | $O(n^2)$                  | $O(\log n)$ or $O(n)$ | Not Stable      |
 
 ## Selection Sort
 
@@ -56,6 +56,7 @@ It repeatedly compares adjacent elements and swaps them if they are in the wrong
 
 - **Time Complexity**: 
     - Best Case: $O(n)$ (when the array is already sorted)
+    - Best Case without optimization: $O(n^2)$ (don't stop early)
     - Average Case: $O(n^2)$
     - Worst Case: $O(n^2)$ (when the array is sorted in reverse order)
 - **Space Complexity**: $O(1)$
@@ -140,7 +141,9 @@ Quick Sort is a divide-and-conquer algorithm that selects a 'pivot' element from
     - Best Case: $O(n \log n)$ (when the pivot divides the array into two equal halves)
     - Average Case: $O(n \log n)$
     - Worst Case: $O(n^2)$ (when the smallest or largest element is always chosen as the pivot)
-- **Space Complexity**: $O(\log n)$ (recursion stack).
+- **Space Complexity**: (recursion stack).
+    - Best and Average Case: $O(\log n)$ (balanced partitions)
+    - Worst Case: $O(n)$ (when the recursion depth is maximum)
 
 ```cpp
 int partition(vector<int>& arr, int low, int high) {
