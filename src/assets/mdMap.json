@@ -1,4 +1,24 @@
 {
+  "union": {
+    "type": "blogs",
+    "category": "Data-Structures",
+    "name": "union",
+    "path": "/markdown/blogs/Data-Structures/union.md",
+    "title": "Disjoint Set Union / Union-Find",
+    "description": "stores a partition of a set into disjoint subsets.",
+    "time": "Sun Nov 2, 2025",
+    "lang": "zh"
+  },
+  "mst": {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "mst",
+    "path": "/markdown/blogs/Graph/mst.md",
+    "title": "Minimum Spanning Tree (MST)",
+    "description": "a subset of the edges of a connected, edge-weighted undirected graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight.",
+    "time": "Sat Nov 1, 2025",
+    "lang": "zh"
+  },
   "shortest-path": {
     "type": "blogs",
     "category": "Graph",
@@ -279,16 +299,6 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  "mst": {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "mst",
-    "path": "/markdown/blogs/Graph/mst.md",
-    "title": "Minimum Spanning Tree (MST)",
-    "description": "a subset of the edges of a connected, edge-weighted undirected graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight.",
-    "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
   "network-flow": {
     "type": "blogs",
     "category": "Graph",
@@ -306,16 +316,6 @@
     "path": "/markdown/blogs/Graph/tarjan.md",
     "title": "Tarjan's Algorithm",
     "description": "strongly connected components",
-    "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
-  "union": {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "union",
-    "path": "/markdown/blogs/Graph/union.md",
-    "title": "Disjoint-set/Union-find Forest",
-    "description": "stores a partition of a set into disjoint subsets.",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },

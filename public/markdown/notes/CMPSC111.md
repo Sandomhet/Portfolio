@@ -18,7 +18,6 @@ dim row(A) + dim N(A) = # columns
 dim Col(A) + dim N(A^T) = # rows  
 dim Row(A) = dim Col(A)  
 
-
 ## Solving Systems of Linear Equations
 
 $Ax = b$
@@ -140,3 +139,85 @@ $R^{[k]} = b - A x^{(k)} = -\nabla f(x^{(k)})$ is the residual at iteration $k$.
 $$\alpha = \frac{R^{[k]T} R^{[k]}}{R^{[k]T} A R^{[k]}}$$
 
 $-\nabla f(x^{(k)})$ is orthogonal to $-\nabla f(x^{(k+1)})$.
+
+$f(x + v) = f(x) + v^T\nabla f(x) + \frac{1}{2} v^T A v$
+
+## QR Decomposition & Least Squares
+
+works for any matrix, not just square matrices.
+
+Given an overdetermined system $Ax = b$ (more equations than unknowns), we seek to minimize the residual $r = b - Ax$. 
+
+For system that does not have an exact solution, we can find the best approximate solution using least squares (least squares solution).
+
+The least squares solution minimizes the 2-norm of the residual:
+
+$$\min_x \|r\|_2^2 = \min_x \|b - Ax\|_2^2$$
+
+The normal equations are derived by setting the gradient of the objective function to zero:
+
+$$A^T A x = A^T b$$
+
+QR decomposition provides an alternative approach. We can decompose $A$ into an orthogonal matrix $Q$ and an upper triangular matrix $R$:
+
+$$A = QR$$
+
+### Orthogonal Matrix Properties
+
+1. $Q$ is an orthogonal matrix: $Q^T Q = I = Q Q^T$
+2. $|Qv| = |v|$ for any vector $v$ (rotation).
+3. $k(Q) = 1$ (well-conditioned).
+4. $|Q| = 1$ (determinant).
+5. The columns are orthonormal vectors. (perpendicular and unit length)
+
+### Solving Least Squares using QR Decomposition
+
+Solve $Ax \approx b$ is equivalent to solving $|Ax - b| \approx 0$, which is equivalent to minimizing the residual $r = b - Ax$.
+
+Substituting this into the normal equations gives:
+
+$$Q^T Q R x = Q^T b$$
+
+Since orthogonal matrices satisfy $Q^T Q = I = Q Q^T$, we have:
+
+$$R x = Q^T b$$
+
+Since $R$ is upper triangular, we can solve for $x$ using back substitution. (economy size U-solve)
+
+### Algorithms for QR Decomposition
+
+1. Find $Q$ and $R$
+2. Compute $Q^T b$
+3. Solve $Rx = Q^T b$ using back substitution
+
+---
+
+1. Gram-Schmidt Process
+2. Householder Reflections
+3. Givens Rotations
+
+### Applications
+
+1. Data Fitting
+
+$y = kx + b$ (linear regression).  
+Given data points $(x_i, y_i)$, we can set up the system $Ax = b$ where:
+$$
+A = \begin{bmatrix}
+1 & x_1 \\
+1 & x_2 \\
+\vdots & \vdots \\
+1 & x_n
+\end{bmatrix}, \quad
+x = \begin{bmatrix}
+b \\
+k
+\end{bmatrix}, \quad
+b = \begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n
+\end{bmatrix}
+$$
+We can then use QR decomposition to find the least squares solution for $x$.
