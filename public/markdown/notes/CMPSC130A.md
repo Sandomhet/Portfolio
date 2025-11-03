@@ -9,6 +9,14 @@ lang: "en"
 
 ## Table of Contents
 
+[Graph Traversal](https://www.sandomhet.com/blogs/traversal)
+[Topological Sort](https://www.sandomhet.com/blogs/topo-sort)
+[Connected Components](https://www.sandomhet.com/blogs/cc-scc)
+[2-SAT](https://www.sandomhet.com/blogs/2-sat)
+[Shortest Path](https://www.sandomhet.com/blogs/shortest-path)
+[Minimum Spanning Tree](https://www.sandomhet.com/blogs/mst)
+[Union-Find](https://www.sandomhet.com/blogs/union)
+
 ## Algorithm Analysis
 
 Topologial sort of DAG (directed acyclic graph)
