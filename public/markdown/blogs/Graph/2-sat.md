@@ -1,3 +1,8 @@
+---
+title: "2-SAT"
+description: "Satisfiability of boolean formulas with 2 literals per clause"
+time: "Fri Oct 19, 2025"
+---
 
 # 2-SAT Algorithm
 

@@ -59,6 +59,16 @@
     "time": "Mon Oct 20, 2025",
     "lang": "zh"
   },
+  "2-sat": {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "2-sat",
+    "path": "/markdown/blogs/Graph/2-sat.md",
+    "title": "2-SAT",
+    "description": "Satisfiability of boolean formulas with 2 literals per clause",
+    "time": "Fri Oct 19, 2025",
+    "lang": "zh"
+  },
   "CMPSC130A": {
     "type": "notes",
     "category": "",
@@ -98,6 +108,16 @@
     "description": "Content includes distributions, random variables...",
     "time": "Fri Jun 6, 2025",
     "lang": "en"
+  },
+  "topo-sort": {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "topo-sort",
+    "path": "/markdown/blogs/Graph/topo-sort.md",
+    "title": "Topological Sorting",
+    "description": "DAG and Topological Order",
+    "time": "Wed Jun 5, 2025",
+    "lang": "zh"
   },
   "Cmpsc40": {
     "type": "notes",
@@ -567,26 +587,6 @@
     "title": "Stress Testing Harness",
     "description": "automates the execution of tests, confirm if the results are correct, test extreme data limits",
     "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
-  "2-sat": {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "2-sat",
-    "path": "/markdown/blogs/Graph/2-sat.md",
-    "title": "2-sat",
-    "description": "description",
-    "time": "Mon Jan 1, 2024",
-    "lang": "zh"
-  },
-  "topo-sort": {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "topo-sort",
-    "path": "/markdown/blogs/Graph/topo-sort.md",
-    "title": "topo-sort",
-    "description": "description",
-    "time": "Mon Jan 1, 2024",
     "lang": "zh"
   },
   "CMPSC181": {
