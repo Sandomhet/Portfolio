@@ -1,8 +1,12 @@
 ---
-title: "Hash"
+title: "Hashing"
 description: "Hash string into numbers for quick query."
 time: "Mon Feb 1, 2024"
 ---
+
+# Hashing
+
+## Table of Contents
 
 将$k$进制数转化为$B$进制数。
 
