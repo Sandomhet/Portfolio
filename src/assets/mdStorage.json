@@ -2,6 +2,16 @@
   {
     "type": "blogs",
     "category": "Data-Structures",
+    "name": "hash-table",
+    "path": "/markdown/blogs/Data-Structures/hash-table.md",
+    "title": "Hash Table",
+    "description": "Data structure for efficient key-value mapping.",
+    "time": "Mon Nov 10, 2025",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Data-Structures",
     "name": "union",
     "path": "/markdown/blogs/Data-Structures/union.md",
     "title": "Disjoint Set Union / Union-Find",
@@ -504,7 +514,7 @@
     "category": "String",
     "name": "hash",
     "path": "/markdown/blogs/String/hash.md",
-    "title": "Hash",
+    "title": "Hashing",
     "description": "Hash string into numbers for quick query.",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
@@ -595,6 +605,16 @@
     "name": "CMPSC181",
     "path": "/markdown/notes/CMPSC181.md",
     "title": "CMPSC181",
+    "description": "description",
+    "time": "Mon Jan 1, 2024",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC32",
+    "path": "/markdown/notes/CMPSC32.md",
+    "title": "CMPSC32",
     "description": "description",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
