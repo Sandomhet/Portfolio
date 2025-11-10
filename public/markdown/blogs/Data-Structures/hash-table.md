@@ -1,7 +1,7 @@
 ---
 title: "Hash Table"
 description: "Data structure for efficient key-value mapping."
-time: "Wed Jun 5, 2024"
+time: "Mon Nov 10, 2025"
 ---
 
 # Hash Table
@@ -77,4 +77,107 @@ A family of hash functions $\mathcal{H}$ is called universal if for any two dist
 2. choose $a, b \in [0, p-1]$ uniformly at random
 3. define the hash function as $h(x) = ((ax + b) \bmod p) \bmod m$
 
-## Construction of Hash Functions
+<!-- ## Construction of Hash Functions -->
+
+## Bloom Filter
+
+A Bloom filter is a space-efficient probabilistic data structure used to test whether an element is a member of a set.  
+
+### Structure
+
+A Bloom filter consists of:
+1. A bit array of size $m$, initialized to all 0s.
+2. $k$ independent hash functions, each of which maps an element to one of the $m$ array positions uniformly at random. (ideally mutually independent)
+
+### Operations
+
+1. **Insertion**: To add an element, compute the $k$ hash values using the $k$ hash functions. Set the bits at the resulting positions in the bit array to 1.
+2. **Query**: To check if an element is in the set, compute the $k$ hash values. 
+    - $\forall j, B_{h_j(x)} = 1$ indicates that the element is possibly in the set.
+    - $\exists j, B_{h_j(x)} = 0$ indicates that the element is definitely not in the set.
+3. No deletion.
+
+### Advantages and Disadvantages
+
+- **Advantages**:
+  - **Space-efficient**: Requires significantly less memory than traditional data structures for set membership.
+  - **Fast operations**: Both insertion and query operations are performed in constant time, $O(k)$, where $k$ is the number of hash functions.
+  - Simple to implement.
+- **Disadvantages**:
+  - **False positives** but no false negatives: May indicate that an element is in the set when it is not, but will never indicate that an element is not in the set when it actually is.
+  - No deletion: Standard Bloom filters do not support deletion of elements.
+
+### Analysis
+
+Given $n$ elements inserted into a Bloom filter with $m$ bits and $k$ hash functions, for a specific bit $B_i$:
+$$ P(B_i = 0) = \left(1 - \frac{1}{m}\right)^{kn} = \left(1 - \frac{1}{m}\right)^{m\frac{kn}{m}} \approx e^{-\frac{kn}{m}} $$
+(using the approximation $\lim\limits_{x \to \infty} \left(1 - \frac{1}{x}\right)^x = e^{-1}$)
+$$ P(B_i = 1) = 1 - P(B_i = 0) \approx 1 - e^{-\frac{kn}{m}} $$
+$$ P(\text{false positive}) = P(\forall j, B_{h_j(x)} = 1 | x \notin S) = \left(1 - e^{-\frac{kn}{m}}\right)^k $$
+
+To minimize the false positive rate is to minimize $f(k) = \left(1 - e^{-\frac{kn}{m}}\right)^k$, and is equivalent to minimizing $g(k) = \ln f(k) = k \ln \left(1 - e^{-\frac{kn}{m}}\right)$.
+
+$$
+\begin{aligned}
+g'(k) = \ln \left(1 - e^{-\frac{kn}{m}}\right) + \frac{kn}{m} \cdot \frac{e^{-\frac{kn}{m}}}{1 - e^{-\frac{kn}{m}}} &= 0 \\
+\text{Let } x = e^{-\frac{kn}{m}}, \text{ then } \ln x = -\frac{kn}{m}. &\text{ Thus, } \\
+\ln (1 - x) - \ln x \cdot \frac{x}{1 - x} &= 0 \\
+(1 - x) \ln (1 - x) &= x \ln x \\
+\end{aligned}
+$$
+The trivial solution is $x = \frac{1}{2}$ when $x = 1 - x$.  
+Thus, $k = -\frac{m}{n} \ln x = \frac{m}{n} \ln 2$.
+
+Let $c = \frac{m}{n}$,
+$$
+g''(c\ln 2) > 0 \Rightarrow \text{minimum} \\
+f(c \ln 2) = \left(\frac{1}{2}\right)^{c \ln 2} = e^{-(\ln 2)^2c} \approx 0.6185^c
+$$
+Notice that, $P(B_i = 0) = P(B_i = 1) = \frac{1}{2}$.
+
+Therefore, the optimal $k$ is:
+**$$ k = \frac{m}{n} \ln 2 $$**
+
+### Algorithm
+
+```cpp
+#include <vector>
+#include <functional>
+#include <bitset>
+using namespace std;
+class BloomFilter {
+private:
+    vector<function<size_t(const string&)>> hashFunctions;
+    bitset<1000> bitArray; // Example size
+public:
+    BloomFilter(const vector<function<size_t(const string&)>>& funcs) : hashFunctions(funcs) {}
+    void insert(const string& key) {
+        for (const auto& hashFunc : hashFunctions) {
+            size_t index = hashFunc(key) % bitArray.size();
+            bitArray.set(index);
+        }
+    }
+    bool contains(const string& key) {
+        for (const auto& hashFunc : hashFunctions) {
+            size_t index = hashFunc(key) % bitArray.size();
+            if (!bitArray.test(index)) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
+
+### Applications
+
+Reference: Network applications of Bloom filters (2003).
+Bloom filters are widely used in various applications, including:
+1. **Database Systems**: To quickly check if a record exists before performing a more expensive database query.
+2. **Web Caching**: To determine if a URL is in the cache before fetching it from the web.
+3. **Distributed Systems**: To reduce the amount of data transferred between nodes by checking membership before sending data.
+4. **Spell Checking**: To quickly check if a word is in a dictionary.
+5. **Network Security**: To filter out known malicious URLs or IP addresses.
+6. **Blockchain and Cryptocurrencies**: To efficiently verify transactions and blocks without downloading the entire blockchain.
+
+(Google Chrome, Medium, Bitcoin)
