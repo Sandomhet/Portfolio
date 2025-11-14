@@ -600,6 +600,26 @@
     "lang": "zh"
   },
   {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "knapsack",
+    "path": "/markdown/blogs/Dynamic-Programming/knapsack.md",
+    "title": "knapsack",
+    "description": "description",
+    "time": "Mon Jan 1, 2024",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "lis",
+    "path": "/markdown/blogs/Dynamic-Programming/lis.md",
+    "title": "lis",
+    "description": "description",
+    "time": "Mon Jan 1, 2024",
+    "lang": "zh"
+  },
+  {
     "type": "notes",
     "category": "",
     "name": "CMPSC181",

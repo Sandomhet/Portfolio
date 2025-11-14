@@ -18,15 +18,20 @@ time: "Tue Dec 31, 2024"
 
 1. $Eratosthenes$--埃氏筛
 
+最经典的筛法，时间复杂度 $O(n\log\log n)$ 。
+
 对于每一个质数，把它的倍数标记为合数
 
 ```cpp
-void Esth(int n)
-{
+vector<bool> npr; // is composite / not prime
+void Esth(int n) {
+    npr.assign(n + 1, false);
+    npr[0] = npr[1] = true;
     int m = sqrt(n);
     for (int i = 2; i <= m; ++i)
-        if (!prime[i])
-            for (int j = i * i; j <= n; j += i) prime[j] = 1;
+        if (!npr[i])
+            for (int j = i * i; j <= n; j += i) 
+                npr[j] = true;
 }
 ```
 
@@ -41,19 +46,21 @@ void Esth(int n)
 筛质数的同时，也可以筛出最小质因子
 
 ```cpp
-bool prime[Z];
-int ip[Z], low[Z];
-void Linear(int n)
-{
-    for (int i = 2; i <= n; ++i)
-    {
-        if (!prime[i]) ip[++ip[0]] = i, low[i] = i;
-        for (int j = 1; j <= ip[0]; ++j)
-        {
-            int k = i * ip[j];
+vector<bool> npr; // is composite / not prime
+vector<int> primes, low;
+void Linear(int n) {
+    npr.assign(n + 1, false);
+    low.assign(n + 1, 0);
+    primes.clear();
+    npr[0] = npr[1] = true;
+    for (int i = 2; i <= n; ++i) {
+        if (!npr[i]) primes.push_back(i), low[i] = i;
+        for (int pr : primes) {
+            int k = i * pr;
             if (k > n) break;
-            prime[k] = 1, low[k] = ip[j];
-            if (i % ip[j] == 0) break;
+            npr[k] = true;
+            low[k] = pr;
+            if (i % pr == 0) break;
         }
     }
 }
@@ -75,89 +82,121 @@ void Linear(int n)
 互质，则 $f[k]=f[x] * f[y] $ ；如果 $ip[j]$ 不是 $i$ 的质因子，那么 $ip[j]$ 与 $i$ 互质，则 $f[k]=f[i] * f[ip[j]] $，对于 $x$
 最小质因子的指数 $mi[x]$，可以一边筛质数一边筛出来。
 
-1. 欧拉函数
+### Euler's totient function (欧拉函数)
+
+定义：小于等于 $n$ 的数中与 $n$ 互质的数的个数。  
+通项公式：
+$$\phi(n) = n \prod_{p_i|n}(1 - \frac{1}{p_i})$$
+$p_i$ 为 $n$ 的不同质因数。
 
 ```cpp
-int phi[Z];
-void Euler(int n)//欧拉函数
-{
+int phi(int n) { //根据基础定义，求单个数的欧拉函数
+    int res = n, m = sqrt(n);
+    for (int i = 2; i <= m; ++i)
+        if (n % i == 0) {
+            res -= res / i;
+            while (n % i == 0) n /= i;
+        }
+    if (n > 1) res -= res / n;
+    return res;
+}
+```
+
+线性筛法求区间欧拉函数：
+
+```cpp
+vector<bool> npr;
+vector<int> primes, phi;
+void Euler(int n) { //欧拉函数
+    npr.assign(n + 1, false);
+    phi.assign(n + 1, 0);
+    primes.clear();
     phi[1] = 1;
-    for (int i = 2; i <= n; ++i)
-    {
-        if (!prime[i]) ip[++ip[0]] = i, phi[i] = i - 1;
-        for (int j = 1; j <= ip[0]; ++j)
-        {
-            int k = i * ip[j];
+    for (int i = 2; i <= n; ++i) {
+        if (!npr[i]) primes.push_back(i), phi[i] = i - 1;
+        for (int pr : primes) {
+            int k = i * pr;
             if (k > n) break;
-            prime[k] = 1;
-            if (i % ip[j] == 0) { phi[k] = phi[i] * ip[j]; break; }
-            else phi[k] = phi[i] * (ip[j] - 1);
+            npr[k] = true;
+            if (i % pr == 0) { 
+                phi[k] = phi[i] * pr;
+                break;
+            } else phi[k] = phi[i] * (pr - 1);
         }
     }
 }
 ```
 
-2. 莫比乌斯函数
+### 莫比乌斯函数
 
 ```cpp
-int miu[Z];
-void Mobius(int n)//莫比乌斯函数
-{
+vector<bool> npr;
+vector<int> primes, miu;
+void Mobius(int n) { //莫比乌斯函数
+    npr.assign(n + 1, false);
+    miu.assign(n + 1, 0);
+    primes.clear();
     miu[1] = 1;
-    for (int i = 2; i <= n; ++i)
-    {
-        if (!prime[i]) ip[++ip[0]] = i, miu[i] = -1;
-        for (int j = 1; j <= ip[0]; ++j)
-        {
-            int k = i * ip[j];
+    for (int i = 2; i <= n; ++i) {
+        if (!npr[i]) primes.push_back(i), miu[i] = -1;
+        for (int pr : primes) {
+            int k = i * pr;
             if (k > n) break;
-            prime[k] = 1;
-            if (i % ip[j] == 0) { miu[k] = 0; break; }
+            npr[k] = true;
+            if (i % pr == 0) { miu[k] = 0; break; }
             else miu[k] = -miu[i];
         }
     }
 }
 ```
 
-3. 约数个数
+### 约数个数
 
 ```cpp
-int d[Z];
-void Linear(int n)//约数个数
-{
+vector<bool> npr;
+vector<int> primes, d;
+void NumDivisors(int n) { //约数个数
+    npr.assign(n + 1, false);
+    d.assign(n + 1, 0);
+    primes.clear();
     d[1] = 1;
-    for (int i = 2; i <= n; ++i)
-    {
-        if (!prime[i]) ip[++ip[0]] = i, d[i] = 2;
-        for (int j = 1; j <= ip[0]; ++j)
-        {
-            int k = i * ip[j];
+    for (int i = 2; i <= n; ++i) {
+        if (!npr[i]) primes.push_back(i), d[i] = 2;
+        for (int pr : primes) {
+            int k = i * pr;
             if (k > n) break;
-            prime[k] = 1;
-            if (i % ip[j] == 0) { d[k] = 2 * d[i] - d[i / ip[j]]; break; }
-            else d[k] = 2 * d[i];
+            npr[k] = true;
+            if (i % pr == 0) { 
+                d[k] = 2 * d[i] - d[i / pr];
+                break; 
+            } else d[k] = 2 * d[i];
         }
     }
 }
 ```
 
-4. 正约数的和
+### 正约数的和
 
 ```cpp
-int s[Z];
-void Linear(int n)//约数和
-{
+vector<bool> npr;
+vector<int> primes, s;
+void SumDivisors(int n) { //约数和
+    npr.assign(n + 1, false);
+    s.assign(n + 1, 0);
+    primes.clear();
     s[1] = 1;
     for (int i = 2; i <= n; ++i)
     {
-        if (!prime[i]) ip[++ip[0]] = i, s[i] = i + 1;
-        for (int j = 1; j <= ip[0]; ++j)
+        if (!npr[i]) primes.push_back(i), s[i] = i + 1;
+        for (int pr : primes)
         {
-            int k = i * ip[j];
+            int k = i * pr;
             if (k > n) break;
-            prime[k] = 1;
-            if (i % ip[j] == 0) { s[k] = s[i] + (s[i] - s[i / ip[j]]) * ip[j]; break; }
-            else s[k] = s[i] * (ip[j] + 1);
+            npr[k] = true;
+            if (i % pr == 0) {
+                s[k] = s[i] + (s[i] - s[i / pr]) * pr;
+                break;
+            } else s[k] = s[i] * (pr + 1);
         }
     }
 }

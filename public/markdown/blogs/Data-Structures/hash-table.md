@@ -79,6 +79,124 @@ A family of hash functions $\mathcal{H}$ is called universal if for any two dist
 
 <!-- ## Construction of Hash Functions -->
 
+### Cuckoo Hashing
+
+Cuckoo hashing is a collision resolution technique for hash tables that uses two or more hash functions and two or more hash tables. Each key can be stored in one of the tables based on its hash value. If a collision occurs, the existing key is "kicked out" and reinserted into its alternative location, potentially causing further displacements.
+
+(one table, two hash functions in this case)
+
+Operations:
+1. **Insertion**: Insert the key based on one of its hash values. If all positions are occupied, remove the existing key and reinsert it into its alternative location, potentially causing further displacements. If a cycle exists, rehash the entire table with new hash functions. $O(1)$ amortized in expectation.
+2. **Query**: An element exists if either of its hashed positions contains the key. $O(1)$ worst-case.
+3. **Deletion**: Remove the key from the table if it exists.
+
+Analysis:
+If $\frac{m}{n} \geq 6$, then
+- The expected insertion is $O(1)$.
+- The probability that a rehash is needed is $O(\frac{1}{2})$.
+- The expected number of rehashes is $O(1)$.
+- The expected total time for rehashing is $O(n)$.
+
+```python
+class CuckooHashTable:
+    TABLE_SIZE = 11
+    MAX_LOOP = 20
+
+    def __init__(self):
+        self.EMPTY = None
+        self.table = [self.EMPTY] * self.TABLE_SIZE
+        # store both hash functions in a list
+        self.hash_funcs = [
+            lambda key: key % self.TABLE_SIZE,
+            lambda key: (key // self.TABLE_SIZE) % self.TABLE_SIZE,
+        ]
+
+    def search(self, key):
+        return any(self.table[h(key)] == key for h in self.hash_funcs)
+
+    def insert(self, key):
+        if self.search(key):
+            return
+        cur_key = key
+        for _ in range(self.MAX_LOOP):
+            for h in self.hash_funcs:
+                pos = h(cur_key)
+                if self.table[pos] is self.EMPTY:
+                    self.table[pos] = cur_key
+                    return
+                cur_key, self.table[pos] = self.table[pos], cur_key
+        print(f"Rehash needed! Insertion failed for {cur_key}")
+
+    def remove(self, key):
+        for h in self.hash_funcs:
+            pos = h(key)
+            if self.table[pos] == key:
+                self.table[pos] = self.EMPTY
+                return
+
+    def display(self):
+        print("Table:", ["_" if x is None else x for x in self.table])
+
+
+if __name__ == "__main__":
+    ht = CuckooHashTable()
+    keys = [20, 50, 53, 75, 100, 67, 105, 3, 36, 39]
+    for k in keys:
+        ht.insert(k)
+    ht.display()
+    print("Search 75:", ht.search(75))
+    ht.remove(75)
+    ht.display()
+
+```
+
+```cpp
+#include <vector>
+#include <functional>
+using namespace std;
+class CuckooHashTable {
+private:
+    vector<int> table1, table2;
+    function<size_t(int)> hash1, hash2;
+public:
+    CuckooHashTable(size_t size, function<size_t(int)> h1, function<size_t(int)> h2)
+        : table1(size, -1), table2(size, -1), hash1(h1), hash2(h2) {}
+    bool insert(int key) {
+        int pos1 = hash1(key) % table1.size();
+        if (table1[pos1] == -1) {
+            table1[pos1] = key;
+            return true;
+        }
+        int displacedKey = table1[pos1];
+        table1[pos1] = key;
+        int pos2 = hash2(displacedKey) % table2.size();
+        if (table2[pos2] == -1) {
+            table2[pos2] = displacedKey;
+            return true;
+        }
+        // Handle further displacements or rehashing as needed
+        return false; // Simplified for brevity
+    }
+    bool contains(int key) {
+        int pos1 = hash1(key) % table1.size();
+        if (table1[pos1] == key) return true;
+        int pos2 = hash2(key) % table2.size();
+        return table2[pos2] == key;
+    }
+    void remove(int key) {
+        int pos1 = hash1(key) % table1.size();
+        if (table1[pos1] == key) {
+            table1[pos1] = -1;
+            return;
+        }
+        int pos2 = hash2(key) % table2.size();
+        if (table2[pos2] == key) {
+            table2[pos2] = -1;
+        }
+    }
+};
+```
+
 ## Bloom Filter
 
 A Bloom filter is a space-efficient probabilistic data structure used to test whether an element is a member of a set.  

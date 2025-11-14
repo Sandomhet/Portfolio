@@ -57,7 +57,7 @@ int main() {
 }
 ```
 
-### Transform
+## Transform
 
 ```cpp
 int main() {
@@ -69,7 +69,7 @@ int main() {
 }
 ```
 
-### Lambda Functions
+## Lambda Functions
 
 Lambda functions are anonymous functions that can be defined in-line. They are often used for short, throwaway functions that are not reused elsewhere.
 
@@ -112,3 +112,56 @@ int main() {
     return 0;
 }
 ```
+
+## Operating Systems
+
+Execute instruction: fetch, decode, execute cycle
+
+5 main components of a computer
+1. Processor (CPU)
+2. Memory (RAM)
+3. Input Devices
+4. Output Devices
+5. Secondary Data Storage
+
+Memory Hierarchy:
+1. Registers
+2. Cache
+3. Main Memory (RAM)
+4. Flash Disk
+5. Traditional Disk
+6. Remote Secondary Storage
+
+Virtualization: creating a virtual version of something, such as hardware platforms, storage devices, and network resources.
+
+OS supports **multiprogramming** by managing multiple processes in memory at the same time.
+
+Memory Virtualization:
+- OS gives each process a private virtual address space.
+- OS maps virtual addresses to physical addresses using a page table.
+- Each process needs a unique start address.
+- provides isolation, flexibility, and efficient memory usage.
+
+### Concurrency
+
+- Concurrency is the ability of an OS to manage multiple tasks at the same time.
+- Processes: independent programs in execution.
+- Threads: smaller units of a process that can run concurrently.
+
+A single thread can only be executed on a single core at a time, but multiple threads can be scheduled on multiple cores.
+
+CPU registers: small, high-speed storage locations within the CPU used to hold data temporarily during execution.
+
+### Persistent Storage
+
+- Persistent storage refers to non-volatile storage that retains data even when the power is turned off.
+- Examples include hard drives, solid-state drives (SSDs), and flash memory.
+
+### The OS Kernel
+
+- It is separated from user kernel.  
+- It exists in a protected memory area.
+- System calls is privileged instruction.
+
+Library calls vs System calls:
+

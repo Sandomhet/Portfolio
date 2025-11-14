@@ -38,23 +38,23 @@ void init(int n)
 3. 根据定义，阶乘直接求得
 
 ```cpp
-int fac[Z], ny[Z];
+int fac[Z], inv[Z];
 void init(int n, int p)
 {
     fac[0] = 1;
     for (int i = 1; i <= n; ++i)
         fac[i] = fac[i - 1] * i % p;
-    ny[n] = qpow(fac[n], p - 2, p);
+    inv[n] = qpow(fac[n], p - 2, p);
     for (int i = n - 1; i >= 1; --i)
-        ny[i] = ny[i + 1] * (i + 1) % p;
+        inv[i] = inv[i + 1] * (i + 1) % p;
 }
-inline int C(int n, int m, int p)//组合数
+inline int C(int n, int m, int p) //组合数
 {
-    return m > n ? 0 : fac[n] * ny[m] % p * ny[n - m] % p;
+    return m > n ? 0 : fac[n] * inv[m] % p * inv[n - m] % p;
 }
-inline int A(int n, int m, int p)//排列数
+inline int A(int n, int m, int p) //排列数
 {
-    return m > n ? 0 : fac[n] * ny[n - m] % p;
+    return m > n ? 0 : fac[n] * inv[n - m] % p;
 }
 ```
 

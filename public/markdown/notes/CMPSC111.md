@@ -177,7 +177,7 @@ $$\min_x \|r\|_2 = \min_x \|b - Ax\|_2$$
 #### Orthogonal Matrix Properties
 
 1. $Q^T Q = I = Q Q^T$
-2. $|Qv| = |v|$ for any vector $v$ (rotation).
+2. $|Qv| = |v|$ for any vector $v$ (rotation, norm preservation).
 3. $k(Q) = 1$ (well-conditioned).
 4. $|Q| = 1$ (determinant).
 5. The columns are orthonormal vectors. (perpendicular and unit length)
@@ -249,7 +249,8 @@ When $A$ is **large** and **sparse**, use iterative methods to save memory and c
 
 ### Error, Residual, and Condition Number
 
-- **Norm** (magnitude): $\|x\|_2 = \sqrt{\sum\limits_{i=1}^{n} x_i^2}$
+- **Vector 2-Norm** (Euclidean): $\|x\|_2 = \sqrt{\sum\limits_{i=1}^{n} x_i^2}$
+- **Matrix 2-Norm** (Spectral): $\|A\|_2 = \max\limits_{x \neq 0} \frac{|Ax|}{|x|} = \max\limits_{\|x\|=1} \|Ax\|$ (How much $A$ stretches a vector)
 - **Frobenius Norm**: $\|A\|_F = \sqrt{\sum\limits_{i=1}^{m} \sum\limits_{j=1}^{n} a_{ij}^2}$
 - **Error**: $e = |x - \hat{x}|$ ($x$ is true solution, $\hat{x}$ is computed solution)
 - **Relative Error**: $\frac{|x - \hat{x}|}{|x|}$
@@ -259,6 +260,7 @@ When $A$ is **large** and **sparse**, use iterative methods to save memory and c
     - If $\kappa(A)$ is large, the matrix is ill-conditioned, meaning small changes in $b$ can lead to large changes in the solution $x$.
     - If $\kappa(A)$ is small, the matrix is well-conditioned, and the solution $x$ is more stable with respect to changes in $b$.
     - If $\kappa(A)$ = 1, then $A$ is perfectly conditioned.
+    - For $Ax = b$, $\hat{x} = x + e$ where $Ae = r$. Thus, $\frac{\|e\|}{\|x\|} \leq \kappa(A) \frac{\|r\|}{\|b\|}$.
 
 ```py
 norm = npla.norm(x)
@@ -465,3 +467,73 @@ $$
 \end{aligned}
 $$
 Thus, $\alpha_k = \frac{r_k^T r_k}{r_k^T A r_k}$.
+
+## SVD (Singular Value Decomposition)
+
+Precondition: $A \in \mathbb{R}^{m \times n}$ (no restrictions).
+
+$A = U \Sigma V^T$ where $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ are orthogonal matrices, and $\Sigma \in \mathbb{R}^{m \times n}$ is a diagonal matrix with non-negative real numbers on the diagonal (singular values).
+
+$U=\begin{bmatrix}
+\vdots & \vdots & \vdots & \vdots \\
+u_1 & u_2 & \vdots & u_m \\
+\vdots & \vdots & \vdots & \vdots
+\end{bmatrix}$,
+$V=\begin{bmatrix}
+\cdots & v_1^T & \cdots \\
+\cdots & v_2^T & \cdots \\
+\cdots & \cdots & \cdots \\
+\cdots & v_n^T & \cdots
+\end{bmatrix}$,
+$\Sigma=\begin{bmatrix}
+\sigma_1 & 0 & \cdots & 0 & 0 \\
+0 & \sigma_2 & \cdots & 0 & \vdots \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \cdots & \sigma_r & \vdots \\
+0 & 0 & \cdots & 0 & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \cdots & 0 & 0
+\end{bmatrix}$
+where $\sigma_1 \geq \sigma_2 \geq ... \geq \sigma_r > 0$ are the singular values of $A$, and $r = \text{rank}(A)$.
+
+$A = \sum\limits_{i=1}^r \sigma_i u_i v_i^T$ (outer product expansion).
+
+1. If we keep all singular values, we get the exact reconstruction of $A$.
+2. If we keep only the top $k (k < r)$ singular values, we get a rank-$k$ approximation of $A$, denoted as $A_k = \sum\limits_{i=1}^k \sigma_i u_i v_i^T$.
+3. The rank-$k$ approximation $A_k$ minimizes the Frobenius norm of the error: $\|A - A_k\|_F$.
+
+--Plan: math of SVD, image compression, principal component analysis, eigenfaces from a database of face images (how to create another face).
+
+### Theorems
+
+The rank $r$ is the number of non-zero singular values.
+what is non-zero singular values?
+- The non-zero singular values correspond to the dimensions of the column space and row space of $A$.
+
+$AV = U \Sigma$.
+
+$V$ responds a basis with $n$ columns. $AV$ takes the orthonormal basis vectors $v_i$ from the row space of $A$ and maps them to the orthonormal basis vectors $u_i$ from the column space of $A$, scaled by the singular values $\sigma_i$.
+
+$A * (first column of V) = \sigma_1 * (first col of U)$
+
+Theorem:  
+$\|A - A_k\|_2 = \sigma_{k+1} $
+
+$\|A\|_F = \sqrt{\sum\limits_{i=1}^r \sigma_i^2}$
+
+$$
+\begin{aligned}
+\|A\|_2 &= \max\limits_{x \neq 0} \frac{|Ax|}{|x|} \\
+&= \max\limits_{|x|=1} |Ax| \\
+&= \max\limits_{|x|=1} |U \Sigma V^T x| \\
+&= \max\limits_{|y|=1} | \Sigma y| \quad \text{(let } y = V^T x \text{)} \\
+&= \max\limits_{|y|=1} \sqrt{\sum\limits_{i=1}^r \sigma_i^2 y_i^2} \\
+&= \sigma_1 \\
+\end{aligned}
+$$
+
+$$
+\|A\| = \|U \Sigma V^T\| = \|\Sigma\| = \sigma_1 \\
+\|A^{-1}\| = \|V \Sigma^{-1} U^T\| = \|\Sigma^{-1}\| = \frac{1}{\sigma_r} \\
+\kappa(A) = \|A\| \|A^{-1}\| = \frac{\sigma_1}{\sigma_r} \\
+$$

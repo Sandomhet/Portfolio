@@ -7,12 +7,10 @@ time: "Mon Feb 1, 2024"
 # Matrix Multiplication
 
 ```cpp
-struct matrix
-{
+struct matrix {
     int a[10][10];
     matrix () { memset(a, 0, sizeof(a)); }
-    inline friend matrix operator *(matrix A, matrix B)
-    {
+    inline friend matrix operator *(const matrix& A, const matrix& B) {
         matrix C;
         for (int i = 1; i <= n; ++i)
             for (int k = 1; k <= n; ++k)
@@ -20,14 +18,14 @@ struct matrix
                     C.a[i][j] = (C.a[i][j] + A.a[i][k] * B.a[k][j]) % mod;
         return C;
     }
-}; matrix ans, base;
-void qbow(int b)
-{
-    while (b)
-    {
-        if (b & 1) ans = ans * base;
+}; 
+matrix binpow(matrix base, int b) {
+    matrix res;
+    while (b) {
+        if (b & 1) res = res * base;
         base = base * base;
         b >>= 1;
     }
+    return res;
 }
 ```
