@@ -32,5 +32,4 @@ void SA()
     }
     for (re i = 1; i <= 1000; i++) calc(get(ansx), get(ansy));//最后在接近的范围里跳
 }
-
 ```

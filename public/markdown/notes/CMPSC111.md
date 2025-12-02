@@ -494,7 +494,7 @@ $\Sigma=\begin{bmatrix}
 \vdots & \vdots & \ddots & \vdots & \vdots \\
 0 & 0 & \cdots & 0 & 0
 \end{bmatrix}$
-where $\sigma_1 \geq \sigma_2 \geq ... \geq \sigma_r > 0$ are the singular values of $A$, and $r = \text{rank}(A)$.
+where $\sigma_1 \geq \sigma_2 \geq ... \geq \sigma_r > 0$ are the singular values of $A$, and $r = \text{rank}(A)$, the number of non-zero singular values.
 
 $A = \sum\limits_{i=1}^r \sigma_i u_i v_i^T$ (outer product expansion).
 
@@ -502,32 +502,27 @@ $A = \sum\limits_{i=1}^r \sigma_i u_i v_i^T$ (outer product expansion).
 2. If we keep only the top $k (k < r)$ singular values, we get a rank-$k$ approximation of $A$, denoted as $A_k = \sum\limits_{i=1}^k \sigma_i u_i v_i^T$.
 3. The rank-$k$ approximation $A_k$ minimizes the Frobenius norm of the error: $\|A - A_k\|_F$.
 
---Plan: math of SVD, image compression, principal component analysis, eigenfaces from a database of face images (how to create another face).
-
 ### Theorems
-
-The rank $r$ is the number of non-zero singular values.
-what is non-zero singular values?
-- The non-zero singular values correspond to the dimensions of the column space and row space of $A$.
 
 $AV = U \Sigma$.
 
 $V$ responds a basis with $n$ columns. $AV$ takes the orthonormal basis vectors $v_i$ from the row space of $A$ and maps them to the orthonormal basis vectors $u_i$ from the column space of $A$, scaled by the singular values $\sigma_i$.
-
-$A * (first column of V) = \sigma_1 * (first col of U)$
+$A v_i = \sigma_i u_i$
 
 Theorem:  
 $\|A - A_k\|_2 = \sigma_{k+1} $
 
-$\|A\|_F = \sqrt{\sum\limits_{i=1}^r \sigma_i^2}$
+$\|A\|_F = \sqrt{\sum\limits_{i=1}^r \sigma_i^2}$.  
+$\|A - A_k\|_F = \sqrt{\sum\limits_{i=k+1}^r \sigma_i^2}$.  
 
 $$
 \begin{aligned}
 \|A\|_2 &= \max\limits_{x \neq 0} \frac{|Ax|}{|x|} \\
 &= \max\limits_{|x|=1} |Ax| \\
 &= \max\limits_{|x|=1} |U \Sigma V^T x| \\
-&= \max\limits_{|y|=1} | \Sigma y| \quad \text{(let } y = V^T x \text{)} \\
-&= \max\limits_{|y|=1} \sqrt{\sum\limits_{i=1}^r \sigma_i^2 y_i^2} \\
+&= \max |U \Sigma V^T| \\
+% &= \max\limits_{|y|=1} | \Sigma y| \quad \text{(let } y = V^T x \text{)} \\
+% &= \max\limits_{|y|=1} \sqrt{\sum\limits_{i=1}^r \sigma_i^2 y_i^2} \\
 &= \sigma_1 \\
 \end{aligned}
 $$
@@ -537,3 +532,175 @@ $$
 \|A^{-1}\| = \|V \Sigma^{-1} U^T\| = \|\Sigma^{-1}\| = \frac{1}{\sigma_r} \\
 \kappa(A) = \|A\| \|A^{-1}\| = \frac{\sigma_1}{\sigma_r} \\
 $$
+
+The determinant of $A$ is the product of its singular values:
+$$
+|A| = \prod\limits_{i=1}^r \sigma_i
+$$
+
+### Math Proof
+
+For two vectors $u \in \mathbb{R}^m$ and $v \in \mathbb{R}^n$,  
+**Inner product**: $u^T v = \sum\limits_{i=1}^{n} u_i v_i = u \cdot v$ (scalar).  
+**Outer product**: $uv^T = \begin{bmatrix}
+u_1 v_1 & u_1 v_2 & \cdots & u_1 v_n \\
+u_2 v_1 & u_2 v_2 & \cdots & u_2 v_n \\
+\vdots & \vdots & \ddots & \vdots \\
+u_m v_1 & u_m v_2 & \cdots & u_m v_n
+\end{bmatrix}$ (rank-1 matrix). Thus, $(uv^T)_{ij} = u_i v_j$
+
+$$
+\begin{aligned}
+(AB^T)_{ij} &= \sum\limits_{k=1}^{n} A_{ik} B^T_{kj} \\
+&= \sum\limits_{k=1}^{n} A_{ik} B_{jk} \\
+&= \sum\limits_{k=1}^{n} (a_k)_i (b_k)_j \\
+\end{aligned}
+$$
+By definition of outer product, we have:
+$$
+\begin{aligned}
+\left(\sum\limits_{k=1}^{n} a_k b_k^T\right)_{ij} &= \sum\limits_{k=1}^{n} (a_k b_k^T)_{ij} \\
+&= \sum\limits_{k=1}^{n} (a_k)_i (b_k)_j \\
+\end{aligned}
+$$
+Therefore, $AB^T = \sum\limits_{i=1}^{n} a_i b_i^T$ where $a_i$ and $b_i$ are the $i$-th columns of $A$ and $B$ respectively.
+
+```py
+np.dot(U[:, k], Vt[k, :])
+np.outer(U[:, k], Vt[k, :])
+```
+
+### Image Compression
+
+Suppose an image is $m \times n$ pixels, the storage is $m \times n$.  
+With first $k$ terms in SVD, storage is $mk + nk + k = k(m + n + 1)$.  
+Compression ratio: $\dfrac{mn}{k(m + n + 1)}$.
+
+### Principal Component Analysis (PCA)
+
+PCA is a dimensionality reduction technique that transforms data into a new coordinate system that helps us to reduce the number of features in a dataset while keeping the most important information.
+
+For vectors $x, y \in \mathbb{R}^n$, the **Mean** $\mu = \frac{1}{n} \sum\limits_{i=1}^{n} x_i$. Define $r_x = \begin{bmatrix} \cdots \\ x_i - \mu \\ \cdots \end{bmatrix}$ as the deviation from the mean. Then there is the **Variance** $\sigma^2 = \frac{1}{n-1} \sum\limits_{i=1}^{n} (x_i - \mu)^2 = r_x^T r_x$, and the **Covariance** $\sigma = \frac{1}{n-1} \sum\limits_{i=1}^{n} (x_i - \mu_x)(y_i - \mu_y) = r_x^T r_y$.  
+
+- $\sigma_{xy} > 0$: $x$ and $y$ are positively correlated, covary.
+- $\sigma_{xy} < 0$: $x$ and $y$ are negatively correlated, anticovary.
+- $\sigma_{xy} = 0$: $x$ and $y$ are uncorrelated.
+
+The **Data matrix** $D \in \mathbb{R}^{m \times n}$, where $m$ is the number of **samples** and $n$ is the number of **features**.
+
+The **Mean matrix** $M \in \mathbb{R}^{m \times n}$ with $\mu_j = \frac{1}{m} \sum\limits_{i=1}^{m} D_{ij}$ is the mean of feature $j$:
+$M = \begin{bmatrix}
+\mu_1 & \mu_2 & \cdots & \mu_n \\
+\mu_1 & \mu_2 & \cdots & \mu_n \\
+\vdots & \vdots & \ddots & \vdots \\
+\mu_1 & \mu_2 & \cdots & \mu_n \\
+\end{bmatrix}$
+
+The **Centered data matrix** is $R = D - M$:
+$R = \begin{bmatrix}
+D_{11} - \mu_1 & D_{12} - \mu_2 & \cdots & D_{1n} - \mu_n \\
+D_{21} - \mu_1 & D_{22} - \mu_2 & \cdots & D_{2n} - \mu_n \\
+\vdots & \vdots & \ddots & \vdots \\
+D_{m1} - \mu_1 & D_{m2} - \mu_2 & \cdots & D_{mn} - \mu_n \\
+\end{bmatrix}$
+
+The **Covariance matrix** $C \in \mathbb{R}^{n \times n}$ with $\sigma_{ij} = \text{Cov}(i, j) = \frac{1}{m-1} \sum\limits_{k=1}^{m} (D_{ki} - \mu_i)(D_{kj} - \mu_j)$ is the covariance between features $i$ and $j$, $C = \frac{1}{m-1} R^T R$ is symmetric:
+$C = \begin{bmatrix}
+\sigma_{11} & \sigma_{12} & \cdots & \sigma_{1n} \\
+\sigma_{12} & \sigma_{22} & \cdots & \sigma_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+\sigma_{1n} & \sigma_{2n} & \cdots & \sigma_{nn} \\
+\end{bmatrix}$
+
+SVD: $C = U \Sigma U^T$ where $U$ contains the eigenvectors (principal components) and $\Sigma$ contains the eigenvalues (each singular value). $U = V$ since $C$ is symmetric. Each column vector $u_i$ represents a axis of the data.
+
+**Formula**: $D = M + [R U]U^T$.  
+**Approximation**: $D \approx M + [R U_k]U_k^T$ where $U_k$ contains the first $k$ columns of $U$.
+
+$R = R U U^T$ (projection onto the principal components).
+
+#### Matrices and Tensors
+
+A matrix is a 2-dimensional array of numbers, while a tensor is a multi-dimensional array of numbers. Tensors generalize matrices to higher dimensions.
+
+### Application of SVD Eigenfaces
+
+Eigenfaces are a set of eigenvectors used in the computer vision problem of human face recognition. They are derived from the covariance matrix of a set of facial images using Singular Value Decomposition (SVD).
+
+Data matrix $D \in \mathbb{R}^{m \times n}$, where $m$ is the number of images and $n$ is the number of pixels in each image (flattened). For example, there are 400 images of size 64x64 pixels, then $m = 400$ and $n = 4096$.
+
+For each pixel, we have the mean $\mu_j = \frac{1}{m} \sum\limits_{i=1}^{m} D_{ij}$ and variance $\sigma_j^2 = \frac{1}{m-1} \sum\limits_{i=1}^{m} (D_{ij} - \mu_j)^2$. Then we have the normal distribution of pixel values across all images: $N(\mu_j, \sigma_j^2)$. We can sample randomly from this distribution to create new pixel values for new face images.
+
+what is eigenfaces?
+1. Compute the mean face: $\mu = \frac{1}{m} \sum\limits_{i=1}^{m} D_i$ where $D_i$ is the $i$-th image vector.
+2. Center the data: $X = D - \mu$.
+3. Compute the covariance matrix: $C = \frac{1}{m-1} X^T X$.
+4. Perform SVD on the covariance matrix: $C = U \Sigma U^T$.
+5. The columns of $U$ are the eigenfaces.   
+
+```py
+def compute_eigenfaces(D, k):
+    # D: data matrix of shape (m, n)
+    # k: number of principal components to keep
+    m, n = D.shape
+    mu = np.mean(D, axis=0)  # mean face
+    X = D - mu  # center the data
+    C = np.cov(X, rowvar=False)  # covariance matrix
+    U, S, Vt = np.linalg.svd(C)  # SVD
+    eigenfaces = U[:, :k]  # top k eigenfaces
+    return eigenfaces, mu
+```
+```py
+def generate_new_face(eigenfaces, mu):
+    k = eigenfaces.shape[1]
+    coefficients = np.random.randn(k)  # random coefficients
+    new_face = mu + eigenfaces @ coefficients  # generate new face
+    return new_face
+```
+
+## Billiard Ball Simulation with Collision Detection
+
+Conditions:
+1. Undisturbed motion between collisions (constant velocity).
+2. Perfectly elastic collisions (no energy loss).
+3. No external forces (e.g., friction, gravity).
+4. detect collisions between balls and walls, and between balls themselves.
+
+Representation:
+- position vector $\mathbf{p} = [x, y]$, velocity vector $\mathbf{v} = [v_x, v_y] = [\frac{dx}{dt}, \frac{dy}{dt}]$, radius $r$, and mass $m$.
+- The walls of the billiard table are represented as lines with defined boundaries.
+
+1. Undisturbed Motion:  
+    $x(t + \Delta t) = x(t) + v_x(t) \Delta t$  
+    $y(t + \Delta t) = y(t) + v_y(t) \Delta t$  
+
+2. Collision with Walls:
+    1. Detect collision with walls:
+        - Left Wall: $x' < x_{min} + r$
+        - Right Wall: $x' > x_{max} - r$
+        - Bottom Wall: $y' < y_{min} + r$
+        - Top Wall: $y' > y_{max} - r$
+    2. Find the time of collision:
+        - Left Wall: $dt_{left} = \frac{(x_{min} + r) - x}{v_x}$ if $v_x < 0$  
+        - Right Wall: $dt_{right} = \frac{(x_{max} - r) - x}{v_x}$ if $v_x > 0$  
+        - Bottom Wall: $dt_{bottom} = \frac{(y_{min} + r) - y}{v_y}$ if $v_y < 0$  
+        - Top Wall: $dt_{top} = \frac{(y_{max} - r) - y}{v_y}$ if $v_y > 0$  
+        - Choose the smallest positive $dt$ among these to determine the next collision time.
+    3. Adjust motion velocity:
+        - Left or Right Wall: $v' = [-v_x, v_y]$
+        - Bottom or Top Wall: $v' = [v_x, -v_y]$
+
+3. Collision between Balls:
+    1. Detect collision between balls:
+        - For two balls with positions $\mathbf{p_1}$ and $\mathbf{p_2}$, and radii $r_1$ and $r_2$, a collision occurs if:
+        $$|\mathbf{p_1} - \mathbf{p_2}| \leq r_1 + r_2$$
+    2. Find the time of collision:
+        - Solve the quadratic equation derived from the distance condition to find the time until collision.
+    3. Adjust motion velocities upon collision:
+        - Let $\mathbf{n} = \frac{\mathbf{p_1} - \mathbf{p_2}}{|\mathbf{p_1} - \mathbf{p_2|}$ be the unit normal vector at the point of collision.
+        - Compute relative velocity: $\mathbf{v_{rel}} = \mathbf{v_1} - \mathbf{v_2}$
+        - Compute velocity along the normal: $v_{rel\_n} = \mathbf{v_{rel}} \cdot \mathbf{n}$
+        - If $v_{rel\_n} > 0$, the balls are moving apart, so no collision response is needed.
+        - Update velocities using conservation of momentum and kinetic energy:
+        $$\mathbf{v_1'} = \mathbf{v_1} - \frac{2 m_2}{m_1 + m_2} v_{rel\_n} \mathbf{n}$$  
+        $$\mathbf{v_2'} = \mathbf{v_2} + \frac{2 m_1}{m_1 + m_2} v_{rel\_n} \mathbf{n}$$

@@ -142,16 +142,6 @@ Memory Virtualization:
 - Each process needs a unique start address.
 - provides isolation, flexibility, and efficient memory usage.
 
-### Concurrency
-
-- Concurrency is the ability of an OS to manage multiple tasks at the same time.
-- Processes: independent programs in execution.
-- Threads: smaller units of a process that can run concurrently.
-
-A single thread can only be executed on a single core at a time, but multiple threads can be scheduled on multiple cores.
-
-CPU registers: small, high-speed storage locations within the CPU used to hold data temporarily during execution.
-
 ### Persistent Storage
 
 - Persistent storage refers to non-volatile storage that retains data even when the power is turned off.
@@ -165,3 +155,213 @@ CPU registers: small, high-speed storage locations within the CPU used to hold d
 
 Library calls vs System calls:
 
+### Shell
+
+Unix OS in C language. Unix shell is a command-line interpreter for the Unix OS.
+
+**fork()**: creates a new process (child) by duplicating the current process (parent). Returns the child's PID to the parent and 0 to the child.
+**exec()**: replaces the current process image with a new process image (overlaying). It's the only way to execute a different program within a process.
+**wait()**: makes the parent process wait until all of its child processes have terminated.
+
+Multiprogramming: multiple programs loaded into memory and executed by the CPU concurrently.
+
+### Process and Thread
+
+- Concurrency is the ability of an OS to manage multiple tasks at the same time.
+
+- Process: an instance of a program in execution. Each process has its own memory space, execution state, and system resources.
+- Thread: a lightweight, independent unit of execution within a process. Threads within the same process share the same memory space and resources.
+
+A process can have multiple threads, allowing for concurrent execution of tasks within the same application.
+
+#### Process
+
+Information maintained for each process:
+- Process ID (PID)
+- Process state (e.g., running, waiting, terminated)
+- Program counter (PC)
+- CPU registers (execution state)
+- Memory management information
+- Open file descriptors
+- Scheduling information
+
+CPU registers: small, high-speed storage locations within the CPU used to hold data temporarily during execution.
+
+Process States:
+1. New: process is being created.
+2. **Ready**: process is waiting to be assigned to a CPU. New processes created or processes that is switched out of the CPU go to the ready state.
+3. **Running**: process is currently being executed by the CPU.
+4. **Blocked** (Waiting): process is waiting for an event (e.g., I/O completion). It moves to the ready state when the event occurs.
+5. **Terminated**: process has finished execution, but needs to be cleaned up by the OS.
+
+Process Memory Model:
+- Each process has its own virtual memory space divided into segments:
+  - Text: contains the executable code.
+  - Data: contains global and static variables.
+  - Heap: used for dynamic memory allocation.
+  - Stack: used for function call management and local variables. 
+
+**Context switching**: saving and restoring the state of a CPU so that multiple processes can share a single CPU resource.
+
+#### Thread
+
+A single thread can only be executed on a single core at a time, but multiple threads can be scheduled on multiple cores.  
+Maximum number of threads = number of cores.
+
+Shared among threads: Text, Data, Heap.  
+Private to each thread: Stack, Registers, Program Counter. 
+
+Concurrency vs Parallelism:
+- **Concurrency**: multiple tasks making progress within the same time frame, but not necessarily simultaneously.
+- **Parallelism**: multiple tasks executing simultaneously on multiple processors or cores.
+
+```cpp
+#include <iostream>
+#include <thread>
+using namespace std;
+void threadFunction(int id) {
+    cout << "Thread " << id << " is running." << endl;
+}
+int main() {
+    thread t1(threadFunction, 1);
+    thread t2(threadFunction, 2);
+    t1.join(); // await for t1 to finish
+    t2.join();
+    return 0;
+}
+```
+
+**Race Condition**: multiple threads access shared data concurrently, and the final outcome depends on the timing of their execution.  
+Can only occur when all of the following conditions are met:
+1. Shared state: Multiple threads access the same shared data.  
+2. Accesses must happen concurrently.
+3. At least one thread modifies the shared data.  
+4. No proper synchronization mechanism is in place.
+
+**Critical Section**: a section of code that accesses shared resources and must not be concurrently executed by more than one thread.  
+**Atomic Operation**: an operation that is indivisible and uninterruptible, ensuring that it completes without interference from other threads. (all or nothing)
+
+Thread synchronization:
+
+Mutex: Mutual Exclusion Lock.
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+using namespace std;
+mutex mtx; // mutex for critical section
+int counter = 0;
+void incrementCounter(int id) {
+    for (int i = 0; i < 1000; ++i) {
+        mtx.lock(); // lock the mutex before entering critical section
+        ++counter; // critical section
+        mtx.unlock(); // unlock the mutex after leaving critical section
+    }
+}
+int main() {
+    thread t1(incrementCounter, 1);
+    thread t2(incrementCounter, 2);
+    t1.join();
+    t2.join();
+    cout << "Final counter value: " << counter << endl;
+    return 0;
+}
+```
+
+Deadlock: Multiple threads are blocked forever, each waiting for the other to release a resource.
+
+## Smart Pointers
+
+Three types of smart pointers in C++:
+1. `unique_ptr`: owns a resource exclusively. Cannot be copied, only moved.
+2. `shared_ptr`: allows multiple pointers to share ownership of a resource. Uses reference counting to manage the resource's lifetime. (Cyclical references can cause memory leaks)
+3. `weak_ptr`: a non-owning pointer that references a resource managed by `shared_ptr`. It does not affect the reference count. (cannot be dereferenced directly)
+
+```cpp
+#include <memory>
+using namespace std;
+int main() {
+    // unique_ptr example
+    unique_ptr<int> p = make_unique<int>(10);
+    unique_ptr<int> uptr1(new int(15));
+    unique_ptr<int> uptr2 = move(uptr1); // transfer ownership
+    // shared_ptr example
+    shared_ptr<int> p = make_shared<int>(10);
+    shared_ptr<int> sptr1(new int(20));
+    shared_ptr<int> sptr2 = sptr1; // shared ownership
+    int shared_count = sptr1.use_count(); // reference count
+
+    // weak_ptr example
+    weak_ptr<int> wptr = sptr1; // non-owning reference
+    shared_ptr<int> sptr3 = wptr.lock(); // convert to shared_ptr
+    return 0;
+}
+```
+
+## Expressions
+
+Expressions have two properties: **type** and **value category**.
+
+**Lvalue**: an expression that refers to a memory location and allows us to take the address of that location using the address-of operator (&).  
+```
+int x = 10; // x is an lvalue
+```
+**Rvalue**: an expression that does not refer to a memory location and cannot have its address taken (temporary value).
+```
+int x = 10; // 10 is an rvalue
+```
+
+Lvalue references: alias for an existing lvalue. Declared using `&`.
+```
+int x = 10;
+int& ref = x; // ref is an lvalue reference to x
+const int& cref = 20; // cref is a const lvalue reference to an rvalue
+```
+Rvalue references: can bind to only rvalues (temporary objects). Declared using `&&`. Used for move semantics.
+```
+int&& rref = 30; // rref is an rvalue reference to the temporary value 30
+```
+
+Move semantics: allows the resources of an rvalue to be "moved" rather than copied, improving performance by avoiding unnecessary copies.  
+**Move constructor** and **move assignment operator** are special member functions.
+
+sipmle example of move semantics:
+
+```cpp
+class Node {
+    int* data;
+    Node(int value) : data(new int(value)) {}
+    // Move constructor
+    Node(Node&& other) noexcept : data(other.data) {
+        other.data = nullptr; // leave other in a valid state
+    }
+    // Move assignment operator
+    Node& operator=(Node&& other) noexcept {
+        if (this != &other) {
+            delete data;
+            data = other.data;
+            other.data = nullptr;
+        }
+        return *this;
+    }
+    ~Node() {
+        delete data;
+    }
+};
+```
+
+Rules of Five:
+1. Destructor
+2. Copy Constructor
+3. Copy Assignment Operator
+4. Move Constructor
+5. Move Assignment Operator
+
+stl::move: casts an object to an rvalue, enabling move semantics.
+
+```cpp
+#include <utility> // for std::move
+std::string str1 = "Hello";
+std::string str2 = std::move(str1); // str1 is now in a valid but unspecified state
+``` 

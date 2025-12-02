@@ -39,21 +39,18 @@ void init(int n)
 
 ```cpp
 int fac[Z], inv[Z];
-void init(int n, int p)
-{
+void init(int n, int p) {
     fac[0] = 1;
     for (int i = 1; i <= n; ++i)
         fac[i] = fac[i - 1] * i % p;
-    inv[n] = qpow(fac[n], p - 2, p);
+    inv[n] = binpow(fac[n], p - 2, p);
     for (int i = n - 1; i >= 1; --i)
         inv[i] = inv[i + 1] * (i + 1) % p;
 }
-inline int C(int n, int m, int p) //组合数
-{
+inline int C(int n, int m, int p) { //组合数
     return m > n ? 0 : fac[n] * inv[m] % p * inv[n - m] % p;
 }
-inline int A(int n, int m, int p) //排列数
-{
+inline int A(int n, int m, int p) { //排列数
     return m > n ? 0 : fac[n] * inv[n - m] % p;
 }
 ```

@@ -252,8 +252,8 @@
   {
     "type": "blogs",
     "category": "Data-Structures",
-    "name": "balancing-bst",
-    "path": "/markdown/blogs/Data-Structures/balancing-bst.md",
+    "name": "bbst",
+    "path": "/markdown/blogs/Data-Structures/bbst.md",
     "title": "Self-balancing Binary Search Tree",
     "description": "AVL trees and red–black trees; Splay trees and treaps",
     "time": "Mon Feb 1, 2024",

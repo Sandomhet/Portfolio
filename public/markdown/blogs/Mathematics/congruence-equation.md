@@ -18,9 +18,9 @@ time: "Tue Dec 31, 2024"
 简化剩余系：1~m 中与 m 互质的个数有$\phi(m)$个，它们构成 m 的简化剩余系。简化剩余系关于模 m 乘法封闭，其中任意数相乘也与 m
 互质。
 
-费马小定理：若 p 是质数，gcd(a, p) = 1，有 $a^{p-1} \equiv 1 \pmod p$。还有另一种形式：对于 ∀a∈Z， $a^p \equiv a \pmod p$
+费马小定理：若 p 是质数，$\gcd(a, p) = 1$，有 $a^{p-1} \equiv 1 \pmod p$。还有另一种形式：对于 $\forall a \in \mathbb{Z}, a^p \equiv a \pmod p$
 
-欧拉定理：若 gcd(a, p) = 1，则$a^{\phi(p)}\equiv 1 \pmod p$，$\phi(p)$为欧拉函数
+欧拉定理：若 $\gcd(a, p) = 1$，则 $a^{\phi(p)}\equiv 1 \pmod p$，$\phi(p)$ 为欧拉函数
 
 因为二者可以相互转化，所以一起证明：
 

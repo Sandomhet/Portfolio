@@ -90,7 +90,7 @@ void front_ans(string s1, string s2)//已知后序和中序求前序
 }
 ```
 
-二叉排序树
+## Binary Search Tree (BST)
 
 ```cpp
 void set_tree(int a, tree& g)//建立二叉排序树
