@@ -1,5 +1,5 @@
 ---
-title: "CMPSC 130A"
+title: "CMPSC 130A Algorithms and Data Structures"
 description: "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree."
 time: "Fri Oct 19, 2025"
 lang: "en"
@@ -7,42 +7,47 @@ lang: "en"
 
 # CMPSC 130A
 
-[Graph Traversal](https://www.sandomhet.com/blogs/traversal).  
-[Topological Sort](https://www.sandomhet.com/blogs/topo-sort).  
-[Connected Components](https://www.sandomhet.com/blogs/cc-scc).  
-[2-SAT](https://www.sandomhet.com/blogs/2-sat).  
-[Shortest Path](https://www.sandomhet.com/blogs/shortest-path).  
-[Minimum Spanning Tree](https://www.sandomhet.com/blogs/mst).  
-[Union-Find](https://www.sandomhet.com/blogs/union).  
-[Hash Tables](https://www.sandomhet.com/blogs/hash-table).
-[Balanced Binary Search Trees](https://www.sandomhet.com/blogs/bbst).
+- [Graph Traversal](https://www.sandomhet.com/blogs/traversal).  
+    - Depth-First Search (DFS)
+    - Breadth-First Search (BFS)
+
+- [Topological Sort](https://www.sandomhet.com/blogs/topo-sort).  
+
+- [Connected Components](https://www.sandomhet.com/blogs/cc-scc).  
+    - Connected Components (CCs)
+    - Strongly Connected Components (SCCs)
+- [2-SAT](https://www.sandomhet.com/blogs/2-sat).  
+
+- [Shortest Path](https://www.sandomhet.com/blogs/shortest-path).  
+    - Unweighted Graphs: BFS
+    - Dijkstra's Algorithm
+    - Bellman-Ford Algorithm
+
+- [Minimum Spanning Tree](https://www.sandomhet.com/blogs/mst).  
+    - Prim's Algorithm (like Dijkstra's)
+    - Kruskal's Algorithm (uses Union-Find)
+    - Cut Property (statement and proof)
+
+- [Union-Find](https://www.sandomhet.com/blogs/union).  
+
+- [Hash Tables](https://www.sandomhet.com/blogs/hash-table).  
+    - Chain Hashing (best of 2)
+    - Bloom Filter
+    - Cuckoo Hashing
+    - Perfect Hashing
+
+- [Balanced Binary Search Trees](https://www.sandomhet.com/blogs/bbst).  
+    - Binary Search Tree (BST)
+    - AVL Tree
 
 ## Table of Contents
 
 ## Algorithm Analysis
 
-Topologial sort of DAG (directed acyclic graph)
-source: no incoming edges
-sink: no outgoing edges
+- Time complexity: asymptotic analysis using Big-O, Big-Theta, Big-Omega notation.
+- Common complexities: $O(1)$, $O(\log n)$, $O(n)$, $O(n \log n)$, $O(n^2)$, $O(2^n)$, $O(n!)$.
 
-Connected components in undirected graph.  
-SCCs in directed graph.  
-
-## Shortest Path Algorithms
-
-### Unweighted Graphs
-
-BFS from source. $O(V+E)$
-
-### Dijkstra's Algorithm
-
-Dijkstra's algorithm for weighted graphs with non-negative weights. Uses a priority queue. $O((V+E) \log V)$
-
-(priority queue implemented with a binary heap)
-
-### Bellman-Ford Algorithm
-
-Handles graphs with negative weights. Detects negative weight cycles. $O(VE)$
+$f(n) = O(g(n))$ if $\exists c > 0, n_0$ such that $\forall n \geq n_0: f(n) \leq c g(n)$.
 
 ## 2-SAT Algorithm
 
@@ -57,44 +62,6 @@ The formula is satisfiable if and only if no variable and its negation are in th
 Use Kosaraju's or Tarjan's algorithm to find SCCs. $O(V+E)$
 
 k-SAT is NP-complete for $k \geq 3$, where input is in CNF with $k$ literals per clause.
-
-## Minimum Spanning Tree (MST)
-
-A minimum spanning tree of a weighted, connected, undirected graph is a subset of edges that connects all vertices with the minimum possible total edge weight.
-
-Forest is a collection of trees. A tree is an acyclic connected graph.
-
-### Kruskal's Algorithm
-
-Sort edges by weight. Add edges in order, skipping those that form a cycle. Use a union-find data structure. $O(E \log E)$
-
-### Prim's Algorithm
-
-Start from a vertex, grow the MST by adding the minimum weight edge connecting the tree to a new vertex. Use a priority queue. $O((V+E) \log V)$
-
-## Union-Find Data Structure
-
-Union-Find (Disjoint Set Union) is a data structure that keeps track of a partition of a set into disjoint subsets. It supports two main operations:
-
-Union by rank and path compression are common optimizations.
-
-1. **Find**: Determine which subset a particular element is in.
-2. **Union**: Join two subsets into a single subset.
-
-Applications:
-- Detecting cycles in graphs.
-- Kruskal's MST algorithm.
-- Dynamic connectivity problems.
-
-Time complexity: $O(\alpha(n))$ per operation, where $\alpha(n)$ is the inverse Ackermann function, which grows very slowly and is effectively constant for practical purposes.
-
-## Hash Tables
-
-Double hashing, chain hashing.
-
-## BBST (Balanced Binary Search Trees)
-
-AVL trees, Red-Black trees.
 
 ## Markov Chains
 
@@ -150,8 +117,6 @@ In general, for $m$ possible values and $k$ items, if $k \geq \sqrt{2m\ln 2} \ap
 **Static** set $S$ of $n$ keys from a large universe $U$. Want $O(1)$ worst-case lookup time with $O(n)$ space.
 
 Universal hash function $h(x) = ((ax + b) \mod p) \mod m$ where $p$ is a prime larger than $|U|$, $a \in \{1, \ldots, p-1\}$, $b \in \{0, \ldots, p-1\}$ chosen uniformly at random. For any two distinct keys $x \neq y$, $Pr(h(x) = h(y)) \leq \frac{1}{m}$.
-
-
 
 1. Choose $m = n$. Use a universal hash function $h$ to map keys to $m$ slots. Expected number of collisions is $\leq \frac{n(n-1)}{2m} < \frac{n}{2}$. If there are collisions, rehash with a new $h$ until no collisions. Expected number of trials is 2. Total space is $O(n)$.
 

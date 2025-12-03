@@ -159,9 +159,9 @@ Library calls vs System calls:
 
 Unix OS in C language. Unix shell is a command-line interpreter for the Unix OS.
 
-**fork()**: creates a new process (child) by duplicating the current process (parent). Returns the child's PID to the parent and 0 to the child.
-**exec()**: replaces the current process image with a new process image (overlaying). It's the only way to execute a different program within a process.
-**wait()**: makes the parent process wait until all of its child processes have terminated.
+**fork()**: creates a new process (child) by duplicating the current process (parent). Returns the child's PID to the parent and 0 to the child.  
+**exec()**: replaces the current process image with a new process image (overlaying). It's the only way to execute a different program within a process.  
+**wait()**: makes the parent process wait until all of its child processes have terminated.  
 
 Multiprogramming: multiple programs loaded into memory and executed by the CPU concurrently.
 
@@ -295,6 +295,30 @@ int main() {
     // weak_ptr example
     weak_ptr<int> wptr = sptr1; // non-owning reference
     shared_ptr<int> sptr3 = wptr.lock(); // convert to shared_ptr
+    return 0;
+}
+```
+
+## Exception Handling
+
+Exception handling is a mechanism for handling runtime errors in a controlled manner. It allows a program to respond to exceptional circumstances (like runtime errors) without crashing.
+
+```cpp
+#include <iostream>
+using namespace std;
+int divide(int a, int b) {
+    if (b == 0) {
+        throw runtime_error("Division by zero");
+    }
+    return a / b;
+}
+int main() {
+    try {
+        int result = divide(10, 0);
+        cout << "Result: " << result << endl;
+    } catch (const runtime_error& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
     return 0;
 }
 ```

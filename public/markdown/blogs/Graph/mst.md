@@ -12,6 +12,8 @@ time: "Sat Nov 1, 2025"
 
 A Minimum Spanning Tree (MST) of a connected, edge-weighted undirected graph is a subset of the edges that connects all the vertices together, without any cycles and with the minimum possible total edge weight.
 
+Forest is a collection of trees. A tree is an acyclic connected graph.
+
 ## Properties
 
 1. **Uniqueness**: If all edge weights are distinct, the MST is unique.
@@ -32,6 +34,8 @@ Consider $X$ the set of edges in the MST that have both endpoints in $S$. The se
 ## Prim's Algorithm
 
 Prim's algorithm is a greedy algorithm that builds the MST one edge at a time, starting from an arbitrary vertex and growing the MST by adding the lightest edge that connects a vertex in the MST to a vertex outside the MST.
+
+Start from a vertex, grow the MST by adding the minimum weight edge connecting the tree to a new vertex. $O(m \log m)$ with priority queue.
 
 （与 dijkstra 神似）
 
@@ -93,7 +97,7 @@ int prim(int s) {
 
 Kruskal's algorithm is a greedy algorithm that builds the MST by sorting all the edges in non-decreasing order of their weights and adding them one by one to the MST, provided they do not form a cycle with the edges already included in the MST.
 
-$O(m \log m)$ with union-find data structure.
+Sort edges by weight. Add edges in order, skipping those that form a cycle. $O(m \log m)$ with union-find data structure.
 
 （用到了并查集、集合思想；记得先排序）
 
