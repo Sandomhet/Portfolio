@@ -1,4 +1,34 @@
 {
+  "CMPSC111": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC111",
+    "path": "/markdown/notes/CMPSC111.md",
+    "title": "CMPSC 111 - Numerical Linear Algebra",
+    "description": "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel.",
+    "time": "Tue Dec 9, 2025",
+    "lang": "zh"
+  },
+  "CMPSC32": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC32",
+    "path": "/markdown/notes/CMPSC32.md",
+    "title": "CMPSC 32 - Object Oriented Design",
+    "description": "Object-oriented programming concepts including classes, inheritance, polymorphism, and design patterns.",
+    "time": "Tue Dec 9, 2025",
+    "lang": "zh"
+  },
+  "CMPSC130A": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC130A",
+    "path": "/markdown/notes/CMPSC130A.md",
+    "title": "CMPSC 130A Algorithms and Data Structures",
+    "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
+    "time": "Mon Dec 8, 2025",
+    "lang": "zh"
+  },
   "hash-table": {
     "type": "blogs",
     "category": "Data-Structures",
@@ -79,16 +109,6 @@
     "time": "Fri Oct 19, 2025",
     "lang": "zh"
   },
-  "CMPSC130A": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC130A",
-    "path": "/markdown/notes/CMPSC130A.md",
-    "title": "CMPSC 130A Algorithms and Data Structures",
-    "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
-    "time": "Fri Oct 19, 2025",
-    "lang": "en"
-  },
   "traversal": {
     "type": "blogs",
     "category": "Graph",
@@ -99,16 +119,6 @@
     "time": "Thu Oct 16, 2025",
     "lang": "zh"
   },
-  "CMPSC111": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC111",
-    "path": "/markdown/notes/CMPSC111.md",
-    "title": "CMPSC 111 - Numerical Linear Algebra",
-    "description": "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel.",
-    "time": "Fri Jun 6, 2025",
-    "lang": "en"
-  },
   "Pstat120A": {
     "type": "notes",
     "category": "",
@@ -117,7 +127,7 @@
     "title": "PSTAT 120A Introduction to Probability",
     "description": "Content includes distributions, random variables...",
     "time": "Fri Jun 6, 2025",
-    "lang": "en"
+    "lang": "zh"
   },
   "topo-sort": {
     "type": "blogs",
@@ -137,7 +147,7 @@
     "title": "CMPSC 40 Discrete Mathematics",
     "description": "discrete mathematics and mathematical proof",
     "time": "Wed May 28, 2025",
-    "lang": "en"
+    "lang": "zh"
   },
   "interview": {
     "type": "projects",
@@ -157,7 +167,7 @@
     "title": "MATH 6A Vector Calculus",
     "description": "Vector Calculus Cheatsheet",
     "time": "Thu Mar 20, 2025",
-    "lang": "en"
+    "lang": "zh"
   },
   "Math4B": {
     "type": "notes",
@@ -167,7 +177,7 @@
     "title": "MATH 4B Differential Equation",
     "description": "Differential Equation Cheatsheet",
     "time": "Tue Mar 18, 2025",
-    "lang": "en"
+    "lang": "zh"
   },
   "tiktok-entertain": {
     "type": "articles",
@@ -254,8 +264,8 @@
     "category": "Data-Structures",
     "name": "bbst",
     "path": "/markdown/blogs/Data-Structures/bbst.md",
-    "title": "Self-balancing Binary Search Tree",
-    "description": "AVL trees and red–black trees; Splay trees and treaps",
+    "title": "Balanced Binary Search Tree",
+    "description": "AVL trees and red-black trees; Splay trees and treaps",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -625,16 +635,6 @@
     "name": "CMPSC181",
     "path": "/markdown/notes/CMPSC181.md",
     "title": "CMPSC181",
-    "description": "description",
-    "time": "Mon Jan 1, 2024",
-    "lang": "zh"
-  },
-  "CMPSC32": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC32",
-    "path": "/markdown/notes/CMPSC32.md",
-    "title": "CMPSC32",
     "description": "description",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"

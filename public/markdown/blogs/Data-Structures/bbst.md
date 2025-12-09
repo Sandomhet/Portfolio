@@ -1,10 +1,10 @@
 ---
-title: "Self-balancing Binary Search Tree"
-description: "AVL trees and red–black trees; Splay trees and treaps"
+title: "Balanced Binary Search Tree"
+description: "AVL trees and red-black trees; Splay trees and treaps"
 time: "Mon Feb 1, 2024"
 ---
 
-# Self-balancing Binary Search Tree
+# Balanced Binary Search Tree
 
 ## Properties of BST
 
@@ -142,15 +142,12 @@ AVL树是一种严格平衡的二叉搜索树，任何节点的两个子树的�
 Properties:
 1. For every node $rt$, $|h(lk) - h(rk)| \leq 1$.
 
-Rotations:
-- Right Rotation (for left-heavy imbalance)
-
-When insertion, left, left -> right rotation; right, right -> left rotation; left, right -> left-right rotation; right, left -> right-left rotation. On the lowest unbalanced node.
-
 Algorithms:
 1. Insert the new node as in a regular BST.
 2. Backtrack to the root, updating heights and checking balance factors.
 3. Perform appropriate rotations to restore balance. Do 1 or 2 rotations as needed.
+
+Rotations: When insertion, left, left -> right rotation; right, right -> left rotation; left, right -> left-right rotation; right, left -> right-left rotation. On the lowest unbalanced node.
 
 Four cases of rotations:
 - Left-Left Case: $x$ inserted into left subtree of left child of $\alpha$.
@@ -158,6 +155,78 @@ Four cases of rotations:
 - Left-Right Case: $x$ inserted into right subtree of left child of $\alpha$.
 - Right-Left Case: $x$ inserted into left subtree of right child of $\alpha$.
 
+![alt text](../../images/image.png)
+
+![alt text](../../images/image-1.png)
+
+```cpp
+#define BST AVL
+struct BST
+{
+    int son[2];//左右子节点
+    int val;//节点权值
+    int siz, het;//节点个数、子树高度
+    #define lk bt[rt].son[0]
+    #define rk bt[rt].son[1]
+}; BST bt[Z];
+int root, tot;
+inline void pushup(int rt)//更新信息
+{
+    bt[rt].siz = bt[lk].siz + bt[rk].siz + 1;
+    bt[rt].het = max(bt[lk].het, bt[rk].het) + 1;
+}
+inline void rotate(int &rt, int op)//旋转
+{
+    int to = bt[rt].son[op ^ 1];
+    bt[rt].son[op ^ 1] = bt[to].son[op], bt[to].son[op] = rt, rt = to;
+    pushup(lk), pushup(rk), pushup(rt);
+}
+void insert(int &rt, int val)//插入新节点
+{
+    if (!rt) { bt[++tot].val = val; bt[tot].siz = bt[tot].het = 1; rt = tot; return; }
+    if (val < bt[rt].val) insert(lk, val);
+    else insert(rk, val);
+    pushup(rt);
+    if (bt[lk].het - bt[rk].het == 2)
+    {
+        if (val < bt[lk].val) rotate(rt, 1);//左左
+        else { rotate(lk, 0), rotate(rt, 1); }//左右
+    }
+    else if (bt[rk].het - bt[lk].het == 2)
+    {
+        if (val > bt[rk].val) rotate(rt, 0);//右右
+        else { rotate(rk, 1), rotate(rt, 0); }//右左
+    }
+}
+void remove(int &rt, int val)//删除节点
+{
+    if (!rt) return;
+    if (val == bt[rt].val)
+    {
+        if (bt[lk].siz && bt[rk].siz)
+        {
+            int to = lk;
+            while (bt[to].son[1]) to = bt[to].son[1];
+            bt[rt].val = bt[to].val;
+            remove(lk, bt[to].val);
+        }
+        else rt = bt[lk].siz ? lk : rk;
+    }
+    else val < bt[rt].val ? remove(lk, val) : remove(rk, val);
+    if (!rt) return;
+    pushup(rt);
+    if (bt[lk].het - bt[rk].het == 2)
+    {
+        if (bt[lk].het >= bt[rk].het) rotate(rt, 1);//左左
+        else { rotate(lk, 0), rotate(rt, 1); }//左右
+    }
+    else if (bt[rk].het - bt[lk].het == 2)
+    {
+        if (bt[rk].het >= bt[lk].het) rotate(rt, 0);//右右
+        else { rotate(rk, 1), rotate(rt, 0); }//右左
+    }
+}
+```
 
 ## Treap
 

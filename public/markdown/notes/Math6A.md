@@ -2,7 +2,6 @@
 title: "MATH 6A Vector Calculus"
 description: "Vector Calculus Cheatsheet"
 time: "Thu Mar 20, 2025"
-lang: "en"
 ---
 
 # Vector Calculus

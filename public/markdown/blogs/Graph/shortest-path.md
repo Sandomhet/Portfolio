@@ -20,22 +20,20 @@ time: "Mon Oct 27, 2025"
 BFS from source. $O(V+E)$
 
 ```cpp
-vector<int> adj[Z]; // adjacency list
-// int dis[Z]; // distance array
-vector<int> dis(Z, -1); // distance array
+vector<int> e[Z];
+vector<int> dis;
 void bfs(int s) {
-    memset(dis, -1, sizeof(dis));
+    dis.assign(n + 1, -1);
     queue<int> q;
     q.push(s);
     dis[s] = 0;
     while (!q.empty()) {
         int u = q.front(); q.pop();
-        for (int v : adj[u]) {
+        for (int v : e[u])
             if (dis[v] == -1) {
                 dis[v] = dis[u] + 1;
                 q.push(v);
             }
-        }
     }
 }
 ```
@@ -46,20 +44,25 @@ Topological sort + relax edges. $O(V+E)$
 weights can be negative but no negative cycles.
 
 ```cpp
-void dag_shortest_path(int n, vector<int> adj[], vector<int>& dis) {
-    vector<int> in_degree(n, 0);
-    for (int u = 0; u < n; u++) {
-        for (int v : adj[u]) {
+vector<int> e[Z];
+vector<int> dis;
+void dag_shortest_path(int n) {
+    dis.assign(n + 1, INF);
+    vector<int> in_degree(n + 1, 0);
+    for (int u = 1; u <= n; u++)
+        for (int v : e[u]) {
             in_degree[v]++;
         }
-    }
     queue<int> q;
-    for (int i = 0; i < n; i++) {
-        if (in_degree[i] == 0) q.push(i);
+    for (int u = 1; u <= n; u++) {
+        if (in_degree[u] == 0) {
+            q.push(u);
+            dis[u] = 0;
+        }
     }
     while (!q.empty()) {
         int u = q.front(); q.pop();
-        for (int v : adj[u]) {
+        for (int v : e[u]) {
             dis[v] = min(dis[v], dis[u] + 1); // Assuming edge weight = 1
             if (--in_degree[v] == 0) q.push(v);
         }
@@ -223,7 +226,7 @@ void get_negative_cycle(int x) {
 
 ### 0-1 BFS
 
-For graphs with edge weights of 0 or 1. $O(V+E)$
+For graphs with edge weights of $0$ or $1$. $O(V+E)$
 
 Same idea as Dijkstra, but the queue would only look like this: $Q = [d_u, \cdots, d_u, d_u + 1, \cdots, d_u + 1]$.
 
@@ -332,8 +335,8 @@ void shortest_paths(int v0, vector<int>& d, vector<int>& p) {
 
 ## All Pairs Shortest Path (APSP)
 
-$Floyed$算法--多源最短路
-时间复杂度：$O（n^3）$
+Floyed算法--多源最短路
+时间复杂度：$O(n^3)$
 
 ```cpp
 void floyed_base()

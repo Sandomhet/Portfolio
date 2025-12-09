@@ -2,7 +2,6 @@
 title: "MATH 4B Differential Equation"
 description: "Differential Equation Cheatsheet"
 time: "Tue Mar 18, 2025"
-lang: "en"
 ---
 
 # Ordinary Differential Equation

@@ -12,7 +12,7 @@ time: "Mon Nov 10, 2025"
 
 A hash table is a data structure that maps keys to values for efficient data retrieval. It uses a hash function to compute an index (hash code) into an array of buckets or slots, from which the desired value can be found.  
 
-Denote $U (N)$ as the universe set, $H (m)$ as the hash table set, and $S (n)$ as the set of keys to be stored. A hash function $h: U \to H$ as the hash function. ($n < m << N$.)
+Denote $U (N)$ as the universe set, $H (m)$ as the hash table set, and $S (n)$ as the set of keys to be stored. A hash function $h: U \to H$. ($n < m << N$.)
 
 ## Collision Resolution
 
@@ -27,7 +27,7 @@ Denote $L_i$ as the load of the $i$-th bucket, i.e., the number of elements hash
 
 ### Load Factor
 
-The load factor ($\alpha$) is a measure of how full the hash table is, defined as $\alpha = \frac{n}{m}$, where $n$ is the number of elements and $m$ is the number of buckets. A higher load factor increases the likelihood of collisions and can degrade performance.
+The load factor $\alpha$ is a measure of how full the hash table is, defined as $\alpha = \frac{n}{m}$, where $n$ is the number of elements and $m$ is the number of buckets. A higher load factor increases the likelihood of collisions and can degrade performance.
 
 When the load factor exceeds a certain threshold (e.g., 0.7), the hash table may be resized (usually doubled) to maintain efficient operations. This involves rehashing all existing keys into the new table.
 
@@ -44,9 +44,6 @@ Every hash function has a bad input where all elements map to the same bucket.
 
 Naive hash functions include:
 - **Division Method**: $h(x) = x \bmod m$
-- **Multiplication Method**: $h(x) = \lfloor m (xA \bmod 1) \rfloor$, where $A$ is a constant (e.g., $(\sqrt{5} - 1)/2$).
-
-Optimization: power of two choices (two hash functions)
 
 ### Random Hash Function
 
@@ -71,15 +68,13 @@ For any two distinct keys $x$ and $y$, the hash values $h(x)$ and $h(y)$ are uni
 
 ### Universal Hash Function
 
-A family of hash functions $\mathcal{H}$ is called universal if for any two distinct keys $x$ and $y$, the probability that they collide (i.e., $h(x) = h(y)$) when $h$ is chosen uniformly at random from $\mathcal{H}$ is at most $\frac{1}{m}$, where $m$ is the number of buckets in the hash table. $P(h(x) = h(y)) \leq \frac{1}{m}$.
-
 1. choose a prime $p > N$ (Merseenne prime preferred, $p = 2^q - 1$)
-2. choose $a, b \in [0, p-1]$ uniformly at random
+2. choose $a \in [1, p - 1]$ and $b \in [0, p - 1]$ uniformly at random
 3. define the hash function as $h(x) = ((ax + b) \bmod p) \bmod m$
 
-<!-- ## Construction of Hash Functions -->
+$m$ is the number of buckets in the hash table. For any two distinct keys $x \neq y$, $Pr(h(x) = h(y)) \leq \frac{1}{m}$.
 
-### Cuckoo Hashing
+## Cuckoo Hashing
 
 Cuckoo hashing is a collision resolution technique for hash tables that uses two or more hash functions and two or more hash tables. Each key can be stored in one of the tables based on its hash value. If a collision occurs, the existing key is "kicked out" and reinserted into its alternative location, potentially causing further displacements.
 
@@ -147,54 +142,6 @@ if __name__ == "__main__":
     print("Search 75:", ht.search(75))
     ht.remove(75)
     ht.display()
-
-```
-
-```cpp
-#include <vector>
-#include <functional>
-using namespace std;
-class CuckooHashTable {
-private:
-    vector<int> table1, table2;
-    function<size_t(int)> hash1, hash2;
-public:
-    CuckooHashTable(size_t size, function<size_t(int)> h1, function<size_t(int)> h2)
-        : table1(size, -1), table2(size, -1), hash1(h1), hash2(h2) {}
-    bool insert(int key) {
-        int pos1 = hash1(key) % table1.size();
-        if (table1[pos1] == -1) {
-            table1[pos1] = key;
-            return true;
-        }
-        int displacedKey = table1[pos1];
-        table1[pos1] = key;
-        int pos2 = hash2(displacedKey) % table2.size();
-        if (table2[pos2] == -1) {
-            table2[pos2] = displacedKey;
-            return true;
-        }
-        // Handle further displacements or rehashing as needed
-        return false; // Simplified for brevity
-    }
-    bool contains(int key) {
-        int pos1 = hash1(key) % table1.size();
-        if (table1[pos1] == key) return true;
-        int pos2 = hash2(key) % table2.size();
-        return table2[pos2] == key;
-    }
-    void remove(int key) {
-        int pos1 = hash1(key) % table1.size();
-        if (table1[pos1] == key) {
-            table1[pos1] = -1;
-            return;
-        }
-        int pos2 = hash2(key) % table2.size();
-        if (table2[pos2] == key) {
-            table2[pos2] = -1;
-        }
-    }
-};
 ```
 
 ## Bloom Filter
@@ -258,33 +205,23 @@ Therefore, the optimal $k$ is:
 
 ### Algorithm
 
-```cpp
-#include <vector>
-#include <functional>
-#include <bitset>
-using namespace std;
-class BloomFilter {
-private:
-    vector<function<size_t(const string&)>> hashFunctions;
-    bitset<1000> bitArray; // Example size
-public:
-    BloomFilter(const vector<function<size_t(const string&)>>& funcs) : hashFunctions(funcs) {}
-    void insert(const string& key) {
-        for (const auto& hashFunc : hashFunctions) {
-            size_t index = hashFunc(key) % bitArray.size();
-            bitArray.set(index);
-        }
-    }
-    bool contains(const string& key) {
-        for (const auto& hashFunc : hashFunctions) {
-            size_t index = hashFunc(key) % bitArray.size();
-            if (!bitArray.test(index)) {
-                return false;
-            }
-        }
-        return true;
-    }
-};
+```python
+class BloomFilter:
+    def __init__(self, m, k, hash_class):
+        self.m = m
+        self.k = k
+        self.bits = [0] * m
+        self.hash_functions = [hash_class(m) for _ in range(k)]
+    
+    def add(self, x):
+        for hf in self.hash_functions:
+            self.bits[hf.hash(x)] = 1
+    
+    def contains(self, x):
+        for hf in self.hash_functions:
+            if self.bits[hf.hash(x)] == 0:
+                return False
+        return True
 ```
 
 ### Applications
@@ -298,4 +235,36 @@ Bloom filters are widely used in various applications, including:
 5. **Network Security**: To filter out known malicious URLs or IP addresses.
 6. **Blockchain and Cryptocurrencies**: To efficiently verify transactions and blocks without downloading the entire blockchain.
 
-(Google Chrome, Medium, Bitcoin)
+## Perfect Hashing
+
+### Birthday paradox
+
+Define $P(k)$ as the probability that $k$ people have distinct birthdays. Let $\alpha = \frac{1}{365}$. $P(k) = \frac{365}{365} \cdot \frac{364}{365} \cdots \frac{365-k+1}{365} = \prod\limits_{i=0}^{k-1} (1 - i \alpha)$.  
+Since $e^{-x} = 1 - x + \frac{x^2}{2!} - \cdots \geq 1 - x$ for all $x$, $P(k) \leq \prod\limits_{i=0}^{k-1} e^{-i \alpha} = e^{-\alpha \sum\limits_{i=0}^{k-1} i} = e^{-\frac{k(k-1)}{2 \cdot 365}}$.  
+For example, $1 - P(23) \geq 0.5$; $1 - P(50) \geq 0.99$. For at least 23 people, the probability that at least two share a birthday is at least 50%.
+
+In general, for $m$ possible values and $k$ items, if $k \geq \sqrt{2m\ln 2} \approx 1.177 \sqrt{m}$, then the probability of a collision is at least 0.5.
+
+### Static Perfect Hashing
+
+**Static** set $S$ of $n$ keys from a large universe $U$. Want $O(1)$ worst-case lookup time with $O(n)$ space.
+
+Choose $m = n$. Use a universal hash function $h$ to map keys to $m$ slots. Expected number of collisions is $\leq \frac{n(n-1)}{2m} < \frac{n}{2}$. If there are collisions, rehash with a new $h$ until no collisions. Expected number of trials is 2. Total space is $O(n)$.
+
+### Two-Level Scheme
+
+- First level: choose a universal hash function $h$. Let $n_i$ be the number of keys hashed to slot $i$.
+    - check if $\sum\limits_{i} n_i^2 \leq 4n$. If not, rehash with a new $h$ until it holds. Expected number of trials is 2.
+- Second level: for each slot $i$ with $n_i$ keys, create a secondary hash table of size $m_i = n_i^2$ using a new universal hash function $h_i$. The expected number of collisions in this secondary table is $\leq \frac{n_i(n_i - 1)}{2 m_i} < \frac{1}{2}$. Rehash until no collisions. Expected number of trials is 2.
+- Total space: $\sum\limits_{i} m_i = \sum\limits_{i} n_i^2$. We have $\sum\limits_{i} n_i^2 \leq 4n$. Thus total space is $O(n)$.
+- Lookup: compute first-level hash to find slot $i$, then compute second-level hash to find the key in $O(1)$ time.
+
+Proof that $\sum\limits_{i} n_i^2 \leq 4n$ with probability at least 0.5:  
+$E[\sum\limits_{i} n_i^2] = \sum\limits_{i} E[n_i^2]$.  
+$E[n_i^2] = Var(n_i) + (E[n_i])^2$.  
+$E[n_i] = \frac{n}{m} = 1$.  
+$Var(n_i) = n \cdot \frac{1}{m} \cdot (1 - \frac{1}{m}) = 1 - \frac{1}{m} < 1$.  
+Thus $E[n_i^2] < 2$.  
+So $E[\sum\limits_{i} n_i^2] < 2m = 2n$.  
+By Markov's inequality, $Pr(\sum\limits_{i} n_i^2 \geq 4n) \leq \frac{E[\sum\limits_{i} n_i^2]}{4n} < \frac{2n}{4n} = \frac{1}{2}$.  
+Therefore, $Pr(\sum\limits_{i} n_i^2 \leq 4n) \geq \frac{1}{2}$.

@@ -8,6 +8,13 @@ time: "Sun Nov 2, 2025"
 
 Disjoint Set Union (DSU), also known as Union-Find, is a data structure that keeps track of a partition of a set into disjoint subsets.
 
+## Definition
+
+- $\pi(x)$: the representative of the set containing $x$.
+- $rank(x)$: the maximum depth of the tree rooted at $x$. Starts at $0$ for single-node trees.
+
+A node $x$ with $rank(x) = k$ has at least $2^k$ nodes in its subtree.
+
 ## Optimizations
 
 1. **Path Compression**: This optimization flattens the structure of the tree whenever `find` is called, making future queries faster.
@@ -34,6 +41,6 @@ struct DSU {
 }; DSU dsu(n);
 ```
 
-同时还要注意种类并查集和带权并查集
-种类并查集要运用反集，相反的集合可以由 $i$ 与 $n+i$ 建立联系。
-带权并查集需要在基础上多维护一些数据。
+同时还要注意种类并查集和带权并查集.  
+种类并查集要运用反集，相反的集合可以由 $i$ 与 $n+i$ 建立联系。  
+带权并查集需要在基础上多维护一些数据。  

@@ -19,24 +19,40 @@ time: "Thu Oct 16, 2025"
 
 $G = (V, E)$ where $V$ is the set of vertices and $E$ is the set of edges.  
 
-- Adjacency Matrix
-- Adjacency List
-- Edge List
-- Incidence Matrix
-- Compressed Sparse Row (CSR)
-- Compressed Sparse Column (CSC)
-- Object-Oriented Representation
-- Multi-layer Graph Representation
-
 链式前向星（模拟链表）
 ```cpp
 struct edge { int v, w, ne; } e[Z << 1];
 int head[Z], cnt = 1;
 inline void add(int x, int y, int z) {
-    e[++cnt] = edge{y, head[x]};
+    e[++cnt] = edge{y, z, head[x]};
     head[x] = cnt;
 }
 ```
+
+Adjacency Matrix
+```cpp
+int e[Z][Z];
+inline void add(int x, int y, int z) {
+    e[x][y] = z;
+}
+```
+
+Adjacency List
+```cpp
+vector<pii> e[Z];
+inline void add(int x, int y, int z) {
+    e[x].push_back({y, z});
+}
+```
+
+Edge List
+```cpp
+struct edge { int u, v, w; };
+vector<edge> e;
+inline void add(int x, int y, int z) {
+    e.push_back(edge{x, y, z});
+}
+``` 
 
 ## Depth First Search (DFS)
 
@@ -44,7 +60,7 @@ $O(n + m)$
 
 ```cpp
 vector<int> e[Z];
-bool vs[Z];
+vector<bool> vs;
 void dfs(int u) {
     vs[u] = true;
     for (int v : e[u]) {
@@ -52,8 +68,8 @@ void dfs(int u) {
             dfs(v);
     }
 }
-void example_dfs() {
-    memset(vs, 0, sizeof(vs));
+void example_dfs(int n) {
+    vs.assign(n + 1, false);
     for (int i = 1; i <= n; i++)
         if (!vs[i])
             dfs(i);
@@ -80,8 +96,8 @@ $O(n + m)$
 
 ```cpp
 vector<int> e[Z];
-bool vs[Z];
-int dis[Z], path[Z];
+vector<bool> vs;
+vector<int> dis, path;
 void bfs(int st) {
     queue<int> q;
     q.push(st);
@@ -89,8 +105,7 @@ void bfs(int st) {
     dis[st] = 0;
     path[st] = -1;
     while (!q.empty()) {
-        int u = q.front();
-        q.pop();
+        int u = q.front(); q.pop();
         for (int v : e[u]) {
             if (!vs[v]) {
                 q.push(v);
@@ -101,10 +116,10 @@ void bfs(int st) {
         }
     }
 }
-void example_bfs() {
-    memset(vs, 0, sizeof(vs));
-    memset(dis, -1, sizeof(dis));
-    memset(path, -1, sizeof(path));
+void example_bfs(int n) {
+    vs.assign(n + 1, false);
+    dis.assign(n + 1, -1);
+    path.assign(n + 1, -1);
     for (int i = 1; i <= n; i++)
         if (!vs[i])
             bfs(i);

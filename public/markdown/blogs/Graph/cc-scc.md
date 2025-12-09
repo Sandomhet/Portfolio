@@ -109,7 +109,7 @@ void shrink() {
     for (int u = 1; u <= n; u++)
         for (int v : e[u]) {
             int cu = sccid[u], cv = sccid[v];
-            if (cu != cv) se[cu].push_back(cv);
+            if (cu != cv) se[cu].push_back(cv); // duplicate edges allowed
         }
 }
 ```

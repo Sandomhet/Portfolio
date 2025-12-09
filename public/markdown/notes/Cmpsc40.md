@@ -2,7 +2,6 @@
 title: "CMPSC 40 Discrete Mathematics"
 description: "discrete mathematics and mathematical proof"
 time: "Wed May 28, 2025"
-lang: "en"
 ---
 
 # Discrete Mathematics

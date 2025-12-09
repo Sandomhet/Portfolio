@@ -1,8 +1,7 @@
 ---
 title: "CMPSC 130A Algorithms and Data Structures"
 description: "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree."
-time: "Fri Oct 19, 2025"
-lang: "en"
+time: "Mon Dec 8, 2025"
 ---
 
 # CMPSC 130A
@@ -10,58 +9,38 @@ lang: "en"
 - [Graph Traversal](https://www.sandomhet.com/blogs/traversal).  
     - Depth-First Search (DFS)
     - Breadth-First Search (BFS)
-
 - [Topological Sort](https://www.sandomhet.com/blogs/topo-sort).  
-
 - [Connected Components](https://www.sandomhet.com/blogs/cc-scc).  
     - Connected Components (CCs)
     - Strongly Connected Components (SCCs)
 - [2-SAT](https://www.sandomhet.com/blogs/2-sat).  
-
 - [Shortest Path](https://www.sandomhet.com/blogs/shortest-path).  
     - Unweighted Graphs: BFS
     - Dijkstra's Algorithm
     - Bellman-Ford Algorithm
-
 - [Minimum Spanning Tree](https://www.sandomhet.com/blogs/mst).  
     - Prim's Algorithm (like Dijkstra's)
     - Kruskal's Algorithm (uses Union-Find)
     - Cut Property (statement and proof)
-
 - [Union-Find](https://www.sandomhet.com/blogs/union).  
-
 - [Hash Tables](https://www.sandomhet.com/blogs/hash-table).  
     - Chain Hashing (best of 2)
     - Bloom Filter
     - Cuckoo Hashing
     - Perfect Hashing
-
 - [Balanced Binary Search Trees](https://www.sandomhet.com/blogs/bbst).  
     - Binary Search Tree (BST)
     - AVL Tree
 
 ## Table of Contents
 
-## Algorithm Analysis
+## Algorithm Analysis with Big-O
 
-- Time complexity: asymptotic analysis using Big-O, Big-Theta, Big-Omega notation.
-- Common complexities: $O(1)$, $O(\log n)$, $O(n)$, $O(n \log n)$, $O(n^2)$, $O(2^n)$, $O(n!)$.
+Common complexities: $O(1)$, $O(\log n)$, $O(n)$, $O(n \log n)$, $O(n^2)$, $O(2^n)$, $O(n!)$.
 
-$f(n) = O(g(n))$ if $\exists c > 0, n_0$ such that $\forall n \geq n_0: f(n) \leq c g(n)$.
-
-## 2-SAT Algorithm
-
-(Satisfiability of boolean formulas with 2 literals per clause)
-
-CNF is AND of ORs.
-
-Given a 2-CNF formula, construct an implication graph.  
-Each variable $x_i$ has two nodes: $x_i$ and $\neg x_i$.  
-For each clause $(a \lor b)$, add edges $\neg a \to b$ and $\neg b \to a$.  
-The formula is satisfiable if and only if no variable and its negation are in the same SCC.  
-Use Kosaraju's or Tarjan's algorithm to find SCCs. $O(V+E)$
-
-k-SAT is NP-complete for $k \geq 3$, where input is in CNF with $k$ literals per clause.
+- Big-O: $f(n) = O(g(n))$ if $\exists c > 0, n_0$ such that $\forall n \geq n_0: f(n) \leq c g(n)$. ($f(n) < g(n)$ upper bound)
+- Big-Omega: $f(n) = \Omega(g(n))$ if $\exists c > 0, n_0$ such that $\forall n \geq n_0: f(n) \geq c g(n)$. ($f(n) > g(n)$ lower bound)
+- Big-Theta: $f(n) = \Theta(g(n))$ if $\exists c_1, c_2 > 0, n_0$ such that $\forall n \geq n_0: c_1 g(n) \leq f(n) \leq c_2 g(n)$. ($f(n) = g(n)$ tight bound)
 
 ## Markov Chains
 
@@ -104,36 +83,3 @@ $P(x, y) = \begin{cases} \frac{1}{\text{out-degree}(x)} & \text{if } x \to y \\ 
 Lazy random surfer model: with probability $d (0.85)$ follow a link, with probability $1-d$ jump to a random page. This is ergodic because $\forall i, j: P_{ij} \geq \frac{1-d}{N} > 0$.  
 
 $P = d \hat{P} + \frac{1-d}{N} J$ where $J$ is the all-ones matrix and $\hat{P}$ is the sparse matrix defined above.
-
-## Perfect Hashing
-
-Birthday paradox:  
-Define $P(k)$ as the probability that $k$ people have distinct birthdays. Let $\alpha = \frac{1}{365}$. $P(k) = \frac{365}{365} \cdot \frac{364}{365} \cdots \frac{365-k+1}{365} = \prod\limits_{i=0}^{k-1} (1 - i \alpha)$.  
-Since $e^{-x} = 1 - x + \frac{x^2}{2!} - \cdots \geq 1 - x$ for all $x$, $P(k) \leq \prod\limits_{i=0}^{k-1} e^{-i \alpha} = e^{-\alpha \sum\limits_{i=0}^{k-1} i} = e^{-\frac{k(k-1)}{2 \cdot 365}}$.  
-For $k = 23$, $1 - P(23) \geq 0.5$; $1 - P(50) \geq 0.99$. For at least 23 people, the probability that at least two share a birthday is at least 50%.
-
-In general, for $m$ possible values and $k$ items, if $k \geq \sqrt{2m\ln 2} \approx 1.177 \sqrt{m}$, then the probability of a collision is at least 0.5.
-
-**Static** set $S$ of $n$ keys from a large universe $U$. Want $O(1)$ worst-case lookup time with $O(n)$ space.
-
-Universal hash function $h(x) = ((ax + b) \mod p) \mod m$ where $p$ is a prime larger than $|U|$, $a \in \{1, \ldots, p-1\}$, $b \in \{0, \ldots, p-1\}$ chosen uniformly at random. For any two distinct keys $x \neq y$, $Pr(h(x) = h(y)) \leq \frac{1}{m}$.
-
-1. Choose $m = n$. Use a universal hash function $h$ to map keys to $m$ slots. Expected number of collisions is $\leq \frac{n(n-1)}{2m} < \frac{n}{2}$. If there are collisions, rehash with a new $h$ until no collisions. Expected number of trials is 2. Total space is $O(n)$.
-
-### Two-Level Scheme
-
-- First level: choose a universal hash function $h$. Let $n_i$ be the number of keys hashed to slot $i$.
-    - check if $\sum\limits_{i} n_i^2 \leq 4n$. If not, rehash with a new $h$ until it holds. Expected number of trials is 2.
-- Second level: for each slot $i$ with $n_i$ keys, create a secondary hash table of size $m_i = n_i^2$ using a new universal hash function $h_i$. The expected number of collisions in this secondary table is $\leq \frac{n_i(n_i - 1)}{2 m_i} < \frac{1}{2}$. Rehash until no collisions. Expected number of trials is 2.
-- Total space: $\sum\limits_{i} m_i = \sum\limits_{i} n_i^2$. We have $\sum\limits_{i} n_i^2 \leq 4n$. Thus total space is $O(n)$.
-- Lookup: compute first-level hash to find slot $i$, then compute second-level hash to find the key in $O(1)$ time.
-
-Proof that $\sum\limits_{i} n_i^2 \leq 4n$ with probability at least 0.5:
-Expected value of $\sum\limits_{i} n_i^2 = \sum\limits_{i} E[n_i^2]$.  
-$E[n_i^2] = Var(n_i) + (E[n_i])^2$.  
-$E[n_i] = \frac{n}{m} = 1$.  
-$Var(n_i) = n \cdot \frac{1}{m} \cdot (1 - \frac{1}{m}) = 1 - \frac{1}{m} < 1$.  
-Thus $E[n_i^2] < 2$.  
-So $E[\sum\limits_{i} n_i^2] < 2m = 2n$.  
-By Markov's inequality, $Pr(\sum\limits_{i} n_i^2 \geq 4n) \leq \frac{E[\sum\limits_{i} n_i^2]}{4n} < \frac{2n}{4n} = \frac{1}{2}$.  
-Therefore, $Pr(\sum\limits_{i} n_i^2 \leq 4n) \geq \frac{1}{2}$.

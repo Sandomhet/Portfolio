@@ -1,8 +1,7 @@
 ---
 title: "CMPSC 111 - Numerical Linear Algebra"
 description: "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel."
-time: "Fri Jun 6, 2025"
-lang: "en"
+time: "Tue Dec 9, 2025"
 ---
 
 # CMPSC 111 - Numerical Linear Algebra
@@ -614,10 +613,24 @@ $C = \begin{bmatrix}
 
 SVD: $C = U \Sigma U^T$ where $U$ contains the eigenvectors (principal components) and $\Sigma$ contains the eigenvalues (each singular value). $U = V$ since $C$ is symmetric. Each column vector $u_i$ represents a axis of the data.
 
-**Formula**: $D = M + [R U]U^T$.  
-**Approximation**: $D \approx M + [R U_k]U_k^T$ where $U_k$ contains the first $k$ columns of $U$.
 
-$R = R U U^T$ (projection onto the principal components).
+**Formula**: $D = M + [R U]U^T$.  
+**Approximation**: $D \approx M + [R U_k]U_k^T$ where $U_k$ contains the first $k$ columns of $U$. (dimension reduction)
+
+Proof of the formula:
+$$
+\begin{aligned}
+D - M &= R \\
+&= R I \\
+&= R (U U^T) \\
+&= (R U) U^T \\
+\end{aligned}
+$$
+Or by element-wise:  
+Theorem: $v = (v \cdot i) i + (v \cdot j) j + (v \cdot k) k$ where $\{i, j, k\}$ form an orthonormal basis of $\mathbb{R}^3$.  
+
+Let $r_{ij} = D_{ij} - \mu_j$. Since $\{u_j\}$ of $U$ form an orthonormal basis, $r_i = \sum\limits_{j=1}^{n} (r_i \cdot u_j^T) u_j^T = \sum\limits_{j=1}^{n} (r_i u_j) u_j^T$. [$(r_i u_j)$ is the scalar coefficient].  
+Therefore, $R = (R U) U^T$.
 
 #### Matrices and Tensors
 
@@ -668,39 +681,57 @@ Conditions:
 
 Representation:
 - position vector $\mathbf{p} = [x, y]$, velocity vector $\mathbf{v} = [v_x, v_y] = [\frac{dx}{dt}, \frac{dy}{dt}]$, radius $r$, and mass $m$.
+- the distance between two balls is given by $d = |\mathbf{p_1} - \mathbf{p_2}| = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$.
 - The walls of the billiard table are represented as lines with defined boundaries.
 
-1. Undisturbed Motion:  
-    $x(t + \Delta t) = x(t) + v_x(t) \Delta t$  
-    $y(t + \Delta t) = y(t) + v_y(t) \Delta t$  
+### Undisturbed Motion:  
 
-2. Collision with Walls:
-    1. Detect collision with walls:
-        - Left Wall: $x' < x_{min} + r$
-        - Right Wall: $x' > x_{max} - r$
-        - Bottom Wall: $y' < y_{min} + r$
-        - Top Wall: $y' > y_{max} - r$
-    2. Find the time of collision:
-        - Left Wall: $dt_{left} = \frac{(x_{min} + r) - x}{v_x}$ if $v_x < 0$  
-        - Right Wall: $dt_{right} = \frac{(x_{max} - r) - x}{v_x}$ if $v_x > 0$  
-        - Bottom Wall: $dt_{bottom} = \frac{(y_{min} + r) - y}{v_y}$ if $v_y < 0$  
-        - Top Wall: $dt_{top} = \frac{(y_{max} - r) - y}{v_y}$ if $v_y > 0$  
-        - Choose the smallest positive $dt$ among these to determine the next collision time.
-    3. Adjust motion velocity:
-        - Left or Right Wall: $v' = [-v_x, v_y]$
-        - Bottom or Top Wall: $v' = [v_x, -v_y]$
+- $x' = x + v_x dt$
+- $y' = y + v_y dt$
 
-3. Collision between Balls:
-    1. Detect collision between balls:
-        - For two balls with positions $\mathbf{p_1}$ and $\mathbf{p_2}$, and radii $r_1$ and $r_2$, a collision occurs if:
-        $$|\mathbf{p_1} - \mathbf{p_2}| \leq r_1 + r_2$$
-    2. Find the time of collision:
-        - Solve the quadratic equation derived from the distance condition to find the time until collision.
-    3. Adjust motion velocities upon collision:
-        - Let $\mathbf{n} = \frac{\mathbf{p_1} - \mathbf{p_2}}{|\mathbf{p_1} - \mathbf{p_2|}$ be the unit normal vector at the point of collision.
-        - Compute relative velocity: $\mathbf{v_{rel}} = \mathbf{v_1} - \mathbf{v_2}$
-        - Compute velocity along the normal: $v_{rel\_n} = \mathbf{v_{rel}} \cdot \mathbf{n}$
-        - If $v_{rel\_n} > 0$, the balls are moving apart, so no collision response is needed.
-        - Update velocities using conservation of momentum and kinetic energy:
-        $$\mathbf{v_1'} = \mathbf{v_1} - \frac{2 m_2}{m_1 + m_2} v_{rel\_n} \mathbf{n}$$  
-        $$\mathbf{v_2'} = \mathbf{v_2} + \frac{2 m_1}{m_1 + m_2} v_{rel\_n} \mathbf{n}$$
+### Collision with Walls:
+
+1. Detect collision with walls:
+    - Left Wall: $x' < x_{min} + r$
+    - Right Wall: $x' > x_{max} - r$
+    - Bottom Wall: $y' < y_{min} + r$
+    - Top Wall: $y' > y_{max} - r$
+
+2. Find the time of collision:
+    - Left Wall: $dt_{l} = \frac{(x_{min} + r) - x}{v_x}$ if $v_x < 0$  
+    - Right Wall: $dt_{r} = \frac{(x_{max} - r) - x}{v_x}$ if $v_x > 0$  
+    - Bottom Wall: $dt_{b} = \frac{(y_{min} + r) - y}{v_y}$ if $v_y < 0$  
+    - Top Wall: $dt_{t} = \frac{(y_{max} - r) - y}{v_y}$ if $v_y > 0$  
+    - Choose the smallest positive $dt$ among these to determine the next collision time.
+
+3. Adjust motion velocity:
+    - Left or Right Wall: $v' = [-v_x, v_y]$
+    - Bottom or Top Wall: $v' = [v_x, -v_y]$
+
+### Collision between Balls:
+
+1. Detect collision between balls:
+    - For two balls with positions $\mathbf{p_1}$ and $\mathbf{p_2}$, and radii $r_1$ and $r_2$, a collision occurs if:
+    $$|\mathbf{p_1} - \mathbf{p_2}| = \sqrt{(x_1' - x_2')^2 + (y_1' - y_2')^2} \leq r_1 + r_2$$
+
+2. Find the time of collision:  
+    - $dt = \dfrac{|\mathbf{p_1} - \mathbf{p_2}| - (r_1 + r_2)}{|\mathbf{v_1} - \mathbf{v_2}|}$  
+
+<!-- - Solve the quadratic equation derived from the distance condition to find the time until collision.
+which is given by:
+$a = |\mathbf{v_1} - \mathbf{v_2}|^2$  
+$b = 2 (\mathbf{p_1} - \mathbf{p_2}) \cdot (\mathbf{v_1} - \mathbf{v_2})$  
+$c = |\mathbf{p_1} - \mathbf{p_2}|^2 - (r_1 + r_2)^2$  
+- The time until collision $dt$ is given by the smallest positive root of the quadratic equation:
+$$dt = \frac{-b - \sqrt{b^2 - 4ac}}{2a}$$ -->
+
+3. Adjust motion velocities upon collision:
+    - Fact: $v = (v \cdot i) i + (v \cdot j) j$ for any coordinate system with orthonormal basis vectors $\mathbf{i}$ and $\mathbf{j}$.
+
+    - The unit normal vector $\mathbf{n} = \frac{\mathbf{p_1} - \mathbf{p_2}}{|\mathbf{p_1} - \mathbf{p_2}|}$ at the point of collision.
+    - The tangential vector $\mathbf{t} = [ -n_y, n_x ] $ is perpendicular to $\mathbf{n}$.
+
+    - $v = (v \cdot n) n + (v \cdot t) t$ where $\mathbf{n}$ is the normal vector and $\mathbf{t}$ is the tangential vector at the point of collision.
+
+    - $v_1 = [v_{1n}, v_{1t}]$ and $v_2 = [v_{2n}, v_{2t}]$, then $v_1' = [v_{2n}, v_{1t}]$ and $v_2' = [v_{1n}, v_{2t}]$.
+

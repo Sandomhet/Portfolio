@@ -1,3 +1,8 @@
+---
+title: "CMPSC 32 - Object Oriented Design"
+description: "Object-oriented programming concepts including classes, inheritance, polymorphism, and design patterns."
+time: "Tue Dec 9, 2025"
+---
 
 # CMPSC 32 - Object Oriented Design
 
