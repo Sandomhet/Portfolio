@@ -50,14 +50,13 @@ int main() {
 
 ```cpp
 #include <functional>
-int (*funcPtr)(int); = [](int x) { return x * x; };
-
-void applyFunction(int x, function<int(int)> func) {
-    cout << "Result: " << func(x) << endl;
+int add(int a, int b) { return a + b; }
+int operate(int x, int y, function<int(int, int)> func) {
+    return func(x, y);
 }
 int main() {
-    auto square = [](int y) { return y * y; };
-    applyFunction(5, square); // Output: Result: 25
+    int result = operate(5, 3, add);
+    cout << result << endl;
     return 0;
 }
 ```
