@@ -27,7 +27,7 @@ For a matrix $A \in \mathbb{R}^{m \times n}$:
 | $\text{Row}(A)$   | Span of rows of $A$                         | $\text{rank}(A)$              |
 | $\text{Col}(A)$   | Span of columns of $A$ with pivot positions | $\text{rank}(A)$              |
 | $N(A)$   | Null space: ${x : Ax = 0}$, free variables  | $n - \text{rank}(A)$ |
-| $N(A^T)$ | Left null space                             | $m - \text{rank}(A)$ |
+| $N(A^T)$ | Left null space: ${x: A^Tx = 0}$                              | $m - \text{rank}(A)$ |
 
 $$
 \begin{aligned}
@@ -155,10 +155,9 @@ Precondition: $A \in \mathbb{R}^{m \times n}$ with full column rank ($\text{rank
 $A = QR$ where $Q$ is an **orthogonal** matrix and $R$ is an **upper triangular** matrix.
 
 $Q=\begin{bmatrix}
-q_{11} & q_{12} & q_{13} \\
-q_{21} & q_{22} & q_{23} \\
-\vdots & \vdots & \vdots \\
-q_{m1} & q_{m2} & q_{m3}
+& \cdots & \\
+q_1 & q_2 & q_3 \\
+& \cdots & \\
 \end{bmatrix}$,
 $R=\begin{bmatrix}
 r_{11} & r_{12} & r_{13} \\
@@ -501,6 +500,13 @@ $A = \sum\limits_{i=1}^r \sigma_i u_i v_i^T$ (outer product expansion).
 2. If we keep only the top $k (k < r)$ singular values, we get a rank-$k$ approximation of $A$, denoted as $A_k = \sum\limits_{i=1}^k \sigma_i u_i v_i^T$.
 3. The rank-$k$ approximation $A_k$ minimizes the Frobenius norm of the error: $\|A - A_k\|_F$.
 
+```py
+U, sigma, Vt = spla.svd(A)
+Asum = np.zeros( A.shape )
+for i in range( len( sigma ) ):
+    Asum += sigma[i] * np.outer( U[:, i], Vt[i, :] )
+```
+
 ### Theorems
 
 $AV = U \Sigma$.
@@ -575,7 +581,18 @@ Suppose an image is $m \times n$ pixels, the storage is $m \times n$.
 With first $k$ terms in SVD, storage is $mk + nk + k = k(m + n + 1)$.  
 Compression ratio: $\dfrac{mn}{k(m + n + 1)}$.
 
-### Principal Component Analysis (PCA)
+```py
+img = plt.imread('image.png')  # Load image
+U, sigma, Vt = spla.svd(img, full_matrices=False)
+k = 50  # Number of singular values to keep
+Sigma_k = np.diag(sigma[:k])  # Create diagonal matrix with top k singular values
+img_approx = U[:, :k] @ Sigma_k @ Vt[:k, :]  # Reconstruct the image
+plt.imsave('compressed_image.png', img_approx.astype(np.uint8))  # Save compressed image
+```
+
+## Principal Component Analysis (PCA)
+
+PCA is SVD on the covariance matrix of the data.
 
 PCA is a dimensionality reduction technique that transforms data into a new coordinate system that helps us to reduce the number of features in a dataset while keeping the most important information.
 
@@ -632,6 +649,8 @@ Theorem: $v = (v \cdot i) i + (v \cdot j) j + (v \cdot k) k$ where $\{i, j, k\}$
 Let $r_{ij} = D_{ij} - \mu_j$. Since $\{u_j\}$ of $U$ form an orthonormal basis, $r_i = \sum\limits_{j=1}^{n} (r_i \cdot u_j^T) u_j^T = \sum\limits_{j=1}^{n} (r_i u_j) u_j^T$. [$(r_i u_j)$ is the scalar coefficient].  
 Therefore, $R = (R U) U^T$.
 
+$d = m + [(d - m) u_1] u_1^T + [(d - m) u_2] u_2^T + ... + [(d - m) u_n] u_n^T$ for each data point $d$ (row of $D$).
+
 #### Matrices and Tensors
 
 A matrix is a 2-dimensional array of numbers, while a tensor is a multi-dimensional array of numbers. Tensors generalize matrices to higher dimensions.
@@ -643,6 +662,8 @@ Eigenfaces are a set of eigenvectors used in the computer vision problem of huma
 Data matrix $D \in \mathbb{R}^{m \times n}$, where $m$ is the number of images and $n$ is the number of pixels in each image (flattened). For example, there are 400 images of size 64x64 pixels, then $m = 400$ and $n = 4096$.
 
 For each pixel, we have the mean $\mu_j = \frac{1}{m} \sum\limits_{i=1}^{m} D_{ij}$ and variance $\sigma_j^2 = \frac{1}{m-1} \sum\limits_{i=1}^{m} (D_{ij} - \mu_j)^2$. Then we have the normal distribution of pixel values across all images: $N(\mu_j, \sigma_j^2)$. We can sample randomly from this distribution to create new pixel values for new face images.
+
+New faces: $f = m + a_1 u_1^T + a_2 u_2^T + ... + a_k u_k^T$ where $a_i$ are random coefficients sampled from $N(0, \sigma_i^2)$, and $u_i$ are the top $k$ eigenfaces.
 
 what is eigenfaces?
 1. Compute the mean face: $\mu = \frac{1}{m} \sum\limits_{i=1}^{m} D_i$ where $D_i$ is the $i$-th image vector.
@@ -711,19 +732,12 @@ Representation:
 ### Collision between Balls:
 
 1. Detect collision between balls:
-    - For two balls with positions $\mathbf{p_1}$ and $\mathbf{p_2}$, and radii $r_1$ and $r_2$, a collision occurs if:
-    $$|\mathbf{p_1} - \mathbf{p_2}| = \sqrt{(x_1' - x_2')^2 + (y_1' - y_2')^2} \leq r_1 + r_2$$
+    - For two balls with positions $\mathbf{p_1}'$ and $\mathbf{p_2}'$, and radii $r_1$ and $r_2$, a collision occurs if:
+    $$|\mathbf{p_1}' - \mathbf{p_2}'| = \sqrt{(x_1' - x_2')^2 + (y_1' - y_2')^2} \leq r_1 + r_2$$
 
 2. Find the time of collision:  
     - $dt = \dfrac{|\mathbf{p_1} - \mathbf{p_2}| - (r_1 + r_2)}{|\mathbf{v_1} - \mathbf{v_2}|}$  
-
-<!-- - Solve the quadratic equation derived from the distance condition to find the time until collision.
-which is given by:
-$a = |\mathbf{v_1} - \mathbf{v_2}|^2$  
-$b = 2 (\mathbf{p_1} - \mathbf{p_2}) \cdot (\mathbf{v_1} - \mathbf{v_2})$  
-$c = |\mathbf{p_1} - \mathbf{p_2}|^2 - (r_1 + r_2)^2$  
-- The time until collision $dt$ is given by the smallest positive root of the quadratic equation:
-$$dt = \frac{-b - \sqrt{b^2 - 4ac}}{2a}$$ -->
+    $|\mathbf{v_1} - \mathbf{v_2}| = \sqrt{(v_{1x} - v_{2x})^2 + (v_{1y} - v_{2y})^2}$
 
 3. Adjust motion velocities upon collision:
     - Fact: $v = (v \cdot i) i + (v \cdot j) j$ for any coordinate system with orthonormal basis vectors $\mathbf{i}$ and $\mathbf{j}$.
@@ -733,5 +747,5 @@ $$dt = \frac{-b - \sqrt{b^2 - 4ac}}{2a}$$ -->
 
     - $v = (v \cdot n) n + (v \cdot t) t$ where $\mathbf{n}$ is the normal vector and $\mathbf{t}$ is the tangential vector at the point of collision.
 
-    - $v_1 = [v_{1n}, v_{1t}]$ and $v_2 = [v_{2n}, v_{2t}]$, then $v_1' = [v_{2n}, v_{1t}]$ and $v_2' = [v_{1n}, v_{2t}]$.
+    - $v_1 = \bmatrix v_{1n}, v_{1t}$ and $v_2 = [v_{2n}, v_{2t}]$, then $v_1' = [v_{2n}, v_{1t}]$ and $v_2' = [v_{1n}, v_{2t}].
 
