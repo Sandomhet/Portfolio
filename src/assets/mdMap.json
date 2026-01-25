@@ -1,4 +1,34 @@
 {
+  "STL": {
+    "type": "blogs",
+    "category": "Templates",
+    "name": "STL",
+    "path": "/markdown/blogs/Templates/STL.md",
+    "title": "C++ STL Containers Cheat Sheet",
+    "description": "description",
+    "time": "Mon Feb 1, 2026",
+    "lang": "zh"
+  },
+  "CMPSC64": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC64",
+    "path": "/markdown/notes/CMPSC64.md",
+    "title": "CMPSC 64: Computer Organization and Architecture",
+    "description": "description",
+    "time": "Mon Jan 5, 2026",
+    "lang": "zh"
+  },
+  "PHYS7A": {
+    "type": "notes",
+    "category": "",
+    "name": "PHYS7A",
+    "path": "/markdown/notes/PHYS7A.md",
+    "title": "PHYS 7A: Basic Physics I",
+    "description": "description",
+    "time": "Mon Jan 5, 2026",
+    "lang": "zh"
+  },
   "CMPSC111": {
     "type": "notes",
     "category": "",
@@ -416,6 +446,16 @@
     "path": "/markdown/blogs/Mathematics/möbius.md",
     "title": "Möbius",
     "description": "Introduces Mobius function and mobius inversion formula",
+    "time": "Mon Feb 1, 2024",
+    "lang": "zh"
+  },
+  "basic": {
+    "type": "blogs",
+    "category": "Miscellaneous",
+    "name": "basic",
+    "path": "/markdown/blogs/Miscellaneous/basic.md",
+    "title": "Basic C++ Syntax",
+    "description": "An overview of basic syntax in C++ programming",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },

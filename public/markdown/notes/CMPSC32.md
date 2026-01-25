@@ -21,7 +21,6 @@ time: "Tue Dec 9, 2025"
 2. Double Hashing: $ \frac{-\ln (1 - \alpha)}{\alpha} $
 3. Chaining: $ 1 + \frac{\alpha}{2} $
 
-
 ### Passing Functions
 
 In object-oriented design, functions can be passed as arguments to other functions or methods. This is often done using function pointers, delegates, or lambda expressions, depending on the programming language.
@@ -124,9 +123,9 @@ Execute instruction: fetch, decode, execute cycle
 5 main components of a computer
 1. Processor (CPU)
 2. Memory (RAM)
-3. Input Devices
-4. Output Devices
-5. Secondary Data Storage
+3. Input Devices (Keyboard)
+4. Output Devices (Display Screen)
+5. Secondary Data Storage (SSD)
 
 Memory Hierarchy:
 1. Registers

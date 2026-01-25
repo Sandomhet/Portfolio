@@ -4,7 +4,7 @@ description: "Vector Calculus Cheatsheet"
 time: "Thu Mar 20, 2025"
 ---
 
-# Vector Calculus
+# Multivariable Calculus
 
 ## Table of Contents
 
@@ -38,21 +38,21 @@ The magnitude of the cross product is the area of a parallelogram formed by thes
 
 ## Plane Equation
 
-$ ax + by + cz = d $
+$ ax + by + cz = d $  
 $ \vec{p} = \vec{w} + s\vec{u} + t\vec{v} $
 
 Parallel with:
-$ ax + by + cz = 0 $
-$ \vec{p} = s\vec{u} + t\vec{v} $
+$ ax + by + cz = 0 $  
+$ \vec{p} = s\vec{u} + t\vec{v} $  
 
-Move by $ \langle 2, 3, 4 \rangle $
-$ \vec{p} = \langle 2, 3, 4 \rangle + \vec{w} + s\vec{u} + t\vec{v} $
-$ a(x - 2) + b(y - 3) + c(z - 4) = d $
+Move by $ \langle 2, 3, 4 \rangle $  
+$ \vec{p} = \langle 2, 3, 4 \rangle + \vec{w} + s\vec{u} + t\vec{v} $  
+$ a(x - 2) + b(y - 3) + c(z - 4) = d $  
 
 Perpendicular:
-$ \vec{n} = \langle a, b, c \rangle $
-$ \vec{n} = \vec{u} \times \vec{v} $
-$ \vec{n} = \nabla f = f_r \times f_\theta $
+$ \vec{n} = \langle a, b, c \rangle $.  
+$ \vec{n} = \vec{u} \times \vec{v} $.  
+$ \vec{n} = \nabla f = f_r \times f_\theta $.  
 
 Two planes are parallel when their normal vectors are parallel.
 
@@ -152,28 +152,119 @@ $
 
 ## Double Integrals
 
-$ \int_a^b d - c\ dx = \int_a^b \int_c^d 1 dydx $, then $ \int_a^b \int_c^d f(x, y)\ dydx $
+Over rectangular region $R = [a, b] \times [c, d]$, a ***Cartesian product*** of intervals.
+
+Definition:
+$$\int\int_R f(x, y) dA, \int\int_R f(x, y) dx\ dy$$
+
+**Cavalieri's Principle** (the slice method):
+$ \text{Volume} = \int_a^b A(x) dx $, where $ A(x) $ is the area of the cross section at $ x $.  
+Therefore, we have,
+$$ \begin{aligned}
+\int\int_R f(x, y) dA &= \int_a^b \left( \int_c^d f(x, y) dy \right) dx \\
+&= \int_c^d \left( \int_a^b f(x, y) dx \right) dy \\
+\end{aligned} $$
+
+**Fubini's Theorem**: If $ f $ is continuous on a rectangular region $ R $, then
+$$ \int\int_R f(x, y) dA = \int_a^b \int_c^d f(x, y) dy\ dx = \int_c^d \int_a^b f(x, y) dx\ dy $$
+
+If $f(x, y) = g(x)h(y)$, then
+$$ \int\int_R f(x, y) dA = \left( \int_a^b g(x) dx \right) \left( \int_c^d h(y) dy \right) $$
+
+Properties:
+1. Any continuous function defined on a closed rectangle $R$ is integrable.
+2. If the set of discontinuities lies on a finite union of graphs of continuous functions, then $f$ is integrable on $R$.
+
+Mean Value Theorem for Double Integrals:
+If $f$ is continuous on a closed, bounded region $R$ with area $A$, then there exists a point $(x_0, y_0)$ in $R$ such that
+$$ \int\int_R f(x, y) dA = f(x_0, y_0) \cdot A(R) $$
+
+
+### Theorems
+
+$ \int_a^b d - c\ dx = \int_a^b \int_c^d 1 dydx $, then $ \int_a^b \int_c^d f(x, y)\ dydx $.  
 Estimating: If $ g \le f \le h $, then $ \int\int_R g dA \le \int\int_R f dA \le \int\int_R h dA $
 
-$
-Jacobian =
+## Change of Coordinates
+
+### Double Integral
+
+$(x, y) \to (u, v)$ where $ x = f_x(u, v) $ and $ y = f_y(u, v) $
+
+**Jacobian Determinant**:
+$$ J = \frac{\partial(x, y)}{\partial(u, v)} =
 \begin{vmatrix}
-\frac{dx}{dr} & \frac{dy}{dr} \\
-\frac{dx}{d\theta} & \frac{dy}{d\theta} \\
-\end{vmatrix} = r
-$
-**Polar Coordinates**: $ \int_0^{2\pi}\int_0^R fr\ drd\theta $
-**Cylindrical Coordinates**: $ \int_0^{2\pi}\int_0^R\int_{z_0}^{z_1} fr\ dzdrd\theta $
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \\
+\end{vmatrix} = 
+\frac{\partial x}{\partial u} \cdot \frac{\partial y}{\partial v} - \frac{\partial x}{\partial v} \cdot \frac{\partial y}{\partial u}
+$$
 
-**Spherical Coordinates**
-$ (x, y, z) = (r\sin\phi\cos\theta, r\sin\phi\sin\theta, r\cos\phi) $
-The Jacobian is $ r^2\sin\phi $
-$ \int_0^{\pi}\int_0^{2\pi}\int_0^R fr^2\sin\phi\ drd\theta d\phi $
+The change of variables formula is:
+$$ \int\int_R f(x, y)\ dx dy = \int\int_S f(f_x(u, v), f_y(u, v)) \left| \frac{\partial(x, y)}{\partial(u, v)} \right| du dv $$
 
-### Line Integral
+### Triple Integral
 
-$ \vec{r}(t) = \langle x(t), y(t) \rangle, f(x, y) $
+$(x, y, z) \to (u, v, w)$ where $ x = f_x(u, v, w) $, $ y = f_y(u, v, w) $, and $ z = f_z(u, v, w) $
+
+**Jacobian Determinant**:
+$$ J = \frac{\partial(x, y, z)}{\partial(u, v, w)} =
+\begin{vmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w} \\
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w} \\
+\frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w} \\
+\end{vmatrix}
+$$
+
+The change of variables formula is:
+$$ \int\int\int_R f(x, y, z)\ dx dy dz = \int\int\int_S f(f_x, f_y, f_z) \left| \frac{\partial(x, y, z)}{\partial(u, v, w)} \right| du dv dw $$
+
+The Gaussian integral: $ \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi} $
+
+### Typical Coordinate Systems
+
+#### Polar Coordinate $(r, \theta)$
+
+$ (x, y) = (r\cos\theta, r\sin\theta) $, 
+$ \frac{ \partial(x, y) }{ \partial(r, \theta) } = r $
+
+$$ \int_0^{2\pi}\int_0^R f(r, \theta) r\ dr d\theta $$
+
+#### Ellipse
+
+$ (\frac{x}{a})^2 + (\frac{y}{b})^2 = R^2 $  
+
+$ (x, y) = (ar\cos\theta, br\sin\theta) $, 
+$ \frac{ \partial(x, y) }{ \partial(r, \theta) } = abr $
+
+$$ \int_0^{2\pi}\int_0^R f(r, \theta) abr\ dr d\theta $$
+
+#### Cylindrical Coordinate $(r, \theta, z)$
+
+$ (x, y, z) = (r\cos\theta, r\sin\theta, z) $, 
+$ \frac{ \partial(x, y, z) }{ \partial(r, \theta, z) } = r $
+
+$$ \int_{z_0}^{z_1}\int_0^{2\pi}\int_0^R f(r, \theta, z) r \ dr d\theta dz $$
+
+#### Spherical Coordinate $(r, \theta, \phi)$
+
+$ (x, y, z) = (r\sin\phi\cos\theta, r\sin\phi\sin\theta, r\cos\phi) $, 
+$ \frac{ \partial(x, y, z) }{ \partial(r, \theta, \phi) } = r^2\sin\phi $
+
+$$ \int_0^{\pi}\int_0^{2\pi}\int_0^R f(r, \theta, \phi) r^2\sin\phi\ dr d\theta d\phi $$
+
+## Line Integral
+
+$ \vec{r}(t) = \langle x(t), y(t) \rangle, f(x, y) $.  
 $ \int_a^b f(\vec{r}(t))|\vec{r}(t)'|dt $
 
-$ \vec{F}(x, y) = \langle P(x, y), Q(x, y) \rangle $
+$ \vec{F}(x, y) = \langle P(x, y), Q(x, y) \rangle $.  
 $ \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r}(t)'dt $
+
+## Images
+
+Let A be a  matrix with det  and let  be the linear mapping of  to  given by  (matrix multiplication). Then  transforms parallelograms into parallelograms and vertices into vertices. Moreover, if  is a parallelogram,  must be a parallelogram.
+
+A linear transformation matrix $A$ is ***one-to-one*** and ***onto*** if and only if $\det(A) \neq 0$.
+
+$T$ maps $[0, 1] \times [0, 1]$ to the parallelogram spanned by the vectors $\langle a, c \rangle$ and $\langle b, d \rangle$. $T(u, v) = \langle au + bv, cu + dv \rangle$. The area of the parallelogram is $|\det(A)| = |ad - bc|$.
