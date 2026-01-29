@@ -268,3 +268,34 @@ Let A be a  matrix with det  and let  be the linear mapping of  to  given by  (m
 A linear transformation matrix $A$ is ***one-to-one*** and ***onto*** if and only if $\det(A) \neq 0$.
 
 $T$ maps $[0, 1] \times [0, 1]$ to the parallelogram spanned by the vectors $\langle a, c \rangle$ and $\langle b, d \rangle$. $T(u, v) = \langle au + bv, cu + dv \rangle$. The area of the parallelogram is $|\det(A)| = |ad - bc|$.
+
+## Applications
+
+### Average Value
+
+The average value of $f$ over a region $R$ is given by
+$$ f_{avg} = \frac{\int\int_R f(x, y) dx dy}{\int\int_R dx dy} $$
+
+### Center of Mass
+
+The total mass $M$ of a lamina with density function $\delta(x, y)$ over a region $R$ is given by
+$$ M = \int\int_R \delta(x, y) dA $$
+
+The center of mass $(\bar{x}, \bar{y})$ of a lamina with density function $\delta(x, y)$ over a region $R$ is given by
+$$ \bar{x} = \frac{\int\int_R x \delta(x, y) dA}{M}, \quad \bar{y} = \frac{\int\int_R y \delta(x, y) dA}{M} $$
+
+### Moment of Inertia
+
+Moments of inertia about the coordinate axes with uniform density $ \delta $ are given by
+$$ I_x = \delta \int\int\int_R (y^2 + z^2) dV, \quad I_y = \delta \int\int\int_R (x^2 + z^2) dV, \quad I_z = \delta \int\int\int_R (x^2 + y^2) dV $$
+
+### Gravitational Force
+
+The gravitational force exerted on a point mass $m$ located at the point $(x_0, y_0, z_0)$ by a solid region $R$ with density function $\delta(x, y, z)$ is given by
+$$ \vec{F} = Gm \int\int\int_R \frac{\delta(x, y, z)}{r^2} \hat{r} dV $$
+$$ |F| = Gm \int\int\int_R \frac{\delta(x, y, z)}{r} dV $$
+where $G$ is the gravitational constant, $r$ is the distance from the point mass to the point $(x, y, z)$, and $\hat{r}$ is the unit vector pointing from $(x, y, z)$ to $(x_0, y_0, z_0)$.
+
+### Isaac Newton's Breathtaking Proposition 71
+
+A uniform spherical shell of mass $M$ exerts a gravitational force on a point mass $m$ located outside the shell as if all the shell's mass were concentrated at its center. If the point mass is located inside the shell, the net gravitational force exerted on it by the shell is zero.

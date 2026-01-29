@@ -90,7 +90,6 @@ R
 A ball is fired directly at a target located a horizontal distance $D$ away and a vertical height $H$ above the launch point. At the instant the ball is launched, the target is released and begins to free fall.  
 The ball will always hit the target, regardless of the initial speed of the ball, because $\tan \theta = \frac{v_y}{v_x} = \frac{H}{D}$.
 
-
 ## Forces
 
 **Force**: a vector action that can change an object's motion. $\vec{F}$ in Newtons (N).  
@@ -127,10 +126,12 @@ A free body diagram is a graphical representation used to visualize the forces a
 - **Gravitational Force**: $G = F_g = mg$.
 - **Normal Force**: $F_N$, perpendicular contact force exerted by a surface on an object.
 - **Tension Force**: $F_T$, pulling force exerted by a rope or string. Equal and opposite on the two ends, otherwise the rope would break.
-- **Frictional Force**: $\vec{f}$, opposes relative motion between two surfaces in contact.
-  - Static Friction: $\vec{f}_s \le \mu_s \vec{N}$
-  - Kinetic Friction: $\vec{f}_k = \mu_k \vec{N}$
-- **Air Resistance**: $\vec{f}_{air}$, opposes motion through air, often modeled as $\vec{f}_{air} = -bv$ or $\vec{f}_{air} = -cv^2$
+- **Frictional Force**: $f$, opposes relative motion between two surfaces in contact. ($\mu$: coefficient of friction)
+  - Static Friction: $f_s = F_{push} \le \mu_s F_N$
+  - Kinetic Friction: $f_k = \mu_k F_N$
+  - $\mu_s > \mu_k$
+  - One an incline, $F_N = mg \cos \theta$
+- **Air Resistance**: $f_{air}$, opposes motion through air, often modeled as $f_{air} = -bv$ or $f_{air} = -cv^2$
 
 ### Machines
 
@@ -145,6 +146,13 @@ Simple machines are devices that change the direction or magnitude of a force, m
 5. Wedge
 6. Screw
 
+#### Inclined Plane
+
+For an inclined plane with angle $\theta$:
+- $f = F_{parallel} = mg \sin \theta$
+- $F_N = F_{perpendicular} = mg \cos \theta$
+- $\mu = \tan \theta_{max}$
+
 #### Pulley
 
 A pulley consists of a wheel with a grooved rim through which a rope or cable can run to change the direction of the applied force. Pulleys can be used to lift heavy loads with less effort.
@@ -152,3 +160,20 @@ A pulley consists of a wheel with a grooved rim through which a rope or cable ca
 - Fixed Pulley: Changes the direction of the force. Mechanical advantage = 1.
 - Movable Pulley: Reduces the amount of input force needed to lift a load. Mechanical advantage = 2.
 - Block and Tackle: Combination of fixed and movable pulleys. Mechanical advantage = number of supporting rope segments.
+
+## Circular Motion
+
+**Uniform Circular Motion**: motion in a circle at constant speed.
+
+The magnitude doesn't change, but the direction changes, so there is acceleration.
+
+- Centripetal (Radial) Acceleration: $a_c = \frac{v^2}{r}$, directed toward the center of the circle.
+- Centripetal Force: $F_c = m a_c = \frac{mv^2}{r}$
+- Period: $T = \frac{2\pi r}{v}$ (time taken to complete one revolution)
+- Frequency: $f = \frac{1}{T} = \frac{v}{2\pi r}$ (number of revolutions per second)
+- Angular Velocity: $\omega = \frac{2\pi}{T} = 2\pi f$ (radians per second)
+- Relationship between linear and angular quantities:
+  - $v = \omega r$
+  - $a_c = \omega^2 r$
+
+Non-uniform circular motion: $\vec{a} = \vec{a}_c + \vec{a}_t$

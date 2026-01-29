@@ -254,6 +254,7 @@ ble $t0, $t1, label   # Branch to "label" if $t0 <= $t1
 bge $t0, $t1, label   # Branch to "label" if $t0 >= $t1
 ```
 
+set-less-than instruction:
 ```assembly
 slt $t0, $t1, $t2      # $t0 = ($t1 < $t2) ? 1 : 0
 ```
@@ -278,4 +279,61 @@ Exit the program:
 ```assembly
 li $v0, 10  # syscall code for exit
 syscall
+```
+
+### Multiplication and Division
+
+```assembly
+mult $t1, $t2          # Multiply $t1 by $t2
+mflo $t0               # Move the lower 32 bits of the product from LO to $t0
+mfhi $t0               # Move the upper 32 bits of the product from HI to $t0
+
+mul $d, $s, $t       # $d = $s * $t
+div $s, $t            # Divide $s by $t
+mflo $d               # Move the quotient from LO to $d
+mfhi $d               # Move the remainder from HI to $d
+```
+
+$P = M \times N$ (product result P, multiplicand M, multiplier N)
+
+Multiplication Algorithm:
+1. Initialize $P$ to 0.
+2. While $M > 0$:
+    - If `M & 1` (LSB) is 1, `P += N`.
+    - `N << 1` (multiply by 2).
+    - `M >> 1` (divide by 2).
+3. Return $P$.
+
+Direct proof:  
+If $M = \sum\limits_{i=0}^{k} b_i 2^i$, then $P = \sum\limits_{i=0}^{k} (b_i \times 2^i \times N)$, where $b_i$ is the i-th bit of M.
+
+Iterative proof:
+1. If $M$ is even, $P = (M / 2) \times (N \times 2)$
+2. If $M$ is odd, $P = N + ((M - 1) \times N)$
+3. Repeat until $M = 0$
+
+
+### Note
+
+Direct arithmetic operations on integers are always done in the ALU.
+
+ALU ignores the overflow error for `addu`.
+
+### Memory Access
+
+`.data` segment is used for declaring variables and constants.  
+`.text` segment is used for the actual code (instructions) of the program.
+
+Example:
+```assembly
+.data
+
+num: .word 5           # an integer 5
+arr: .word 1, 2, 3     # [1, 2, 3] array of words
+buf: .space 16         # reserve 16 bytes of uninitialized space (garbage values)
+
+
+var2: .byte 0xFF        # byte variable initialized to 255
+str1: .asciiz "Hello, World!"  # null-terminated string
+newline: .asciiz "\n"   # null-terminated string for newline
 ```
