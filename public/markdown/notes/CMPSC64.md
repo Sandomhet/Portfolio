@@ -21,8 +21,6 @@ Memory is composed of data address and data value. Each memory address stores a 
 
 ## Binary Number System
 
-**1 byte = 8 bits**
-
 Base 10 (decimal): digits 0-9.  
 Base 2 (binary): digits 0 and 1.  
 Base 8 (octal): digits 0-7.  
@@ -47,6 +45,29 @@ Hexadecimal and binary table:
 
 Group 3 binary digits to convert to octal.  
 Group 4 binary digits to convert to hexadecimal.  
+
+### Data Unit
+
+**1 byte (B) = 8 bits (b)**
+
+$10^{-12} = \text{pico} (p)$  
+$10^{-9} = \text{nano} (n)$  
+$10^{-6} = \text{micro} (\mu)$  
+$10^{-3} = \text{milli} (m)$  
+$10^{3} = \text{kilo} (k)$  
+$10^{6} = \text{mega} (M)$  
+$10^{9} = \text{giga} (G)$  
+$10^{12} = \text{tera} (T)$
+
+- kb = $10^{3}$ bits
+- Mb = $10^{6}$ bits
+- Gb = $10^{9}$ bits
+- kB = $10^{3}$ bytes
+- MB = $10^{6}$ bytes
+- GB = $10^{9}$ bytes
+- KiB = $2^{10}$ bytes
+- MiB = $2^{20}$ bytes
+- GiB = $2^{30}$ bytes
 
 ### Two's Complement (二进制补码)
 
@@ -99,15 +120,6 @@ Bitwise operations:
 - Right Shift: `>>`; shifts bits to the right. For unsigned numbers, fills with 0s on the left. `(1100 >> 2) = 0011` For signed numbers, fills with sign bit (arithmetic shift). `(1100 >> 2) = 1111`
 
 ## Machine
-
-$10^{-12} = \text{pico} (p)$  
-$10^{-9} = \text{nano} (n)$  
-$10^{-6} = \text{micro} (\mu)$  
-$10^{-3} = \text{milli} (m)$  
-$10^{3} = \text{kilo} (k)$  
-$10^{6} = \text{mega} (M)$  
-$10^{9} = \text{giga} (G)$  
-$10^{12} = \text{tera} (T)$
 
 1. Arithmetic operations
 2. Logic operations
@@ -197,6 +209,7 @@ Syntax: `<op> <rd>, <rs>, <rt>`
 
 ```assembly
 add $t0, $t1, $t2      # $t0 = $t1 + $t2
+addu $t0, $t1, $t2     # $t0 = $t1 + $t2 (unsigned, ignores overflow)
 sub $t0, $t1, $t2      # $t0 = $t1 - $t2
 and $t0, $t1, $t2      # $t0 = $t1 & $t2
 or  $t0, $t1, $t2      # $t0 = $t1 | $t2
@@ -324,16 +337,43 @@ ALU ignores the overflow error for `addu`.
 `.data` segment is used for declaring variables and constants.  
 `.text` segment is used for the actual code (instructions) of the program.
 
+1 word = 4 bytes = 32 bits
+
+There's $2^{32}$ addresses, each pointing to 1 byte of data.
+
+Word Alignment: word addresses must be multiples of 4 (0, 4, 8, 12, ...).
+
 Example:
 ```assembly
 .data
 
-num: .word 5           # an integer 5
+num: .word 5           # an integer 5 (32-bit word)
 arr: .word 1, 2, 3     # [1, 2, 3] array of words
 buf: .space 16         # reserve 16 bytes of uninitialized space (garbage values)
-
 
 var2: .byte 0xFF        # byte variable initialized to 255
 str1: .asciiz "Hello, World!"  # null-terminated string
 newline: .asciiz "\n"   # null-terminated string for newline
 ```
+
+## Memory Allocation Map
+
+from where to where in MIPS
+1. Reserved: `0x00000000` to `0x00000FFF`
+2. Text Segment: `0x00001000` to `0x0FFFFFFF`
+3. Data Segment: `0x10000000` to `0x7FFFFFFF`
+4. Stack Segment: `0x7FFFFFFF` to `0x80000000`
+5. Reserved: `0x80000000` to `0xFFFFFFFF`
+
+Big Endian vs Little Endian:
+- Big Endian: stores the most significant byte at the lowest memory address. (in use)
+- Little Endian: stores the least significant byte at the lowest memory address.
+
+**Todo: memory allocation map**
+
+table of instruction formats with each field:
+| Instruction Type | Opcode (6 bits) | rs (5 bits) | rt (5 bits) | rd (5 bits) | shamt (5 bits) | funct (6 bits) |
+|------------------|-----------------|-------------|-------------|-------------|-----------------|-----------------|
+| R-type           |     opcode      |     rs      |     rt      |     rd   |     shamt       |      funct      |
+| I-type           |     opcode      |     |     rt      |     rs      |   immediate    | (16 bits) |
+| J-type           |     opcode      |        address (26 bits) |
