@@ -58,7 +58,7 @@ export default function MarkdownViewer() {
   
   
   return (
-      <Container className={files[name]["lang"] == "en" ? "markdown-en" : "markdown-zh"} lang={files[name]["lang"]}>
+      <Container className={files[name]["lang"] === "en" ? "markdown-en" : "markdown-zh"} lang={files[name]["lang"]}>
         {/*<div*/}
         {/*    dangerouslySetInnerHTML={{*/}
         {/*      __html: processedMarkdown, // The HTML string you want to render*/}
