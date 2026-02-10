@@ -177,3 +177,22 @@ The magnitude doesn't change, but the direction changes, so there is acceleratio
   - $a_c = \omega^2 r$
 
 Non-uniform circular motion: $\vec{a} = \vec{a}_c + \vec{a}_t$
+
+## Energy
+
+**Work**: the transfer of energy by a force acting over a displacement. $W = \vec{F} \cdot \vec{d} = Fd \cos \theta$ in **Joules (J)**.  
+Varying force: $W = \int_{x_0}^{x} \vec{F}(x) \cdot d\vec{x}$
+
+**Hooke's Law**: $\vec{F} = -k\vec{x}$, the restoring force for a spring, where $k$ is the spring constant.  
+
+**Kinetic Energy**: the energy possessed by an object due to its motion. $K = \frac{1}{2}mv^2$.  
+**Potential Energy**: the energy stored in an object due to its position or configuration.
+  - **Gravitational Potential Energy**: $U = mgh$.  
+  - **Elastic Potential Energy**: $U = \frac{1}{2}kx^2$.  
+
+**Mechanical Energy**: the sum of kinetic and potential energy. $E = K + U$ (constant).  
+**Conservation of Mechanical Energy**: In the absence of non-conservative forces (like friction), the total mechanical energy of a system remains constant. $E_i = E_j$ or $\Delta E = 0$.
+
+**Work-Energy Principle**: The net work done on an object is equal to the change in its kinetic energy. $W_{net} = \Delta K$, $W_{net} = -\Delta U$, or $W_{net} = \Delta K + \Delta U$.
+
+**Power**: the rate at which work is done or energy is transferred. $P = \frac{W}{t} = \vec{F} \cdot \vec{v}$ in **Watts (W)**.

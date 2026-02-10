@@ -1,7 +1,6 @@
 import {Card, CardContent, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
-import {deepPurple} from "@mui/material/colors";
 
 export default function PreviewWidget({file}) {
   return (

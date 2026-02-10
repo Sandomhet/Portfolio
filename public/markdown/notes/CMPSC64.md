@@ -181,6 +181,8 @@ Components of MIPS program:
 
 ### Registers
 
+![alt text](../images/image-2.png)
+
 Registers in MIPS (32 total):  
 `$zero`: always contains `0` and cannot be overwritten  
 `$t0-$t9`: temporary registers (not preserved across function calls)  
@@ -325,7 +327,6 @@ Iterative proof:
 2. If $M$ is odd, $P = N + ((M - 1) \times N)$
 3. Repeat until $M = 0$
 
-
 ### Note
 
 Direct arithmetic operations on integers are always done in the ALU.
@@ -360,14 +361,14 @@ newline: .asciiz "\n"   # null-terminated string for newline
 
 from where to where in MIPS
 1. Reserved: `0x00000000` to `0x00000FFF`
-2. Text Segment: `0x00001000` to `0x0FFFFFFF`
-3. Data Segment: `0x10000000` to `0x7FFFFFFF`
-4. Stack Segment: `0x7FFFFFFF` to `0x80000000`
+2. Text Segment: `0x00400000` to `0x0FFFFFFF`
+3. Data Segment: `0x10000000` to `0x10007FFF`
+4. Stack Segment: `0x10000000` to `0x7FFFFFFC`
 5. Reserved: `0x80000000` to `0xFFFFFFFF`
 
 Big Endian vs Little Endian:
-- Big Endian: stores the most significant byte at the lowest memory address. (in use)
-- Little Endian: stores the least significant byte at the lowest memory address.
+- Big Endian: stores the MSB first. (in use)
+- Little Endian: stores the LSB first.
 
 **Todo: memory allocation map**
 
@@ -377,3 +378,70 @@ table of instruction formats with each field:
 | R-type           |     opcode      |     rs      |     rt      |     rd   |     shamt       |      funct      |
 | I-type           |     opcode      |     |     rt      |     rs      |   immediate    | (16 bits) |
 | J-type           |     opcode      |        address (26 bits) |
+
+## Instruction Representation
+
+Each instruction is represented as a 32-bit binary number.
+![alt text](../images/image-3.png)
+
+### R-type Instruction Format
+
+- Opcode (6 bits): operation code (always `000000` for R-type)
+- rs (5 bits): source register 1
+- rt (5 bits): source register 2
+- rd (5 bits): destination register
+- shamt (5 bits): shift amount
+- funct (6 bits): function code (specifies the exact operation)
+
+### I-type Instruction Format
+
+- Opcode (6 bits): operation code
+- rs (5 bits): source register
+- rt (5 bits): target register
+- immediate (16 bits): immediate value or address offset (signed: -2^15 to 2^15-1)
+
+
+## Functions
+
+`jal`: jump and link. It jumps to the target address and stores the return address (the address of the next instruction) in the `$ra` register.  
+`jr`: jump register. It jumps to the address contained in the specified register (usually `$ra` for returning from a function).
+
+```assembly
+func:
+    # Function body
+    jr $ra  # Return to caller
+main:
+    jal func  # Call the function "func"
+exit:
+```
+
+Arguments are passed in registers `$a0` to `$a3`.  
+Return values are passed back in registers `$v0` and `$v1`.  
+If there are more than 4 arguments, the additional arguments are passed on the stack.
+
+Top of the stack is at lower address, while bottom of the stack is at higher address.
+
+The **stack pointer** (`$sp`) points to the top of the stack. Equals `0x7FFFFFFC` initially. Has a stack limit of `0x10000000` (256 MB).
+
+Preserved means that the caller expects the value to remain unchanged after the function call.  
+Unpreserved means that the caller does not expect the value to remain unchanged after the function call.
+
+Calling convention:
+1. Caller saves preserved registers on stack before the call.
+2. Caller passes arguments in `$a0-$a3` and additional arguments on the stack.
+3. Caller executes `jal` to call the function.
+4. Callee performs the function's operations, using unpreserved registers for any temporary values.
+5. Callee returns the result in `$v0` and `$v1`, and executes `jr $ra` to return to the caller.
+6. Caller restores preserved registers from stack after the call if needed.
+
+Stack operation:
+1. To push a value onto the stack: 
+```assembly
+addiu $sp, $sp, -4  # Move stack pointer down by 4 bytes
+sw $s0, 0($sp)     # Store value from $s0 onto stack
+```
+2. To pop a value from the stack:
+```assembly
+lw $s0, 0($sp)     # Load value from stack into $s0
+addiu $sp, $sp, 4   # Move stack pointer up by 4 bytes
+```

@@ -58,21 +58,21 @@ Two planes are parallel when their normal vectors are parallel.
 
 ## Derivatives
 
-$ \vec{v}(t)' = \langle \vec{x}(t)', \vec{y}(t)', \vec{z}(t)' \rangle $
-$ \int\vec{v}(t) = \langle \int\vec{x}(t), \int\vec{y}(t), \int\vec{z}(t) \rangle $
-$ (\vec{u}\cdot \vec{v})' = \vec{u}'\cdot \vec{v} + \vec{u}\cdot \vec{v}' $
+$ \vec{v}(t)' = \langle \vec{x}(t)', \vec{y}(t)', \vec{z}(t)' \rangle $.  
+$ \int\vec{v}(t) = \langle \int\vec{x}(t), \int\vec{y}(t), \int\vec{z}(t) \rangle $.  
+$ (\vec{u}\cdot \vec{v})' = \vec{u}'\cdot \vec{v} + \vec{u}\cdot \vec{v}' $.  
 
-Curvature
-$ \kappa(t) = \frac{|\vec{v}(t)' \times \vec{v}(t)''|}{|\vec{v}(t)'|^3} $
+**Curvature**:
+$$ \kappa(t) = \frac{|\vec{v}(t)' \times \vec{v}(t)''|}{|\vec{v}(t)'|^3} $$
 
 Arc-length parameterization
 $
-s(t) = \int_{t_0}^t |\vec{r}(u)'|du \\
+s(t) = \int_{t_0}^t |\vec{r}(u)'|du \ \\
 t = t(s)
-$
-Replace $ t $ with $ t(s) $
-$ \vec{r}(t) $ -> $ \vec{r}(t(s)) = \vec{r}(s) $
-$ \vec{r}(s)' = 1 $
+$.  
+Replace $ t $ with $ t(s) $,
+$ \vec{r}(t) $ -> $ \vec{r}(t(s)) = \vec{r}(s) $;
+$ \vec{r}(s)' = 1 $.  
 Curvature is the same as acceleration.
 
 ## Partial Derivatives
@@ -253,13 +253,36 @@ $ \frac{ \partial(x, y, z) }{ \partial(r, \theta, \phi) } = r^2\sin\phi $
 
 $$ \int_0^{\pi}\int_0^{2\pi}\int_0^R f(r, \theta, \phi) r^2\sin\phi\ dr d\theta d\phi $$
 
-## Line Integral
+## Line Integral (Path Integral)
+
+Definition: Integrals over curves. 
+
+$\vec{r}(t) = \langle x(t), y(t) \rangle, a \le t \le b \\
+C $ is the curve parameterized by $ \vec{r}(t) $
+
+$ds = |\vec{r}(t)'| dt \\
+d\vec{r} = \vec{r}(t)' dt $
+$$\int_C f(x, y) ds = \int_a^b f(\vec{r}(t)) |\vec{r}(t)'| dt $$
+$$\int_C \vec{F} \cdot d\vec{r} = \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r}(t)' dt $$
 
 $ \vec{r}(t) = \langle x(t), y(t) \rangle, f(x, y) $.  
 $ \int_a^b f(\vec{r}(t))|\vec{r}(t)'|dt $
 
 $ \vec{F}(x, y) = \langle P(x, y), Q(x, y) \rangle $.  
 $ \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r}(t)'dt $
+
+$T$ is the unit tangent vector to $C$ at the point $\vec{r}(t)$.
+$ \vec{T} = \frac{\vec{r}(t)'}{|\vec{r}(t)'|} $
+
+### Reparameterization
+
+If $ C $ is parameterized by $ \vec{r}(t), a \le t \le b $ and also by $ \vec{p}(s), c \le s \le d $, where $ \vec{r}(t) = \vec{p}(g(t)) $ for some differentiable function $ g(t) $ with $ g(a) = c $ and $ g(b) = d $, then
+$$ \int_C f(x, y) ds = \int_a^b f(\vec{r}(t)) |\vec{r}(t)'| dt = \int_c^d f(\vec{p}(s)) |\vec{p}(s)'| ds $$
+$$ \int_C \vec{F} \cdot d\vec{r} = \int_a^b \vec{F}(\vec{r}(t)) \cdot \vec{r}(t)' dt = \int_c^d \vec{F}(\vec{p}(s)) \cdot \vec{p}(s)' ds $$
+
+### Line Integrals of Gradient Fields
+
+If $ \vec{F} = \nabla f $, then $ \int_C \vec{F} \cdot d\vec{r} = f(\vec{r}(b)) - f(\vec{r}(a)) $
 
 ## Images
 

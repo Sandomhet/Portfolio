@@ -1,5 +1,4 @@
 import {Box, Container, Divider} from "@mui/material";
-import {blue, deepPurple} from "@mui/material/colors";
 import Profile from "./Profile";
 import ContentTabs from "./ContentTabs";
 

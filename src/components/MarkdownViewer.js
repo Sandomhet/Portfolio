@@ -1,5 +1,5 @@
 import {Container} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import "katex/dist/katex.min.css";
 import {useParams} from "react-router-dom";
 import Markdown from "react-markdown";

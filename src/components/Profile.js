@@ -1,7 +1,6 @@
 import { Avatar, Box, Container, Typography } from "@mui/material";
 import ExternalLinks from "./ExternalLinks";
 import QuoteWidget from "./QuoteWidget";
-import { deepPurple } from '@mui/material/colors';
 
 const pictureLink = "avatar.jpg";
 
