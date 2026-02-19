@@ -196,3 +196,31 @@ Varying force: $W = \int_{x_0}^{x} \vec{F}(x) \cdot d\vec{x}$
 **Work-Energy Principle**: The net work done on an object is equal to the change in its kinetic energy. $W_{net} = \Delta K$, $W_{net} = -\Delta U$, or $W_{net} = \Delta K + \Delta U$.
 
 **Power**: the rate at which work is done or energy is transferred. $P = \frac{W}{t} = \vec{F} \cdot \vec{v}$ in **Watts (W)**.
+
+**Conservative forces**: the work done is independent of the path taken. Examples include gravitational and elastic forces.  
+**Dissipative forces** (like friction) convert mechanical energy into other forms (like heat), so mechanical energy is not conserved. However, total energy is always conserved.  
+
+**Law of Conservation of Energy**: The total energy of an isolated system remains constant; it can only be transformed from one form to another.
+
+$W_{non-conservative} = \Delta K + \Delta U$ or $W_{non-conservative} = \Delta E_{mechanical}$
+
+## Momentum
+
+**Momentum**: the quantity of motion an object has. $\vec{p} = m\vec{v}$ in **kg·m/s**.  
+The rate of change of momentum is equal to the net force acting on an object. $\vec{F} = \frac{d\vec{p}}{dt}$.  
+**Impulse**: the change in momentum of an object when a force is applied over a time interval. $\vec{J} = \Delta \vec{p} = \vec{F} \Delta t$ in **N·s**.  
+**Law of Conservation of Linear Momentum**: In the absence of external forces, the total momentum of an isolated system remains constant. $\vec{p}_{initial} = \vec{p}_{final}$ or $\Delta \vec{p} = 0$.
+
+### Collisions
+
+- **Elastic Collision**: both momentum and kinetic energy are conserved.
+  - $\begin{aligned}
+  m_1 v_1 + m_2 v_2 &= m_1 v_1' + m_2 v_2' \\
+  \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 &= \frac{1}{2} m_1 v_1'^2 + \frac{1}{2} m_2 v_2'^2
+  \end{aligned}$
+  - The relative speed has the same magnitude in opposite directions: $v_1 - v_2 = -(v_1' - v_2')$.
+  - $v_1' = \frac{(m_1 - m_2)v_1 + 2m_2 v_2}{m_1 + m_2}$
+  - $v_2' = \frac{(m_2 - m_1)v_2 + 2m_1 v_1}{m_1 + m_2}$
+- **Inelastic Collision**: momentum is conserved, but kinetic energy is not conserved.
+- **Perfectly Inelastic Collision**: a special case of inelastic collision where the colliding objects stick together after the collision, moving with a common velocity. Momentum is conserved, but kinetic energy is not conserved.
+- **Coefficient of Restitution**: the ratio of the relative speed after the collision to the relative speed before the collision. $e = \frac{v_2' - v_1'}{v_1 - v_2}$

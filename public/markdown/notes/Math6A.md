@@ -106,14 +106,14 @@ $
 
 ## Optimization
 
-Gradient vector: $ \nabla f(x, y) = \langle f_x, f_y \rangle $
-Movement vector: $ \vec{v} = \langle dx, dy \rangle $
+Gradient vector: $ \nabla f(x, y) = \langle f_x, f_y \rangle $.  
+Movement vector: $ \vec{v} = \langle dx, dy \rangle $.  
 
 ### Tangent Plane
 
-$ dz = f_xdx + f_ydy = \nabla f\cdot \vec{v} $
-$ \Delta z \approx f_x\Delta x + f_y\Delta y $
-$ z = z_0 + f_x(x - x_0) + f_y(y - y_0) $
+$ dz = f_xdx + f_ydy = \nabla f\cdot \vec{v} $.  
+$ \Delta z \approx f_x\Delta x + f_y\Delta y $.  
+$ z = z_0 + f_x(x - x_0) + f_y(y - y_0) $.  
 
 ### Directional Derivative
 
@@ -322,3 +322,47 @@ where $G$ is the gravitational constant, $r$ is the distance from the point mass
 ### Isaac Newton's Breathtaking Proposition 71
 
 A uniform spherical shell of mass $M$ exerts a gravitational force on a point mass $m$ located outside the shell as if all the shell's mass were concentrated at its center. If the point mass is located inside the shell, the net gravitational force exerted on it by the shell is zero.
+
+## Surface Integral
+
+A **parameterization of a surface** $S$ is a vector function $\vec{r}(u, v) = \langle x(u, v), y(u, v), z(u, v) \rangle$ defined on a region $R$ in the $uv$-plane such that $\vec{r}$ is one-to-one and $\vec{r}(R) = S$.  
+
+
+$T_u = \vec{r}_u = \frac{\partial \vec{r}}{\partial u}$ and $T_v = \vec{r}_v = \frac{\partial \vec{r}}{\partial v}$ are tangent vectors to the surface, and $\vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|}$ is the unit normal vector to the surface. The magnitude of the cross product $|\vec{r}_u \times \vec{r}_v|$ gives the area of the parallelogram spanned by the tangent vectors, which is used to compute the surface area element $dS$.
+
+An equation of the tangent plane to the surface at a point $\vec{r}(u_0, v_0)$ is given by
+$$ \vec{n} \cdot (\vec{r} - \vec{r}(u_0, v_0)) = 0 $$
+$$ n_1(x - x_0) + n_2(y - y_0) + n_3(z - z_0) = 0 $$
+
+The surface $S$ is regular if $T_u \times T_v \neq \vec{0}$ for all $(u, v)$ in $R$. This condition ensures that the surface does not have any singularities or self-intersections, allowing for a well-defined normal vector and surface area element.
+
+Surface area of $S$ is given by
+$$ A(S) = \iint_R |\vec{r}_u \times \vec{r}_v| du dv \\
+= \iint_R \sqrt{
+\left( \frac{\partial(y, z)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(z, x)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(x, y)}{\partial(u, v)} \right)^2
+} \, du dv $$
+
+Parametic equation of a surface:
+$$ ax + by + cz = d $$
+$$ \vec{r}(u, v) = \vec{w} + s\vec{u} + t\vec{v} $$
+Parametic surface integral:
+$$ \iint_S f(x, y, z) dS = \iint_R f(\vec{r}(u, v)) |\vec{r}_u \times \vec{r}_v| du dv $$
+Vector surface integral:
+$$ \iint_S \vec{F} \cdot d\vec{S} = \iint_R \vec{F}(\vec{r}(u, v)) \cdot (\vec{r}_u \times \vec{r}_v) du dv $$
+
+How to find the parameterization of a surface defined by an implicit equation $f(x, y, z) = 0$?
+1. Find the normal vector $\vec{n} = \nabla f = \langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \rangle$.
+2. Find two tangent vectors $\vec{u}$ and $\vec{v}$ such that $\vec{n} \cdot \vec{u} = 0$ and $\vec{n} \cdot \vec{v} = 0$.
+3. Find a point $\vec{w}$ on the surface.
+4. The parameterization is given by $\vec{r}(s, t) = \vec{w} + s\vec{u} + t\vec{v}$.
+
+Area of a surface defined by $f(x, y, z) = 0$ is given by
+$$ A(S) = \iint_R \frac{|\nabla f|}{|\nabla f \cdot \vec{k}|} du dv $$
+where $\vec{k}$ is the unit vector in the $z$-direction. This formula arises from the fact that the area element $dS$ can be expressed in terms of the gradient of $f$ and the projection of the surface onto the $xy$-plane. The term $|\nabla f|$ accounts for the rate of change of the surface, while $|\nabla f \cdot \vec{k}|$ accounts for the angle between the surface and the $xy$-plane, ensuring that the area is correctly scaled based on the orientation of the surface. 
+$$A = \iint_R \sqrt{1 + \left( \frac{\partial z}{\partial x} \right)^2 + \left( \frac{\partial z}{\partial y} \right)^2} dx dy $$
+
+For rotation about the $z$-axis, the surface area is given by
+$$ A = \iint_R 2\pi \sqrt{x^2 + y^2} \sqrt{1 + \left( \frac{\partial z}{\partial x} \right)^2 + \left( \frac{\partial z}{\partial y} \right)^2} dx dy $$
+
+For rotation about the $y$-axis, the surface area is given by
+$$ A = \iint_R 2\pi x \sqrt{1 + \left( \frac{\partial y}{\partial x} \right)^2} dx $$

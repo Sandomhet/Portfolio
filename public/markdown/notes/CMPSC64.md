@@ -445,3 +445,17 @@ sw $s0, 0($sp)     # Store value from $s0 onto stack
 lw $s0, 0($sp)     # Load value from stack into $s0
 addiu $sp, $sp, 4   # Move stack pointer up by 4 bytes
 ```
+
+## Digital Logic Circuits
+
+![circuit diagram](../images/image.png)
+
+Operation Signs:
+- NOT: $\overline{A}$
+- AND: $A \cdot B$
+- OR: $A + B$
+- XOR: $A \oplus B$
+- NAND: $\overline{A \cdot B}$
+- NOR: $\overline{A + B}$
+
+Combinatorial Logic.
