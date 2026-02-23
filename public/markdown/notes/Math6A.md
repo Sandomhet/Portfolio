@@ -347,8 +347,10 @@ $$ ax + by + cz = d $$
 $$ \vec{r}(u, v) = \vec{w} + s\vec{u} + t\vec{v} $$
 Parametic surface integral:
 $$ \iint_S f(x, y, z) dS = \iint_R f(\vec{r}(u, v)) |\vec{r}_u \times \vec{r}_v| du dv $$
-Vector surface integral:
+Vector field surface integral:
 $$ \iint_S \vec{F} \cdot d\vec{S} = \iint_R \vec{F}(\vec{r}(u, v)) \cdot (\vec{r}_u \times \vec{r}_v) du dv $$
+
+$$ d\vec{S} = (\vec{r}_u \times \vec{r}_v) du dv $$
 
 How to find the parameterization of a surface defined by an implicit equation $f(x, y, z) = 0$?
 1. Find the normal vector $\vec{n} = \nabla f = \langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \rangle$.
@@ -366,3 +368,12 @@ $$ A = \iint_R 2\pi \sqrt{x^2 + y^2} \sqrt{1 + \left( \frac{\partial z}{\partial
 
 For rotation about the $y$-axis, the surface area is given by
 $$ A = \iint_R 2\pi x \sqrt{1 + \left( \frac{\partial y}{\partial x} \right)^2} dx $$
+
+### Graph
+
+If $z = f(x, y)$, then
+$$ |r_u \times r_v| = \sqrt{1 + \left( \frac{\partial z}{\partial x} \right)^2 + \left( \frac{\partial z}{\partial y} \right)^2} $$
+
+### Sphere
+
+$$dS = r^2\sin\phi\ d\phi d\theta $$

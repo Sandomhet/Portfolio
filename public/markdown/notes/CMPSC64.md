@@ -153,11 +153,11 @@ core components of CPU
 6. Data Memory
 7. Control Unit
 
-## Assembly Language
+## py Language
 
 Machine language consists of binary instructions that the CPU can execute directly.
 
-Assembly language is a low-level programming language that uses **mnemonic codes** to represent machine-level instructions. Each assembly instruction corresponds directly to a machine code instruction.
+py language is a low-level programming language that uses **mnemonic codes** to represent machine-level instructions. Each py instruction corresponds directly to a machine code instruction.
 
 Architecture: MIPS
 
@@ -209,7 +209,7 @@ register-types, immediate-types, jump-types, arithmetic-logical-instructions, me
 Syntax: `<op> <rd>, <rs>, <rt>`  
 (`<operation> <destination_register>, <source_register_1>, <source_register_2>`)
 
-```assembly
+```py
 add $t0, $t1, $t2      # $t0 = $t1 + $t2
 addu $t0, $t1, $t2     # $t0 = $t1 + $t2 (unsigned, ignores overflow)
 sub $t0, $t1, $t2      # $t0 = $t1 - $t2
@@ -228,20 +228,20 @@ srl $t0, $t1, 2       # $t0 = $t1 >> 2 (shift right logical)
 Syntax: `<op> <rt>, <rs>, <immediate>`  
 (`<operation>(6) <target_register>(5), <source_register>(5), <immediate_value>(16)`), so `immediate` is a 16-bit signed integer.
 
-```assembly
+```py
 addi $t0, $t1, 10      # $t0 = $t1 + 10
 andi $t0, $t1, 0x0F      # $t0 = $t1 & 0x0F
 ```
 
 `lw <rt>, <offset>(<rs>)`
-```assembly
+```py
 lw $t0, 3($t1)       # Load word from memory address ($t1 + 3) to $t0
 sw $t0, 3($t1)       # Store word from $t0 to memory address ($t1 + 3)
 ```
 
 Branching Instructions:
 
-```assembly
+```py
 beq $t0, $t1, label   # Branch to "label" if $t0 == $t1
 bne $t0, $t1, label   # Branch to "label" if $t0 != $t1
 ```
@@ -251,14 +251,14 @@ bne $t0, $t1, label   # Branch to "label" if $t0 != $t1
 Syntax: `<op> <address>`  
 (`<operation>(6) <target_address>(26)`)
 
-```assembly
+```py
 j label     # Jump to "label"
 jal label   # Jump and link to "label" (store return address in $ra)
 ```
 
 ### Pseudo-instructions
 
-```assembly
+```py
 move $t0, $t1          # Move value from $t1 to $t0
 li $t0, 100            # Load immediate: $t0 = 100
 la $t0, label         # Load address of "label" into $t0
@@ -270,35 +270,35 @@ bge $t0, $t1, label   # Branch to "label" if $t0 >= $t1
 ```
 
 set-less-than instruction:
-```assembly
+```py
 slt $t0, $t1, $t2      # $t0 = ($t1 < $t2) ? 1 : 0
 ```
 
 ### Examples
 
 Print the integer value that's in register `$t0`:
-```assembly
+```py
 li $v0, 1       # syscall code for print integer
 move $a0, $t0   # move value from $t0 to $a0 (argument for syscall)
 syscall
 ```
 
 Read an integer from user input and store it in register `$t0`:
-```assembly
+```py
 li $v0, 5       # syscall code for read integer
 syscall
 move $t0, $v0   # move the read integer from $v0 to $t0
 ```
 
 Exit the program:
-```assembly
+```py
 li $v0, 10  # syscall code for exit
 syscall
 ```
 
 ### Multiplication and Division
 
-```assembly
+```py
 mult $t1, $t2          # Multiply $t1 by $t2
 mflo $t0               # Move the lower 32 bits of the product from LO to $t0
 mfhi $t0               # Move the upper 32 bits of the product from HI to $t0
@@ -345,7 +345,7 @@ There's $2^{32}$ addresses, each pointing to 1 byte of data.
 Word Alignment: word addresses must be multiples of 4 (0, 4, 8, 12, ...).
 
 Example:
-```assembly
+```py
 .data
 
 num: .word 5           # an integer 5 (32-bit word)
@@ -406,7 +406,7 @@ Each instruction is represented as a 32-bit binary number.
 `jal`: jump and link. It jumps to the target address and stores the return address (the address of the next instruction) in the `$ra` register.  
 `jr`: jump register. It jumps to the address contained in the specified register (usually `$ra` for returning from a function).
 
-```assembly
+```py
 func:
     # Function body
     jr $ra  # Return to caller
@@ -436,12 +436,12 @@ Calling convention:
 
 Stack operation:
 1. To push a value onto the stack: 
-```assembly
+```py
 addiu $sp, $sp, -4  # Move stack pointer down by 4 bytes
 sw $s0, 0($sp)     # Store value from $s0 onto stack
 ```
 2. To pop a value from the stack:
-```assembly
+```py
 lw $s0, 0($sp)     # Load value from stack into $s0
 addiu $sp, $sp, 4   # Move stack pointer up by 4 bytes
 ```
