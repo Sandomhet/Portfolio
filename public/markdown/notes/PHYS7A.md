@@ -213,7 +213,7 @@ The rate of change of momentum is equal to the net force acting on an object. $\
 
 ### Collisions
 
-- **Elastic Collision**: both momentum and kinetic energy are conserved.
+- **Elastic Collision**: both *momentum* and *kinetic energy* are conserved.
   - $\begin{aligned}
   m_1 v_1 + m_2 v_2 &= m_1 v_1' + m_2 v_2' \\
   \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 &= \frac{1}{2} m_1 v_1'^2 + \frac{1}{2} m_2 v_2'^2
@@ -221,6 +221,63 @@ The rate of change of momentum is equal to the net force acting on an object. $\
   - The relative speed has the same magnitude in opposite directions: $v_1 - v_2 = -(v_1' - v_2')$.
   - $v_1' = \frac{(m_1 - m_2)v_1 + 2m_2 v_2}{m_1 + m_2}$
   - $v_2' = \frac{(m_2 - m_1)v_2 + 2m_1 v_1}{m_1 + m_2}$
-- **Inelastic Collision**: momentum is conserved, but kinetic energy is not conserved.
-- **Perfectly Inelastic Collision**: a special case of inelastic collision where the colliding objects stick together after the collision, moving with a common velocity. Momentum is conserved, but kinetic energy is not conserved.
+- **Inelastic Collision**: *momentum* is conserved, but *kinetic energy* is not conserved.
+- **Completely Inelastic Collision**: a special case of inelastic collision where the colliding objects stick together after the collision, moving with a common velocity. *Momentum* is conserved, but *kinetic energy* is not conserved.
+  - $v' = \frac{m_1 v_1 + m_2 v_2}{m_1 + m_2}$
+  - $\Delta K = \frac{1}{2} (m_1 + m_2) v'^2 - \frac{1}{2} m_1 v_1^2 - \frac{1}{2} m_2 v_2^2$
 - **Coefficient of Restitution**: the ratio of the relative speed after the collision to the relative speed before the collision. $e = \frac{v_2' - v_1'}{v_1 - v_2}$
+
+Collisions in 2D: The momentum preserves in both x and y directions.
+
+## Center of Mass
+
+**Center of Mass**: the average position of the mass of an object.
+
+For a system of particles, the center of mass is given by:
+$\vec{r}_{cm} = \frac{1}{M} \sum\limits_{i=1}^{n} m_i \vec{r}_i$, which is $x_{cm} = \frac{\sum\limits m_i x_i}{M}$, $y_{cm} = \frac{\sum\limits m_i y_i}{M}$, $z_{cm} = \frac{\sum\limits m_i z_i}{M}$.
+
+For a continuous object, the center of mass is given by:
+$\vec{r}_{cm} = \frac{1}{M} \int \vec{r} dm$
+
+where $M$ is the total mass of the object.
+
+The center of mass of a system of particles (or objects) moves like a single particle of mass $M$ under the influence of the same net external force. $\vec{F}_{net} = M \vec{a}_{cm} = \sum\limits_{i=1}^{n} m_i \vec{a}_i$
+
+The general motion of any object is a combination of CM's translational motion and rotational, vibrational, and other motions around the CM.
+
+## Rotational Motion
+
+**Rotational Motion**: motion of an object around a fixed axis.
+Rigid object: an object that does not deform under the application of forces.  
+Axis of rotation: a line around which the object rotates.
+
+- $P$: position vector of a point P
+- $l$: distance point P travels along the arc
+- $r$: radius of the circular path
+- $\theta$: angular position of P, $\theta = \frac{l}{r}$, in radians
+- Angular velocity: $\omega = \frac{\theta}{t}$
+- Angular acceleration: $\alpha = \frac{\omega}{t}$
+- Linear velocity: $v = \frac{l}{t} = \omega r$
+- Tangential linear acceleration: $a_{tan} = \frac{v}{t} = \alpha r$
+- Total linear acceleration: $a = a_{cen} + a_{tan} = \omega^2 r + \alpha r$
+- Centripetal torque: $\tau_c = I \alpha = I \frac{\omega^2}{r}$
+
+Direction of angular acceleration: "right-hand rule": curl fingers of right hand in the direction of rotation, the thumb points in the direction of the angular acceleration.
+
+
+
+
+**Angular Momentum**: the rotational equivalent of momentum. $\vec{L} = \vec{r} \times \vec{p}$ in **kg·m²/s**.
+
+**Law of Conservation of Angular Momentum**: In the absence of external torques, the angular momentum of a rigid object remains constant. $\vec{L}_{initial} = \vec{L}_{final}$ or $\Delta \vec{L} = 0$.
+
+**Rotational Kinetic Energy**: the energy possessed by an object due to its rotational motion. $K = \frac{1}{2}I\omega^2$.
+
+**Moment of Inertia**: the rotational equivalent of mass. $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.
+
+
+**Parallel Axis Theorem**: the moment of inertia of a rigid object about an axis parallel to its center of mass is equal to the moment of inertia about a centroidal axis through the center of mass plus the product of the mass of the object and the square of the distance between the two axes. $I = I_{cm} + Md^2$
+
+## Torque
+
+**Torque**: the rotational equivalent of force. $\vec{\tau} = \vec{r} \times \vec{F}$ in **N·m**.

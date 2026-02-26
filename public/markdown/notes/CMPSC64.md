@@ -459,3 +459,63 @@ Operation Signs:
 - NOR: $\overline{A + B}$
 
 Combinatorial Logic.
+
+Boolean Algebra Laws:
+
+- **Idempotent**:
+  - $A \cdot A = A$
+  - $A + A = A$
+- **Identity**:
+  - $A \cdot 1 = A$
+  - $A + 0 = A$
+- **Null / Domination**:
+  - $A + 1 = 1$
+  - $A \cdot 0 = 0$
+- **Inverse / Complement**:
+  - $A + \overline{A} = 1$
+  - $A \cdot \overline{A} = 0$
+- **Commutative**:
+  - $A \cdot B = B \cdot A$
+  - $A + B = B + A$
+- **Associative**:
+  - $(A \cdot B) \cdot C = A \cdot (B \cdot C)$
+  - $(A + B) + C = A + (B + C)$
+- **Distributive**:
+  - $A \cdot (B + C) = A \cdot B + A \cdot C$
+  - $A + (B \cdot C) = (A + B)(A + C)$
+- **De Morgan's**:
+  - $\overline{A \cdot B} = \overline{A} + \overline{B}$
+  - $\overline{A + B} = \overline{A} \cdot \overline{B}$
+- **Absorption**:
+  - $A + (A \cdot B) = A$
+  - $A \cdot (A + B) = A$
+- **Consensus**:
+  - $A \cdot B + \overline{A} \cdot C + B \cdot C = A \cdot B + \overline{A} \cdot C$
+  - $A + \overline{A} \cdot B + B \cdot C = A + B \cdot C$
+- **Redundancy**:
+  - $A \cdot B + \overline{A} \cdot B = B$
+  - $A + \overline{A} \cdot B = A + B$
+- **Double Negation**:
+  - $\overline{\overline{A}} = A$
+- **Complement**:
+  - $A + \overline{A} = 1$
+  - $A \cdot \overline{A} = 0$
+- XOR:
+  - $A \oplus B = A \cdot \overline{B} + \overline{A} \cdot B$
+  - $\overline{A \oplus B} = A \cdot B + \overline{A} \cdot \overline{B}$
+
+## Karnaugh Map
+
+**Rules**:
+1. Group 1s in rectangles of 2^n cells.
+2. The rectangles must be as large as possible.
+3. The rectangles must be as few as possible.
+4. The rectangles must cover all 1s.
+5. The rectangles may overlap.
+6. The rectangles must not contain any 0s.
+7. The rectangles must not contain any 1s that are already covered by another rectangle.
+8. The leftmost and rightmost columns are adjacent, as are the top and bottom rows.
+
+Note the order of the variables: 00, 01, 11, 10.
+
+"Don't care" (X) means that the value does not matter.
