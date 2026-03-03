@@ -377,3 +377,51 @@ $$ |r_u \times r_v| = \sqrt{1 + \left( \frac{\partial z}{\partial x} \right)^2 +
 ### Sphere
 
 $$dS = r^2\sin\phi\ d\phi d\theta $$
+
+## Green's Theorem
+
+A simple closed curve $C$ has two orientations:
+- Counterclockwise orientation (positive orientation), $C^+$
+- Clockwise orientation (negative orientation), $C^-$
+$$ \int_C \vec{F} \cdot d\vec{r} = \iint_R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA $$
+
+### Lemma
+
+**Lemma 1.** Let $D$ be a $y$-simple region and let $C$ be its boundary. Suppose $P: D \to \mathbb{R}$ is of class $C^1$. Then
+
+$$ \int_{C^+} P \, dx = - \iint_D \frac{\partial P}{\partial y} \, dx \, dy $$
+
+(The left-hand side denotes the line integral $\int_{C^+} P \, dx + Q \, dy$, where $Q = 0$.)
+
+**Lemma 2.** Let $D$ be an $x$-simple region and let $C$ be its boundary. Suppose $Q: D \to \mathbb{R}$ is of class $C^1$. Then
+
+$$ \int_{C^+} Q \, dy = \iint_D \frac{\partial Q}{\partial x} \, dx \, dy $$
+
+(The left-hand side denotes the line integral $\int_{C^+} P \, dx + Q \, dy$, where $P = 0$.)
+
+### Theorems
+
+Theorem 1:
+Suppose $D$ is a simple region and $C$ is its boundary, and $P: D \to \mathbb{R}$ and $Q: D \to \mathbb{R}$ are of class $C^1$. Then
+$$ \int_{C^+} P \, dx + Q \, dy = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy $$
+$$ \int_{C^-} P \, dx + Q \, dy = - \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy $$
+
+Theorem 2:
+**Area via Green's Theorem.** If $C$ is a simple closed curve that bounds a region to which Green's theorem applies, then the area of the region $D$ bounded by $C = \partial D$ is
+$$ A = \frac{1}{2} \oint_{\partial D} \left( x \, dy - y \, dx \right) $$
+
+**Theorem 3: Vector Form of Green's Theorem.** Let $D \subset \mathbb{R}^2$ be a region to which Green's theorem applies, let $\partial D$ be its (positively oriented) boundary, and let $\mathbf{F} = P\mathbf{i} + Q\mathbf{j}$ be a $C^1$ vector field on $D$. Then
+$$ \oint_{\partial D} \mathbf{F} \cdot d\mathbf{s} = \iint_D (\operatorname{curl}\mathbf{F}) \cdot \mathbf{k} \, dA = \iint_D (\nabla \times \mathbf{F}) \cdot \mathbf{k} \, dA $$
+
+**Theorem 4: Divergence Theorem in the Plane.** Let $D \subset \mathbb{R}^2$ be a region to which Green's theorem applies and let $\partial D$ be its boundary. Let $\mathbf{n}$ denote the outward unit normal to $\partial D$. If $\mathbf{c} : [a, b] \to \mathbb{R}^2$, $t \mapsto \mathbf{c}(t) = (x(t), y(t))$ is a positively oriented parametrization of $\partial D$, then $\mathbf{n}$ is given by
+$$ \mathbf{n} = \frac{(y'(t), -x'(t))}{\sqrt{[x'(t)]^2 + [y'(t)]^2}} $$
+(see Figure 18.9). Let $\mathbf{F} = P\mathbf{i} + Q\mathbf{j}$ be a $C^1$ vector field on $D$. Then
+$$ \oint_{\partial D} \mathbf{F} \cdot \mathbf{n} \, ds = \iint_D \operatorname{div} \mathbf{F} \, dA $$
+
+## Stokes' Theorem
+
+$$ \int_C \vec{F} \cdot d\vec{r} = \iint_S (\nabla \times \vec{F}) \cdot d\vec{S} $$
+
+## Divergence Theorem
+
+$$ \iint_S \vec{F} \cdot d\vec{S} = \iiint_V (\nabla \cdot \vec{F}) dV $$

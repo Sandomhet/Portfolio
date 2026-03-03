@@ -519,3 +519,41 @@ Boolean Algebra Laws:
 Note the order of the variables: 00, 01, 11, 10.
 
 "Don't care" (X) means that the value does not matter.
+
+## Digital Logic Circuits
+
+### Multiplexer (MUX)
+
+A multiplexer is a combinational logic circuit that selects one of several inputs and forwards it to a single output.
+
+General Mux Descriptor: $b$-bit, $N:1$ MUX.
+
+N:1 MUX: $Y = \sum\limits_{i=0}^{N-1} I_iS_i$ (If $S_i$ is 1, $I_i$ is selected)
+
+2:1 MUX: $Y = I_0\overline{S_0} + I_1S_0$ (If $S_0$ is 0, $I_0$ is selected, if $S_0$ is 1, $I_1$ is selected)
+
+```cpp
+bool mux(bool i0, bool i1, bool s0) {
+    return (!s0 && i0) || (s0 && i1);
+}
+```
+
+
+Mux Configurations:
+A, B -> O where A, B, O are all 32-bit values. Only 1 selector bit is needed.
+
+### 1-bit Adder
+
+A full adder is a digital circuit that adds two bits and carries.
+
+```cpp
+bool fullAdder(bool a, bool b, bool cin) {
+    bool sum = a ^ b ^ cin;
+    bool carry = (a && b) || (b && cin) || (a && cin);
+    return sum, carry;
+}
+```
+
+In symbolic form:
+$S = A \oplus B \oplus C$
+$C_{out} = A \cdot B + B \cdot C + A \cdot C$
