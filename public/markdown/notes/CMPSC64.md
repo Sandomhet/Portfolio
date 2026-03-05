@@ -153,11 +153,11 @@ core components of CPU
 6. Data Memory
 7. Control Unit
 
-## py Language
+## Assembly Language
 
 Machine language consists of binary instructions that the CPU can execute directly.
 
-py language is a low-level programming language that uses **mnemonic codes** to represent machine-level instructions. Each py instruction corresponds directly to a machine code instruction.
+Assembly language is a low-level programming language that uses **mnemonic codes** to represent machine-level instructions. Each Assembly instruction corresponds directly to a machine code instruction.
 
 Architecture: MIPS
 
@@ -546,6 +546,8 @@ A, B -> O where A, B, O are all 32-bit values. Only 1 selector bit is needed.
 
 A full adder is a digital circuit that adds two bits and carries.
 
+$A+B+C = S, C_{out}$
+
 ```cpp
 bool fullAdder(bool a, bool b, bool cin) {
     bool sum = a ^ b ^ cin;
@@ -556,4 +558,31 @@ bool fullAdder(bool a, bool b, bool cin) {
 
 In symbolic form:
 $S = A \oplus B \oplus C$
-$C_{out} = A \cdot B + B \cdot C + A \cdot C$
+$C_{out} = A B + B C + C A$
+
+### 1-bit ALU
+
+1-bit ALU: $A \& B$, $A | B$, $A + B$, $A - B$.
+
+
+## Opcodes and ALU Operations
+
+| Opcode ($s[1: 0]$) | ALU Operation |
+|--------|---------------|
+| 000000 | A \& B       |
+| 000001 | A \| B       |
+| 000010 | A + B       |
+| 000011 | A - B       |
+
+## Sequential Logic Circuits
+
+### Latches
+
+A circuit that holds memory.
+
+|S (Set)|R (Reset)|Q|
+|---|---|---|
+|1|0|1 (set)|
+|0|1|0 (reset)|
+|0|0|Q (hold current value)|
+|1|1|X (invalid state)|

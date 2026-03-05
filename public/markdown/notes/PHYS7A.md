@@ -264,20 +264,27 @@ Axis of rotation: a line around which the object rotates.
 
 Direction of angular acceleration: "right-hand rule": curl fingers of right hand in the direction of rotation, the thumb points in the direction of the angular acceleration.
 
+### Moment of Inertia (rotational equivalent of mass)
 
+**Moment of Inertia**: the . $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.  
+$I = mr^2$ where $r$ is the distance from the axis of rotation to the mass.
 
+![image-4](../images/image-4.png)
+
+**Parallel Axis Theorem**: $I_P = I_{CM} + Md^2$. $P$ is the point of rotation, $d$ is the distance between the point of rotation and the center of mass, $M$ is the mass of the object. $I_{CM}$ is the moment of inertia about the center of mass.
+
+### Energy of Rotational Motion (rotational equivalent of kinetic energy)
+
+**Rotational Kinetic Energy**: the energy possessed by an object due to its rotational motion. $K_{rot} = \frac{1}{2}I\omega^2$. **Work-Energy Principle** applies.
+
+### Torque (rotational equivalent of force)
+
+**Torque**: $\vec{\tau} = \vec{R} \times \vec{F}$ in **N·m**. $\tau = RF_{\perp} = RF \sin \theta$.
+
+Right-hand rule: curl fingers of right hand in the direction of rotation, the thumb points in the direction of the torque.
+
+### Angular Momentum (rotational equivalent of momentum)
 
 **Angular Momentum**: the rotational equivalent of momentum. $\vec{L} = \vec{r} \times \vec{p}$ in **kg·m²/s**.
 
 **Law of Conservation of Angular Momentum**: In the absence of external torques, the angular momentum of a rigid object remains constant. $\vec{L}_{initial} = \vec{L}_{final}$ or $\Delta \vec{L} = 0$.
-
-**Rotational Kinetic Energy**: the energy possessed by an object due to its rotational motion. $K = \frac{1}{2}I\omega^2$.
-
-**Moment of Inertia**: the rotational equivalent of mass. $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.
-
-
-**Parallel Axis Theorem**: the moment of inertia of a rigid object about an axis parallel to its center of mass is equal to the moment of inertia about a centroidal axis through the center of mass plus the product of the mass of the object and the square of the distance between the two axes. $I = I_{cm} + Md^2$
-
-## Torque
-
-**Torque**: the rotational equivalent of force. $\vec{\tau} = \vec{r} \times \vec{F}$ in **N·m**.
