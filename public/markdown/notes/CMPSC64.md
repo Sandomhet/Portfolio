@@ -497,9 +497,6 @@ Boolean Algebra Laws:
   - $A + \overline{A} \cdot B = A + B$
 - **Double Negation**:
   - $\overline{\overline{A}} = A$
-- **Complement**:
-  - $A + \overline{A} = 1$
-  - $A \cdot \overline{A} = 0$
 - XOR:
   - $A \oplus B = A \cdot \overline{B} + \overline{A} \cdot B$
   - $\overline{A \oplus B} = A \cdot B + \overline{A} \cdot \overline{B}$
@@ -586,3 +583,24 @@ A circuit that holds memory.
 |0|1|0 (reset)|
 |0|0|Q (hold current value)|
 |1|1|X (invalid state)|
+
+### Gated D-Latch
+
+$Q = D$ if $E = 1$; $Q = Q$ if $E = 0$.
+
+|D|E (Enable)|Q|
+|---|---|---|
+|D|1|D|
+|D|0|Q (hold current value)|
+
+### Clocked D-Latch
+
+A clock is an input digital signal that cycles from 1 to 0 and back to 1. 101010...
+Period in seconds and frequency in Hz.
+
+When the clock is transitioning from 0 to 1, it's called a rising or positive edge.
+When the clock is transitioning from 1 to 0, it's called a falling or negative edge.
+
+### Flip-Flop
+
+catches input on the rising edge of the clock.

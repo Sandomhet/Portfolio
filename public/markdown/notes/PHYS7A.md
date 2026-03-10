@@ -243,7 +243,7 @@ where $M$ is the total mass of the object.
 
 The center of mass of a system of particles (or objects) moves like a single particle of mass $M$ under the influence of the same net external force. $\vec{F}_{net} = M \vec{a}_{cm} = \sum\limits_{i=1}^{n} m_i \vec{a}_i$
 
-The general motion of any object is a combination of CM's translational motion and rotational, vibrational, and other motions around the CM.
+The **general motion** of any object is a combination of CM's translational motion and rotational, vibrational, and other motions around the CM.
 
 ## Rotational Motion
 
@@ -285,6 +285,9 @@ Right-hand rule: curl fingers of right hand in the direction of rotation, the th
 
 ### Angular Momentum (rotational equivalent of momentum)
 
-**Angular Momentum**: the rotational equivalent of momentum. $\vec{L} = \vec{r} \times \vec{p}$ in **kg·m²/s**.
+**Angular Momentum**: the rotational equivalent of momentum. $\vec{L} = \vec{I} \times \vec{\omega}$ in **kg·m²/s**.
 
 **Law of Conservation of Angular Momentum**: In the absence of external torques, the angular momentum of a rigid object remains constant. $\vec{L}_{initial} = \vec{L}_{final}$ or $\Delta \vec{L} = 0$.
+
+## General Motion of a Rigid Object
+

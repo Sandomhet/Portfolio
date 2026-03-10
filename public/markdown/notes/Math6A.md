@@ -420,8 +420,34 @@ $$ \oint_{\partial D} \mathbf{F} \cdot \mathbf{n} \, ds = \iint_D \operatorname{
 
 ## Stokes' Theorem
 
-$$ \int_C \vec{F} \cdot d\vec{r} = \iint_S (\nabla \times \vec{F}) \cdot d\vec{S} $$
+curl: $\nabla \times \vec{F} = \langle \frac{\partial }{\partial y}F_z - \frac{\partial }{\partial z}F_y, \frac{\partial }{\partial z}F_x - \frac{\partial }{\partial x}F_z, \frac{\partial }{\partial x}F_y - \frac{\partial }{\partial y}F_x \rangle$.  
+flux: $\iint_S \vec{F} \cdot d\vec{S} = \iint_S \vec{F} \cdot \vec{n} dS$.  
+flux of curl: $\iint_S (\nabla \times \vec{F}) \cdot d\vec{S}$.  
 
-## Divergence Theorem
+### Stokes' Theorem for Graph
 
-$$ \iint_S \vec{F} \cdot d\vec{S} = \iiint_V (\nabla \cdot \vec{F}) dV $$
+$$ \int_{\partial S} \vec{F} \cdot d\vec{r} = \iint_S (\nabla \times \vec{F}) \cdot d\vec{S} = \iint_S \text{curl } (\vec{F}) \cdot \vec{n} dA $$
+
+### Stokes' Theorem for Parametrized Surface
+
+$$ \iint_S (\nabla \times \vec{F}) \cdot d\vec{S} = \int_{\partial S} \vec{F} \cdot d\vec{r} $$
+
+## Conservative Vector Fields
+
+If $\vec{F} = \nabla f$, then $\int_{S} \vec{F} \cdot d\vec{r} = f(\vec{r}(b)) - f(\vec{r}(a))$.
+
+**Theorem 1: Conservative Fields.** Let $\vec{F}$ be a $C^1$ vector field defined on $\mathbb{R}^3$, except possibly for a finite number of points. The following conditions on $\vec{F}$ are all equivalent:
+
+1. For any oriented simple closed curve $C$, $\displaystyle \int_C \vec{F} \cdot d\vec{s} = 0$.
+2. For any two oriented simple curves $C_1$ and $C_2$ that have the same endpoints, $\displaystyle \int_{C_1} \vec{F} \cdot d\vec{s} = \int_{C_2} \vec{F} \cdot d\vec{s}$.
+3. $\vec{F}$ is the gradient of some function $f$; that is, $\vec{F} = \nabla f$ (and if $\vec{F}$ has one or more exceptional points where it fails to be defined, $f$ is also undefined there).
+4. $\nabla \times \vec{F} = \vec{0}$.
+
+A vector field satisfying one (and, hence, all) of the conditions 1–4 is called a **conservative vector field**.
+
+**Corollary 1:** If $\vec{F}$ is a $C^1$ vector field on $\mathbb{R}^2$ of the form $P\vec{i} + Q\vec{j}$ that satisfies $\displaystyle \frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$, then $\vec{F} = \nabla f$ for some $f$ on $\mathbb{R}^2$.
+
+**Theorem 2:** If $\vec{F}$ is a $C^1$ vector field on all of $\mathbb{R}^3$ with $\nabla \cdot \vec{F} = 0$, then there exists a $C^1$ vector field $\vec{G}$ with $\vec{F} = \nabla \times \vec{G}$.
+
+If $F$ has a potential function $f$, then it satisfies the cross-partial property: $\frac{\partial F_x}{\partial y} = \frac{\partial F_y}{\partial x}$.
+
