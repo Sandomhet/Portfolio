@@ -573,34 +573,111 @@ $C_{out} = A B + B C + C A$
 
 ## Sequential Logic Circuits
 
-### Latches
+Unlike **combinational** circuits (outputs depend only on current inputs), **sequential** circuits have **memory**: their outputs depend on the current inputs and on the **history** of past inputs. They use feedback and storage elements (latches or flip-flops).
 
-A circuit that holds memory.
+### SR Latch (Set-Reset Latch)
 
-|S (Set)|R (Reset)|Q|
-|---|---|---|
-|1|0|1 (set)|
-|0|1|0 (reset)|
-|0|0|Q (hold current value)|
-|1|1|X (invalid state)|
+A **latch** is a level-sensitive memory element (no clock). The SR latch has two inputs: Set and Reset. It has two outputs: $Q$ and $\overline{Q}$ (complement); normally $Q = \overline{\overline{Q}}$. Often built from two cross-coupled NOR gates (active-high S, R) or two cross-coupled NAND gates (active-low $\overline{S}$, $\overline{R}$).
+
+| S (Set) | R (Reset) | Q        |
+|---------|-----------|----------|
+| 1       | 0         | 1 (set)  |
+| 0       | 1         | 0 (reset)|
+| 0       | 0         | Q (hold) |
+| 1       | 1         | X (invalid — avoid; forces both outputs to 0; releasing to 0,0 leaves next state undefined) |
 
 ### Gated D-Latch
 
-$Q = D$ if $E = 1$; $Q = Q$ if $E = 0$.
+A D-latch has data input $D$ and enable $E$. It is **level-sensitive**: when $E = 1$, the latch is **transparent** (output follows $D$); when $E = 0$, it **holds** the last value.
 
-|D|E (Enable)|Q|
-|---|---|---|
-|D|1|D|
-|D|0|Q (hold current value)|
+$Q = D$ when $E = 1$; $Q$ holds when $E = 0$.
+
+| D | E (Enable) | Q        |
+|---|------------|----------|
+| D | 1          | D        |
+| D | 0          | Q (hold) |
+
+### Clock and Edge Terminology
+
+A **clock** is a periodic digital signal (e.g. 0→1→0→1…). **Period** $T$ is the time for one cycle (seconds); **frequency** $f = 1/T$ (Hz).
+
+- **Rising (positive) edge**: transition from 0 to 1.
+- **Falling (negative) edge**: transition from 1 to 0.
 
 ### Clocked D-Latch
 
-A clock is an input digital signal that cycles from 1 to 0 and back to 1. 101010...
-Period in seconds and frequency in Hz.
+When the enable $E$ is driven by the clock, the latch is **transparent** while the clock is active (e.g. high) and **holds** when the clock is inactive. So the stored value can change any time during the active phase (level-sensitive).
 
-When the clock is transitioning from 0 to 1, it's called a rising or positive edge.
-When the clock is transitioning from 1 to 0, it's called a falling or negative edge.
+### D Flip-Flop
 
-### Flip-Flop
+A **flip-flop** is **edge-triggered**, not level-sensitive. A **D flip-flop** (e.g. positive-edge-triggered) **samples** input $D$ only at the **rising edge** of the clock and holds that value until the next rising edge. The output is stable between edges, which avoids glitches that can occur with transparent latches.
 
-catches input on the rising edge of the clock.
+- **Positive-edge-triggered**: captures $D$ on the rising edge (0→1).
+- **Negative-edge-triggered**: captures $D$ on the falling edge (1→0).
+
+Many D flip-flops are built from two D-latches in series (**master–slave**): the first (master) is transparent when CLK is low, the second (slave) when CLK is high, so the overall behavior is edge-triggered at the rising edge.
+
+**Setup time** $t_{\text{setup}}$: $D$ must be stable for this time **before** the active clock edge.  
+**Hold time** $t_{\text{hold}}$: $D$ must be stable for this time **after** the active clock edge.  
+Violating setup or hold can cause **metastability** (undefined output).
+
+Optional inputs: **asynchronous reset** (Clear) or **preset** (Set) force $Q$ to 0 or 1 regardless of CLK; used for power-on or manual reset.
+
+**Register**: a group of $n$ D flip-flops sharing the same clock (and often the same reset), storing an $n$-bit value.
+
+Summary: **Latch** = level-sensitive (transparent when enabled). **Flip-flop** = edge-triggered (captures at one clock edge).
+
+---
+
+## Finite State Machines (FSMs)
+
+A **state** is a distinct configuration of the system (e.g. represented by the outputs of flip-flops). A **finite state machine** is a model of a system that is in exactly one of a finite number of states at any time and changes state in response to inputs.
+
+Formally, an FSM has:
+
+- A finite set of **states** $S$
+- A finite set of **inputs** $\Sigma$
+- A **transition function** $\delta : S \times \Sigma \to S$ (current state + input → next state)
+- A finite set of **outputs** and an **output function** (see Moore vs Mealy below)
+- An **initial (start) state** $s_0 \in S$ — the state when the system starts or after reset
+
+**State diagram**: circles (or nodes) = states; directed edges = transitions, labeled with *input* (and *output* for Mealy). Example: an edge from A to B labeled “1/0” means on input 1, go to B and output 0 (Mealy).
+
+### Mealy Machine
+
+In a **Mealy** machine, the output depends on the **current state and the current input**. So the output is associated with each **transition**.
+
+Example state transition table (Mealy):
+
+| Current State | Input | Next State | Output |
+|---------------|-------|------------|--------|
+| A             | 0     | B          | 0      |
+| A             | 1     | A          | 1      |
+| B             | 0     | A          | 0      |
+| B             | 1     | B          | 1      |
+
+### Moore Machine
+
+In a **Moore** machine, the output depends **only on the current state**, not on the input. So each state has a single output value.
+
+Example: state A has output 1, state B has output 0. Transition table (output column = output of **current** state):
+
+| Current State | Input | Next State | Output |
+|---------------|-------|------------|--------|
+| A             | 0     | B          | 1      |
+| A             | 1     | A          | 1      |
+| B             | 0     | A          | 0      |
+| B             | 1     | B          | 0      |
+
+Moore outputs are stable for the entire time the machine is in a state; Mealy outputs can change as soon as the input changes (within the same state).
+
+**Trade-offs**: Mealy machines often need **fewer states** for the same behavior (output can depend on input). Moore machines have **no output glitches** from input changes during a state; Mealy outputs can have short glitches when inputs change. Both are equivalent in expressive power (any Mealy machine can be converted to Moore by expanding states, and vice versa).
+
+### Implementing an FSM in Hardware
+
+1. **State encoding**: Assign a binary code to each state (e.g. A=00, B=01). With $n$ flip-flops we can represent up to $2^n$ states.
+2. **State register**: A register of D flip-flops holds the **current state**; it updates on each clock edge.
+3. **Next-state logic**: A **combinational** circuit with inputs = current state + FSM input; output = **next state** (feeds the D inputs of the state register).
+4. **Output logic**: A **combinational** circuit: for Moore, input = current state → output; for Mealy, input = current state + FSM input → output.
+
+**Reset**: Use an asynchronous (or synchronous) reset so the FSM starts in the initial state after power-on or a reset signal. Design **unused states** (if encoding leaves some codes unused) to transition to a known state (e.g. initial) so the machine can recover from illegal states.

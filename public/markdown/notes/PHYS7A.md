@@ -279,15 +279,15 @@ $I = mr^2$ where $r$ is the distance from the axis of rotation to the mass.
 
 ### Torque (rotational equivalent of force)
 
-**Torque**: $\vec{\tau} = \vec{R} \times \vec{F}$ in **N·m**. $\tau = RF_{\perp} = RF \sin \theta$.
+**Torque**: $\vec{\tau} = \vec{r} \times \vec{F}$ in **N·m**. $\tau = rF_{\perp} = rF \sin \theta$.
 
 Right-hand rule: curl fingers of right hand in the direction of rotation, the thumb points in the direction of the torque.
 
 ### Angular Momentum (rotational equivalent of momentum)
 
-**Angular Momentum**: the rotational equivalent of momentum. $\vec{L} = \vec{I} \times \vec{\omega}$ in **kg·m²/s**.
+**Angular Momentum**: $\vec{L} = \vec{I} \times \vec{\omega} = \vec{r} \times \vec{p}$ in **kg·m²/s**.
+
+The torque is the rate of change of the angular momentum. $\vec{\tau} = \frac{d\vec{L}}{dt}$.
 
 **Law of Conservation of Angular Momentum**: In the absence of external torques, the angular momentum of a rigid object remains constant. $\vec{L}_{initial} = \vec{L}_{final}$ or $\Delta \vec{L} = 0$.
-
-## General Motion of a Rigid Object
 
