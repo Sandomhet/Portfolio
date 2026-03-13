@@ -181,7 +181,8 @@ Components of MIPS program:
 
 ### Registers
 
-![alt text](../images/image-2.png)
+![](/markdown/images/image-2.png)
+![](../images/image-2.png)
 
 Registers in MIPS (32 total):  
 `$zero`: always contains `0` and cannot be overwritten  
@@ -382,7 +383,8 @@ table of instruction formats with each field:
 ## Instruction Representation
 
 Each instruction is represented as a 32-bit binary number.
-![alt text](../images/image-3.png)
+![](/markdown/images/image-3.png)
+![](../images/image-3.png)
 
 ### R-type Instruction Format
 
@@ -448,7 +450,8 @@ addiu $sp, $sp, 4   # Move stack pointer up by 4 bytes
 
 ## Digital Logic Circuits
 
-![circuit diagram](../images/image.png)
+![](/markdown/images/image.png)
+![](../images/image.png)
 
 Operation Signs:
 - NOT: $\overline{A}$
