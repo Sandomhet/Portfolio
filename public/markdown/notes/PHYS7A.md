@@ -269,10 +269,20 @@ Direction of angular acceleration: "right-hand rule": curl fingers of right hand
 **Moment of Inertia**: the . $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.  
 $I = mr^2$ where $r$ is the distance from the axis of rotation to the mass.
 
+**Parallel Axis Theorem**: $I_P = I_{CM} + Md^2$. $P$ is the point of rotation, $d$ is the distance between the point of rotation and the center of mass, $M$ is the mass of the object. $I_{CM}$ is the moment of inertia about the center of mass.
+
 ![](/markdown/images/image-4.png)
 ![](../images/image-4.png)
-
-**Parallel Axis Theorem**: $I_P = I_{CM} + Md^2$. $P$ is the point of rotation, $d$ is the distance between the point of rotation and the center of mass, $M$ is the mass of the object. $I_{CM}$ is the moment of inertia about the center of mass.
+Some Moments of Inertia:
+- Point mass: $I = mr^2$
+- Rod: $I = \frac{1}{12}mL^2$
+- Bar: $I = \frac{1}{3}mL^2$
+- Disk: $I = \frac{1}{2}mr^2$
+- Cylinder: $I = \frac{1}{2}mr^2$
+- Sphere: $I = \frac{2}{5}mr^2$
+- Thin hoop: $I = mr^2$
+- Thin spherical shell: $I = \frac{2}{3}mr^2$
+- Thin cylindrical shell: $I = mr^2$
 
 ### Energy of Rotational Motion (rotational equivalent of kinetic energy)
 

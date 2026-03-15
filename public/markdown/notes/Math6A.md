@@ -420,9 +420,12 @@ $$ \oint_{\partial D} \mathbf{F} \cdot \mathbf{n} \, ds = \iint_D \operatorname{
 
 ## Stokes' Theorem
 
-curl: $\nabla \times \vec{F} = \langle \frac{\partial }{\partial y}F_z - \frac{\partial }{\partial z}F_y, \frac{\partial }{\partial z}F_x - \frac{\partial }{\partial x}F_z, \frac{\partial }{\partial x}F_y - \frac{\partial }{\partial y}F_x \rangle$.  
+div: $\text{div } \vec{F} = \nabla \cdot \vec{F} = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_z}{\partial z}$.  
+curl: $\text{curl } \vec{F} = \nabla \times \vec{F} = \langle \frac{\partial }{\partial y}F_z - \frac{\partial }{\partial z}F_y, \frac{\partial }{\partial z}F_x - \frac{\partial }{\partial x}F_z, \frac{\partial }{\partial x}F_y - \frac{\partial }{\partial y}F_x \rangle$.  
 flux: $\iint_S \vec{F} \cdot d\vec{S} = \iint_S \vec{F} \cdot \vec{n} dS$.  
 flux of curl: $\iint_S (\nabla \times \vec{F}) \cdot d\vec{S}$.  
+
+$\vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|}$ is the unit normal vector to the surface.
 
 ### Stokes' Theorem for Graph
 
@@ -451,3 +454,28 @@ A vector field satisfying one (and, hence, all) of the conditions 1–4 is calle
 
 If $F$ has a potential function $f$, then it satisfies the cross-partial property: $\frac{\partial F_x}{\partial y} = \frac{\partial F_y}{\partial x}$.
 
+## Gauss' Theorem
+
+### Gauss' Divergence Theorem
+
+Let $W$ be a symmetric elementary region in space.
+$$ \iiint_W (\nabla \cdot \vec{F}) dV = \iint_{\partial W} \vec{F} \cdot d\vec{S} $$
+$$ \iiint_W (\text{div } \vec{F}) dV = \iint_{\partial W} (\vec{F} \cdot \vec{n}) dS $$
+
+### Gauss' Law
+
+Let $M$ be a symmetric elementary region in $\mathbb{R}^3$. If $(0, 0, 0) \notin \partial M$, then
+$$
+\iint_{\partial M} \frac{\vec{r} \cdot \vec{n}}{r^3} \, dS =
+\begin{cases}
+4\pi, & \text{if } (0, 0, 0) \in M, \\
+0, & \text{if } (0, 0, 0) \notin M.
+\end{cases}
+$$
+
+where
+$$
+\vec{r}(x, y, z) = x\vec{i} + y\vec{j} + z\vec{k},
+\\
+r(x, y, z) = \|\vec{r}(x, y, z)\| = \sqrt{x^2 + y^2 + z^2}.
+$$
