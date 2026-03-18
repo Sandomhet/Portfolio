@@ -492,6 +492,8 @@ Boolean Algebra Laws:
 - **Absorption**:
   - $A + (A \cdot B) = A$
   - $A \cdot (A + B) = A$
+  - $A + \overline{A} \cdot B = A + B$
+  - $A \cdot (\overline{A} + B) = A \cdot B$
 - **Consensus**:
   - $A \cdot B + \overline{A} \cdot C + B \cdot C = A \cdot B + \overline{A} \cdot C$
   - $A + \overline{A} \cdot B + B \cdot C = A + B \cdot C$
@@ -630,8 +632,6 @@ Optional inputs: **asynchronous reset** (Clear) or **preset** (Set) force $Q$ to
 
 Summary: **Latch** = level-sensitive (transparent when enabled). **Flip-flop** = edge-triggered (captures at one clock edge).
 
----
-
 ## Finite State Machines (FSMs)
 
 A **state** is a distinct configuration of the system (e.g. represented by the outputs of flip-flops). A **finite state machine** is a model of a system that is in exactly one of a finite number of states at any time and changes state in response to inputs.
@@ -675,12 +675,3 @@ Example: state A has output 1, state B has output 0. Transition table (output co
 Moore outputs are stable for the entire time the machine is in a state; Mealy outputs can change as soon as the input changes (within the same state).
 
 **Trade-offs**: Mealy machines often need **fewer states** for the same behavior (output can depend on input). Moore machines have **no output glitches** from input changes during a state; Mealy outputs can have short glitches when inputs change. Both are equivalent in expressive power (any Mealy machine can be converted to Moore by expanding states, and vice versa).
-
-### Implementing an FSM in Hardware
-
-1. **State encoding**: Assign a binary code to each state (e.g. A=00, B=01). With $n$ flip-flops we can represent up to $2^n$ states.
-2. **State register**: A register of D flip-flops holds the **current state**; it updates on each clock edge.
-3. **Next-state logic**: A **combinational** circuit with inputs = current state + FSM input; output = **next state** (feeds the D inputs of the state register).
-4. **Output logic**: A **combinational** circuit: for Moore, input = current state → output; for Mealy, input = current state + FSM input → output.
-
-**Reset**: Use an asynchronous (or synchronous) reset so the FSM starts in the initial state after power-on or a reset signal. Design **unused states** (if encoding leaves some codes unused) to transition to a known state (e.g. initial) so the machine can recover from illegal states.
