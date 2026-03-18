@@ -1,7 +1,7 @@
 ---
-title: "MATH 6A Vector Calculus"
-description: "Vector Calculus Cheatsheet"
-time: "Thu Mar 20, 2025"
+title: "MATH 6AB Vector Calculus"
+description: "Vector Calculus"
+time: "Tue Mar 17, 2026"
 ---
 
 # Multivariable Calculus
@@ -160,10 +160,12 @@ $$\int\int_R f(x, y) dA, \int\int_R f(x, y) dx\ dy$$
 **Cavalieri's Principle** (the slice method):
 $ \text{Volume} = \int_a^b A(x) dx $, where $ A(x) $ is the area of the cross section at $ x $.  
 Therefore, we have,
-$$ \begin{aligned}
+$$
+\begin{aligned}
 \int\int_R f(x, y) dA &= \int_a^b \left( \int_c^d f(x, y) dy \right) dx \\
 &= \int_c^d \left( \int_a^b f(x, y) dx \right) dy \\
-\end{aligned} $$
+\end{aligned}
+$$
 
 **Fubini's Theorem**: If $ f $ is continuous on a rectangular region $ R $, then
 $$ \int\int_R f(x, y) dA = \int_a^b \int_c^d f(x, y) dy\ dx = \int_c^d \int_a^b f(x, y) dx\ dy $$
@@ -327,7 +329,6 @@ A uniform spherical shell of mass $M$ exerts a gravitational force on a point ma
 
 A **parameterization of a surface** $S$ is a vector function $\vec{r}(u, v) = \langle x(u, v), y(u, v), z(u, v) \rangle$ defined on a region $R$ in the $uv$-plane such that $\vec{r}$ is one-to-one and $\vec{r}(R) = S$.  
 
-
 $T_u = \vec{r}_u = \frac{\partial \vec{r}}{\partial u}$ and $T_v = \vec{r}_v = \frac{\partial \vec{r}}{\partial v}$ are tangent vectors to the surface, and $\vec{n} = \frac{\vec{r}_u \times \vec{r}_v}{|\vec{r}_u \times \vec{r}_v|}$ is the unit normal vector to the surface. The magnitude of the cross product $|\vec{r}_u \times \vec{r}_v|$ gives the area of the parallelogram spanned by the tangent vectors, which is used to compute the surface area element $dS$.
 
 An equation of the tangent plane to the surface at a point $\vec{r}(u_0, v_0)$ is given by
@@ -337,10 +338,10 @@ $$ n_1(x - x_0) + n_2(y - y_0) + n_3(z - z_0) = 0 $$
 The surface $S$ is regular if $T_u \times T_v \neq \vec{0}$ for all $(u, v)$ in $R$. This condition ensures that the surface does not have any singularities or self-intersections, allowing for a well-defined normal vector and surface area element.
 
 Surface area of $S$ is given by
-$$ A(S) = \iint_R |\vec{r}_u \times \vec{r}_v| du dv \\
-= \iint_R \sqrt{
-\left( \frac{\partial(y, z)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(z, x)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(x, y)}{\partial(u, v)} \right)^2
-} \, du dv $$
+$$ 
+A(S) = \iint_R |\vec{r}_u \times \vec{r}_v| du dv \\
+= \iint_R \sqrt{\left( \frac{\partial(y, z)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(z, x)}{\partial(u, v)} \right)^2 + \left( \frac{\partial(x, y)}{\partial(u, v)} \right)^2} \, du dv
+$$
 
 Parametic equation of a surface:
 $$ ax + by + cz = d $$
