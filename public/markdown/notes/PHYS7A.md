@@ -130,7 +130,6 @@ A free body diagram is a graphical representation used to visualize the forces a
   - Static Friction: $f_s = F_{push} \le \mu_s F_N$
   - Kinetic Friction: $f_k = \mu_k F_N$
   - $\mu_s > \mu_k$
-  - One an incline, $F_N = mg \cos \theta$
 - **Air Resistance**: $f_{air}$, opposes motion through air, often modeled as $f_{air} = -bv$ or $f_{air} = -cv^2$
 
 ### Machines
@@ -247,7 +246,7 @@ The **general motion** of any object is a combination of CM's translational moti
 
 ## Rotational Motion
 
-**Rotational Motion**: motion of an object around a fixed axis.
+**Rotational Motion**: motion of an object around a fixed axis.  
 Rigid object: an object that does not deform under the application of forces.  
 Axis of rotation: a line around which the object rotates.
 
@@ -266,7 +265,7 @@ Direction of angular acceleration: "right-hand rule": curl fingers of right hand
 
 ### Moment of Inertia (rotational equivalent of mass)
 
-**Moment of Inertia**: the . $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.  
+**Moment of Inertia**: $I = \sum\limits_{i=1}^{n} m_i r_i^2$ for a system of particles, $I = \int r^2 dm$ for a continuous object.  
 $I = mr^2$ where $r$ is the distance from the axis of rotation to the mass.
 
 **Parallel Axis Theorem**: $I_P = I_{CM} + Md^2$. $P$ is the point of rotation, $d$ is the distance between the point of rotation and the center of mass, $M$ is the mass of the object. $I_{CM}$ is the moment of inertia about the center of mass.

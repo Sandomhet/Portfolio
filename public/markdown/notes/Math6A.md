@@ -13,18 +13,13 @@ time: "Tue Mar 17, 2026"
 Arclength of a curve:
 $ L = \int_{a}^{b} \sqrt{(\frac{dx}{dt})^2 + (\frac{dy}{dt})^2} dt = \int_{a}^{b} \sqrt{1 + (\frac{dy}{dx})^2} dx $
 
-Polar Coordinates:
-$ r^2 = x^2 + y^2 \\
-\theta = \tan^{-1}(\frac{y}{x}) $
-$ (x, y) = (r\cos\theta, r\sin\theta) $
-
 $ \vec{c}(t) = \vec{p_1} + t(\vec{p_2} - \vec{p_1}) $
 
 ### Dot Product
 
-$ \vec{u} \cdot \vec{v}= |\vec{u}||\vec{v}|\cos\theta $
-Parallel: $ \vec{u} \cdot \vec{v}= |\vec{u}||\vec{v}| $
-Perpendicular: $ \vec{u} \cdot \vec{v}= 0 $
+$ \vec{u} \cdot \vec{v}= |\vec{u}||\vec{v}|\cos\theta $   
+Parallel: $ \vec{u} \cdot \vec{v}= |\vec{u}||\vec{v}| $.  
+Perpendicular: $ \vec{u} \cdot \vec{v}= 0 $.  
 
 ### Cross Product
 
@@ -384,6 +379,7 @@ $$dS = r^2\sin\phi\ d\phi d\theta $$
 A simple closed curve $C$ has two orientations:
 - Counterclockwise orientation (positive orientation), $C^+$
 - Clockwise orientation (negative orientation), $C^-$
+
 $$ \int_C \vec{F} \cdot d\vec{r} = \iint_R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA $$
 
 ### Lemma
