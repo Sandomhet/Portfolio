@@ -1,5 +1,45 @@
 [
   {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "knapsack",
+    "path": "/markdown/blogs/Dynamic-Programming/knapsack.md",
+    "title": "Knapsack DP",
+    "description": "description",
+    "time": "Wed Apr 1, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "lcs",
+    "path": "/markdown/blogs/Dynamic-Programming/lcs.md",
+    "title": "Longest Common Subsequence/Substring (LCS)",
+    "description": "description",
+    "time": "Wed Apr 1, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "PHYS7B",
+    "path": "/markdown/notes/PHYS7B.md",
+    "title": "PHYS 7B: Basic Physics II",
+    "description": "description",
+    "time": "Tue Mar 31, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "lis",
+    "path": "/markdown/blogs/Dynamic-Programming/lis.md",
+    "title": "Longest Increasing Subsequence (LIS)",
+    "description": "description",
+    "time": "Mon Mar 30, 2026",
+    "lang": "zh"
+  },
+  {
     "type": "notes",
     "category": "",
     "name": "Math6A",
@@ -17,6 +57,16 @@
     "title": "C++ STL Containers Cheat Sheet",
     "description": "description",
     "time": "Mon Feb 1, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "CHEM1A",
+    "path": "/markdown/notes/CHEM1A.md",
+    "title": "PHYS 7A: Basic Physics I",
+    "description": "description",
+    "time": "Mon Jan 5, 2026",
     "lang": "zh"
   },
   {
@@ -66,6 +116,16 @@
     "path": "/markdown/notes/CMPSC130A.md",
     "title": "CMPSC 130A Algorithms and Data Structures",
     "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
+    "time": "Mon Dec 8, 2025",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC130B",
+    "path": "/markdown/notes/CMPSC130B.md",
+    "title": "CMPSC 130B Algorithms and Data Structures",
+    "description": "Algorithm analysis and graph algorithms including maximum flow, linear programming, and NP-completeness.",
     "time": "Mon Dec 8, 2025",
     "lang": "zh"
   },
@@ -647,26 +707,6 @@
     "title": "Stress Testing Harness",
     "description": "automates the execution of tests, confirm if the results are correct, test extreme data limits",
     "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
-  {
-    "type": "blogs",
-    "category": "Dynamic-Programming",
-    "name": "knapsack",
-    "path": "/markdown/blogs/Dynamic-Programming/knapsack.md",
-    "title": "knapsack",
-    "description": "description",
-    "time": "Mon Jan 1, 2024",
-    "lang": "zh"
-  },
-  {
-    "type": "blogs",
-    "category": "Dynamic-Programming",
-    "name": "lis",
-    "path": "/markdown/blogs/Dynamic-Programming/lis.md",
-    "title": "lis",
-    "description": "description",
-    "time": "Mon Jan 1, 2024",
     "lang": "zh"
   },
   {
