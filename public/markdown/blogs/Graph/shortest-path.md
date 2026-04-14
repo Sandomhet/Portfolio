@@ -335,19 +335,47 @@ void shortest_paths(int v0, vector<int>& d, vector<int>& p) {
 
 ## All Pairs Shortest Path (APSP)
 
-Floyed算法--多源最短路
-时间复杂度：$O(n^3)$
+多源最短路 - Floyd算法
+
+### Floyd-Warshall Algorithm (DP)
+
+Setup:
+- Input: A directed graph $G = (V, E)$ with edge weights $w(u, v)$.
+- Output: A matrix $D$ where $D(u, v)$ is the length of the shortest path from vertex $u$ to vertex $v$.
+
+Steps:
+1. Subproblem: $D_{k}(u, v)$ be the length of the shortest path from vertex $u$ to vertex $v$ using only intermediate vertices from the set $\{1, 2, \ldots, k\}$.
+2. Recurrence relation:
+$$
+D_{k}(u, v) = \min\{D_{k-1}(u, v), D_{k-1}(u, k) + D_{k-1}(k, v)\}
+$$
+3. Answer: $D_{n}(u, v)$ for all pairs $(u, v)$.
+
+$O(n^3)$
 
 ```cpp
-void floyed_base()
-{
-    memset(dis, 63, sizeof(dis));
-    //最短路
+bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
+    int n = dis.size() - 1;
+    dis.assign(n + 1, vector<int>(n + 1, INF));
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            dis[i][j] = w[i][j];
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
                 dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
-    //连通性
+    
+    for (int i = 1; i <= n; i++)
+        if (dis[i][i] < 0) return false; // negative cycle exists
+    return true;
+}
+```
+
+Get Connectivity:
+
+```cpp
+void floyd_warshall_connectivity(vector<vector<bool>>& dis) {
+    int n = dis.size() - 1;
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
@@ -356,20 +384,22 @@ void floyed_base()
 ```
 
 ```cpp
-void floyed_ring()//最小环
+int floyd_ring(vector<vector<int>>& dis, vector<vector<int>>& w) //最小环
 {
-    memset(dis, 63, sizeof(dis));
+    int n = dis.size() - 1, ans = INF;
+    dis.assign(n + 1, vector<int>(n + 1, INF));
     for (int i = 1; i <= n; i++)
         for (int j = 1; j <= n; j++)
-            g[i][j] = dis[i][j];//保存原数据
+            dis[i][j] = w[i][j];
     for (int k = 1; k <= n; k++)
     {
         for (int i = 1; i < k; i++)
             for (int j = i + 1; j < k; j++)
-                ans = min(ans, dis[i][j] + g[i][k] + g[k][j]);
+                ans = min(ans, dis[i][j] + w[i][k] + w[k][j]);
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
                 dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
     }
+    return ans;
 }
 ```

@@ -71,7 +71,6 @@ Complexity or Capacity is the ability of a model to fit a wide variety of functi
 
 ## Classification
 
-Setup:
 - **Binary classification**: $y \in \{0, 1\}$.
 - **Multiclass classification**: $y \in \{1, 2, \ldots, K\}$.
 - **Multilabel classification**: $y \in \{0, 1\}^K$.
@@ -108,3 +107,15 @@ $$\textbf{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\tex
 The **Receiver Operating Characteristic (ROC)** curve plots the True Positive Rate (TPR) against the False Positive Rate (FPR) at various threshold settings.  
 The **Area Under the Curve (AUC)** score quantifies the overall ability of the model to discriminate between positive and negative classes, with a value of 1 indicating perfect discrimination and 0.5 indicating no discrimination.
 
+## Improve Classification Performance
+
+- Feature construction: Create new features from the existing data that may capture important patterns or relationships.
+- Classifier design: Choose a more appropriate model architecture or algorithm for the problem at hand.
+
+## Probability Estimation
+
+In classification tasks, we often want to estimate the probability that a given input belongs to a particular class. This can be done using various methods, such as logistic regression, which models the probability of the positive class as:
+$$P(y=1|x) = \frac{1}{1 + e^{-(w^T x + b)}}$$
+where $w$ is the weight vector and $b$ is the bias term. The model can be trained using maximum likelihood estimation (MLE) to find the parameters that maximize the likelihood of the observed data.
+
+Empirical probability estimation can be done by counting the frequency of each class in the training data and dividing by the total number of samples. This is known as the **empirical distribution**.

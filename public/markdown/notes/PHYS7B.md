@@ -49,6 +49,12 @@ $$U(r) = -G \frac{Mm}{r}$$
 
 The negative sign indicates that the potential energy is lower (more negative) when the masses are closer together, reflecting the attractive nature of gravity. The potential energy approaches zero as $r$ approaches infinity, which means that it takes an infinite amount of energy to separate the masses completely.
 
+### Geostationary Orbits
+
+A geostationary orbit is a circular orbit around the Earth where the satellite's orbital period matches the Earth's rotation period (24 hours). The radius of a geostationary orbit can be found using Kepler's Third Law:
+$$T^2 = \frac{4\pi^2 R^3}{GM}$$
+$$R^3 = \frac{GMT^2}{4\pi^2}$$
+
 ## Oscillations
 
 ### Simple Harmonic Oscillator
@@ -93,10 +99,39 @@ The period is: $T = 2\pi \sqrt{\frac{L}{g}}$
 
 For a physical pendulum, the moment of inertia $I$ and the distance $d$ from the pivot to the center of mass are used:
 
-$$\begin{aligned}
+$$ \begin{aligned}
 \tau &= I \alpha \\
 -mgd \sin \theta &= I \frac{d^2\theta}{dt^2} \\
 \frac{d^2\theta}{dt^2} + \frac{mgd}{I} \theta &= 0 \\
 \omega &= \sqrt{\frac{mgd}{I}} \\
-\end{aligned}$$
+\end{aligned} $$
 The period is: $T = 2\pi \sqrt{\frac{I}{mgd}}$
+
+## Wave Motion
+
+**Mechanical waves**: disturbances that propagate through a medium, transferring energy without transferring matter.
+
+**Longitudinal waves**: particles of the medium oscillate parallel to the direction of wave propagation (e.g., sound waves).  
+**Transverse waves**: particles of the medium oscillate perpendicular to the direction of wave propagation (e.g., waves on a string).
+
+### Sinusoidal Wave
+
+- **Crest**: the highest point of the wave.
+- **Trough**: the lowest point of the wave.
+- **Amplitude** ($A$): the maximum displacement of the wave from its equilibrium position. (the height of the crest or trough)
+- **Wavelength** ($\lambda$): the distance between two consecutive crests or troughs.
+- **Frequency** ($f$): the number of oscillations per unit time.
+- **Period** ($T$): the time it takes for one complete oscillation, $T = \frac{1}{f}$.
+- **Wave number** ($k$): the spatial frequency, $k = \frac{2\pi}{\lambda}$.
+- **Angular frequency** ($\omega$): the temporal frequency of the wave, $\omega = 2\pi f = \frac{2\pi}{T}$.
+- **Wave speed** ($v$): the speed at which the wave propagates through the medium, $v = \lambda f = \frac{\lambda}{T} = \frac{\omega}{k}$.
+
+Snapshot
+$$ y(x) = A \sin(kx + \phi) $$
+Traveling wave
+$$y(x, t) = A \sin(kx - \omega t + \phi)$$
+
+### Classical Wave
+
+$$\frac{\partial^2 y}{\partial x^2} = \frac{1}{v^2} \frac{\partial^2 y}{\partial t^2}$$
+$y$ is the wave function, $x$ is the spatial coordinate, $t$ is time, and $v$ is the wave speed. The left-hand side represents the spatial curvature of the wave, while the right-hand side represents the temporal curvature.
