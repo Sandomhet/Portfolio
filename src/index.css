@@ -1,40 +1,367 @@
-/*@import "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.0/styles/github-dark.min.css";*/
-/*@import "@wooorm/starry-night/style/high-contrast";*/
+/* ===== Shared Variables (both themes) ===== */
+:root {
+  --purple-900: #1E0A4E;
+  --purple-800: #2D1B69;
+  --purple-700: #4C2D98;
+  --purple-600: #6D3FC8;
+  --purple-500: #8B5CF6;
+  --purple-400: #A78BFA;
+  --purple-300: #C4B5FD;
+  --purple-200: #DDD6FE;
+  --purple-100: #EDE9FE;
+
+  --nav-height: 64px;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.2s ease;
+  --transition-slow: all 0.35s ease;
+}
+
+/* ===== Light Theme — Option D "Misty Grape" ===== */
+:root[data-theme="light"] {
+  --bg-gradient:        linear-gradient(135deg, #D9D0F5 0%, #E4DCFF 40%, #DCEAFF 100%);
+  --surface:            rgba(255, 255, 255, 0.65);
+  --surface-hover:      rgba(255, 255, 255, 0.82);
+  --surface-border:     rgba(109, 63, 200, 0.16);
+  --surface-border-hover: rgba(109, 63, 200, 0.42);
+
+  --text-primary:   #1E0A4E;
+  --text-secondary: #4C2D98;
+  --text-muted:     #7C6FAD;
+
+  --shadow-sm:     0 2px 8px rgba(109, 63, 200, 0.10);
+  --shadow-md:     0 4px 24px rgba(109, 63, 200, 0.14);
+  --shadow-purple: 0 4px 32px rgba(109, 63, 200, 0.20);
+
+  --nav-bg:          rgba(217, 208, 245, 0.88);
+  --nav-border:      rgba(109, 63, 200, 0.14);
+  --nav-shadow:      0 1px 16px rgba(109, 63, 200, 0.10);
+  --nav-active:      #4C2D98;
+  --nav-hover-bg:    rgba(109, 63, 200, 0.07);
+
+  --brand-gradient:  linear-gradient(135deg, #2D1B69 30%, #8B5CF6 100%);
+  --title-gradient:  linear-gradient(135deg, #2D1B69 30%, #8B5CF6 100%);
+  --h1-gradient:     linear-gradient(135deg, #2D1B69 30%, #7C3AED);
+
+  --avatar-border:   #E4DCFF;
+  --drawer-bg:       rgba(228, 220, 255, 0.97);
+  --drawer-border:   rgba(109, 63, 200, 0.18);
+  --sidebar-border:  rgba(109, 63, 200, 0.12);
+
+  --link-color:      #6D3FC8;
+  --link-hover:      #4C2D98;
+
+  --code-bg:     rgba(109, 63, 200, 0.08);
+  --code-color:  #5B21B6;
+  --code-border: rgba(109, 63, 200, 0.16);
+  --code-pre-border: rgba(0, 0, 0, 0.08);
+
+  --blockquote-bg: rgba(109, 63, 200, 0.06);
+
+  --toc-active-color:  #6D3FC8;
+  --toc-active-bg:     rgba(109, 63, 200, 0.08);
+  --toc-hover-border:  #6D3FC8;
+
+  --scrollbar-track:        rgba(109, 63, 200, 0.06);
+  --scrollbar-thumb:        rgba(109, 63, 200, 0.28);
+  --scrollbar-thumb-hover:  rgba(109, 63, 200, 0.48);
+
+  --chip-bg:            rgba(109, 63, 200, 0.10);
+  --chip-color:         #4C2D98;
+  --chip-border:        rgba(109, 63, 200, 0.18);
+  --chip-active-shadow: 0 2px 12px rgba(109, 63, 200, 0.28);
+  --chip-inactive-border: rgba(109, 63, 200, 0.22);
+  --chip-inactive-hover-border: rgba(109, 63, 200, 0.50);
+  --chip-inactive-hover-bg: rgba(109, 63, 200, 0.07);
+  --chip-inactive-hover-color: #6D3FC8;
+}
+
+/* ===== Dark Theme — Option C "Twilight" ===== */
+:root[data-theme="dark"] {
+  --bg-gradient:        linear-gradient(135deg, #261D4E 0%, #1E2650 40%, #221940 100%);
+  --surface:            rgba(255, 255, 255, 0.09);
+  --surface-hover:      rgba(255, 255, 255, 0.13);
+  --surface-border:     rgba(167, 139, 250, 0.20);
+  --surface-border-hover: rgba(167, 139, 250, 0.45);
+
+  --text-primary:   #F0ECFF;
+  --text-secondary: #C4B5FD;
+  --text-muted:     #8B7CB8;
+
+  --shadow-sm:     0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md:     0 4px 24px rgba(0, 0, 0, 0.45);
+  --shadow-purple: 0 4px 32px rgba(139, 92, 246, 0.25);
+
+  --nav-bg:          rgba(38, 29, 78, 0.88);
+  --nav-border:      rgba(167, 139, 250, 0.15);
+  --nav-shadow:      0 1px 24px rgba(0, 0, 0, 0.30);
+  --nav-active:      #A78BFA;
+  --nav-hover-bg:    rgba(167, 139, 250, 0.10);
+
+  --brand-gradient:  linear-gradient(135deg, #F0ECFF 30%, #A78BFA 100%);
+  --title-gradient:  linear-gradient(135deg, #F0ECFF 30%, #A78BFA 100%);
+  --h1-gradient:     linear-gradient(135deg, #F0ECFF 30%, #C4B5FD);
+
+  --avatar-border:   #261D4E;
+  --drawer-bg:       rgba(38, 29, 78, 0.97);
+  --drawer-border:   rgba(167, 139, 250, 0.18);
+  --sidebar-border:  rgba(167, 139, 250, 0.12);
+
+  --link-color:  #A78BFA;
+  --link-hover:  #C4B5FD;
+
+  --code-bg:     rgba(167, 139, 250, 0.15);
+  --code-color:  #C4B5FD;
+  --code-border: rgba(167, 139, 250, 0.20);
+  --code-pre-border: rgba(255, 255, 255, 0.06);
+
+  --blockquote-bg: rgba(139, 92, 246, 0.08);
+
+  --toc-active-color: #A78BFA;
+  --toc-active-bg:    rgba(139, 92, 246, 0.12);
+  --toc-hover-border: #A78BFA;
+
+  --scrollbar-track:        rgba(0, 0, 0, 0.15);
+  --scrollbar-thumb:        rgba(139, 92, 246, 0.35);
+  --scrollbar-thumb-hover:  rgba(139, 92, 246, 0.55);
+
+  --chip-bg:            rgba(167, 139, 250, 0.14);
+  --chip-color:         #C4B5FD;
+  --chip-border:        rgba(167, 139, 250, 0.20);
+  --chip-active-shadow: 0 2px 12px rgba(139, 92, 246, 0.35);
+  --chip-inactive-border: rgba(167, 139, 250, 0.22);
+  --chip-inactive-hover-border: rgba(167, 139, 250, 0.55);
+  --chip-inactive-hover-bg: rgba(167, 139, 250, 0.10);
+  --chip-inactive-hover-color: #C4B5FD;
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 html, body {
   margin: 0;
-  background: rgb(144, 137, 249);
-  background: linear-gradient(152deg, rgba(144, 137, 249, 1) 5%, rgba(150, 192, 255, 1) 28%, rgba(211, 212, 253, 1) 55%, rgba(169, 240, 255, 1) 100%);
-  background-size: 150% 150%; /* Ensure the gradient expands for a smooth transition */
+  padding: 0;
+  background: var(--bg-gradient);
   background-attachment: fixed;
-
-  font-family: "Georgia", "楷体", serif;
-  /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',*/
-  /*'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',*/
-  /*sans-serif;*/
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-moz-osx-font-smoothing: grayscale;*/
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.markdown-zh {
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.2;
-}
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
-.markdown-en {
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.3;
-}
-
+/* ===== Card Style (legacy class) ===== */
 .cardStyle {
-  background: rgb(144, 137, 249);
-  background: linear-gradient(-50deg, rgba(144, 137, 249, 1) 10%, rgba(150, 192, 255, 1) 30%, rgba(211, 212, 253, 1) 55%, rgba(150, 192, 255, 1) 100%);
-  background-attachment: fixed;
+  background: var(--surface) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--surface-border) !important;
 }
 
+/* ===== Code fonts ===== */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* ===== Markdown Content ===== */
+.markdown-zh {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--text-primary);
+}
+.markdown-en {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--text-primary);
+}
+
+/* Headings */
+.markdown-zh h1, .markdown-en h1,
+.markdown-zh h2, .markdown-en h2,
+.markdown-zh h3, .markdown-en h3,
+.markdown-zh h4, .markdown-en h4,
+.markdown-zh h5, .markdown-en h5,
+.markdown-zh h6, .markdown-en h6 {
+  font-family: 'Inter', sans-serif;
+  scroll-margin-top: calc(var(--nav-height) + 24px);
+  color: var(--text-primary);
+}
+
+.markdown-zh h1, .markdown-en h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--h1-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 0.25em;
+  margin-bottom: 0.75em;
+}
+.markdown-zh h2, .markdown-en h2 {
+  font-size: 1.45rem;
+  font-weight: 650;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 8px;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+.markdown-zh h3, .markdown-en h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+.markdown-zh h4, .markdown-en h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Links */
+.markdown-zh a, .markdown-en a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: var(--transition);
+}
+.markdown-zh a:hover, .markdown-en a:hover {
+  color: var(--link-hover);
+  border-bottom-color: var(--link-color);
+}
+
+/* Inline code */
+.markdown-zh :not(pre) > code,
+.markdown-en :not(pre) > code {
+  background: var(--code-bg);
+  color: var(--code-color);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  border: 1px solid var(--code-border);
+  font-family: 'JetBrains Mono', Menlo, Monaco, Consolas, monospace;
+}
+
+/* Code blocks */
+.markdown-zh pre, .markdown-en pre {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--code-pre-border);
+  margin: 1.25em 0;
+}
+
+/* Blockquote */
+.markdown-zh blockquote, .markdown-en blockquote {
+  border-left: 3px solid var(--purple-500);
+  margin: 1.5em 0;
+  padding: 0.8em 1.2em;
+  background: var(--blockquote-bg);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-secondary);
+}
+.markdown-zh blockquote p, .markdown-en blockquote p { margin: 0; }
+
+/* Tables */
+.markdown-zh table, .markdown-en table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.94em;
+}
+.markdown-zh th, .markdown-en th {
+  background: var(--chip-bg);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--surface-border);
+  color: var(--text-secondary);
+}
+.markdown-zh td, .markdown-en td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--surface-border);
+}
+.markdown-zh tr:hover, .markdown-en tr:hover {
+  background: var(--surface);
+}
+
+/* Lists */
+.markdown-zh ul, .markdown-en ul,
+.markdown-zh ol, .markdown-en ol {
+  padding-left: 1.6em;
+  line-height: 1.85;
+}
+.markdown-zh li, .markdown-en li { margin-bottom: 0.25em; }
+
+/* HR */
+.markdown-zh hr, .markdown-en hr {
+  border: none;
+  border-top: 1px solid var(--surface-border);
+  margin: 2.5em 0;
+}
+
+/* Strong */
+.markdown-zh strong, .markdown-en strong {
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.fade-in { animation: fadeIn 0.35s ease forwards; }
+
+/* ===== TOC Sidebar ===== */
+.toc-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+.toc-link {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toc-link:hover {
+  color: var(--text-secondary);
+  background: var(--surface);
+  border-left-color: var(--toc-hover-border);
+}
+.toc-link.active {
+  color: var(--toc-active-color);
+  background: var(--toc-active-bg);
+  border-left-color: var(--toc-active-color);
+  font-weight: 500;
+}
+.toc-link.level-1 { padding-left: 10px; font-weight: 500; }
+.toc-link.level-2 { padding-left: 10px; }
+.toc-link.level-3 { padding-left: 22px; font-size: 12px; }
+.toc-link.level-4 { padding-left: 34px; font-size: 12px; }
+.toc-link.level-5 { padding-left: 46px; font-size: 11px; }
+.toc-link.level-6 { padding-left: 58px; font-size: 11px; }

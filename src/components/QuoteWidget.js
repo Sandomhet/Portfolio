@@ -1,63 +1,90 @@
-import {Box, Divider, IconButton, Typography} from "@mui/material";
+import {Box, IconButton, Typography} from "@mui/material";
 import quotes from "../assets/quoteStorage.json";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import {useState} from "react";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import {grey} from "@mui/material/colors";
+import {useState} from "react";
 
 export default function QuoteWidget() {
-  const randomQuote = () => {
-    return quotes[Math.floor(Math.random() * quotes.length)];
-  };
+  const randomQuote = () => quotes[Math.floor(Math.random() * quotes.length)];
   const [quote, setQuote] = useState(randomQuote);
-  const refreshQuote = () => {
-    setQuote(randomQuote);
-  };
-  
+
   return (
+    <Box
+      sx={{
+        width: "100%",
+        borderRadius: 2.5,
+        overflow: "hidden",
+        border: "1px solid var(--surface-border)",
+        background: "var(--surface)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        mt: 1,
+        transition: "border-color 0.2s ease",
+        "&:hover": {borderColor: "var(--surface-border-hover)"},
+      }}
+    >
+      {/* Header */}
       <Box
-          sx={{
-            // border: 1,
-            background: "background.paper",
-            boxShadow: 1,
-            borderRadius: 2,
-          }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          px: 1.5,
+          py: 0.75,
+          background: "var(--chip-bg)",
+          borderBottom: "1px solid var(--surface-border)",
+        }}
       >
-        <Box
+        <Box sx={{display: "flex", alignItems: "center", gap: 0.75}}>
+          <MenuBookOutlinedIcon sx={{fontSize: 16, color: "var(--nav-active)"}}/>
+          <Typography
+            variant="caption"
             sx={{
-              background: grey[300],
-              display: "flex",
-              justifyContent: "space-between",
+              fontWeight: 600,
+              color: "var(--nav-active)",
+              letterSpacing: "0.06em",
+              fontSize: "0.68rem",
             }}
-        >
-          <Box sx={{padding: 1}}>
-            <MenuBookOutlinedIcon/>
-          </Box>
-          <Box sx={{padding: 0.5, justifySelf: 'center'}}>
-            <Typography variant="h6" sx={{fontWeight: "Bold"}}>
-              Quote of the Day
-            </Typography>
-          </Box>
-          <IconButton onClick={refreshQuote}>
-            <RefreshIcon/>
-          </IconButton>
-        </Box>
-        <Divider/>
-        <Box sx={{padding: 0.7}}>
-          <Box sx={{color: "text.primary", fontSize: 16}}>{quote.quote}</Box>
-          <Box
-              sx={{
-                textAlign: "right",
-                color: "text.secondary",
-                fontSize: 13,
-                padding: 0.1,
-              }}
           >
-            {quote.writer && <span>--{quote.writer} <br/></span>}
-            <span style={{fontStyle: "italic"}}>{quote.source}</span>
-          </Box>
+            QUOTE OF THE DAY
+          </Typography>
         </Box>
-      
+        <IconButton
+          onClick={() => setQuote(randomQuote)}
+          size="small"
+          sx={{
+            p: 0.25,
+            color: "text.disabled",
+            transition: "all 0.2s ease",
+            "&:hover": {color: "var(--nav-active)", rotate: "90deg"},
+          }}
+        >
+          <RefreshIcon sx={{fontSize: 15}}/>
+        </IconButton>
       </Box>
+
+      {/* Quote body */}
+      <Box sx={{px: 2, py: 1.5}}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.primary",
+            lineHeight: 1.75,
+            fontStyle: "italic",
+            fontSize: "0.82rem",
+            mb: 1,
+          }}
+        >
+          "{quote.quote}"
+        </Typography>
+        <Typography
+          variant="caption"
+          sx={{color: "text.disabled", display: "block", textAlign: "right", fontSize: "0.73rem"}}
+        >
+          {quote.writer && `— ${quote.writer}`}
+          {quote.source && <em style={{opacity: 0.8}}> · {quote.source}</em>}
+        </Typography>
+      </Box>
+    </Box>
   );
 }
