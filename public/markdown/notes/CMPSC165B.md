@@ -119,3 +119,11 @@ $$P(y=1|x) = \frac{1}{1 + e^{-(w^T x + b)}}$$
 where $w$ is the weight vector and $b$ is the bias term. The model can be trained using maximum likelihood estimation (MLE) to find the parameters that maximize the likelihood of the observed data.
 
 Empirical probability estimation can be done by counting the frequency of each class in the training data and dividing by the total number of samples. This is known as the **empirical distribution**.
+
+## Regression
+In regression tasks, the goal is to predict a continuous output variable based on one or more input features. Common regression algorithms include linear regression, polynomial regression, and support vector regression. 
+The performance of regression models can be evaluated using metrics such as mean squared error (MSE), mean absolute error (MAE), and R-squared (coefficient of determination). Regularization techniques, such as Lasso and Ridge regression, can be used to prevent overfitting by adding a penalty term to the loss function that discourages complex models.
+
+## Decision Trees
+
+A decision tree is a flowchart-like structure where each internal node represents a test on an attribute, each branch represents the outcome of the test, and each leaf node represents a class label (in classification) or a continuous value (in regression). Decision trees can be used for both classification and regression tasks. They are easy to interpret and can capture non-linear relationships between features and the target variable. However, decision trees can be prone to overfitting, especially when they are deep and have many branches. To mitigate this, techniques such as pruning, setting a maximum depth, or using ensemble methods

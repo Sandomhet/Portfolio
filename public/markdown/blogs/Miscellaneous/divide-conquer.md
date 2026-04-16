@@ -80,3 +80,44 @@ int binary_search(int l, int r, int aim) {
     return ans;
 }
 ```
+
+## Karatsuba Multiplication
+
+- Input: two $n$-digit big numbers $X$ and $Y$.  
+- Output: the product $Z = X \cdot Y$.
+
+Core idea: reduce the number of multiplications from 4 to 3.
+
+Algorithm:
+1. Split $X$ and $Y$ into two halves: $m = \lfloor \frac{n}{2} \rfloor$.
+    - $X = X_l \cdot 10^{m} + X_r$
+    - $Y = Y_l \cdot 10^{m} + Y_r$
+    - $Z = (X_l Y_l) \cdot 10^{2m} + (X_l Y_r + X_r Y_l) \cdot 10^{m} + (X_r Y_r)$
+2. Compute three products recursively:
+    - $P_1 = X_l \cdot Y_l$
+    - $P_2 = X_r \cdot Y_r$
+    - $P_3 = (X_l + X_r) \cdot (Y_l + Y_r)$
+3. Combine the results:
+$$Z = P_1 \cdot 10^{2m} + (P_3 - P_1 - P_2) \cdot 10^{m} + P_2$$
+
+$O(n^{\log_2 3})$, faster than the traditional $O(n^2)$ algorithm.
+
+```cpp
+int karatsuba(int X, int Y) {
+    if (X < 10 || Y < 10) return X * Y; // base case
+    int m = max(to_string(X).size(), to_string(Y).size()) / 2;
+    int power = pow(10, m);
+    int Xl = X / power, Xr = X % power;
+    int Yl = Y / power, Yr = Y % power;
+    int P1 = karatsuba(Xl, Yl);
+    int P2 = karatsuba(Xr, Yr);
+    int P3 = karatsuba(Xl + Xr, Yl + Yr);
+    return P1 * power * power + (P3 - P1 - P2) * power + P2;
+}
+```
+
+### Toom-Cook Multiplication
+
+Split the numbers into $k$ parts
+
+$O(n^{\log_k (2k - 1)})$.

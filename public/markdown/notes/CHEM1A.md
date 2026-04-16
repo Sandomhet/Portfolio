@@ -191,120 +191,26 @@ Temperature Scales: **Kelvin** (K), **Celsius** ($^\circ C$), and **Fahrenheit**
 
 **Avogadro's number**: $1\ \text{mol} = 6.022 \times 10^{23}\ \text{particles}$
 
-## Lecture 5: Molar Mass and Mass Percent
+### Molar Mass and Mass Percent
 
-### Mole Review
-
-- Chemists use the **mole** to handle very small particles on a macroscopic scale.
-- **1 mole** of anything contains $6.022 \times 10^{23}$ of that thing.
-- The periodic table's atomic mass also gives the **molar mass** of a natural element in g/mol.
-
-Example:
+The periodic table's atomic mass also gives the **molar mass** of a natural element in g/mol.
 
 $$
 12.01\ \text{g natural C} = 1\ \text{mol natural C} = 6.022 \times 10^{23}\ \text{C atoms}
 $$
 
-### Elemental Molar Mass
+**Molar mass** is the mass of 1 mole of a substance. For an element, use the atomic mass from the periodic table and change the unit from **amu/atom** to **g/mol**.
+Example: C has atomic mass about **12.01 amu/atom**, so its molar mass is **12.01 g/mol**.
 
-- **Molar mass** is the mass of 1 mole of a substance.
-- For an element, use the atomic mass from the periodic table and change the unit from **amu/atom** to **g/mol**.
+## Chemical Reactions
 
-Examples:
+- **Reactants**: starting materials
+- **Products**: substances formed
+- **Reaction arrow**: shows the direction from reactants to products
 
-- C has atomic mass about **12.01 amu/atom**, so its molar mass is **12.01 g/mol**.
-- Na has atomic mass about **22.99 amu/atom**, so its molar mass is **22.99 g/mol**.
+### Chemical Formula vs. Empirical Formula
 
-### Compound Molar Mass
+- **Empirical formula**: the **simplest whole-number ratio** of elements in a compound.
+- **Chemical formula**: the formula that gives the **actual number of each type of atom** in the molecule.
+- Different compounds can have the **same empirical formula** but different chemical formulas.
 
-- For a compound, **molar mass** is the sum of the molar masses of all atoms in the chemical formula.
-
-Examples:
-
-$$
-M_{\mathrm{NaCl}} = 22.99 + 35.45 = 58.44\ \text{g/mol}
-$$
-
-$$
-M_{\mathrm{CH_4}} = 12.01 + 4(1.008) = 16.04\ \text{g/mol}
-$$
-
-$$
-M_{\mathrm{C_6H_{12}O_6}} = 6(12.01) + 12(1.008) + 6(16.00) \approx 180.16\ \text{g/mol}
-$$
-
-### Percent Composition / Mass Percent
-
-**Mass percent** compares the mass of one element in 1 mole of a compound to the total molar mass of the compound.
-
-Formula:
-
-$$
-\%\ \text{element} =
-\frac{\text{mass of element in 1 mol compound}}{\text{molar mass of compound}}
-\times 100\%
-$$
-
-Example prompt from lecture: find the percent composition of C, H, and O in glucose, C$_6$H$_{12}$O$_6$.
-
-Using $M_{\mathrm{C_6H_{12}O_6}} \approx 180.16\ \text{g/mol}$:
-
-$$
-\%\mathrm{C} = \frac{6(12.01)}{180.16} \times 100\% \approx 40.0\%
-$$
-
-$$
-\%\mathrm{H} = \frac{12(1.008)}{180.16} \times 100\% \approx 6.71\%
-$$
-
-$$
-\%\mathrm{O} = \frac{6(16.00)}{180.16} \times 100\% \approx 53.3\%
-$$
-
-### Why Percent Composition Matters
-
-- Mass percent can be measured in the lab.
-- Percent composition helps identify unknown compounds.
-- This works because compounds obey the **Law of Definite Proportions**.
-
-### Penicillin F Example
-
-Penicillin F was discovered accidentally in 1928 in a moldy petri dish.
-
-Experimental percent composition:
-
-| Element | Mass Percent |
-| --- | ---: |
-| C | 53.83% |
-| H | 6.45% |
-| N | 8.97% |
-| O | 20.49% |
-| S | remaining percent |
-
-Sulfur was not directly measured in the example, so determine it by subtraction:
-
-$$
-\%\mathrm{S} = 100 - 53.83 - 6.45 - 8.97 - 20.49 \approx 10.26\%
-$$
-
-The resulting chemical formula given in lecture:
-
-$$
-\mathrm{C_{14}H_{20}N_2SO_4}
-$$
-
-### From Mass Percent to Formula
-
-General workflow:
-
-1. If only percentages are given, assume a **100 g sample**.
-2. Convert each element's percent to **grams**.
-3. Convert grams of each element to **moles** using molar mass.
-4. Divide every mole amount by the **smallest mole amount**.
-5. If needed, multiply all ratios by the same small integer to get whole-number subscripts.
-
-### Combustion Analysis
-
-- **Combustion analysis** burns a compound in the presence of O$_2$.
-- It can be used to determine C, H, N, and O content.
-- Other analyses are used to determine additional elements.

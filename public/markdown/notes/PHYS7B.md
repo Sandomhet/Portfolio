@@ -1,6 +1,6 @@
 ---
 title: "PHYS 7B: Basic Physics II"
-description: ""
+description: "Notes for PHYS 7B: Basic Physics II, covering topics such as gravitation, oscillations, and wave motion."
 time: "Tue Mar 31, 2026"
 ---
 
@@ -131,7 +131,38 @@ $$ y(x) = A \sin(kx + \phi) $$
 Traveling wave
 $$y(x, t) = A \sin(kx - \omega t + \phi)$$
 
-### Classical Wave
+### Classical Wave Equation
 
 $$\frac{\partial^2 y}{\partial x^2} = \frac{1}{v^2} \frac{\partial^2 y}{\partial t^2}$$
 $y$ is the wave function, $x$ is the spatial coordinate, $t$ is time, and $v$ is the wave speed. The left-hand side represents the spatial curvature of the wave, while the right-hand side represents the temporal curvature.
+
+### Transverse Waves on a String
+
+The wave speed on a string is given by:
+$$v = \sqrt{\frac{F}{\mu}}$$
+where $F$ is the tension force in the string and $\mu = \frac{dm}{dx}$ is the linear mass density.
+
+### Coexisting Waves
+
+**Principle of superposition**: when two or more waves overlap, the resulting wave is the sum of the individual waves.
+
+- **Constructive interference**: when waves are **in phase**, their amplitudes add up, resulting in a larger amplitude.
+- **Destructive interference**: when waves are **out of phase**, their amplitudes subtract, resulting in a smaller amplitude or complete cancellation.
+
+### Wave Boundary
+
+- **Fixed boundary**: the wave is reflected and inverted (phase change of $\pi$).
+- **Free boundary**: the wave is reflected without inversion (no phase change).
+
+### Standing Waves
+
+- Incident wave: $y_i(x, t) = A \cos(kx - \omega t)$
+- Reflected wave: $y_r(x, t) = -A \cos(kx + \omega t)$
+
+Resulting wave: $y(x, t) = 2A \sin(kx) \sin(\omega t)$
+
+$2A \sin(kx)$ is the amplitude of the standing wave, which varies with position $x$. The time-dependent part $\sin(\omega t)$ oscillates between -1 and 1, but the spatial part determines where the nodes and antinodes are located.
+
+- **Nodes**: points where the amplitude is always zero (destructive interference).
+- **Antinodes**: points where the amplitude is maximum (constructive interference).
+The distance between adjacent nodes or antinodes is $\frac{\lambda}{2}$, and the distance between a node and the nearest antinode is $\frac{\lambda}{4}$.
