@@ -144,6 +144,12 @@ Examples
 - **$N_2O_3$**: dinitrogen trioxide
 - **$N_2O_4$**: dinitrogen tetroxide
 
+### Chemical Formula vs. Empirical Formula
+
+- **Empirical formula**: the **simplest whole-number ratio** of elements in a compound.
+- **Chemical formula**: the formula that gives the **actual number of each type of atom** in the molecule.
+- Different compounds can have the **same empirical formula** but different chemical formulas.
+
 ## Stoichiometry
 
 ### SI System
@@ -208,9 +214,59 @@ Example: C has atomic mass about **12.01 amu/atom**, so its molar mass is **12.0
 - **Products**: substances formed
 - **Reaction arrow**: shows the direction from reactants to products
 
-### Chemical Formula vs. Empirical Formula
+### Percent Yield
 
-- **Empirical formula**: the **simplest whole-number ratio** of elements in a compound.
-- **Chemical formula**: the formula that gives the **actual number of each type of atom** in the molecule.
-- Different compounds can have the **same empirical formula** but different chemical formulas.
+- A **limiting reactant** is the reactant that gets used up first in a chemical reaction.
+- **Theoretical yield** is the maximum amount of product that can be formed if the limiting reactant is used up completely.
+- **Percent yield** compares actual product obtained to theoretical product expected.
 
+$$
+\%\text{ yield} = \frac{\text{actual yield}}{\text{theoretical yield}} \times 100\%
+$$
+
+## Solution
+
+- A **solution** is a homogeneous mixture of **solute** and **solvent** in the same phase.
+- **Solvent**: the substance causing the dissolving.
+- **Solute**: the substance being dissolved.
+- **Dissolve**: moving the solute into the same phase as the solvent.
+
+### Electrolyte Solution
+
+**Dissociation**: When ionic compounds dissolve in solution, they separate into ions (cations and anions).
+
+- Compounds that dissociate in solution are **electrolytes**.
+- Covalent molecules that dissolve but do not dissociate are **nonelectrolytes**.
+
+#### Electrolyte Strength and Conductivity
+
+- **Strong electrolytes** dissociate completely.
+- **Weak electrolytes** dissociate only partially.
+- Stronger electrolytes conduct electricity better because they produce more ions in solution.
+
+### Acids and Bases
+
+Acids and bases are special types of electrolytes.
+
+- **Acids**: ionic compounds containing $H^+$ ions.
+- **Bases**: ionic compounds containing $OH^-$ ions or help make $OH^-$ in solution.
+
+- **Strong acids/bases** dissociate essentially **100%** in solution.
+- **Weak acids/bases** dissociate only **partially**.
+
+Examples:
+
+- **Strong acids**: $\mathrm{HCl}$, $\mathrm{HBr}$, $\mathrm{HI}$, $\mathrm{HNO_3}$, $\mathrm{H_2SO_4}$, $\mathrm{HClO_4}$, $\mathrm{HClO_3}$
+- **Strong bases**: $\mathrm{LiOH}$, $\mathrm{NaOH}$, $\mathrm{KOH}$, $\mathrm{RbOH}$, $\mathrm{CsOH}$, $\mathrm{Ca(OH)_2}$, $\mathrm{Sr(OH)_2}$, $\mathrm{Ba(OH)_2}$
+- **Weak acids**: $\mathrm{HF}$, $\mathrm{CH_3COOH}$
+- **Weak bases**: $\mathrm{NH_3}$, $\mathrm{NaOCl}$
+
+### Concentration
+
+**Molarity**:
+
+$$
+M = \frac{mol}{L} = \frac{\text{moles of solute}}{\text{liters of solution}}
+$$
+
+Square-bracket notation like **[NaCl]** means the molar concentration of that solute.

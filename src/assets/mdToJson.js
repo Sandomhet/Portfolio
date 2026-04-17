@@ -26,7 +26,7 @@ const getFilesMetadata = (folderPath, type, category) => {
         // path: path.join(folderPath, entry.name),
         path: `/markdown/${type}${category ? `/${category}` : ""}/${entry.name}`,
         title: data.title || entry.name.slice(0, -3),
-        description: data.description || "description",
+        description: data.description || "",
         time: data.time || "Mon Jan 1, 2024",
         lang: data.lang || "zh",
       })

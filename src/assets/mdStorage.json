@@ -5,7 +5,7 @@
     "name": "knapsack",
     "path": "/markdown/blogs/Dynamic-Programming/knapsack.md",
     "title": "Knapsack DP",
-    "description": "description",
+    "description": "",
     "time": "Wed Apr 1, 2026",
     "lang": "zh"
   },
@@ -15,7 +15,27 @@
     "name": "lcs",
     "path": "/markdown/blogs/Dynamic-Programming/lcs.md",
     "title": "Longest Common Subsequence/Substring (LCS)",
-    "description": "description",
+    "description": "",
+    "time": "Wed Apr 1, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "CHEM1A",
+    "path": "/markdown/notes/CHEM1A.md",
+    "title": "CHEM 1A: General Chemistry",
+    "description": "",
+    "time": "Mon Apr 1, 2026",
+    "lang": "zh"
+  },
+  {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC165B",
+    "path": "/markdown/notes/CMPSC165B.md",
+    "title": "CMPSC 165B Machine Learning",
+    "description": "",
     "time": "Wed Apr 1, 2026",
     "lang": "zh"
   },
@@ -25,7 +45,7 @@
     "name": "PHYS7B",
     "path": "/markdown/notes/PHYS7B.md",
     "title": "PHYS 7B: Basic Physics II",
-    "description": "description",
+    "description": "Notes for PHYS 7B: Basic Physics II, covering topics such as gravitation, oscillations, and wave motion.",
     "time": "Tue Mar 31, 2026",
     "lang": "zh"
   },
@@ -35,7 +55,7 @@
     "name": "lis",
     "path": "/markdown/blogs/Dynamic-Programming/lis.md",
     "title": "Longest Increasing Subsequence (LIS)",
-    "description": "description",
+    "description": "",
     "time": "Mon Mar 30, 2026",
     "lang": "zh"
   },
@@ -55,18 +75,8 @@
     "name": "STL",
     "path": "/markdown/blogs/Templates/STL.md",
     "title": "C++ STL Containers Cheat Sheet",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2026",
-    "lang": "zh"
-  },
-  {
-    "type": "notes",
-    "category": "",
-    "name": "CHEM1A",
-    "path": "/markdown/notes/CHEM1A.md",
-    "title": "PHYS 7A: Basic Physics I",
-    "description": "description",
-    "time": "Mon Jan 5, 2026",
     "lang": "zh"
   },
   {
@@ -75,7 +85,7 @@
     "name": "CMPSC64",
     "path": "/markdown/notes/CMPSC64.md",
     "title": "CMPSC 64: Computer Organization and Architecture",
-    "description": "description",
+    "description": "",
     "time": "Mon Jan 5, 2026",
     "lang": "zh"
   },
@@ -85,7 +95,7 @@
     "name": "PHYS7A",
     "path": "/markdown/notes/PHYS7A.md",
     "title": "PHYS 7A: Basic Physics I",
-    "description": "description",
+    "description": "",
     "time": "Mon Jan 5, 2026",
     "lang": "zh"
   },
@@ -255,7 +265,7 @@
     "name": "interview",
     "path": "/markdown/projects/interview.md",
     "title": "Tech Interview Essentials",
-    "description": "description",
+    "description": "",
     "time": "Mon Mar 31, 2025",
     "lang": "zh"
   },
@@ -348,6 +358,26 @@
     "description": "I cannot say my gender identity is completely male, even though I have always identified myself as male.",
     "time": "Sat Nov 2, 2024",
     "lang": "en"
+  },
+  {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "interval",
+    "path": "/markdown/blogs/Dynamic-Programming/interval.md",
+    "title": "Interval Scheduling",
+    "description": "",
+    "time": "Wed Jul 17, 2024",
+    "lang": "zh"
+  },
+  {
+    "type": "blogs",
+    "category": "Dynamic-Programming",
+    "name": "path",
+    "path": "/markdown/blogs/Dynamic-Programming/path.md",
+    "title": "Shortest Path DP",
+    "description": "",
+    "time": "Wed Jul 10, 2024",
+    "lang": "zh"
   },
   {
     "type": "blogs",
@@ -465,7 +495,7 @@
     "name": "basis",
     "path": "/markdown/blogs/Mathematics/basis.md",
     "title": "Basis of a Vector Space",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -475,7 +505,7 @@
     "name": "combinatorics",
     "path": "/markdown/blogs/Mathematics/combinatorics.md",
     "title": "Combinatorics",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -485,7 +515,7 @@
     "name": "gaussian-elimination",
     "path": "/markdown/blogs/Mathematics/gaussian-elimination.md",
     "title": "Gaussian Elimination",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -535,7 +565,7 @@
     "name": "cantor-expansion",
     "path": "/markdown/blogs/Miscellaneous/cantor-expansion.md",
     "title": "Cantor Expansion",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -605,7 +635,7 @@
     "name": "fft",
     "path": "/markdown/blogs/Polynomial/fft.md",
     "title": "Fast Fourier Transform (FFT)",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -695,7 +725,7 @@
     "name": "starter",
     "path": "/markdown/blogs/Templates/starter.md",
     "title": "C++ Code Start Template",
-    "description": "description",
+    "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
@@ -715,7 +745,7 @@
     "name": "CMPSC181",
     "path": "/markdown/notes/CMPSC181.md",
     "title": "CMPSC181",
-    "description": "description",
+    "description": "",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
   },
@@ -725,7 +755,7 @@
     "name": "table",
     "path": "/markdown/notes/table.md",
     "title": "table",
-    "description": "description",
+    "description": "",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
   },
@@ -735,7 +765,7 @@
     "name": "all-template",
     "path": "/markdown/projects/all-template.md",
     "title": "all-template",
-    "description": "description",
+    "description": "",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
   }
