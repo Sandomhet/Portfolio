@@ -99,12 +99,14 @@ The period is: $T = 2\pi \sqrt{\frac{L}{g}}$
 
 For a physical pendulum, the moment of inertia $I$ and the distance $d$ from the pivot to the center of mass are used:
 
-$$ \begin{aligned}
+$$
+\begin{aligned}
 \tau &= I \alpha \\
 -mgd \sin \theta &= I \frac{d^2\theta}{dt^2} \\
 \frac{d^2\theta}{dt^2} + \frac{mgd}{I} \theta &= 0 \\
 \omega &= \sqrt{\frac{mgd}{I}} \\
-\end{aligned} $$
+\end{aligned}
+$$
 The period is: $T = 2\pi \sqrt{\frac{I}{mgd}}$
 
 ## Wave Motion

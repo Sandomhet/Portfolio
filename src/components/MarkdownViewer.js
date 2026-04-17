@@ -1,5 +1,5 @@
 import {Box, Drawer, IconButton, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "katex/dist/katex.min.css";
 import {useNavigate, useParams} from "react-router-dom";
 import Markdown from "react-markdown";
@@ -13,78 +13,7 @@ import rehypeRaw from "rehype-raw";
 import files from "../assets/mdMap.json";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MenuIcon from "@mui/icons-material/Menu";
-
-/* ── Heading extraction ─────────────────────────────────── */
-
-// Approximate github-slugger behavior for matching rehype-slug output
-const slugify = (text) =>
-  text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-
-const extractHeadings = (markdown) => {
-  const headings = [];
-  for (const line of markdown.split("\n")) {
-    const match = line.match(/^(#{1,6})\s+(.+)$/);
-    if (!match) continue;
-    const level = match[1].length;
-    const text = match[2]
-      .replace(/\*\*(.+?)\*\*/g, "$1")
-      .replace(/__(.+?)__/g, "$1")
-      .replace(/\*(.+?)\*/g, "$1")
-      .replace(/_(.+?)_/g, "$1")
-      .replace(/`(.+?)`/g, "$1")
-      .replace(/\[(.+?)\]\(.+?\)/g, "$1")
-      .trim();
-    headings.push({level, text, id: slugify(text)});
-  }
-  return headings;
-};
-
-/* ── TOC Component ──────────────────────────────────────── */
-
-function TOCSidebar({headings, activeId, onLinkClick}) {
-  return (
-    <Box sx={{p: 2, pt: 2.5}}>
-      <Typography
-        variant="caption"
-        sx={{
-          display: "block",
-          fontWeight: 700,
-          letterSpacing: "0.08em",
-          color: "text.disabled",
-          textTransform: "uppercase",
-          fontSize: "0.65rem",
-          px: 1,
-          mb: 1.5,
-        }}
-      >
-        On This Page
-      </Typography>
-      <Box component="nav" className="toc-sidebar">
-        {headings.map((h, i) => (
-          <a
-            key={i}
-            href={`#${h.id}`}
-            className={`toc-link level-${h.level}${activeId === h.id ? " active" : ""}`}
-            onClick={(e) => {
-              e.preventDefault();
-              const el = document.getElementById(h.id);
-              if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
-              if (onLinkClick) onLinkClick();
-            }}
-          >
-            {h.text}
-          </a>
-        ))}
-      </Box>
-    </Box>
-  );
-}
-
-/* ── Main Component ─────────────────────────────────────── */
+import TOC from "./TOC";
 
 export default function MarkdownViewer() {
   const {name} = useParams();
@@ -92,25 +21,52 @@ export default function MarkdownViewer() {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const contentRef = useRef(null);
   const [markdown, setMarkdown] = useState("");
   const [headings, setHeadings] = useState([]);
   const [activeId, setActiveId] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const fileInfo = files[name];
+  const isArticle = fileInfo?.type === "articles";
 
   useEffect(() => {
     if (!fileInfo) return;
     fetch(fileInfo.path)
       .then(r => r.text())
-      .then(text => {
-        setMarkdown(text);
-        setHeadings(extractHeadings(text));
-      })
+      .then(setMarkdown)
       .catch(err => console.error("Error loading markdown:", err));
   }, [name, fileInfo]);
 
-  // Scroll-spy via IntersectionObserver
+  // Extract headings from rendered DOM (handles Chinese via rehype-slug correctly)
+  useEffect(() => {
+    if (!markdown || !contentRef.current || isArticle) {
+      setHeadings([]);
+      return;
+    }
+    // Defer until after react-markdown renders
+    const id = requestAnimationFrame(() => {
+      const nodes = contentRef.current?.querySelectorAll("h1,h2,h3,h4,h5,h6") || [];
+      const list = Array.from(nodes)
+        .filter(n => n.id)
+        .map(n => ({
+          id: n.id,
+          text: n.textContent || "",
+          level: Number(n.tagName.slice(1)),
+        }));
+      setHeadings(list);
+
+      // Handle initial URL hash (after content mounts)
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      if (hash) {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
+      }
+    });
+    return () => cancelAnimationFrame(id);
+  }, [markdown, isArticle]);
+
+  // Scroll-spy
   useEffect(() => {
     if (!headings.length) return;
     const observer = new IntersectionObserver(
@@ -131,13 +87,21 @@ export default function MarkdownViewer() {
     return () => observer.disconnect();
   }, [headings]);
 
+  const handleTocClick = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
+    window.history.replaceState(null, "", `#${id}`);
+    setActiveId(id);
+    setDrawerOpen(false);
+  };
+
   const langClass = fileInfo?.lang === "en" ? "markdown-en" : "markdown-zh";
-  const hasToc = headings.length > 1;
+  const hasToc = headings.length > 1 && !isArticle;
 
   return (
     <Box sx={{display: "flex", minHeight: "calc(100vh - 64px)"}}>
 
-      {/* ── Desktop TOC sidebar ── */}
+      {/* ── Desktop TOC sidebar (left) ── */}
       {!isSmall && hasToc && (
         <Box
           sx={{
@@ -153,102 +117,113 @@ export default function MarkdownViewer() {
             scrollbarColor: "var(--scrollbar-thumb) transparent",
           }}
         >
-          <TOCSidebar headings={headings} activeId={activeId}/>
+          <TOC headings={headings} activeId={activeId} onItemClick={handleTocClick}/>
         </Box>
       )}
 
-      {/* ── Main content ── */}
-      <Box sx={{flex: 1, display: "flex", justifyContent: "center"}}>
+      {/* ── Main content column ── */}
+      <Box sx={{flex: 1, minWidth: 0, display: "flex", flexDirection: "column"}}>
+
+        {/* Sticky action bar */}
         <Box
           sx={{
-            width: "100%",
-            maxWidth: 820,
+            position: "sticky",
+            top: 64,
+            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
             px: {xs: 2, sm: 3, md: 5},
-            py: 4,
+            py: 1.25,
+            background: "var(--nav-bg)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderBottom: "1px solid var(--nav-border)",
           }}
         >
-          {/* Back bar */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1.5,
-              mb: 3,
-            }}
-          >
-            <Tooltip title="Go back" placement="right">
+          {/* Mobile TOC toggle (left) */}
+          {isSmall && hasToc && (
+            <Tooltip title="Table of contents" placement="right">
               <IconButton
-                onClick={() => navigate(-1)}
                 size="small"
+                onClick={() => setDrawerOpen(true)}
                 sx={{
                   color: "text.disabled",
                   border: "1px solid var(--surface-border)",
-                  transition: "all 0.18s ease",
-                  "&:hover": {
-                    borderColor: "var(--surface-border-hover)",
-                    color: "var(--nav-active)",
-                    background: "var(--nav-hover-bg)",
-                  },
+                  "&:hover": {color: "var(--nav-active)", borderColor: "var(--surface-border-hover)"},
                 }}
               >
-                <ArrowBackIcon sx={{fontSize: 16}}/>
+                <MenuIcon sx={{fontSize: 16}}/>
               </IconButton>
             </Tooltip>
+          )}
 
-            <Typography variant="caption" sx={{color: "text.disabled", fontSize: "0.75rem"}}>
-              {fileInfo?.type && fileInfo.type.charAt(0).toUpperCase() + fileInfo.type.slice(1)}
-              {fileInfo?.category && ` · ${fileInfo.category.replace(/-/g, " ")}`}
-            </Typography>
-
-            {/* TOC toggle on small screens */}
-            {isSmall && hasToc && (
-              <Tooltip title="Table of contents" placement="left">
-                <IconButton
-                  size="small"
-                  onClick={() => setDrawerOpen(true)}
-                  sx={{
-                    ml: "auto",
-                    color: "text.disabled",
-                    border: "1px solid var(--surface-border)",
-                    "&:hover": {color: "var(--nav-active)", borderColor: "var(--surface-border-hover)"},
-                  }}
-                >
-                  <MenuIcon sx={{fontSize: 16}}/>
-                </IconButton>
-              </Tooltip>
-            )}
-          </Box>
-
-          {/* Markdown */}
-          <Box className={langClass}>
-            <Markdown
-              remarkPlugins={[remarkGfm, remarkFrontmatter, remarkMath]}
-              rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug, rehypePrism]}
+          <Tooltip title="Go back" placement="bottom">
+            <IconButton
+              onClick={() => navigate(-1)}
+              size="small"
+              sx={{
+                color: "text.disabled",
+                border: "1px solid var(--surface-border)",
+                transition: "all 0.18s ease",
+                "&:hover": {
+                  borderColor: "var(--surface-border-hover)",
+                  color: "var(--nav-active)",
+                  background: "var(--nav-hover-bg)",
+                },
+              }}
             >
-              {markdown}
-            </Markdown>
+              <ArrowBackIcon sx={{fontSize: 16}}/>
+            </IconButton>
+          </Tooltip>
+
+          <Typography variant="caption" sx={{color: "text.disabled", fontSize: "0.75rem"}}>
+            {fileInfo?.type && fileInfo.type.charAt(0).toUpperCase() + fileInfo.type.slice(1)}
+            {fileInfo?.category && ` · ${fileInfo.category.replace(/-/g, " ")}`}
+          </Typography>
+        </Box>
+
+        {/* Markdown body (centered) */}
+        <Box sx={{flex: 1, display: "flex", justifyContent: "center"}}>
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: 820,
+              px: {xs: 2, sm: 3, md: 5},
+              py: 4,
+              minWidth: 0,
+            }}
+          >
+            <Box ref={contentRef} className={langClass}>
+              <Markdown
+                remarkPlugins={[remarkGfm, remarkFrontmatter, remarkMath]}
+                rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug, rehypePrism]}
+              >
+                {markdown}
+              </Markdown>
+            </Box>
           </Box>
         </Box>
       </Box>
 
-      {/* ── Mobile TOC Drawer ── */}
+      {/* ── Mobile TOC Drawer (left) ── */}
       <Drawer
-        anchor="right"
+        anchor="left"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         PaperProps={{
           sx: {
             width: 260,
             background: "var(--drawer-bg)",
-            borderLeft: "1px solid var(--drawer-border)",
+            borderRight: "1px solid var(--drawer-border)",
             pt: 1,
           },
         }}
       >
-        <TOCSidebar
+        <TOC
           headings={headings}
           activeId={activeId}
-          onLinkClick={() => setDrawerOpen(false)}
+          onItemClick={handleTocClick}
         />
       </Drawer>
     </Box>

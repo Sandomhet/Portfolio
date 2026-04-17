@@ -256,6 +256,17 @@ code {
   border-radius: var(--radius-sm);
   border: 1px solid var(--code-pre-border);
   margin: 1.25em 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Images */
+.markdown-zh img, .markdown-en img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5em auto;
+  border-radius: var(--radius-sm);
 }
 
 /* Blockquote */
@@ -270,11 +281,18 @@ code {
 .markdown-zh blockquote p, .markdown-en blockquote p { margin: 0; }
 
 /* Tables */
+.markdown-zh .table-wrapper, .markdown-en .table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1.5em 0;
+}
 .markdown-zh table, .markdown-en table {
   border-collapse: collapse;
   width: 100%;
   margin: 1.5em 0;
   font-size: 0.94em;
+  display: block;
+  overflow-x: auto;
 }
 .markdown-zh th, .markdown-en th {
   background: var(--chip-bg);
@@ -365,3 +383,19 @@ code {
 .toc-link.level-4 { padding-left: 34px; font-size: 12px; }
 .toc-link.level-5 { padding-left: 46px; font-size: 11px; }
 .toc-link.level-6 { padding-left: 58px; font-size: 11px; }
+
+/* ===== Responsive typography ===== */
+@media (max-width: 899px) {
+  .markdown-zh { font-size: 15px; line-height: 1.8; }
+  .markdown-en { font-size: 16px; line-height: 1.85; }
+  .markdown-zh h1, .markdown-en h1 { font-size: 1.65rem; }
+  .markdown-zh h2, .markdown-en h2 { font-size: 1.25rem; }
+  .markdown-zh h3, .markdown-en h3 { font-size: 1.08rem; }
+}
+@media (max-width: 599px) {
+  .markdown-zh { font-size: 14.5px; }
+  .markdown-en { font-size: 15.5px; }
+  .markdown-zh h1, .markdown-en h1 { font-size: 1.45rem; }
+  .markdown-zh h2, .markdown-en h2 { font-size: 1.15rem; }
+  .markdown-zh pre, .markdown-en pre { font-size: 0.82em; }
+}

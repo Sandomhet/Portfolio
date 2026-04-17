@@ -1,7 +1,7 @@
 ---
 title: "CHEM 1A: General Chemistry"
 description: ""
-time: "Mon Jan 5, 2026"
+time: "Mon Apr 1, 2026"
 ---
 
 # Chemistry 1A: General Chemistry

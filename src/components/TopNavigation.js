@@ -53,7 +53,7 @@ export default function TopNavigation() {
             "&:hover": {opacity: 0.8},
           }}
         >
-          Sandom
+          Sandomhet
         </Typography>
 
         {/* Nav + toggle */}

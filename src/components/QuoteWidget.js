@@ -26,35 +26,38 @@ export default function QuoteWidget() {
       {/* Header */}
       <Box
         sx={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
-          justifyContent: "space-between",
           px: 1.5,
           py: 0.75,
           background: "var(--chip-bg)",
           borderBottom: "1px solid var(--surface-border)",
         }}
       >
-        <Box sx={{display: "flex", alignItems: "center", gap: 0.75}}>
+        <Box sx={{display: "flex", alignItems: "center", justifySelf: "start"}}>
           <MenuBookOutlinedIcon sx={{fontSize: 16, color: "var(--nav-active)"}}/>
-          <Typography
-            variant="caption"
-            sx={{
-              fontWeight: 600,
-              color: "var(--nav-active)",
-              letterSpacing: "0.06em",
-              fontSize: "0.68rem",
-            }}
-          >
-            QUOTE OF THE DAY
-          </Typography>
         </Box>
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 600,
+            color: "var(--nav-active)",
+            letterSpacing: "0.06em",
+            fontSize: "0.8rem",
+            textAlign: "center",
+            justifySelf: "center",
+          }}
+        >
+          QUOTE OF THE DAY
+        </Typography>
         <IconButton
           onClick={() => setQuote(randomQuote)}
           size="small"
           sx={{
             p: 0.25,
             color: "text.disabled",
+            justifySelf: "end",
             transition: "all 0.2s ease",
             "&:hover": {color: "var(--nav-active)", rotate: "90deg"},
           }}
