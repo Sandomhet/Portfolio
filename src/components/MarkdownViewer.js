@@ -1,5 +1,7 @@
 import {Box, Drawer, IconButton, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckIcon from "@mui/icons-material/Check";
 import "katex/dist/katex.min.css";
 import {useNavigate, useParams} from "react-router-dom";
 import Markdown from "react-markdown";
@@ -14,6 +16,58 @@ import files from "../assets/mdMap.json";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MenuIcon from "@mui/icons-material/Menu";
 import TOC from "./TOC";
+
+function CopyButton({codeRef}) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const text = codeRef.current?.querySelector("code")?.textContent || "";
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {});
+  };
+
+  return (
+    <Tooltip title={copied ? "Copied!" : "Copy"} placement="left">
+      <IconButton
+        size="small"
+        onClick={handleCopy}
+        sx={{
+          position: "absolute",
+          top: 7,
+          right: 7,
+          zIndex: 1,
+          width: 28,
+          height: 28,
+          color: "var(--prism-line-num)",
+          background: "rgba(0,0,0,0.18)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          transition: "all 0.18s ease",
+          "&:hover": {
+            color: "var(--nav-active)",
+            background: "rgba(0,0,0,0.30)",
+            borderColor: "var(--surface-border-hover)",
+          },
+        }}
+      >
+        {copied
+          ? <CheckIcon sx={{fontSize: 13}}/>
+          : <ContentCopyIcon sx={{fontSize: 13}}/>}
+      </IconButton>
+    </Tooltip>
+  );
+}
+
+function CodeBlock({children, ...props}) {
+  const wrapperRef = useRef(null);
+  return (
+    <Box sx={{position: "relative"}}>
+      <CopyButton codeRef={wrapperRef}/>
+      <pre ref={wrapperRef} {...props}>{children}</pre>
+    </Box>
+  );
+}
 
 export default function MarkdownViewer() {
   const {name} = useParams();
@@ -198,6 +252,7 @@ export default function MarkdownViewer() {
               <Markdown
                 remarkPlugins={[remarkGfm, remarkFrontmatter, remarkMath]}
                 rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug, rehypePrism]}
+                components={{pre: CodeBlock}}
               >
                 {markdown}
               </Markdown>
