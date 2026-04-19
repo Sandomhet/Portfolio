@@ -1,6 +1,6 @@
 ---
-title: "Interval Scheduling"
-description: ""
+title: "Interval DP"
+description: "DP for merging intervals with a cost function."
 time: "Wed Jul 17, 2024"
 ---
 
@@ -13,10 +13,12 @@ Setup:
 Steps:
 1. Subproblem: $f_{i, j}$ be the minimum cost to merge items from $i$ to $j$.
 2. Recurrence relation:
-$$f_{i, j} = \begin{cases}
+$$
+f_{i, j} = \begin{cases}
 0 & \text{if } i = j \\
 \min\limits_{i \leq k < j} \{f_{i, k} + f_{k + 1, j} + cost(i, k, j)\} & \text{if } i < j
-\end{cases}$$
+\end{cases}
+$$
 3. Answer: $f_{1, n}$.
 
 $O(n^3)$

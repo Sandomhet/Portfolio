@@ -5,7 +5,7 @@
     "name": "knapsack",
     "path": "/markdown/blogs/Dynamic-Programming/knapsack.md",
     "title": "Knapsack DP",
-    "description": "",
+    "description": "DP for the knapsack problem, including 0-1, complete, and multiple knapsack variations.",
     "time": "Wed Apr 1, 2026",
     "lang": "zh"
   },
@@ -26,6 +26,16 @@
     "path": "/markdown/notes/CHEM1A.md",
     "title": "CHEM 1A: General Chemistry",
     "description": "",
+    "time": "Mon Apr 1, 2026",
+    "lang": "zh"
+  },
+  "CMPSC130B": {
+    "type": "notes",
+    "category": "",
+    "name": "CMPSC130B",
+    "path": "/markdown/notes/CMPSC130B.md",
+    "title": "CMPSC 130B Algorithms and Data Structures",
+    "description": "Algorithm analysis and graph algorithms including maximum flow, linear programming, and NP-completeness.",
     "time": "Mon Apr 1, 2026",
     "lang": "zh"
   },
@@ -126,16 +136,6 @@
     "path": "/markdown/notes/CMPSC130A.md",
     "title": "CMPSC 130A Algorithms and Data Structures",
     "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
-    "time": "Mon Dec 8, 2025",
-    "lang": "zh"
-  },
-  "CMPSC130B": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC130B",
-    "path": "/markdown/notes/CMPSC130B.md",
-    "title": "CMPSC 130B Algorithms and Data Structures",
-    "description": "Algorithm analysis and graph algorithms including maximum flow, linear programming, and NP-completeness.",
     "time": "Mon Dec 8, 2025",
     "lang": "zh"
   },
@@ -364,8 +364,8 @@
     "category": "Dynamic-Programming",
     "name": "interval",
     "path": "/markdown/blogs/Dynamic-Programming/interval.md",
-    "title": "Interval Scheduling",
-    "description": "",
+    "title": "Interval DP",
+    "description": "DP for merging intervals with a cost function.",
     "time": "Wed Jul 17, 2024",
     "lang": "zh"
   },

@@ -1,12 +1,19 @@
 ---
 title: "CMPSC 130B Algorithms and Data Structures"
 description: "Algorithm analysis and graph algorithms including maximum flow, linear programming, and NP-completeness."
-time: "Mon Dec 8, 2025"
+time: "Mon Apr 1, 2026"
 ---
 
 # CMPSC 130B
 
 ## Table of Contents
+
+- Dynamic Programming
+    - [Knapsack DP](https://www.sandomhet.com/blogs/knapsack)
+    - [Longest Common Subsequence/Substring (LCS)](https://www.sandomhet.com/blogs/lcs)
+    - [Longest Increasing Subsequence (LIS)](https://www.sandomhet.com/blogs/lis)
+    - [Interval DP](https://www.sandomhet.com/blogs/interval)
+    - [Shortest Path DP](https://www.sandomhet.com/blogs/path)
 
 ## Fibonacci Numbers
 

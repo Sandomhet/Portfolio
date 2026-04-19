@@ -6,8 +6,6 @@ time: "Tue Mar 31, 2026"
 
 # PHYS 7B: Basic Physics II
 
-## Table of Contents
-
 ## Gravitation
 
 **Universal Law of Gravitation**:
@@ -74,7 +72,9 @@ where $A$ is the **amplitude**, $\omega$ is the **angular frequency**, and $\phi
 - Period: $ T = \frac{2\pi}{\omega} = 2\pi \sqrt{\frac{m}{k}}$.
 - The total energy of the system is conserved and given by:
 $$E = \frac{1}{2}mv^2 + \frac{1}{2}kx^2 = \frac{1}{2}kA^2$$
-Thus, $x^2 + \left( \frac{v}{\omega} \right)^2 = A^2$.
+Thus, $x^2 + \left( \frac{v}{\omega} \right)^2 = A^2$.  
+
+$\phi = \arctan\left( -\frac{v_0}{\omega x_0} \right)$.
 
 ![](/markdown/images/image-5.png)
 ![](../images/image-5.png)

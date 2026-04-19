@@ -39,3 +39,34 @@ int BellmanFord(int n, int m, vector<tuple<int, int, int>> edges, int s, int t) 
 
 ## Floyd-Warshall DP
 
+Setup:
+- Input: A directed graph $G = (V, E)$ with edge weights $w(u, v)$.
+- Output: A matrix $D$ where $D(u, v)$ is the length of the shortest path from vertex $u$ to vertex $v$.
+
+Steps:
+1. Subproblem: $D_{k}(u, v)$ be the length of the shortest path from vertex $u$ to vertex $v$ using only intermediate vertices from the set $\{1, 2, \ldots, k\}$.
+2. Recurrence relation:
+$$
+D_{k}(u, v) = \min\{D_{k-1}(u, v), D_{k-1}(u, k) + D_{k-1}(k, v)\}
+$$
+3. Answer: $D_{n}(u, v)$ for all pairs $(u, v)$.
+
+$O(n^3)$
+
+```cpp
+bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
+    int n = dis.size() - 1;
+    dis.assign(n + 1, vector<int>(n + 1, INF));
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            dis[i][j] = w[i][j];
+    for (int k = 1; k <= n; k++)
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+    
+    for (int i = 1; i <= n; i++)
+        if (dis[i][i] < 0) return false; // negative cycle exists
+    return true;
+}
+```

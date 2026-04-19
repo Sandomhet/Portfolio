@@ -1,6 +1,6 @@
 ---
 title: "Knapsack DP"
-description: ""
+description: "DP for the knapsack problem, including 0-1, complete, and multiple knapsack variations."
 time: "Wed Apr 1, 2026"
 ---
 
