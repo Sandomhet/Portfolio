@@ -10,8 +10,8 @@ Given an array of integers, find the length of the longest subsequence that is s
 
 Definition:  
 $f_i$ is the length of the longest increasing subsequence that ends with $a_i$.
-$$f_i = \max_{1 \leq j < i,\ a_j < a_i} (f_j + 1)$$
-$$ans = \max_{1 \leq i \leq n} f_i$$
+$$f_i = \max\limits_{1 \leq j < i,\ a_j < a_i} (f_j + 1)$$
+$$ans = \max\limits_{1 \leq i \leq n} f_i$$
 
 ## Naive Approach
 
