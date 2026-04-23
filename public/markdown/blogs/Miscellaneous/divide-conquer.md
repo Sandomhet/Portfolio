@@ -6,13 +6,6 @@ time: "Mon Oct 20, 2025"
 
 # Divide and Conquer
 
-## Table of Contents
-
-- [Quick Sort (快速排序)](#quick-sort-快速排序)
-- [Merge Sort (归并排序)](#merge-sort-归并排序)
-- [Binary Exponentiation (快速幂)](#binary-exponentiation-快速幂)
-- [Binary Search (二分查找)](#binary-search-二分查找)
-
 ## Quick Sort (快速排序)
 
 ```cpp
@@ -30,6 +23,8 @@ void quick_sort(int l, int r) {
 ```
 
 ## Merge Sort (归并排序)
+
+$O(n \log n)$, 稳定排序算法，适合链表排序和大数据排序（外部排序）。
 
 ```cpp
 int a[Z], b[Z];
@@ -100,6 +95,7 @@ Algorithm:
 3. Combine the results:
 $$Z = P_1 \cdot 10^{2m} + (P_3 - P_1 - P_2) \cdot 10^{m} + P_2$$
 
+$T(n) = 3T(\frac{n}{2}) + O(n)$.  
 $O(n^{\log_2 3})$, faster than the traditional $O(n^2)$ algorithm.
 
 ```cpp

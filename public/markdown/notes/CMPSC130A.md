@@ -42,6 +42,24 @@ Common complexities: $O(1)$, $O(\log n)$, $O(n)$, $O(n \log n)$, $O(n^2)$, $O(2^
 - Big-Omega: $f(n) = \Omega(g(n))$ if $\exists c > 0, n_0$ such that $\forall n \geq n_0: f(n) \geq c g(n)$. ($f(n) > g(n)$ lower bound)
 - Big-Theta: $f(n) = \Theta(g(n))$ if $\exists c_1, c_2 > 0, n_0$ such that $\forall n \geq n_0: c_1 g(n) \leq f(n) \leq c_2 g(n)$. ($f(n) = g(n)$ tight bound)
 
+### Master Theorem
+
+For $T(n) = a T(\frac{n}{b}) + f(n)$ where $a \geq 1, b > 1$:
+- If $f(n) = O(n^{\log_b a - \epsilon})$ for some $\epsilon > 0$, then $T(n) = \Theta(n^{\log_b a})$.
+- If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for some $k \geq 0$, then $T(n) = \Theta(n^{\log_b a} \log^{k+1} n)$.
+- If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some $\epsilon > 0$ and $a f(\frac{n}{b}) \leq c f(n)$ for some $c < 1$ and sufficiently large $n$, then $T(n) = \Theta(f(n))$.
+
+#### Patterns
+
+$T(n) = aT(\frac{n}{b}) + O(n)$:
+$$
+T(n) = \begin{cases}
+O(n) & \text{if } a < b \\
+O(n \log n) & \text{if } a = b \\
+O(n^{\log_b a}) & \text{if } a > b
+\end{cases}
+$$
+
 ## Markov Chains
 
 $N$ states, transition stochastic matrix $P$ where $P_{ij}$ is the probability of transitioning from state $i$ to state $j$.  

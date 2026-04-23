@@ -143,6 +143,7 @@ $y$ is the wave function, $x$ is the spatial coordinate, $t$ is time, and $v$ is
 The wave speed on a string is given by:
 $$v = \sqrt{\frac{F}{\mu}}$$
 where $F$ is the tension force in the string and $\mu = \frac{dm}{dx}$ is the linear mass density.
+$$v = \lambda f = \frac{\lambda}{T}$$
 
 ### Coexisting Waves
 
@@ -168,3 +169,21 @@ $2A \sin(kx)$ is the amplitude of the standing wave, which varies with position 
 - **Nodes**: points where the amplitude is always zero (destructive interference).
 - **Antinodes**: points where the amplitude is maximum (constructive interference).
 The distance between adjacent nodes or antinodes is $\frac{\lambda}{2}$, and the distance between a node and the nearest antinode is $\frac{\lambda}{4}$.
+
+#### Vibrating String
+
+Fundamental Mode: $n=1$, $\lambda_1 = 2L$, $f_1 = \frac{v}{2L}$
+
+For a string fixed at both ends, the allowed wavelengths are:
+$$\lambda_n = \frac{2L}{n}$$
+where $L$ is the length of the string and $n$ is a positive integer (the mode number). The corresponding frequencies are:
+$$f_n = \frac{v}{\lambda_n} = \frac{n v}{2L}$$
+where $v$ is the wave speed on the string. The fundamental frequency (first harmonic) corresponds to $n=1$, the second harmonic corresponds to $n=2$, and so on. Each mode of vibration produces a standing wave pattern with $n-1$ nodes between the fixed ends.
+
+$$
+\begin{aligned}
+y_n(x, t) &= 2A_n \sin\left( k_n x \right) \sin(\omega_n t) \\
+k_n &= \frac{n \pi}{L} \\
+\omega_n &= 2\pi f_n = \frac{n \pi v}{L}
+\end{aligned}
+$$
