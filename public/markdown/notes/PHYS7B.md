@@ -187,3 +187,25 @@ k_n &= \frac{n \pi}{L} \\
 \omega_n &= 2\pi f_n = \frac{n \pi v}{L}
 \end{aligned}
 $$
+
+### Sound Waves
+
+Sound waves are longitudinal waves that propagate through a medium by compressing and rarefying the particles of the medium.
+
+$$
+y(x, t) = A \cos(kx - \omega t + \phi) \\
+p(x, t) = p_{max} \sin(kx - \omega t + \phi)
+$$
+
+$v = \frac{\text{restoring force}}{\text{inertia}}$
+
+In air, $v \approx 340 \, \text{m/s}$, in water $v \approx 1500 \, \text{m/s}$, and in steel $v \approx 5000 \, \text{m/s}$.
+
+#### Standing Sound Waves in a Pipe
+
+- **Open at both ends**: $\lambda_n = \frac{2L}{n}$, $f_n = \frac{n v}{2L}$, $n=1, 2, 3, \ldots$
+- **Closed at one end**: $\lambda_n = \frac{4L}{n}$, $f_n = \frac{n v}{4L}$, $n=1, 3, 5, \ldots$ (only odd harmonics)
+
+Superposition: The difference in path length traveled by two waves determines the type of interference:
+- **Constructive interference**: $\Delta L = m \lambda$ where $m$ is an integer.
+- **Destructive interference**: $\Delta L = (m + \frac{1}{2}) \lambda$ where $m$ is an integer.
