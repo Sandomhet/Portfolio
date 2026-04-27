@@ -124,12 +124,13 @@ The period is: $T = 2\pi \sqrt{\frac{I}{mgd}}$
 - **Wavelength** ($\lambda$): the distance between two consecutive crests or troughs.
 - **Frequency** ($f$): the number of oscillations per unit time.
 - **Period** ($T$): the time it takes for one complete oscillation, $T = \frac{1}{f}$.
-- **Wave number** ($k$): the spatial frequency, $k = \frac{2\pi}{\lambda}$.
 - **Angular frequency** ($\omega$): the temporal frequency of the wave, $\omega = 2\pi f = \frac{2\pi}{T}$.
 - **Wave speed** ($v$): the speed at which the wave propagates through the medium, $v = \lambda f = \frac{\lambda}{T} = \frac{\omega}{k}$.
+- **Wave number** ($k$): the spatial frequency, $k = \frac{2\pi}{\lambda} = \frac{\omega}{v}$.
 
 Snapshot
 $$ y(x) = A \sin(kx + \phi) $$
+
 Traveling wave
 $$y(x, t) = A \sin(kx - \omega t + \phi)$$
 

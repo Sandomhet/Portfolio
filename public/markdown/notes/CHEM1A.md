@@ -1,12 +1,10 @@
 ---
 title: "CHEM 1A: General Chemistry"
-description: ""
+description: "Introduction to general chemistry, covering fundamental laws, atomic structure, chemical bonding, naming conventions, stoichiometry, and solutions."
 time: "Mon Apr 1, 2026"
 ---
 
 # Chemistry 1A: General Chemistry
-
-## Table of Contents
 
 ## Modern Fundamental Laws
 
@@ -270,3 +268,125 @@ M = \frac{mol}{L} = \frac{\text{moles of solute}}{\text{liters of solution}}
 $$
 
 Square-bracket notation like **[NaCl]** means the molar concentration of that solute.
+
+### Dilution
+
+**Dilution**: lowering the concentration of a solution by adding solvent.  
+During dilution, the amount of solute stays constant while the total solution volume increases.
+
+$$
+M_1V_1 = M_2V_2
+$$
+
+where $M_1$ = initial concentration, $V_1$ = initial volume used, $M_2$ = final concentration, $V_2$ = final volume
+
+### Precipitation
+
+**Precipitation**: the formation of a solid compound from ions in aqueous solution.  
+A **precipitate** forms when two soluble ionic compounds react to produce an insoluble ionic compound.
+
+Example:
+$$
+\mathrm{Pb(NO_3)_2(aq) + 2KOH(aq) \rightarrow Pb(OH)_2(s) + 2KNO_3(aq)}
+$$
+
+#### Solubility Rules
+
+| Anion | Soluble | Slightly Soluble | Insoluble |
+| --- | --- | --- | --- |
+| $\mathrm{NO_3^-}$ nitrate | All | --- | --- |
+| $\mathrm{CH_3COO^-}$ acetate | Most | --- | $\mathrm{Be(CH_3COO)_2}$ |
+| $\mathrm{F^-}$ fluoride | Group 1, $\mathrm{AgF}$, $\mathrm{BeF_2}$ | $\mathrm{SrF_2}$, $\mathrm{BaF_2}$, $\mathrm{PbF_2}$ | $\mathrm{MgF_2}$, $\mathrm{CaF_2}$ |
+| $\mathrm{Cl^-}$ chloride | Most | $\mathrm{PbCl_2}$ | $\mathrm{AgCl}$, $\mathrm{Hg_2Cl_2}$ |
+| $\mathrm{Br^-}$ bromide | Most | $\mathrm{PbBr_2}$, $\mathrm{HgBr_2}$ | $\mathrm{AgBr}$, $\mathrm{Hg_2Br_2}$ |
+| $\mathrm{SO_4^{2-}}$ sulfate | Most | $\mathrm{CaSO_4}$, $\mathrm{Ag_2SO_4}$ | $\mathrm{BaSO_4}$, $\mathrm{SrSO_4}$, $\mathrm{PbSO_4}$, $\mathrm{Hg_2SO_4}$ |
+| $\mathrm{S^{2-}}$ sulfide | Group 1 and 2, $\mathrm{(NH_4)_2S}$ | --- | Most |
+| $\mathrm{CO_3^{2-}}$ carbonate | Group 1, $\mathrm{(NH_4)_2CO_3}$ | --- | Most |
+| $\mathrm{SO_3^{2-}}$ sulfite | Group 1, $\mathrm{(NH_4)_2SO_3}$ | --- | Most |
+| $\mathrm{PO_4^{3-}}$ phosphate | Group 1, $\mathrm{(NH_4)_3PO_4}$ | --- | Most |
+| $\mathrm{OH^-}$ hydroxide | Group 1, $\mathrm{Ba(OH)_2}$, $\mathrm{NH_4OH}$ | $\mathrm{Sr(OH)_2}$, $\mathrm{Ca(OH)_2}$ | Most |
+
+Solubility categories:
+
+- **Soluble**: dissolves more than about **10 g/L**.
+- **Slightly soluble**: dissolves about **0.1 to 10 g/L**.
+- **Insoluble**: dissolves less than about **0.1 g/L**.
+
+#### Net Ionic Equations
+
+1. Write the **molecular equation**.
+2. Write the **complete ionic equation** by dissociating all soluble strong electrolytes.
+3. Cancel **spectator ions**, which appear unchanged on both sides.
+4. The remaining reaction is the **net ionic equation**.
+
+Example:
+
+$$
+\mathrm{Pb(NO_3)_2(aq) + 2KOH(aq) \rightarrow Pb(OH)_2(s) + 2KNO_3(aq)}
+$$
+
+Complete ionic equation:
+
+$$
+\mathrm{Pb^{2+}(aq) + 2NO_3^-(aq) + 2K^+(aq) + 2OH^-(aq) \rightarrow Pb(OH)_2(s) + 2K^+(aq) + 2NO_3^-(aq)}
+$$
+
+Net ionic equation:
+
+$$
+\mathrm{Pb^{2+}(aq) + 2OH^-(aq) \rightarrow Pb(OH)_2(s)}
+$$
+
+#### Selective Precipitation
+
+- **Selective precipitation** uses solubility rules to separate different ions from a mixture.
+- A reagent is added that precipitates one ion while leaving others dissolved.
+- The solid can be filtered out before adding another reagent.
+
+Example: Separate $\mathrm{Ag^+}$, $\mathrm{Ba^{2+}}$, and $\mathrm{Fe^{3+}}$ from nitrate salts.
+
+1. Add $\mathrm{NaCl}$ to precipitate $\mathrm{AgCl(s)}$.
+2. Add $\mathrm{Na_2SO_4}$ to precipitate $\mathrm{BaSO_4(s)}$.
+3. Add $\mathrm{Na_3PO_4}$ to precipitate $\mathrm{FePO_4(s)}$.
+
+## Acid-Base Reactions
+
+- **Acid**: a molecule that donates $\mathrm{H^+}$.
+- **Base**: a molecule that accepts $\mathrm{H^+}$.
+- Acid-base reactions often form water.
+
+$$
+\mathrm{H^+ + OH^- \rightarrow H_2O}
+$$
+
+A **neutralization reaction** occurs when an acid and base react to form water and an ionic compound.
+
+### Titrations
+
+- **Titration**: analysis of a solution where one solution is used to determine the amount or concentration of another.
+- **Titrant**: the solution with known concentration used to analyze the unknown solution.
+- **Equivalence point**: the point where enough titrant has been added to react exactly with the unknown substance.
+
+## Redox Reactions
+
+**Reduction-oxidation reactions**, or **redox reactions**, involve electron transfer between species.
+
+- **Oxidation**: losing electrons; oxidation state becomes more positive or less negative.
+- **Reduction**: gaining electrons; oxidation state becomes less positive or more negative.
+
+Memory device:
+
+- **LEO**: Lose Electrons = Oxidation
+- **GER**: Gain Electrons = Reduction
+
+### Oxidation States
+
+Oxidation states describe the effective charge assigned to each element in a compound, ion, or reaction.
+
+Rules:
+
+- An element in its elemental form has oxidation state **0**. Examples: $\mathrm{Na(s)}$, $\mathrm{H_2(g)}$, $\mathrm{O_2(g)}$.
+- Hydrogen is usually **+1**, except in $\mathrm{H_2(g)}$ and metal hydrides.
+- Oxygen is usually **-2**, except in $\mathrm{O_2(g)}$ and peroxides such as $\mathrm{H_2O_2}$.
+- In binary compounds with multiple nonmetals, the more electronegative element gets the negative oxidation state.
+- The sum of all oxidation states equals the overall charge of the compound or ion.
