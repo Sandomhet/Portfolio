@@ -210,3 +210,33 @@ In air, $v \approx 340 \, \text{m/s}$, in water $v \approx 1500 \, \text{m/s}$, 
 Superposition: The difference in path length traveled by two waves determines the type of interference:
 - **Constructive interference**: $\Delta L = m \lambda$ where $m$ is an integer.
 - **Destructive interference**: $\Delta L = (m + \frac{1}{2}) \lambda$ where $m$ is an integer.
+
+## Electricity and Magnetism
+
+- **Conductors**: materials that allow electrons to flow freely (e.g., metals).
+- **Insulators**: materials that do not allow electrons to flow freely (e.g., rubber, glass).
+- **Semiconductors**: materials that have electrical conductivity between that of conductors and insulators (e.g., silicon).
+
+### Electrostatics
+
+**Coulomb's Law**: The electrostatic force between two point charges:
+$$
+\vec{F_e} = k \frac{q_1 q_2}{r^2} \hat{r}
+$$
+where $k$ is the **electrostatic constant**.  The force is **attractive** if the charges have opposite signs and **repulsive** if they have the same sign.
+
+$$
+k = \frac{1}{4\pi\epsilon_0} \approx 8.99 \times 10^9 \, \text{N} \cdot \text{m}^2/\text{C}^2 \\
+\epsilon_0 \approx 8.854 \times 10^{-12} \, \text{C}^2/\text{N} \cdot \text{m}^2
+$$
+
+### Electric Field
+
+The electric field $\vec{E}$ at a point in space is defined as the force $\vec{F}$ experienced by a positive test charge $q$ placed at that point, divided by the magnitude of the test charge:
+$$
+\vec{E} = \frac{\vec{F}}{q}
+$$
+The electric field due to a point charge $q$ at a distance $r$ is given by:
+$$
+\vec{E} = k \frac{q}{r^2} \hat{r}
+$$

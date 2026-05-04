@@ -1,4 +1,14 @@
 {
+  "fft": {
+    "type": "blogs",
+    "category": "Polynomial",
+    "name": "fft",
+    "path": "/markdown/blogs/Polynomial/fft.md",
+    "title": "Fast Fourier Transform (FFT)",
+    "description": "FFT is an efficient algorithm for computing the Discrete Fourier Transform (DFT) and its inverse, which has applications in polynomial multiplication, signal processing, and more.",
+    "time": "Mon May 4, 2026",
+    "lang": "zh"
+  },
   "knapsack": {
     "type": "blogs",
     "category": "Dynamic-Programming",
@@ -25,7 +35,7 @@
     "name": "CHEM1A",
     "path": "/markdown/notes/CHEM1A.md",
     "title": "CHEM 1A: General Chemistry",
-    "description": "",
+    "description": "Introduction to general chemistry, covering fundamental laws, atomic structure, chemical bonding, naming conventions, stoichiometry, and solutions.",
     "time": "Mon Apr 1, 2026",
     "lang": "zh"
   },
@@ -629,12 +639,12 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  "fft": {
+  "complex": {
     "type": "blogs",
     "category": "Polynomial",
-    "name": "fft",
-    "path": "/markdown/blogs/Polynomial/fft.md",
-    "title": "Fast Fourier Transform (FFT)",
+    "name": "complex",
+    "path": "/markdown/blogs/Polynomial/complex.md",
+    "title": "Complex Numbers",
     "description": "",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
@@ -765,6 +775,16 @@
     "name": "all-template",
     "path": "/markdown/projects/all-template.md",
     "title": "all-template",
+    "description": "",
+    "time": "Mon Jan 1, 2024",
+    "lang": "zh"
+  },
+  "test": {
+    "type": "projects",
+    "category": "",
+    "name": "test",
+    "path": "/markdown/projects/test.md",
+    "title": "test",
     "description": "",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
