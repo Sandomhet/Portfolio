@@ -1,231 +1,355 @@
-# CS-165B HW1 Solutions
+## 1. ML Foundations
+
+### Tasks, Experience, Measurement
+* **Tasks:** classification, regression, clustering, anomaly detection, density estimation, imputation, synthesis.
+* **Experience:** supervised ($x, y$) vs unsupervised ($x$ only).
+  * Unsup → Sup: $p(y|x) = \dfrac{p(x,y)}{\sum_{y'} p(x,y')}$
+  * Sup → Unsup: $p(x) = \prod_i p(x_i \mid x_1,\dots,x_{i-1})$
+* **Measurement:** accuracy, precision, recall, F1, calibration error, ROC, AUC.
+
+### Risks
+$$R_{\text{emp}}(f) = \frac{1}{n}\sum_i L(f(x_i), y_i) \quad \text{(training-set average)}$$
+$$R(f) = \mathbb{E}_{x \sim p}[L(f(x), y)] \quad \text{(true expected loss, unknown)}$$
+$$R_{\text{struct}}(f) = R_{\text{emp}}(f) + \lambda \cdot \text{regularizer}$$
+
+**Generalization gap** = $R(f) - R_{\text{emp}}(f)$. Closes with more data, opens with more capacity.
+
+### Capacity & Errors
+* **Capacity:** model's ability to fit functions. Increase via non-parametric models; decrease via regularization.
+* **Model error:** can the hypothesis class represent the truth?
+* **Data error:** sampling noise.
+* **Optimization error:** can we actually find the optimum?
+
+### Bias-Variance
+| | Bias | Variance | Train | Test |
+|---|---|---|---|---|
+| Underfit | high | low | high | high |
+| Overfit | low | high | low | high |
+
+* **k-NN:** $k=1$ → low bias, high variance. $k=N$ → high bias, low variance.
+* **Double descent:** test error can fall again past interpolation threshold (deep models).
 
 ---
 
-## Problem 1: Probability and Information Theory
+## 2. Probability
 
-### I. Probability
+### Basic Rules
+* $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+* $P(A,B) = P(A|B)P(B)$
+* Marginal: $P(A) = \sum_b P(A|B{=}b)P(B{=}b)$
+* Chain: $p(x_{1:D}) = p(x_1)p(x_2|x_1)\cdots p(x_D|x_{<D})$
+* Independence: $X \perp Y \iff p(x,y)=p(x)p(y)$
+* Conditional independence: $X \perp Y \mid Z \iff p(x,y|z) = p(x|z)p(y|z)$
+* **Bayes:** $p(\theta|D) = \dfrac{p(D|\theta)p(\theta)}{p(D)}$
 
-**(a)** X ~ Bernoulli(0.6), Y = 3X + 5
+### Expectation & Variance
+* $\mathbb{E}[\sum_i x_i] = \sum_i \mathbb{E}[x_i]$
+* Tower rule: $\mathbb{E}[X] = \mathbb{E}_Y[\mathbb{E}[X|Y]]$
+* $\text{Var}[X] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$
+* $\text{Var}[aX+b] = a^2 \text{Var}[X]$
+* Law of total variance: $\text{Var}[X] = \mathbb{E}_Y[\text{Var}[X|Y]] + \text{Var}_Y[\mathbb{E}[X|Y]]$
 
-E[X] = 0.6, Var[X] = 0.6 × 0.4 = 0.24
+### Common Distributions
+| Distribution | Use | Key fact |
+|---|---|---|
+| Bernoulli($\theta$) | Binary classification | $p(y) = \theta^y(1-\theta)^{1-y}$, sigmoid |
+| Categorical | Multi-class | softmax: $p_c = e^{a_c}/\sum_{c'} e^{a_{c'}}$ |
+| Binomial | Repeated Bernoulli | $\binom{n}{k}\theta^k(1-\theta)^{n-k}$ |
+| Gaussian | Noise, residuals | $\mathcal{N}(\mu, \sigma^2)$ |
+| Beta($\alpha, \beta$) | Prior for Bernoulli | conjugate |
+| Dirichlet | Prior for Categorical | conjugate |
+| Laplace | Sparse noise | sharp peak, heavy tails |
 
-$$E[Y] = 3E[X] + 5 = 3(0.6) + 5 = \mathbf{6.8}$$
-$$\text{Var}[Y] = 9 \cdot \text{Var}[X] = 9(0.24) = \mathbf{2.16}$$
-
-**(b)** X ~ N(0,1), Y = 2X + 3
-
-$$E[Y] = 2(0) + 3 = \mathbf{3}$$
-$$\text{Var}[Y] = 4 \cdot \text{Var}[X] = 4(1) = \mathbf{4}$$
-
----
-
-### II. Bayes' Rule
-
-**(a)** P(spam) = 0.2, P(offer|spam) = 0.4, P(offer|non-spam) = 0.05
-
-$$P(\text{offer}) = 0.4(0.2) + 0.05(0.8) = 0.12$$
-$$P(\text{spam}|\text{offer}) = \frac{0.4 \times 0.2}{0.12} = \frac{0.08}{0.12} = \mathbf{\frac{2}{3} \approx 0.667}$$
-
-**(b)** P(R|A) = 2/5, P(R|B) = 4/5, P(A) = P(B) = 0.5
-
-$$P(R) = 0.5 \cdot \frac{2}{5} + 0.5 \cdot \frac{4}{5} = 0.6$$
-$$P(B|R) = \frac{(4/5)(0.5)}{0.6} = \frac{0.4}{0.6} = \mathbf{\frac{2}{3} \approx 0.667}$$
-
----
-
-### III. Information Theory
-
-**(a)** Definitions (all logs are base 2 or natural log, consistently):
-
-$$H(P) = -\sum_x P(x)\log P(x)$$
-$$H(P,Q) = -\sum_x P(x)\log Q(x)$$
-$$D_{KL}(P \| Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}$$
-
-**(b)** Relationship:
-
-$$H(P,Q) = H(P) + D_{KL}(P \| Q)$$
-
-Derivation:
-$$H(P,Q) = -\sum_x P(x)\log Q(x) = -\sum_x P(x)\log P(x) + \sum_x P(x)\log\frac{P(x)}{Q(x)} = H(P) + D_{KL}(P\|Q)$$
+### Monty Hall (Bayes example)
+Pick door 1, Monty opens door 3. $P(C_i) = 1/3$.
+$P(M_3|C_1)=1/2,\ P(M_3|C_2)=1,\ P(M_3|C_3)=0$.
+$P(M_3) = 1/2$.
+$P(C_2|M_3) = \dfrac{1 \cdot 1/3}{1/2} = 2/3$. **Switch.**
 
 ---
 
-## Problem 2: Linear Algebra
+## 3. Information Theory
 
-### I. Matrix Norms
+### Entropy
+$$H(X) = -\sum_x p(x)\log p(x)$$
+Average surprise. Fair coin: $H = 1$ bit. Pure: $H = 0$.
 
-**(a)** Frobenius norm of A = [[1,2],[3,4]]:
+### KL Divergence
+$$\text{KL}(p \Vert q) = \mathbb{E}_{x \sim p}\!\left[\log \frac{p(x)}{q(x)}\right] \geq 0$$
+Asymmetric. Zero iff $p = q$.
 
-$$\|A\|_F = \sqrt{1^2+2^2+3^2+4^2} = \sqrt{30} \approx 5.477$$
+### Cross Entropy
+$$H(p, q) = -\mathbb{E}_{x \sim p}[\log q(x)] = H(p) + \text{KL}(p \Vert q)$$
+Minimizing $H(p,q)$ over $q$ is the same as minimizing $\text{KL}(p \Vert q)$.
 
-**(b)** 1-norm of B = [[-1,2],[3,-4]] (max absolute column sum):
+### Mutual Information
+$$I(X, Y) = H(X) + H(Y) - H(X, Y)$$
+Captures non-linear dependence.
 
-Col 1: |-1|+|3| = 4, Col 2: |2|+|-4| = 6 → **||B||₁ = 6**
+### Jensen's Inequality
+For convex $f$: $f(\mathbb{E}[X]) \leq \mathbb{E}[f(X)]$.
 
-**(c)** ∞-norm of C = [[5,-2,3],[1,0,-1]] (max absolute row sum):
-
-Row 1: 5+2+3 = 10, Row 2: 1+0+1 = 2 → **||C||∞ = 10**
-
----
-
-### II. Matrix Multiplication
-
-**(a)**
-
-$$AB = \begin{bmatrix}1&2\\3&4\end{bmatrix}\begin{bmatrix}2&0\\1&3\end{bmatrix} = \begin{bmatrix}4&6\\10&12\end{bmatrix}$$
-
-**(b)** No, matrix multiplication is not commutative. Using the same A and B:
-
-$$BA = \begin{bmatrix}2&0\\1&3\end{bmatrix}\begin{bmatrix}1&2\\3&4\end{bmatrix} = \begin{bmatrix}2&4\\10&14\end{bmatrix} \neq AB$$
-
-**(c)**
-
-$$Ax = \begin{bmatrix}2&1\\0&3\end{bmatrix}\begin{bmatrix}4\\-1\end{bmatrix} = \begin{bmatrix}7\\-3\end{bmatrix}$$
+### The Master Identity
+$$\text{MLE} \iff \min \text{NLL} \iff \min \text{Cross Entropy} \iff \min \text{KL}(p_{\text{data}} \Vert p_{\text{model}})$$
 
 ---
 
-### III. Gradients
+## 4. Estimators
 
-**(a)** f(x,y) = 3x² + 2xy + y²
+### MLE
+$$\hat{\theta}_{\text{MLE}} = \arg\max_\theta \log p(D|\theta)$$
+Bernoulli: $\hat{\theta} = k/n$. Linear-Gaussian: $\hat{\mathbf{w}} = (X^TX)^{-1}X^T\mathbf{y}$.
 
-$$\frac{\partial f}{\partial x} = 6x + 2y, \qquad \frac{\partial f}{\partial y} = 2x + 2y$$
+### MAP
+$$\hat{\theta}_{\text{MAP}} = \arg\max_\theta p(D|\theta)p(\theta) = \arg\max_\theta \big[\log p(D|\theta) + \log p(\theta)\big]$$
 
-**(b)** f(x) = ||Ax - b||²₂ = (Ax-b)ᵀ(Ax-b)
+**Beta-Bernoulli:** prior $\text{Beta}(\alpha,\beta)$, $k$ heads in $n$ flips → posterior $\text{Beta}(\alpha+k, \beta+n-k)$.
+$$\hat{\theta}_{\text{MAP}} = \frac{\alpha + k - 1}{\alpha + \beta + n - 2}$$
 
-Expand: xᵀAᵀAx - 2bᵀAx + bᵀb
+**MAP = MLE + regularization:**
+* Gaussian prior on $\theta$ → L2 penalty (ridge).
+* Laplace prior on $\theta$ → L1 penalty (lasso).
 
-$$\nabla_x f = 2A^\top Ax - 2A^\top b = 2A^\top(Ax - b)$$
+### Full Bayesian
+$$p(y|x, D) = \int p(y|x,\theta) p(\theta|D) d\theta$$
+Predict by averaging over posterior. Usually intractable.
 
-**(c)** At x = [1,1]ᵀ:
-
-$$Wx = \begin{bmatrix}1&-1\\0&2\end{bmatrix}\begin{bmatrix}1\\1\end{bmatrix} = \begin{bmatrix}0\\2\end{bmatrix}$$
-
-σ'(Wx) = [0, 1] (ReLU derivative; first element is 0 since z=0 by convention)
-
-Using the chain rule ∂f/∂x = Wᵀ(v ⊙ σ'(Wx)):
-
-$$v \odot \sigma'(Wx) = \begin{bmatrix}3\\-2\end{bmatrix} \odot \begin{bmatrix}0\\1\end{bmatrix} = \begin{bmatrix}0\\-2\end{bmatrix}$$
-
-$$\frac{\partial f}{\partial x} = W^\top \begin{bmatrix}0\\-2\end{bmatrix} = \begin{bmatrix}1&0\\-1&2\end{bmatrix}\begin{bmatrix}0\\-2\end{bmatrix} = \mathbf{\begin{bmatrix}0\\-4\end{bmatrix}}$$
-
----
-
-## Problem 3: Optimization
-
-### I. Gradient Descent
-
-**(a)** No — since grad² ≥ 0 always, the update w = w − η·grad² always decreases w regardless of the gradient's sign, so it doesn't follow the true gradient direction and can increase the loss.
-
-**(b)** Described below (you need to draw these on the loss curve diagram from the homework):
-
-- **Too small η**: The trajectory takes tiny steps, moving very slowly toward the minimum, essentially crawling along the curve.
-- **Suitable η**: The trajectory descends smoothly and converges to the minimum in a reasonable number of steps.
-- **Too large η**: The trajectory overshoots the minimum repeatedly, oscillating back and forth and potentially diverging.
+### Empirical Bayes
+$$\hat{\phi} = \arg\max_\phi \int p(D|\theta) p(\theta|\phi) d\theta$$
+Use data to set hyperparameters of the prior.
 
 ---
 
-### II. Overfitting/Underfitting
+## 5. Linear Algebra
 
-**(a)** Model A is overfitting because its 35-point gap between training and validation accuracy indicates it memorized the training data rather than learning generalizable patterns; Model B is better for generalization.
+### Norms & Trace
+* Vector: $\|x\|_p = (\sum_i |x_i|^p)^{1/p}$
+* Frobenius: $\|A\|_F = \sqrt{\sum_{ij} A_{ij}^2} = \sqrt{\text{Tr}(AA^T)}$
+* Trace: $\text{Tr}(A) = \sum_i A_{ii}$. Cyclic: $\text{Tr}(ABC) = \text{Tr}(CAB)$.
 
-**(b)** The phenomenon is **overfitting**. Two ways to avoid it:
-1. L2 (or L1) regularization
-2. Early stopping (stop training when validation loss starts rising)
+### Linear Systems
+$Ax = b$: unique solution iff $A$ square + invertible. Then $x = A^{-1}b$.
 
----
-
-## Problem 4: Classification
-
-### I. Ranking Classifier
-
-Ranking: x2(+), x3(+), x1(+), x5(+), **x13(-)**, x6(+), x8(+), x7(+), x9(+), x10(+), x12(+), x11(+), **x15(-)**, x4(+), **x14(-)**, x21(-), x17(-), x20(-), x18(-), x22(-), x16(-), x19(-), x25(-), x23(-), x24(-)
-
-**(a)** A ranking error = a negative ranked above a positive.
-
-- x13(-) at position 5: positives ranked below = x6, x8, x7, x9, x10, x12, x11, x4 → **8 errors**
-- x15(-) at position 13: positives ranked below = x4 → **1 error**
-- x14(-) at position 15: no positives ranked below → **0 errors**
-
-**Total ranking errors = 9**
-
-**(b)** Total (positive, negative) pairs = 12 × 13 = 156
-
-$$\text{Error rate} = \frac{9}{156} = \frac{3}{52} \approx 0.0577$$
-
-**(c)** Coverage curve plots (# negatives covered, # positives covered) as you scan the ranked list:
-
-| Step | Neg covered | Pos covered |
-|------|------------|------------|
-| Start | 0 | 0 |
-| x2,x3,x1,x5 (+) | 0 | 4 |
-| x13 (−) | 1 | 4 |
-| x6,x8,x7,x9,x10,x12,x11 (+) | 1 | 11 |
-| x15 (−) | 2 | 11 |
-| x4 (+) | 2 | 12 |
-| x14,x21,...,x24 (−) | 13 | 12 |
-
-The curve rises steeply upward (positives) at the start, has a short rightward step at x13, then continues up, then becomes a flat horizontal line to (13,12) at the end.
+### Decompositions
+* **Eigendecomposition:** $Av = \lambda v$.
+* **SVD:** $A = U\Sigma V^T$. Use top singular values for dimension reduction.
 
 ---
 
-### II. Linear Classifier
+## 6. Optimization
 
-Discriminant: 3x₁ + 2x₂ + 4x₃ = 18, norm = √(9+4+16) = **√29**
+### Gradient Descent
+$$\theta_{t+1} = \theta_t - \eta \nabla L(\theta_t)$$
+* Too small $\eta$: slow. Too large: divergence.
+* **SGD:** one sample. **Mini-batch:** batch of size $m$. **Batch:** full data.
 
-**(a)** Loss functions (where m = margin):
+### Momentum
+$$m_t = \beta m_{t-1} + (1-\beta) g_t, \quad \theta_t = \theta_{t-1} - \eta m_t$$
+Accelerates along consistent gradient directions.
 
-- **0-1 loss**: L = 1 if m ≤ 0, else 0
-- **Hinge loss**: L = max(0, 1 − m)
-- **Squared loss (clamped)**: L = (1 − m)² if m ≤ 1, else 0
+### Newton's Method
+$$\theta_{t+1} = \theta_t - H^{-1}\nabla L$$
+Quadratic convergence; $O(d^3)$ per step. BFGS approximates Hessian.
 
-**(b)**
+### Adam, RMSprop, AdaGrad
+Adaptive per-parameter learning rates. Standard in deep learning.
 
-**Point (2,2,3), y = +1:**
-Score = 6+4+12 = 22
+### Convexity
+* Convex set: $\lambda x + (1-\lambda)y \in S$ for $x,y \in S$, $\lambda \in [0,1]$.
+* Convex function: $f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda)f(y)$.
+* Equivalent: $f''(x) \geq 0$ everywhere.
+* Convex problems have unique global minimum.
 
-$$m = \frac{(22-18)}{\sqrt{29}} \cdot (+1) = \frac{4}{\sqrt{29}} \approx 0.742$$
+### Optimality Conditions
+* Necessary: $\nabla f = 0$.
+* Sufficient (min): $\nabla f = 0$ AND Hessian PSD.
+* Saddle: $\nabla f = 0$ but Hessian indefinite.
 
-| Metric | Value |
-|--------|-------|
-| Margin | 4/√29 ≈ 0.742 |
-| 0-1 loss | 0 |
-| Hinge loss | 1 − 4/√29 ≈ 0.258 |
-| Squared loss | (1 − 4/√29)² ≈ 0.067 |
-
-**Point (3,3,1), y = −1:**
-Score = 9+6+4 = 19
-
-$$m = \frac{(19-18)}{\sqrt{29}} \cdot (-1) = \frac{-1}{\sqrt{29}} \approx -0.186$$
-
-| Metric | Value |
-|--------|-------|
-| Margin | −1/√29 ≈ −0.186 |
-| 0-1 loss | 1 |
-| Hinge loss | 1 + 1/√29 ≈ 1.186 |
-| Squared loss | (1 + 1/√29)² ≈ 1.407 |
+### Numerical Stability
+* **Softmax:** subtract max before exp: $\text{softmax}(z_i) = \dfrac{e^{z_i - \max}}{\sum_k e^{z_k - \max}}$
+* **Logsumexp:** $\log\sum_i e^{x_i} = \max_i x_i + \log\sum_i e^{x_i - \max_j x_j}$
 
 ---
 
-### III. Classification Basic
+## 7. Linear Regression
 
-From the test set: TP = 1750, FN = 250, FP = 250, TN = 7750
+### Model
+$$\hat{y} = \mathbf{w}^T\mathbf{x} \quad \text{(absorb bias by appending 1 to } \mathbf{x}\text{)}$$
 
-**(a)**
-$$\text{Accuracy} = \frac{1750+7750}{10000} = \mathbf{95\%}, \quad \text{Error rate} = \mathbf{5\%}$$
+### MSE Loss
+$$L(\mathbf{w}) = \frac{1}{n}\sum_i (y_i - \mathbf{w}^T\mathbf{x}_i)^2$$
 
-**(b)**
-$$\text{FPR} = \frac{250}{8000} = \mathbf{3.125\%}, \quad \text{FNR} = \frac{250}{2000} = \mathbf{12.5\%}$$
+### Closed Form (Normal Equations)
+$$\hat{\mathbf{w}} = (X^TX)^{-1}X^T\mathbf{y}$$
+Cost $O(d^3)$ for the inverse. Use GD when $d$ is large.
 
-**(c)**
-$$\text{TPR} = \frac{1750}{2000} = \mathbf{87.5\%}, \quad \text{TNR} = \frac{7750}{8000} = \mathbf{96.875\%}$$
+### Ridge Regression (L2)
+$$L(\mathbf{w}) = \|\mathbf{y} - X\mathbf{w}\|^2 + \lambda\|\mathbf{w}\|_2^2$$
+$$\hat{\mathbf{w}}_{\text{ridge}} = (X^TX + \lambda I)^{-1} X^T\mathbf{y}$$
+Also fixes singular $X^TX$.
 
-**(d)** Precision = 1750/2000 = 0.875, Recall = 0.875
+### Derivation: MSE from MLE (Gaussian noise)
+Assume $y = \mathbf{w}^T\mathbf{x} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$.
 
-$$F_1 = \frac{2 \times 0.875 \times 0.875}{0.875+0.875} = \mathbf{0.875}$$
+So $p(y_i|\mathbf{x}_i, \mathbf{w}) = \mathcal{N}(y_i; \mathbf{w}^T\mathbf{x}_i, \sigma^2)$.
+
+$$\log p(D|\mathbf{w}) = \sum_i \left[\log\frac{1}{\sqrt{2\pi}\sigma} - \frac{(y_i - \mathbf{w}^T\mathbf{x}_i)^2}{2\sigma^2}\right]$$
+
+Drop $\mathbf{w}$-independent constants and the $\frac{1}{2\sigma^2}$ scalar:
+
+$$\arg\max_{\mathbf{w}} \log p(D|\mathbf{w}) = \arg\min_{\mathbf{w}} \sum_i (y_i - \mathbf{w}^T\mathbf{x}_i)^2$$
+
+**Conclusion:** Gaussian noise + MLE → least squares.
 
 ---
 
-## Problem 5: Decision Tree Coding
+## 8. Classification
 
-This requires running the notebook. The key things to implement are typically: the Gini impurity or entropy splitting criterion, recursive tree building, and prediction. If you share the notebook code with the missing sections, I can fill them in for you.
+### Perceptron
+$$f(\mathbf{x}) = \text{sign}(\mathbf{w}^T\mathbf{x} - t)$$
+No probability output. Linear decision boundary.
+
+### Logistic Regression
+$$p(y=1|\mathbf{x}, \mathbf{w}) = \sigma(\mathbf{w}^T\mathbf{x}) = \frac{1}{1+e^{-\mathbf{w}^T\mathbf{x}}}$$
+Inverse: $\log\dfrac{p}{1-p} = \mathbf{w}^T\mathbf{x}$ (logit linear in $\mathbf{x}$).
+
+**Binary cross-entropy loss** (NLL of Bernoulli):
+$$L(\mathbf{w}) = -\frac{1}{n}\sum_i \big[y_i \log \hat{p}_i + (1-y_i)\log(1-\hat{p}_i)\big]$$
+
+**Gradient** (clean form):
+$$\nabla_{\mathbf{w}} L = \frac{1}{n} X^T(\hat{\mathbf{p}} - \mathbf{y})$$
+
+**Decision boundary:** $\sigma(\mathbf{w}^T\mathbf{x}) = 0.5 \iff \mathbf{w}^T\mathbf{x} = 0$. Linear, despite non-linear sigmoid.
+
+No closed form. Train via GD.
+
+### Derivation: BCE from MLE (Bernoulli)
+$y_i \sim \text{Bernoulli}(\hat{p}_i)$, $\hat{p}_i = \sigma(\mathbf{w}^T\mathbf{x}_i)$.
+
+$$p(y_i|\mathbf{x}_i, \mathbf{w}) = \hat{p}_i^{y_i}(1-\hat{p}_i)^{1-y_i}$$
+
+$$\log p(D|\mathbf{w}) = \sum_i \big[y_i \log \hat{p}_i + (1-y_i)\log(1-\hat{p}_i)\big]$$
+
+Negate + average:
+$$-\frac{1}{n}\log p(D|\mathbf{w}) = \text{BCE loss}$$
+
+### Softmax Regression (Multi-class)
+$$p(y=c|\mathbf{x}) = \frac{e^{\mathbf{w}_c^T\mathbf{x}}}{\sum_{c'} e^{\mathbf{w}_{c'}^T\mathbf{x}}}$$
+Loss: categorical cross-entropy.
+
+### Margin & SVM
+Margin of point $\mathbf{x}$:
+$$\text{margin}(\mathbf{x}) = \frac{y(\mathbf{w}^T\mathbf{x} - t)}{\|\mathbf{w}\|}$$
+Positive iff correctly classified.
+
+**SVM:** maximize minimum margin. Equivalent to:
+$$\min_{\mathbf{w}} \frac{1}{2}\|\mathbf{w}\|^2 \text{ s.t. } y_i(\mathbf{w}^T\mathbf{x}_i - t) \geq 1$$
+**Support vectors:** points exactly on the margin edge. Solution is sparse.
+
+### Classifier Types
+* **Scoring:** outputs real-valued score; threshold to decide.
+* **Class probability estimator:** scores calibrated as probabilities (logistic).
+* **Ranking:** sort by score; threshold-free metric is AUC.
+
+---
+
+## 9. Loss Functions
+
+### Regression
+| Loss | Formula | Outliers | Gradient near 0 |
+|---|---|---|---|
+| MSE | $(y - \hat{y})^2$ | Sensitive | Shrinks |
+| MAE | $|y - \hat{y}|$ | Robust | Constant $\pm 1$ |
+| Huber | piecewise (below) | Medium | Shrinks |
+
+**Huber loss:**
+$$\ell(y, \hat{y}) = \begin{cases} \tfrac{1}{2}(y - \hat{y})^2 & |y - \hat{y}| \leq \delta \\ \delta(|y - \hat{y}| - \tfrac{1}{2}\delta) & \text{otherwise} \end{cases}$$
+Continuous and smooth at $|y - \hat{y}| = \delta$. Both pieces equal $\tfrac{1}{2}\delta^2$ at boundary.
+
+### Classification
+| Loss | Use |
+|---|---|
+| Zero-one | True objective; non-differentiable |
+| Cross-entropy (BCE/CCE) | Standard; from MLE |
+| Hinge: $\max(0, 1 - y\,f(\mathbf{x}))$ | SVM |
+
+---
+
+## 10. Classification Metrics
+
+### Confusion Matrix (binary)
+|  | Pred + | Pred − |
+|---|---|---|
+| Actual + | TP | FN |
+| Actual − | FP | TN |
+
+### Formulas
+* **Accuracy:** $(TP + TN) / N$. Fails on imbalance.
+* **Precision:** $TP / (TP + FP)$. "Of called positive, how many right?"
+* **Recall (TPR):** $TP / (TP + FN)$. "Of actual positives, how many caught?"
+* **F1:** $2 \cdot \dfrac{P \cdot R}{P + R}$. Harmonic mean.
+* **FPR:** $FP / (FP + TN)$.
+* **Specificity:** $TN / (TN + FP) = 1 - \text{FPR}$.
+* **False discovery rate:** $FP / (TP + FP) = 1 - P$.
+
+### ROC & AUC
+* ROC: TPR vs FPR as threshold varies.
+* AUC: probability a random positive scores higher than a random negative.
+* AUC = 1: perfect. 0.5: random. 0: inverted.
+
+### Multi-class
+Per-class precision/recall computed from $K \times K$ confusion matrix. Macro-average (mean of per-class) vs micro-average (pooled counts).
+
+---
+
+## 11. Decision Trees
+
+### Structure
+Internal nodes test features; leaves predict labels. Path = conjunction of literals; tree = disjunction of positive paths. Maximally expressive.
+
+### Impurity Measures
+* **Entropy:** $H(S) = -\sum_c p(c)\log_2 p(c)$
+* **Gini:** $1 - \sum_c p(c)^2$
+* **MSE** (regression trees): variance of targets in node.
+
+### Information Gain
+$$IG = H(\text{parent}) - \frac{|L|}{|P|}H(L) - \frac{|R|}{|P|}H(R)$$
+Pick split with max IG.
+
+### Building Algorithm
+1. For each (feature, threshold), compute IG.
+2. Pick split with max IG.
+3. Partition data; recurse on children.
+4. Stop on max depth, min samples, pure node, or IG below threshold.
+
+### Regression Trees
+* Prediction = mean of training targets in leaf.
+* Impurity = variance / MSE.
+
+### Overfitting Control
+Pre-pruning (max depth, min samples). Post-pruning (remove branches that hurt validation). Ensembles (random forest, boosting).
+
+### Inductive Bias
+Prefers shallow, axis-aligned partitions. Greedy local choices may miss globally optimal tree.
+
+## 13. The Master Picture
+
+### Loss ↔ Likelihood
+| Noise model | Likelihood | NLL = Loss |
+|---|---|---|
+| Gaussian | $\mathcal{N}(y; \hat{y}, \sigma^2)$ | MSE |
+| Laplace | $\propto e^{-|y - \hat{y}|/b}$ | MAE |
+| Bernoulli | $\hat{p}^y(1-\hat{p})^{1-y}$ | BCE |
+| Categorical | $\prod_c \hat{p}_c^{y_c}$ | Cross-entropy |
+
+### Estimator ↔ Regularization
+| Estimator | Adds | In regression |
+|---|---|---|
+| MLE | nothing | OLS |
+| MAP, Gaussian prior | L2 penalty | Ridge |
+| MAP, Laplace prior | L1 penalty | Lasso |
+
+### Equivalence Chain
+$$\text{Pick noise model} \to \text{Likelihood} \to \text{NLL = Loss} \to \text{MLE} \xrightarrow{+\text{ prior}} \text{MAP = regularized}$$
+
+![alt text](image.png)

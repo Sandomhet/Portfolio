@@ -45,3 +45,7 @@ Properties:
 - Conjugate: $\overline{\omega_n^k} = \omega_n^{-k}$
 - Conjugate Symmetry: $\omega_n^k = -\omega_n^{k+\frac{n}{2}}$.
 - Inverse: $\omega_n^{-k} = \omega_n^{n-k}$ and $\omega_n^k \cdot \omega_n^{-k} = 1$.
+- Sum: $\sum\limits_{k=0}^{n-1} \omega_n^k = 0$ for $n > 1$.
+    - $\sum\limits_{k=0}^{n-1} \omega_n^k = \frac{\omega_n^n - 1}{\omega_n - 1} = \frac{1 - 1}{\omega_n - 1} = 0$
+- Product: $\prod\limits_{k=0}^{n-1} \omega_n^k = (-1)^{n-1}$.
+    - $\prod\limits_{k=0}^{n-1} \omega_n^k = \omega_n^{\sum\limits_{k=0}^{n-1} k} = \omega_n^{\frac{n(n-1)}{2}} = e^{i \pi (n-1)} = (-1)^{n-1}$

@@ -223,12 +223,14 @@ Superposition: The difference in path length traveled by two waves determines th
 $$
 \vec{F_e} = k \frac{q_1 q_2}{r^2} \hat{r}
 $$
-where $k$ is the **electrostatic constant**.  The force is **attractive** if the charges have opposite signs and **repulsive** if they have the same sign.
-
+where $k$ is the **electrostatic constant**.  
 $$
 k = \frac{1}{4\pi\epsilon_0} \approx 8.99 \times 10^9 \, \text{N} \cdot \text{m}^2/\text{C}^2 \\
-\epsilon_0 \approx 8.854 \times 10^{-12} \, \text{C}^2/\text{N} \cdot \text{m}^2
+\epsilon_0 \approx 8.854 \times 10^{-12} \, \text{C}^2/\text{N} \cdot \text{m}^2 \\
+e \approx 1.602 \times 10^{-19} \, \text{C}
 $$
+- **attractive** if the charges have opposite signs
+- **repulsive** if they have the same sign.
 
 ### Electric Field
 
@@ -236,7 +238,52 @@ The electric field $\vec{E}$ at a point in space is defined as the force $\vec{F
 $$
 \vec{E} = \frac{\vec{F}}{q}
 $$
-The electric field due to a point charge $q$ at a distance $r$ is given by:
+The electric field due to a point charge $Q$ at a distance $r$ is given by:
 $$
-\vec{E} = k \frac{q}{r^2} \hat{r}
+\vec{E} = k \frac{Q}{r^2} \hat{r}
 $$
+
+#### Continuous charge distribution
+
+$$
+\vec{E} = k \int \frac{dq}{r^2} \hat{r}
+$$
+
+1. **Line** charge distribution: $dq = \lambda dx$, $\vec{E} = \frac{2k\lambda}{r} \hat{r}$ where $r$ is the distance from the line charge to the point.
+    - $\vec{E} = \int \frac{k dq}{r^2} \hat{r} = k \lambda \int \frac{dx}{r^2} \hat{r} = 2k\lambda \int_0^\infty \frac{dx}{x^2 + r^2} \hat{r} = 2k\lambda \left[ \frac{x}{r^2 \sqrt{x^2 + r^2}} \right]_0^\infty = 2k\lambda \frac{1}{r} \hat{r}$.
+2. **Ring** charge distribution: $dq = \lambda dl$, $\vec{E} = \frac{kxQ}{(x^2 + R^2)^{3/2}} \hat{x}$ where $R$ is the radius of the ring and $x$ is the distance from the center of the ring along the axis perpendicular to the plane of the ring.
+3. **Disk** charge distribution: $dq = \sigma dA = \sigma 2\pi r dr$, $\vec{E} = \frac{\sigma}{2\epsilon_0} \left(1 - \frac{x}{\sqrt{x^2 + R^2}} \right) \hat{x}$ where $R$ is the radius of the disk.
+    - $\vec{E} = \int \frac{kx dq}{(x^2 + r^2)^{3/2}} = kx \sigma 2\pi \int_0^R \frac{r}{(x^2 + r^2)^{3/2}} dr = 2\pi k \sigma \left(1 - \frac{x}{\sqrt{x^2 + R^2}} \right) \hat{x} = \frac{\sigma}{2\epsilon_0} \left(1 - \frac{x}{\sqrt{x^2 + R^2}} \right) \hat{x}$
+    - For $R \gg x$, $\vec{E} \approx \frac{\sigma}{2\epsilon_0} \hat{x}$ (infinite plane approximation).
+4. **Surface** charge distribution: $dq = \sigma dA$, $\vec{E} = \frac{\sigma}{2\epsilon_0} \hat{n}$
+    - $\vec{E} = \int \frac{k dq}{r^2} \hat{r} = k \sigma \int \frac{dA}{r^2} \hat{n} = k \sigma 4\pi \hat{n} = \frac{\sigma}{2\epsilon_0} \hat{n}$ where $\hat{n}$ is the unit normal vector to the surface.
+5. **Volume** charge distribution: $dq = \rho dV$, $\vec{E} = \frac{\rho}{3\epsilon_0} \hat{r}$
+
+#### Field Lines
+
+- The **direction** of the electric field at any point is tangent to the field line at that point.
+- The **magnitude** of the electric field is proportional to the density of the field lines: the closer the field lines are to each other, the stronger the electric field at that point.
+- Field lines begin on positive charges and end on negative charges.
+- Field lines never cross each other.
+
+### Electric Dipole
+
+An electric dipole consists of two equal and opposite charges separated by a distance $d$. The dipole moment $\vec{p}$ is defined as:
+$$\vec{p} = q \vec{d}
+$$
+The electric field due to a dipole at a point in space can be calculated using the principle of superposition by summing the contributions from both charges. The resulting electric field has a characteristic pattern that depends on the orientation of the dipole and the position of the point where the field is being calculated. The electric field of a dipole decreases with distance as $1/r^3$ and has a specific angular dependence, being strongest along the axis of the dipole and weakest in the plane perpendicular to the dipole moment.
+
+Torque
+$$\vec{\tau} = \vec{p} \times \vec{E}$$
+
+Potential energy
+$$U = -\vec{p} \cdot \vec{E}$$
+
+### Electric Potential
+
+The electric potential $V$ at a point in space is defined as the work done per unit charge by an external force in bringing a positive test charge from infinity to that point:
+$$V = \frac{W}{q}$$
+The electric potential due to a point charge $Q$ at a distance $r$ is given by:
+$$V = k \frac{Q}{r}$$
+The electric potential due to a continuous charge distribution can be calculated by integrating the contributions from all infinitesimal charge elements:
+$$V = k \int \frac{dq}{r}$$

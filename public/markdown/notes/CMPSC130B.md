@@ -15,6 +15,7 @@ time: "Mon Apr 1, 2026"
     - [Interval DP](https://www.sandomhet.com/blogs/interval)
     - [Shortest Path DP](https://www.sandomhet.com/blogs/path)
 - Fast Fourier Transform (FFT)
+    - [Complex Numbers](https://www.sandomhet.com/blogs/complex)
     - [FFT](https://www.sandomhet.com/blogs/fft)
 - NP-Completeness
 
@@ -68,7 +69,7 @@ $poly(n) = O(n^c)$ for some constant $c$.
 
 - **NP**: Class of decision (search) problems for which a given solution can be **verified** in polynomial time.
 - **P**: Class of decision problems that can be **solved** in polynomial time. $P \subseteq NP$.
-- **NP-Complete**: it is in NP and every problem in NP can be reduced to it in polynomial time. (e.g., Traveling Salesman Problem, Knapsack Problem, and Boolean Satisfiability Problem (SAT))
+- **NP-Complete**: it is in NP and every problem in NP can be reduced to it in polynomial time. (e.g., Traveling Salesman, Knapsack, and SAT)
 - **NP-Hard**: every problem in NP can be reduced to it in polynomial time, but it is not necessarily in NP itself. (e.g., Halting Problem and the Post Correspondence Problem)
 - **P vs NP**: The question of whether every problem for which a solution can be verified in polynomial time can also be solved in polynomial time. It is widely believed that P ≠ NP, but this has not been proven.
 
@@ -82,3 +83,19 @@ Classic problems:
 - **Graph Coloring**: Given a graph and a number of colors, determine if the graph can be colored with the given number of colors such that no two adjacent vertices share the same color.
 - **Hamiltonian Cycle**: Given a graph, determine if there exists a cycle that visits each vertex exactly once and returns to the starting vertex.
 - **Clique Problem**: Given a graph and a number k, determine if there is a clique of size k in the graph.
+
+To prove a problem $A$ is NP-complete needs:
+1. $A \in NP$.
+2. $\forall B \in NP, B \to A$. (every problem in NP can be reduced to $A$ in polynomial time)
+3. Alternatively, $C \to A$ for some known NP-complete problem $C$.
+
+### k-SAT to 3-SAT Reduction
+
+Generally, for a clause with $k$ literals $C = (x_1 \lor x_2 \lor \ldots \lor x_k)$, we can introduce $k-3$ new variables $y_1, y_2, \ldots, y_{k-3}$ and create the following $k-2$ clauses:
+$$
+C' = (x_1 \lor x_2 \lor y_1) \land (\bar y_1 \lor x_3 \lor y_2) \land (\bar y_2 \lor x_4 \lor y_3) \land \ldots \land (\bar y_{k-4} \lor x_{k-2} \lor y_{k-3}) \land (\bar y_{k-3} \lor x_{k-1} \lor x_k)
+$$
+$$
+C \Leftrightarrow C'
+$$
+This construction ensures that the original clause is satisfied if and only if at least one of the new clauses is satisfied, thus preserving the satisfiability of the original formula while reducing it to 3-SAT.
