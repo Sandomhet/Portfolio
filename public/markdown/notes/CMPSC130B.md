@@ -99,3 +99,27 @@ $$
 C \Leftrightarrow C'
 $$
 This construction ensures that the original clause is satisfied if and only if at least one of the new clauses is satisfied, thus preserving the satisfiability of the original formula while reducing it to 3-SAT.
+
+### Independent Set, Clique, and Vertex Cover
+
+$G = (V, E)$
+- $S \subseteq V$ is an **independent set** if $\forall u, v \in S, (u, v) \notin E$. No edges between vertices in $S$.
+- $S \subseteq V$ is a **clique** if $\forall u, v \in S, (u, v) \in E$. Every pair of vertices in $S$ is connected.
+- $S \subseteq V$ is a **vertex cover** if $\forall (u, v) \in E, u \in S \lor v \in S$. Every edge in $E$ has at least one endpoint in $S$.
+
+
+They are all NP-complete. Given a graph $G$ and an integer $k$:
+- Independent Set problem: determine if there exists an independent set of size at least $k$ in $G$.
+- Clique problem: determine if there exists a clique of size at least $k$ in $G$.
+- Vertex Cover problem: determine if there exists a vertex cover of size at most $k$ in $G$.
+
+#### 3SAT to Independent Set Reduction
+
+Given a 3SAT formula $f$ with clauses $C_1, C_2, \ldots, C_m$ and variables $x_1, x_2, \ldots, x_n$, we can construct a graph $G$ as follows with $k = m$:
+1. For each clause $C_i = (x_1 \lor x_2 \lor x_3)$, create vertices $v_{i1}, v_{i2}, v_{i3}$ for the literals $x_1, x_2, x_3$.
+2. Connect vertices corresponding to literals in the same clause with edges. For example, connect $v_{i1}$, $v_{i2}$, and $v_{i3}$ with edges.
+3. Connect vertices corresponding to complementary literals across different clauses. For example, if $v_{i1}$ corresponds to $x_1$ and $v_{j2}$ corresponds to $\bar{x}_1$, connect $v_{i1}$ and $v_{j2}$ with an edge.
+
+#### Independent Set to Clique Reduction
+
+Given a graph $G = (V, E)$, we can construct its complement graph $\bar{G} = (V, \bar{E})$ where $\bar{E} = \{(u, v) | (u, v) \notin E\}$. An independent set of size $k$ in $G$ corresponds to a clique of size $k$ in $\bar{G}$ because the vertices in the independent set are not connected by edges in $G$, which means they are fully connected by edges in $\bar{G}$, forming a clique.

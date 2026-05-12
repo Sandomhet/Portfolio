@@ -100,7 +100,7 @@ export default function MarkdownViewer() {
     }
     // Defer until after react-markdown renders
     const id = requestAnimationFrame(() => {
-      const nodes = contentRef.current?.querySelectorAll("h1,h2,h3,h4,h5,h6") || [];
+      const nodes = contentRef.current?.querySelectorAll("h1,h2,h3") || [];
       const list = Array.from(nodes)
         .filter(n => n.id)
         .map(n => ({

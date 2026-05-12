@@ -287,3 +287,23 @@ The electric potential due to a point charge $Q$ at a distance $r$ is given by:
 $$V = k \frac{Q}{r}$$
 The electric potential due to a continuous charge distribution can be calculated by integrating the contributions from all infinitesimal charge elements:
 $$V = k \int \frac{dq}{r}$$
+
+### Electric Flux
+
+The electric flux $\Phi_E$ through a surface is defined as the total electric field passing through that surface:
+$$\Phi_E = E_\perp A = EA \cos \phi = \vec{E} \cdot \vec{A}$$
+$$\Phi_E = \int \vec{E} \cdot d\vec{A}$$
+where $E_\perp$ is the component of the electric field perpendicular to the surface, $A$ is the area of the surface, and $\phi$ is the angle between the electric field and the normal to the surface.
+
+#### Gauss's Law
+
+$$\Phi_E = \oint \vec{E} \cdot d\vec{A} = \frac{Q_{enc}}{\epsilon_0}$$
+where $Q_{enc}$ is the total charge enclosed within the Gaussian surface.
+
+For a point charge $Q$ at the center of a spherical Gaussian surface of radius $r$:
+$$\Phi_E = E \cdot 4\pi r^2 = \frac{Q}{\epsilon_0} \implies E = k \frac{Q}{r^2}$$
+For an infinite line charge with linear charge density $\lambda$ and a cylindrical
+
+For a charged insulating sphere with total charge $Q$ and radius $R$:
+- For $r < R$: $Q_{enc} = \frac{Qr^3}{R^3}$, $E = k \frac{Qr}{R^3}$
+- For $r \geq R$: $Q_{enc} = Q$, $E = k \frac{Q}{r^2}$
