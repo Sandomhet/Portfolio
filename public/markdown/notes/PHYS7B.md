@@ -271,7 +271,6 @@ $$
 An electric dipole consists of two equal and opposite charges separated by a distance $d$. The dipole moment $\vec{p}$ is defined as:
 $$\vec{p} = q \vec{d}
 $$
-The electric field due to a dipole at a point in space can be calculated using the principle of superposition by summing the contributions from both charges. The resulting electric field has a characteristic pattern that depends on the orientation of the dipole and the position of the point where the field is being calculated. The electric field of a dipole decreases with distance as $1/r^3$ and has a specific angular dependence, being strongest along the axis of the dipole and weakest in the plane perpendicular to the dipole moment.
 
 Torque
 $$\vec{\tau} = \vec{p} \times \vec{E}$$

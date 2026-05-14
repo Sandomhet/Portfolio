@@ -374,6 +374,9 @@ A **neutralization reaction** occurs when an acid and base react to form water a
 - **Oxidation**: losing electrons; oxidation state becomes more positive or less negative.
 - **Reduction**: gaining electrons; oxidation state becomes less positive or more negative.
 
+- **Oxidizing agent**: causes another species to be oxidized; it gets **reduced**.
+- **Reducing agent**: causes another species to be reduced; it gets **oxidized**.
+
 Memory device:
 
 - **LEO**: Lose Electrons = Oxidation
@@ -390,3 +393,127 @@ Rules:
 - Oxygen is usually **-2**, except in $\mathrm{O_2(g)}$ and peroxides such as $\mathrm{H_2O_2}$.
 - In binary compounds with multiple nonmetals, the more electronegative element gets the negative oxidation state.
 - The sum of all oxidation states equals the overall charge of the compound or ion.
+
+## Gases
+
+### Pressure
+
+$$
+P = \frac{F}{A}
+$$
+
+| Unit | Meaning |
+| --- | --- |
+| atm | atmosphere |
+| torr | unit named after Torricelli |
+| mmHg | millimeters of mercury |
+| psi | pounds per square inch |
+| Pa | pascal |
+
+$1\ \mathrm{atm} = 760\ \mathrm{torr} = 760\ \mathrm{mmHg}$
+
+### Ideal Gas Law
+
+An **ideal gas** is a model gas whose particles:
+- Have no attractive or repulsive interactions with each other.
+- Collide elastically, meaning collisions do not change total energy.
+- Have particle volume that is negligible compared with the container volume.
+
+$$
+PV = nRT
+$$
+
+**Gas Density**:
+$$
+d = \frac{m}{V} = \frac{PM}{RT}
+$$
+
+Because $R$ is constant, two gas states can be related:
+$$
+R = \frac{P_1V_1}{n_1T_1} = \frac{P_2V_2}{n_2T_2}
+$$
+
+| Variable | Meaning | Common Unit |
+| --- | --- | --- |
+| $P$ | pressure | atm |
+| $V$ | volume | L |
+| $n$ | moles of gas | mol |
+| $R$ | gas constant | $\mathrm{0.0821\ \frac{atm \cdot L}{mol \cdot K}}$ |
+| $T$ | temperature | K |
+
+When using energy units:
+
+$$
+R = 8.3145\ \mathrm{\frac{J}{mol \cdot K}}
+$$
+
+#### Standard Temperature and Pressure (STP)
+
+- Standard temperature: **273 K** or **0°C**
+- Standard pressure: **1 atm**
+
+At STP: $1\ \mathrm{mol\ gas} = 22.4\ \mathrm{L}$
+
+### Partial Pressure
+
+**Law of Partial Pressures**: For a mixture of gases, the total pressure is the sum of the partial pressures of each gas.
+$$
+P_{\text{total}} = P_A + P_B + P_C + \cdots
+$$
+
+### Mole Fraction
+
+**Mole fraction** describes the portion of a mixture made up by one component.
+$$
+\chi_A = \frac{\text{moles of A}}{\text{total moles}}
+$$
+
+Partial pressure can be found using mole fraction: $P_A = \chi_A P_{\text{total}}$
+
+### Kinetic Molecular Theory
+
+Average kinetic energy:
+$$
+KE_{\text{avg}} = \frac{3}{2}RT
+$$
+Kinetic energy depends on **temperature**, not the identity of the gas.
+
+Common speed equations:
+$$
+u_{mp} = \sqrt{\frac{2RT}{M}}, \
+u_{avg} = \sqrt{\frac{8RT}{\pi M}}, \
+u_{rms} = \sqrt{\frac{3RT}{M}}
+$$
+
+Where:
+- $u_{mp}$ = most probable speed
+- $u_{avg}$ = average speed
+- $u_{rms}$ = root-mean-square speed
+- $M$ = molar mass in **kg/mol** when using $R = 8.3145\ \mathrm{\frac{J}{mol \cdot K}}$
+
+### Diffusion and Effusion
+
+Gases and liquids both belong to a class of substances called **fluids**, which can flow and do not have a fixed shape.
+- **Diffusion**: particles spread from one area to another, usually from high concentration to low concentration.
+- **Effusion**: particles pass through a tiny opening into another space.
+
+**Graham's Law of Effusion/Diffusion**:
+$$
+\text{rate} = \frac{1}{\sqrt{M}}
+$$
+$$
+\frac{\text{rate}_1}{\text{rate}_2} = \sqrt{\frac{M_2}{M_1}}
+$$
+
+### Molecular Collisions
+
+Fluid molecules are constantly moving and colliding with each other and with container walls.
+
+$$
+\text{collision rate} = \frac{\text{number of collisions}}{\text{time}}
+$$
+
+$$
+Z = \frac{N}{V} 4 d^2 \sqrt{\frac{\pi RT}{M}}
+$$
+where $Z$ is the collision rate per unit volume, $N$ is the number of particles, $V$ is the volume, $d$ is the particle diameter, and $M$ is the molar mass.

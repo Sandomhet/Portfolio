@@ -123,3 +123,38 @@ Given a 3SAT formula $f$ with clauses $C_1, C_2, \ldots, C_m$ and variables $x_1
 #### Independent Set to Clique Reduction
 
 Given a graph $G = (V, E)$, we can construct its complement graph $\bar{G} = (V, \bar{E})$ where $\bar{E} = \{(u, v) | (u, v) \notin E\}$. An independent set of size $k$ in $G$ corresponds to a clique of size $k$ in $\bar{G}$ because the vertices in the independent set are not connected by edges in $G$, which means they are fully connected by edges in $\bar{G}$, forming a clique.
+
+### Knapsack (search version)
+
+Given $N$ items with weights $w_i$ and values $v_i$, and maximum weight $W$, determine if there exists a subset of items such that the total weight is at most $W$ and the total value is at least $V$.
+
+Subset-Sum Problem: Given integers $A = \{a_1, a_2, \ldots, a_n\}$ and a target integer $T$, determine if there exists a subset $S$ such that $\sum\limits_{a_i \in S} a_i = T$.
+
+#### 3SAT to Subset-Sum Reduction
+
+Overview: $2n+2m$ numbers with $n+m$ digits in base 10, where the first $n$ digits correspond to variables and the next $m$ digits correspond to clauses.
+1. For each variable $x_i$, create two numbers $v_i$ and $v_i'$:
+   - Both have a $1$ in variable digit $i$.
+   - $v_i$ has a $1$ in clause digit $n+j$ for each clause $C_j$ where $x_i$ appears.
+   - $v_i'$ has a $1$ in clause digit $n+j$ for each clause $C_j$ where $\bar x_i$ appears.
+   - $v_i$ represents $x_i = \text{true}$; $v_i'$ represents $x_i = \text{false}$.
+2. For each clause $C_j$, create two buffer numbers $s_j$ and $s_j'$, each with a $1$ only in clause digit $n+j$ and $0$ elsewhere.
+3. Set the target $T$ to have a $1$ in each variable digit $1, \ldots, n$ and a $3$ in each clause digit $n+1, \ldots, n+m$.
+4. The Subset-Sum problem is to find a subset of $\{v_i, v_i'\} \cup \{s_j, s_j'\}$ that sums to $T$.
+   - **Correctness (forward):** A satisfying assignment picks exactly one of $v_i$ or $v_i'$ per variable, hitting 1 in every variable digit. Each satisfied clause contributes at least 1 to its clause digit; buffer numbers bring it up to exactly 3.
+   - **Correctness (backward):** Any subset summing to $T$ must pick exactly one of $\{v_i, v_i'\}$ per variable (to hit 1 in digit $i$), defining a truth assignment. Each clause digit must reach 3 with at most 2 from buffer, so at least one chosen literal satisfies every clause.
+   - Base 10 is used and no digit exceeds 5, so there is no carrying between digits.
+
+#### Subset-Sum to Knapsack Reduction
+
+- For each integer $a_i$, create an item with weight $w_i = a_i$ and value $v_i = a_i$.
+- Set the maximum weight $W = T$ and the target value $V = T$.
+
+For a subset $S$ of items,
+- $\sum\limits_{i \in S} w_i = \sum\limits_{i \in S} a_i \leq W = T$
+- $\sum\limits_{i \in S} v_i = \sum\limits_{i \in S} a_i \geq V = T$.
+
+Weight is at most $T$ and value is at least $T$ if and only if the sum of the selected integers is exactly $T$.
+
+
+## Problem solving test space
