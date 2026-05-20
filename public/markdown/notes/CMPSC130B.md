@@ -169,6 +169,25 @@ Overview: $2n+2m$ numbers with $n+m$ digits in base 10, where the first $n$ digi
    - **Correctness (backward):** Any subset summing to $T$ must pick exactly one of $\{v_i, v_i'\}$ per variable (to hit 1 in digit $i$), defining a truth assignment. Each clause digit must reach 3 with at most 2 from buffer, so at least one chosen literal satisfies every clause.
    - Base 10 is used and no digit exceeds 5, so there is no carrying between digits.
 
+Example:
+$f = (x_1 \lor x_2 \lor \bar{x_3}) \land (\bar{x_1} \lor x_2 \lor x_3) \land (x_1 \lor \bar{x_2} \lor x_3)$
+
+| Number \ Digit | 1 | 2 | 3 | 4 | 5 | 6 |
+|--------|---|---|---|---|---|---|
+| $v_1$  | 1 | 0 | 0 | 1 | 0 | 1 |
+| $v_1'$ | 1 | 0 | 0 | 0 | 1 | 0 |
+| $v_2$  | 0 | 1 | 0 | 1 | 1 | 0 |
+| $v_2'$ | 0 | 1 | 0 | 0 | 0 | 1 |
+| $v_3$  | 0 | 0 | 1 | 0 | 1 | 1 |
+| $v_3'$ | 0 | 0 | 1 | 1 | 0 | 0 |
+| $s_1$  | 0 | 0 | 0 | 1 | 0 | 0 |
+| $s_1'$ | 0 | 0 | 0 | 1 | 0 | 0 |
+| $s_2$  | 0 | 0 | 0 | 0 | 1 | 0 |
+| $s_2'$ | 0 | 0 | 0 | 0 | 1 | 0 |
+| $s_3$  | 0 | 0 | 0 | 0 | 0 | 1 |
+| $s_3'$ | 0 | 0 | 0 | 0 | 0 | 1 |
+| $T$    | 1 | 1 | 1 | 3 | 3 | 3 |
+
 #### Subset-Sum to Knapsack Reduction
 
 - For each integer $a_i$, create an item with weight $w_i = a_i$ and value $v_i = a_i$.
