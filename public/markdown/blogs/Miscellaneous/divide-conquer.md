@@ -117,3 +117,41 @@ int karatsuba(int X, int Y) {
 Split the numbers into $k$ parts
 
 $O(n^{\log_k (2k - 1)})$.
+
+## k-th Rank Selection (第k小数)
+
+- Input: an array $A$ of $n$ numbers and an integer $k$.
+- Output: the $k$-th smallest number in $A$.
+
+Steps:
+1. Randomly select a pivot $p$ from $A$.
+2. Partition $A$ into three parts:
+   - $A_1 = \{x \in A | x < p\}$
+   - $A_2 = \{x \in A | x = p\}$
+   - $A_3 = \{x \in A | x > p\}$
+3. If $|A_1| \geq k$, the $k$-th smallest number is in $A_1$.
+4. If $|A_1| + |A_2| \geq k$, the $k$-th smallest number is $p$.
+
+```cpp
+int kth_rank(int l, int r, int k) {
+    if (l == r) return a[l]; // base case
+    int pivot = a[rand() % (r - l + 1) + l]; //随机选取一个数作为pivot
+    int i = l, j = r;
+    while (i <= j) {
+        while (a[i] < pivot) i++;
+        while (a[j] > pivot) j--;
+        if (i <= j) swap(a[i++], a[j--]);
+    }
+    if (k <= j - l + 1) return kth_rank(l, j, k);
+    else if (k > i - l) return kth_rank(i, r, k - (i - l));
+    else return pivot;
+}
+```
+
+## Closest Pair of Points (最近点对)
+
+Steps:
+1. Sort the points by their x-coordinates.
+2. Divide the points into two halves.
+3. Recursively find the closest pair in each half.
+4. Find the closest pair that straddles the dividing line.

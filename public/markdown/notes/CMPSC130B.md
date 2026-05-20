@@ -14,6 +14,8 @@ time: "Mon Apr 1, 2026"
     - [Longest Increasing Subsequence (LIS)](https://www.sandomhet.com/blogs/lis)
     - [Interval DP](https://www.sandomhet.com/blogs/interval)
     - [Shortest Path DP](https://www.sandomhet.com/blogs/path)
+- Divide and Conquer
+    - [Divide and Conquer](https://www.sandomhet.com/blogs/divide-conquer)
 - Fast Fourier Transform (FFT)
     - [Complex Numbers](https://www.sandomhet.com/blogs/complex)
     - [FFT](https://www.sandomhet.com/blogs/fft)
@@ -51,6 +53,10 @@ $$
 ## Dynamic Programming
 
 Classic DP problems include:
+
+<details>
+<summary>Click here to see</summary>
+
 - **Longest Increasing Subsequence (LIS)**: Given an array of integers, find the length of the longest subsequence that is strictly increasing.
 - **Knapsack Problem**: Given a set of items with weights and values, determine the maximum value that can be obtained with a given weight capacity.
 - **Edit Distance**: Given two strings, find the minimum number of operations required to convert one string into the other, where allowed operations are insertion, deletion, or substitution of a single character.
@@ -63,6 +69,26 @@ Classic DP problems include:
 - **Longest Palindromic Subsequence**: Finding the Longest Palindromic Subsequence (LPS) of a given string.
 - **Rod Cutting**: Given a rod of length $n$ units, given an integer array cuts where cuts$[i]$ denotes a position you should perform a cut at. The cost of one cut is the length of the rod to be cut. What is the minimum total cost of the cuts?
 
+</details>
+
+## Master Theorem
+
+For $T(n) = a T(\frac{n}{b}) + f(n)$ where $a \geq 1, b > 1$:
+- If $f(n) = O(n^{\log_b a - \epsilon})$ for some $\epsilon > 0$, then $T(n) = \Theta(n^{\log_b a})$.
+- If $f(n) = \Theta(n^{\log_b a} \log^k n)$ for some $k \geq 0$, then $T(n) = \Theta(n^{\log_b a} \log^{k+1} n)$.
+- If $f(n) = \Omega(n^{\log_b a + \epsilon})$ for some $\epsilon > 0$ and $a f(\frac{n}{b}) \leq c f(n)$ for some $c < 1$ and sufficiently large $n$, then $T(n) = \Theta(f(n))$.
+
+### Recurrence Relations
+
+$T(n) = aT(\frac{n}{b}) + O(n)$:
+$$
+T(n) = \begin{cases}
+O(n) & \text{if } a < b \\
+O(n \log n) & \text{if } a = b \\
+O(n^{\log_b a}) & \text{if } a > b
+\end{cases}
+$$
+
 ## NP-Completeness
 
 $poly(n) = O(n^c)$ for some constant $c$.
@@ -74,15 +100,6 @@ $poly(n) = O(n^c)$ for some constant $c$.
 - **P vs NP**: The question of whether every problem for which a solution can be verified in polynomial time can also be solved in polynomial time. It is widely believed that P ≠ NP, but this has not been proven.
 
 Every planer graph can be colored with at most 4 colors (Four Color Theorem). However, determining if a general graph can be colored with 3 colors is NP-complete.
-
-Classic problems:
-- **3-SAT**: Given a Boolean formula in conjunctive normal form where each clause has exactly three literals, determine if there is an assignment of truth values to the variables that makes the formula true.
-- **Subset Sum**: Given a set of integers and a target integer, determine if there exists a subset of the integers that sums to the target.
-- **Traveling Salesman Problem (TSP)**: Given a list of cities and the distances between each pair of cities, find the shortest possible route that visits each city exactly once and returns to the origin city.
-- **Knapsack Problem**: Given a set of items, each with a weight and a value, determine the number of each item to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible.
-- **Graph Coloring**: Given a graph and a number of colors, determine if the graph can be colored with the given number of colors such that no two adjacent vertices share the same color.
-- **Hamiltonian Cycle**: Given a graph, determine if there exists a cycle that visits each vertex exactly once and returns to the starting vertex.
-- **Clique Problem**: Given a graph and a number k, determine if there is a clique of size k in the graph.
 
 To prove a problem $A$ is NP-complete needs:
 1. $A \in NP$.
@@ -107,7 +124,6 @@ $G = (V, E)$
 - $S \subseteq V$ is a **clique** if $\forall u, v \in S, (u, v) \in E$. Every pair of vertices in $S$ is connected.
 - $S \subseteq V$ is a **vertex cover** if $\forall (u, v) \in E, u \in S \lor v \in S$. Every edge in $E$ has at least one endpoint in $S$.
 
-
 They are all NP-complete. Given a graph $G$ and an integer $k$:
 - Independent Set problem: determine if there exists an independent set of size at least $k$ in $G$.
 - Clique problem: determine if there exists a clique of size at least $k$ in $G$.
@@ -123,6 +139,14 @@ Given a 3SAT formula $f$ with clauses $C_1, C_2, \ldots, C_m$ and variables $x_1
 #### Independent Set to Clique Reduction
 
 Given a graph $G = (V, E)$, we can construct its complement graph $\bar{G} = (V, \bar{E})$ where $\bar{E} = \{(u, v) | (u, v) \notin E\}$. An independent set of size $k$ in $G$ corresponds to a clique of size $k$ in $\bar{G}$ because the vertices in the independent set are not connected by edges in $G$, which means they are fully connected by edges in $\bar{G}$, forming a clique.
+
+#### Independent Set to Vertex Cover Reduction
+
+Given $(G, k)$, construct the input $(G, n - k)$.  
+$S \subseteq V$ is an independent set of size $\geq k$ in $G$ if and only if $V \setminus S$ is a vertex cover of size $\leq n - k$.
+
+- **Forward:** If $S$ is an independent set, then no edge has both endpoints in $S$, so every edge $(u, v) \in E$ has at least one endpoint in $V \setminus S$. Thus $V \setminus S$ is a vertex cover.
+- **Backward:** If $C = V \setminus S$ is a vertex cover, then every edge has an endpoint in $C$, so no edge has both endpoints in $S = V \setminus C$. Thus $S$ is an independent set.
 
 ### Knapsack (search version)
 

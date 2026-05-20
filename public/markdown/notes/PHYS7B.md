@@ -269,23 +269,16 @@ $$
 ### Electric Dipole
 
 An electric dipole consists of two equal and opposite charges separated by a distance $d$. The dipole moment $\vec{p}$ is defined as:
-$$\vec{p} = q \vec{d}
 $$
+\vec{p} = q \vec{d}
+$$
+Direction: from the negative charge to the positive charge.
 
 Torque
 $$\vec{\tau} = \vec{p} \times \vec{E}$$
 
 Potential energy
 $$U = -\vec{p} \cdot \vec{E}$$
-
-### Electric Potential
-
-The electric potential $V$ at a point in space is defined as the work done per unit charge by an external force in bringing a positive test charge from infinity to that point:
-$$V = \frac{W}{q}$$
-The electric potential due to a point charge $Q$ at a distance $r$ is given by:
-$$V = k \frac{Q}{r}$$
-The electric potential due to a continuous charge distribution can be calculated by integrating the contributions from all infinitesimal charge elements:
-$$V = k \int \frac{dq}{r}$$
 
 ### Electric Flux
 
@@ -304,5 +297,27 @@ $$\Phi_E = E \cdot 4\pi r^2 = \frac{Q}{\epsilon_0} \implies E = k \frac{Q}{r^2}$
 For an infinite line charge with linear charge density $\lambda$ and a cylindrical
 
 For a charged insulating sphere with total charge $Q$ and radius $R$:
-- For $r < R$: $Q_{enc} = \frac{Qr^3}{R^3}$, $E = k \frac{Qr}{R^3}$
-- For $r \geq R$: $Q_{enc} = Q$, $E = k \frac{Q}{r^2}$
+- For $r < R$: $Q_{enc} = \frac{Qr^3}{R^3}$, $E = k \frac{Qr}{R^3} = \frac{1}{4\pi\epsilon_0} \frac{Qr}{R^3}$
+- For $r \geq R$: $Q_{enc} = Q$, $E = k \frac{Q}{r^2} = \frac{1}{4\pi\epsilon_0} \frac{Q}{r^2}$
+
+### Electric Potential Energy
+
+$$
+W_{e, a\to b} = \int_a^b \vec{F}_{e} \cdot d\vec{r} = k \int_a^b \frac{q q_0}{r^2} dr = k q q_0 \left( \frac{1}{r_a} - \frac{1}{r_b} \right)
+$$
+$$
+\Delta U = U_b - U_a = -W_{e, a\to b} = k q q_0 \left( \frac{1}{r_b} - \frac{1}{r_a} \right)
+$$
+$$
+U = k \frac{q_1 q_2}{r}
+$$
+
+#### Electric Potential
+
+$$V = \frac{U}{q} = k \frac{Q}{r}$$
+where $1 \, \text{V (volt)} = 1 \, \text{J/C}$.
+
+**Voltage**: $V_{ba} = V_b - V_a = \frac{\Delta U}{q}$
+
+Multiple point charge sources: $V = k \sum \frac{q_i}{r_i}$.  
+Continuous charge distribution: $V = k \int \frac{dq}{r}$.  
