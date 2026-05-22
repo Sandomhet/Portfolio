@@ -314,10 +314,26 @@ $$
 
 #### Electric Potential
 
-$$V = \frac{U}{q} = k \frac{Q}{r}$$
+$$
+V = \frac{U}{q} = k \frac{Q}{r} = Ed
+$$
 where $1 \, \text{V (volt)} = 1 \, \text{J/C}$.
 
-**Voltage**: $V_{ba} = V_b - V_a = \frac{\Delta U}{q}$
+**Voltage**: $V_{ba} = V_b - V_a = \frac{\Delta U}{q} = -\int_a^b \vec{E} \cdot d\vec{r}$
 
 Multiple point charge sources: $V = k \sum \frac{q_i}{r_i}$.  
 Continuous charge distribution: $V = k \int \frac{dq}{r}$.  
+
+For a charged conducting sphere
+- outside the sphere, the potential is the same as if all the charge were concentrated at the center
+- inside the sphere, the potential is **constant** and **equal** to the potential at the surface.
+
+#### Capacitance
+
+Capacitor: two conductors separated by an insulating material.  
+Capacitance is the ability to store electrical charge.
+
+$$
+C = \frac{Q}{V} = \frac{Q}{E d} = \frac{\epsilon_0 A}{d}
+$$
+units: $1 \, \text{F (farad)} = 1 \, \text{C/V}$.

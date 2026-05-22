@@ -517,3 +517,202 @@ $$
 Z = \frac{N}{V} 4 d^2 \sqrt{\frac{\pi RT}{M}}
 $$
 where $Z$ is the collision rate per unit volume, $N$ is the number of particles, $V$ is the volume, $d$ is the particle diameter, and $M$ is the molar mass.
+
+## Quantum Mechanics
+
+### Light and Electromagnetic Radiation
+
+Light behaves as both a **wave** and a **particle**. This is called **wave-particle duality**.
+
+- **Wavelength** ($\lambda$): distance between repeating points in a wave.
+- **Frequency** ($\nu$): number of wave cycles passing a point per unit time.
+- **Speed**: distance traveled per unit time.
+$$
+\text{speed} = \lambda \nu
+$$
+
+Speed of light: $c = 3.0 \times 10^8\ \mathrm{m/s}$
+
+### Light Energy
+
+$$
+E = h\nu = \frac{hc}{\lambda}
+$$
+where $h = 6.626 \times 10^{-34}\ \mathrm{J \cdot s}$ (Planck's constant)
+
+Higher frequency means **higher energy**. Shorter wavelength also means **higher energy**.
+
+### Electromagnetic Spectrum
+
+Sort by wavelength (from shortest to longest): Gamma rays, X-rays, ultraviolet, visible light, infrared, microwaves, and radio waves (FM, AM, Shortwave).  
+In visible light: violet, blue, green, yellow, orange, and red.
+
+- **Microwaves** are lower-energy electromagnetic radiation.
+- **Blackbody radiation** occurs when hot objects emit light due to their temperature. As a metal is heated, it can glow red, orange, yellow, and eventually white because hotter objects emit more intense and higher-energy visible light.
+
+### Photoelectric Effect
+
+Light energy is emitted in packets called **photons**.  
+The **photoelectric effect** occurs when light hits a metal surface and ejects electrons.
+
+- Electrons eject only if the light has high enough frequency.
+- Increasing intensity alone does not eject electrons if the frequency is too low.
+- The minimum energy needed to eject an electron is the **threshold energy**.
+
+$$
+E_0 = h\nu_0
+$$
+
+If the incoming light has energy greater than the threshold, the excess energy becomes kinetic energy of the ejected electron.
+
+$$
+KE_{e^-} = h\nu - h\nu_0
+$$
+
+Einstein's mass-energy relationship:
+
+$$
+E = mc^2
+$$
+
+As a system loses energy, it also loses a corresponding amount of mass.
+
+### De Broglie Wavelength
+
+Particles can also behave like waves.
+
+$$
+\lambda = \frac{h}{mv}
+$$
+where $v$ is the velocity of the particle.
+
+### Diffraction
+
+**Diffraction** is the scattering or bending of waves when they interact with particles, openings, or edges.
+
+- Light scatters when it collides with particles.
+- Different wavelengths scatter differently because they have different energies.
+- Diffraction patterns can be used to determine structures of solids.
+- Different atom arrangements create different diffraction patterns.
+
+### Bohr Model of the Hydrogen Atom
+
+#### Hydrogen Line Spectrum
+
+Hydrogen does not emit a continuous spectrum. It emits only specific lines because only certain electron energies are allowed.
+
+- Electron energy in hydrogen is **quantized**.
+- Light is emitted or absorbed when an electron moves between allowed energy levels.
+- The photon energy equals the energy difference between levels.
+
+$$
+\Delta E = E_{\text{final}} - E_{\text{initial}}
+$$
+
+- **Emit light**: electron moves to a lower energy level ($n$ decreases). 
+- **Absorb light**: electron moves to a higher energy level ($n$ increases).
+
+
+The electron in a hydrogen atom moves around the nucleus only in allowed circular orbits.
+
+Allowed energy levels:
+
+$$
+E = -2.178 \times 10^{-18}\ \mathrm{J} \left(\frac{Z^2}{n^2}\right)
+$$
+
+where $Z$ = nuclear charge and $n$ = principal quantum number
+
+For hydrogen, $Z = 1$.
+
+### Quantum Atomic Model
+
+The quantum model treats the electron as a **standing wave** bound to the nucleus.
+
+- A standing wave must fit whole-number combinations of half-wavelengths.
+- Only certain standing waves are allowed.
+- This naturally produces quantized electron energies.
+
+### Schrodinger Equation
+
+$$
+\hat{H}\psi = E\psi
+$$
+Where $\hat{H}$ is the Hamiltonian operator, $\psi$ is the wave function, and $E$ is the energy.
+
+The Schrodinger equation has many possible solutions. Each solution describes an allowed electron state.
+
+The equation introduces the **principal quantum number** $n$, which describes the size and energy of the region where an electron can be found.
+
+### Quantum Numbers
+
+Each electron in an atom is described by four quantum numbers.
+
+| Quantum Number | Name | Meaning | Possible Values |
+| --- | --- | --- | --- |
+| $n$ | principal quantum number | size and energy of orbital | $1, 2, 3, ...$ |
+| $l$ | angular momentum quantum number | orbital shape | $0$ to $n - 1$ |
+| $m_l$ | magnetic quantum number | orbital orientation | $-l$ to $+l$ |
+| $m_s$ | spin quantum number | electron spin | $+\frac{1}{2}$ or $-\frac{1}{2}$ |
+
+Electron spin describes the orientation of one electron and helps explain how multiple electrons can occupy orbitals.
+
+Examples:
+
+- For $n = 1$: $l = 0$, so $m_l = 0$. There is **1 orbital**.
+- For $n = 2$: $l = 0$ and $l = 1$. There are **4 orbitals total**: one 2s orbital and three 2p orbitals.
+
+### Orbitals
+
+An **orbital** is a region in space where an electron is likely to be found.
+
+Subshell letters:
+
+| $l$ | Subshell | Number of Orbitals | Electron Capacity |
+| --- | --- | --- | --- |
+| 0 | s | 1 | 2 |
+| 1 | p | 3 | 6 |
+| 2 | d | 5 | 10 |
+| 3 | f | 7 | 14 |
+
+Orbital shapes:
+
+- **s orbitals** are spherical.
+- **p orbitals** have two lobes.
+- **d orbitals** are usually four-lobed.
+- **f orbitals** are more complex, often shown with multiple lobes.
+
+### Polyelectronic Atoms
+
+Atoms with more than one electron follow three major rules.
+
+1. **Aufbau principle**: electrons occupy lower-energy orbitals before higher-energy orbitals.
+2. **Pauli exclusion principle**: no two electrons in an atom can have the same set of four quantum numbers.
+3. **Hund's rule**: when orbitals have the same energy, electrons occupy them singly before pairing.
+
+### Electron Configuration
+
+An **electron configuration** describes how electrons are arranged in orbitals.
+
+General filling order:
+
+$$
+1s,\ 2s,\ 2p,\ 3s,\ 3p,\ 4s,\ 3d,\ 4p,\ 5s,\ 4d,\ 5p,\ 6s,\ 4f,\ 5d,\ 6p,\ 7s,\ 5f,\ 6d,\ 7p
+$$
+
+Example: carbon has 6 electrons.
+
+$$
+\mathrm{C}: 1s^2\ 2s^2\ 2p^2
+$$
+
+Configuration examples:
+
+| Atom | Electron Configuration |
+| --- | --- |
+| Fe | $\mathrm{[Ar]\ 4s^2\ 3d^6}$ |
+| U | $\mathrm{[Rn]\ 7s^2\ 5f^3\ 6d^1}$ |
+| Cr | $\mathrm{[Ar]\ 4s^1\ 3d^5}$ |
+| Cu | $\mathrm{[Ar]\ 4s^1\ 3d^{10}}$ |
+
+Chromium and copper are common exceptions because half-filled and fully filled d subshells are especially stable.
