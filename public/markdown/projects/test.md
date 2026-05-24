@@ -353,3 +353,54 @@ Prefers shallow, axis-aligned partitions. Greedy local choices may miss globally
 $$\text{Pick noise model} \to \text{Likelihood} \to \text{NLL = Loss} \to \text{MLE} \xrightarrow{+\text{ prior}} \text{MAP = regularized}$$
 
 ![alt text](image.png)
+
+
+## test
+
+## Problem 1: Linear Model
+
+### I.
+
+**(a)**
+
+$$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} \big(y_i - (wx_i + b)\big)^2$$
+
+**(b)**
+
+Assume the data is generated as $y \mid x \sim \mathcal{N}(wx + b,\ \sigma^2)$, so
+
+$$p_{\text{model}}(y \mid x, w, b) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left(-\frac{(y - wx - b)^2}{2\sigma^2}\right)$$
+
+Taking log:
+
+$$\log p_{\text{model}}(y \mid x, w, b) = -\tfrac{1}{2}\log(2\pi\sigma^2) - \frac{(y - wx - b)^2}{2\sigma^2}$$
+
+MLE maximizes $\mathbb{E}_{(x,y) \sim p_{\text{data}}}[\log p_{\text{model}}]$. The $\log(2\pi\sigma^2)$ term is constant, so maximizing the expected log-likelihood is equivalent to minimizing $\mathbb{E}[(y - wx - b)^2]$.
+
+### II
+
+**(a)**
+
+$$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} \big(y_i - (w^\top x_i + b)\big)^2$$
+
+**(b)**
+
+Absorb the bias by adding features: let $\tilde{x}_i = [x_i;\ 1]$ and $\tilde{w} = [w;\ b]$, so $\hat{y}_i = \tilde{w}^\top \tilde{x}_i$.  
+Let $\tilde{X}$ have rows $\tilde{x}_i^\top$, and $y$ be the label vector.
+
+$$\text{Loss} = \tfrac{1}{n}\|y - \tilde{X}\tilde{w}\|_2^2$$
+
+Setting the gradient to zero:
+$$
+\begin{aligned}
+\nabla_{Loss} = -\tfrac{2}{n}(\tilde{X}^\top y - \tilde{X}^\top \tilde{X}\tilde{w}) &= 0 \\
+\tilde{X}^\top \tilde{X}\, \tilde{w} &= \tilde{X}^\top y \\
+\tilde{w}^* &= (\tilde{X}^\top \tilde{X})^{-1} \tilde{X}^\top y
+\end{aligned}
+$$
+
+### III.
+
+$p(y_i = 1 \mid x_i) = \hat{y}_i$ and $p(y_i = 0 \mid x_i) = 1 - \hat{y}_i$.
+
+$$\text{NLL} = -\frac{1}{n} \sum_{i=1}^{n} \Big[ y_i \log \sigma(w^\top x_i + b) + (1 - y_i)\log\big(1 - \sigma(w^\top x_i + b)\big) \Big]$$

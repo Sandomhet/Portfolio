@@ -328,6 +328,10 @@ For a charged conducting sphere
 - outside the sphere, the potential is the same as if all the charge were concentrated at the center
 - inside the sphere, the potential is **constant** and **equal** to the potential at the surface.
 
+For a charged insulating sphere
+- outside the sphere, the potential is the same as if all the charge were concentrated at the center
+- inside the sphere, the potential is given by $V = k \frac{Q}{2R^3} (3R^2 - r^2)$.
+
 #### Capacitance
 
 Capacitor: two conductors separated by an insulating material.  
