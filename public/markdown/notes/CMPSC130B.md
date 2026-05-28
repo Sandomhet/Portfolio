@@ -200,3 +200,66 @@ For a subset $S$ of items,
 Weight is at most $T$ and value is at least $T$ if and only if the sum of the selected integers is exactly $T$.
 
 ## Problem solving test space
+
+## Linear Programming
+
+### Standard Form
+
+Given:
+- Variables: $x \in \mathbb{R}^n = (x_1, x_2, \ldots, x_n)$
+- Coefficients (Objective Function): $c \in \mathbb{R}^n = (c_1, c_2, \ldots, c_n)$
+- Constraints: $A \in \mathbb{R}^{m \times n} = (a_{ij})$, $b \in \mathbb{R}^m = (b_1, b_2, \ldots, b_m)$
+
+Maximize:
+$$
+c_1 x_1 + c_2 x_2 + \ldots + c_n x_n
+$$
+Subject to:
+$$
+\begin{cases}
+a_{11} x_1 + a_{12} x_2 + \ldots + a_{1n} x_n \leq b_1 \\
+a_{21} x_1 + a_{22} x_2 + \ldots + a_{2n} x_n \leq b_2 \\
+\vdots \\
+a_{m1} x_1 + a_{m2} x_2 + \ldots + a_{mn} x_n \leq b_m \\
+x_1 \geq 0, x_2 \geq 0, \ldots, x_n \geq 0
+\end{cases}
+$$
+
+Generic form:
+
+$$\begin{aligned}
+\text{maximize} \quad & c^T x \\
+\text{subject to} \quad & Ax \leq b \\
+& x \geq 0
+\end{aligned}$$
+
+### Algorithms
+
+- Simplex Algorithm: A popular method for solving linear programming problems. It is efficient in practice, but has exponential worst-case time complexity.
+- Interior Point Methods: These algorithms approach the optimal solution from the interior of the feasible region and have polynomial time complexity in the worst case.
+- Ellipsoid Algorithm: A theoretical algorithm that can solve linear programming problems in polynomial time, but is not efficient in practice.
+
+#### Simplex Algorithm
+
+**Feasible region**: The set of all points that satisfy all constraints. It's the intersection of half-spaces. It is a **convex polyhedron** in $n$-dimensional space.  
+**Vertices (or extreme points)**: The corners of the feasible region. The optimal solution, if it exists, will occur at one of these vertices. The number of vertices is at most $\binom{n+m}{n}$, approximately $O((n+m)^n)$.
+
+It operates on the vertices of the feasible region defined by the constraints. The algorithm proceeds as follows:
+1. **Initialization**: Start at a vertex of the feasible region, which can be found using methods like the Big M method or the Two-Phase method.
+2. **Iterative Improvement**: At each iteration, the algorithm checks the adjacent vertices of the current vertex to find one that improves the objective function. If such a vertex is found, the algorithm moves to that vertex and repeats the process.
+3. **Termination**: The algorithm terminates when no adjacent vertex can improve the objective function, indicating that the optimal solution has been reached.
+---
+
+1. Renormalize so that $\bar{x} = \vec{0}$ is feasible.
+2. If exists better neighbor, move to it and repeat until no better neighbor exists.
+
+### LP Duality
+
+The dual problem is:
+$$
+\begin{aligned}
+\text{minimize} \quad & b^T y \\
+\text{subject to} \quad & A^T y \geq c \\
+& y \geq 0
+\end{aligned}
+$$

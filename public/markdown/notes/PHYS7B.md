@@ -332,12 +332,31 @@ For a charged insulating sphere
 - outside the sphere, the potential is the same as if all the charge were concentrated at the center
 - inside the sphere, the potential is given by $V = k \frac{Q}{2R^3} (3R^2 - r^2)$.
 
-#### Capacitance
+Electric field lines point from higher potential to lower potential.
 
-Capacitor: two conductors separated by an insulating material.  
+### Capacitance
+
+Capacitor: two conductors separated by an insulating material (air).  
 Capacitance is the ability to store electrical charge.
 
 $$
 C = \frac{Q}{V} = \frac{Q}{E d} = \frac{\epsilon_0 A}{d}
 $$
 units: $1 \, \text{F (farad)} = 1 \, \text{C/V}$.
+
+Spherical capacitor: $C = 4\pi \epsilon_0 \frac{r_a r_b}{r_b - r_a}$ where $r_a$ and $r_b$ are the radii of the inner and outer spheres, respectively.
+
+- Capacitors in series: $\frac{1}{C_{eq}} = \sum \frac{1}{C_i}$ (same charge)
+- Capacitors in parallel: $C_{eq} = \sum C_i$ (same voltage)
+
+Energy stored in a capacitor:
+$$U = \int_0^Q V \, dQ = \frac{1}{2} CV^2 = \frac{1}{2} QV = \frac{1}{2} \frac{Q^2}{C}$$
+Energy density in an electric field:
+$$u = \frac{U}{Ad} = \frac{1}{2} \epsilon_0 E^2$$
+
+#### Dielectrics
+
+When the capacitor is filled with a dielectric material, the capacitance increases by a factor of the **dielectric constant $\kappa$**:
+$$C' = \kappa C$$
+$$E' = \frac{E}{\kappa}$$
+$$V' = \frac{V}{\kappa}$$
