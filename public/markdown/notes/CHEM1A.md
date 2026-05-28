@@ -716,3 +716,215 @@ Configuration examples:
 | Cu | $\mathrm{[Ar]\ 4s^1\ 3d^{10}}$ |
 
 Chromium and copper are common exceptions because half-filled and fully filled d subshells are especially stable.
+
+### Special Electron Configurations
+
+Some atoms have observed electron configurations that differ from the simple Aufbau prediction.
+
+- Noble gases have especially stable electron configurations.
+- A subshell is more stable when it is **half-filled** or **fully filled**.
+- Electrons can shift between nearby subshells if doing so creates a more stable half-filled or filled subshell.
+- Breaking one or more electron-configuration rules gives an **excited-state electron configuration**.
+
+Examples:
+
+| Atom | Expected Pattern | Observed Stable Configuration |
+| --- | --- | --- |
+| Cr | would place two electrons in 4s before filling 3d | $\mathrm{[Ar]\ 4s^1\ 3d^5}$ |
+| Cu | would place two electrons in 4s before filling 3d | $\mathrm{[Ar]\ 4s^1\ 3d^{10}}$ |
+
+### Periodic Trends
+
+Electron configurations help predict physical properties from an element's position on the periodic table.
+
+- **Ionization energy**: energy r equired to remove an electron from a gaseous atom or ion. This is always positive.
+- **Electron affinity**: energy change when an electron is added to a neutral gaseous atom.
+- **Atomic radius**: size of an atom from the nucleus to the outermost electrons.
+
+General trends:
+
+| Property | Trend |
+| --- | --- |
+| Ionization energy | increases up and to the right |
+| Electron affinity | generally becomes more negative to the right, especially for nonmetals |
+| Atomic radius | increases down and to the left |
+
+These trends depend on **effective nuclear charge**.
+
+- More protons increase attraction between the nucleus and electrons.
+- More inner electrons shield outer electrons from the nucleus.
+- Stronger effective nuclear charge pulls valence electrons closer and usually makes atoms smaller.
+
+## Chemical Bonding
+
+Chemical bonds are forces that hold atoms together in molecules and compounds.
+
+- **Molecules**: two or more atoms bonded together, usually all nonmetals.
+- **Ionic compounds**: metals and nonmetals held together by attraction between ions.
+- **Covalent compounds**: nonmetals sharing electrons through orbital overlap.
+
+### Ionic and Covalent Bonds
+
+**Ionic bonds** form when electrons are transferred between a metal and a nonmetal.
+
+- The metal loses electrons and becomes a **cation**.
+- The nonmetal gains electrons and becomes an **anion**.
+- The ions attract through electrostatic forces.
+
+Coulomb's law describes between charged particles:
+
+$$
+V = \frac{Q_1Q_2}{4\pi\epsilon_0r} = (2.31 \times 10^{-19}\ \mathrm{J \cdot nm})\left(\frac{Q_1Q_2}{r}\right)
+$$
+
+**Covalent bonds** form when two nonmetals share electrons. Similar atomic orbitals overlap, and a pair of electrons is shared between atoms.
+
+### Electronegativity
+
+**Electronegativity** measures how strongly an atom attracts electrons in a bond.
+
+The difference in electronegativity, $\Delta EN$, helps predict bond type:
+
+| $\Delta EN$ | Bond Type | Example |
+| --- | --- | --- |
+| $\Delta EN > 2.0$ | ionic | $\mathrm{Na-Cl}$ |
+| $0.5 < \Delta EN < 2.0$ | polar covalent | $\mathrm{H-F}$ |
+| $\Delta EN < 0.5$ | nonpolar covalent | $\mathrm{C-C}$ |
+
+In a **polar covalent bond**, electrons are shared unequally. The more electronegative atom has partial negative charge, $\delta^-$, and the less electronegative atom has partial positive charge, $\delta^+$.
+
+### Lewis Dot Structures
+
+Valence electrons are the outermost electrons involved in bonding.
+
+1. Count total valence electrons.
+2. Add electrons for a negative charge or subtract electrons for a positive charge.
+3. Choose a central atom, usually the least electronegative atom that is not H.
+4. Connect surrounding atoms to the central atom with single bonds.
+5. Complete octets on outer atoms.
+6. Put remaining electrons on the central atom.
+7. If the central atom lacks an octet, form double or triple bonds.
+8. Check formal charges.
+
+### Formal Charge
+
+Formal charge helps determine the best Lewis structure when multiple structures are possible.
+
+$$
+\text{formal charge} = \text{valence electrons} - \text{nonbonding electrons} - \frac{1}{2}(\text{bonding electrons})
+$$
+
+In most cases, the best Lewis structure has:
+
+- The lowest combination of formal charges.
+- Negative formal charge on the more electronegative atom.
+- Formal charges closest to zero when possible.
+
+### Octet Rule and Exceptions
+
+**Octet rule**: atoms in molecules are often most stable when they have 8 electrons around them, counting bonds and lone pairs.
+
+Important exceptions:
+
+- The octet rule applies most strictly to second-row elements.
+- Hydrogen can only have 2 electrons.
+- Group 13 elements, such as B and Al, can have fewer than 8 electrons.
+- Elements in the third row or lower can have expanded octets with more than 8 electrons.
+
+Example: $\mathrm{PO_4^{3-}}$. Phosphate has resonance structures and can be drawn with one $\mathrm{P=O}$ double bond and three $\mathrm{P-O^-}$ single bonds to reduce formal charge.
+
+### Resonance Structures
+
+**Resonance structures** occur when multiple valid Lewis structures differ only in electron placement.
+
+- Atom positions stay the same.
+- Double bonds and formal charges can move.
+- The real molecule is a resonance hybrid of the valid structures.
+
+Example: $ \mathrm{NO_3^-} $. Nitrate has three equivalent resonance structures. Each places the $\mathrm{N=O}$ double bond on a different oxygen.
+
+### Bond Order
+
+**Bond order** measures the degree of bonding between atoms.
+
+$$
+\text{bond order} = \frac{\text{number of bonds}}{\text{number of bond locations}}
+$$
+
+Higher bond order means:
+
+- Stronger bond.
+- Higher bond energy.
+- Shorter bond length.
+
+Example: In nitrate, the average N-O bond order is:
+
+$$
+\frac{4\ \text{total N-O bonds}}{3\ \text{N-O locations}} = \frac{4}{3}
+$$
+
+### Molecular Structure and VSEPR
+
+Lewis structures are two-dimensional. To predict three-dimensional shape, use **VSEPR**: valence shell electron pair repulsion theory.
+
+VSEPR idea:
+
+- Electron groups around a central atom repel each other.
+- The molecule adopts a geometry that keeps electron groups as far apart as possible.
+- Lone pairs repel more strongly than bonding pairs.
+
+Steps:
+
+1. Draw the Lewis structure.
+2. Determine the **steric number** of the central atom.
+3. Use steric number to determine electron geometry.
+4. Use the number of bonded atoms and lone pairs to determine molecular geometry.
+
+$$
+\text{steric number} = \text{bonded atoms} + \text{lone pairs on central atom}
+$$
+
+Multiple bonds count as **one** electron group for VSEPR.
+
+#### VSEPR Geometries
+
+| Steric Number | Lone Pairs | Molecular Geometry | Approx. Bond Angle |
+| --- | --- | --- | --- |
+| 2 | 0 | linear | $180^\circ$ |
+| 3 | 0 | trigonal planar | $120^\circ$ |
+| 3 | 1 | bent | $<120^\circ$ |
+| 4 | 0 | tetrahedral | $109.5^\circ$ |
+| 4 | 1 | trigonal pyramidal | $<109.5^\circ$ |
+| 4 | 2 | bent | $<109.5^\circ$ |
+| 5 | 0 | trigonal bipyramidal | $90^\circ$, $120^\circ$ |
+| 5 | 1 | seesaw | varied |
+| 5 | 2 | T-shaped | about $90^\circ$ |
+| 5 | 3 | linear | $180^\circ$ |
+| 6 | 0 | octahedral | $90^\circ$ |
+| 6 | 1 | square pyramidal | about $90^\circ$ |
+| 6 | 2 | square planar | $90^\circ$ |
+
+Examples:
+
+| Molecule | Steric Number | Molecular Geometry |
+| --- | --- | --- |
+| $\mathrm{CH_4}$ | 4 | tetrahedral |
+| $\mathrm{NH_3}$ | 4 | trigonal pyramidal |
+| $\mathrm{H_2O}$ | 4 | bent |
+| $\mathrm{CO_2}$ | 2 | linear |
+
+#### Molecular Polarity
+
+Molecular polarity depends on both bond polarity and molecular shape.
+
+- If bond dipoles cancel, the molecule is **nonpolar**.
+- If bond dipoles do not cancel, the molecule is **polar**.
+- Lone pairs often make a molecule polar because they change the molecular shape.
+
+Examples:
+
+| Molecule | Shape | Polarity |
+| --- | --- | --- |
+| $\mathrm{CO_2}$ | linear | nonpolar because equal C=O dipoles cancel |
+| $\mathrm{COS}$ | linear | polar because C=O and C=S dipoles are not equal |
+| $\mathrm{H_2O}$ | bent | polar because O-H dipoles do not cancel |

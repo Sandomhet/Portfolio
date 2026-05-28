@@ -360,3 +360,41 @@ When the capacitor is filled with a dielectric material, the capacitance increas
 $$C' = \kappa C$$
 $$E' = \frac{E}{\kappa}$$
 $$V' = \frac{V}{\kappa}$$
+
+### Electric Current
+
+Electric current $I$ is the rate of flow of electric charge:
+$$
+I = \frac{dQ}{dt} = nqAv_d
+$$
+where $n$ is the number of charge carriers per unit volume, $q$ is the charge of each carrier, $A$ is the cross-sectional area of the conductor, and $v_d$ is the drift velocity of the charge carriers.  
+units: $1 \, \text{A (ampere)} = 1 \,\text{C/s}$.
+
+- **Conventional current**: positive charges would move, which is opposite to the actual flow of electrons.
+- **Real current**: the actual flow of electrons, from the negative terminal to the positive terminal.
+
+#### Resistance
+
+**Ohm's Law**:
+$$
+R = \frac{V}{I} = \frac{\rho L}{A}
+$$
+where $\rho$ is the **resistivity** of the material, $L$ is the length of the conductor, and $A$ is the cross-sectional area.  
+units: $1 \, \Omega (\text{ohm}) = 1 \, \text{V/A}$.
+
+Resistivity of metals:
+$$
+\rho = \frac{E}{J}
+$$
+where $E$ is the electric field and $J$ is the current density.
+
+Battery: a device that converts chemical energy into electrical energy, providing a potential difference (voltage) to drive current through a circuit.
+
+#### Battery
+
+**Electromotive force (emf)** $\mathcal{E}$: the maximum potential difference provided by the battery when no current is flowing.  
+**Internal resistance** $r$: the resistance within the battery that causes a voltage drop when current flows.  
+**Terminal voltage** $V$: the actual voltage across the battery terminals when current is flowing, given by
+$$
+V = \mathcal{E} - Ir
+$$
