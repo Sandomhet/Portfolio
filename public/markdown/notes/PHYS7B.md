@@ -350,9 +350,13 @@ Spherical capacitor: $C = 4\pi \epsilon_0 \frac{r_a r_b}{r_b - r_a}$ where $r_a$
 - Capacitors in parallel: $C_{eq} = \sum C_i$ (same voltage)
 
 Energy stored in a capacitor:
-$$U = \int_0^Q V \, dQ = \frac{1}{2} CV^2 = \frac{1}{2} QV = \frac{1}{2} \frac{Q^2}{C}$$
+$$
+U = \int_0^Q V \, dQ = \frac{1}{2} CV^2 = \frac{1}{2} QV = \frac{1}{2} \frac{Q^2}{C}
+$$
 Energy density in an electric field:
-$$u = \frac{U}{Ad} = \frac{1}{2} \epsilon_0 E^2$$
+$$
+u = \frac{U}{Ad} = \frac{1}{2} \epsilon_0 E^2
+$$
 
 #### Dielectrics
 
