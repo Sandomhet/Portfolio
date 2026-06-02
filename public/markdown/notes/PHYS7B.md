@@ -365,6 +365,8 @@ $$C' = \kappa C$$
 $$E' = \frac{E}{\kappa}$$
 $$V' = \frac{V}{\kappa}$$
 
+## Electric Circuits
+
 ### Electric Current
 
 Electric current $I$ is the rate of flow of electric charge:
@@ -377,7 +379,7 @@ units: $1 \, \text{A (ampere)} = 1 \,\text{C/s}$.
 - **Conventional current**: positive charges would move, which is opposite to the actual flow of electrons.
 - **Real current**: the actual flow of electrons, from the negative terminal to the positive terminal.
 
-#### Resistance
+### Resistance
 
 **Ohm's Law**:
 $$
@@ -392,9 +394,12 @@ $$
 $$
 where $E$ is the electric field and $J$ is the current density.
 
-Battery: a device that converts chemical energy into electrical energy, providing a potential difference (voltage) to drive current through a circuit.
+- **Resistors in series**: $R_{eq} = \sum R_i$ (same current)
+- **Resistors in parallel**: $\frac{1}{R_{eq}} = \sum \frac{1}{R_i}$ (same voltage)
 
-#### Battery
+### Battery
+
+Battery: a device that converts chemical energy into electrical energy, providing a potential difference (voltage) to drive current through a circuit.
 
 **Electromotive force (emf)** $\mathcal{E}$: the maximum potential difference provided by the battery when no current is flowing.  
 **Internal resistance** $r$: the resistance within the battery that causes a voltage drop when current flows.  
@@ -402,3 +407,22 @@ Battery: a device that converts chemical energy into electrical energy, providin
 $$
 V = \mathcal{E} - Ir
 $$
+
+### Power
+
+Power delivered by the battery:
+$$
+P = IV = I(\mathcal{E} - Ir) = I\mathcal{E} - I^2 r
+$$
+
+Power delivered to the resistor:
+$$
+P_R = IV = I^2 R = \frac{V^2}{R}
+$$
+The first term $I\mathcal{E}$ represents the power supplied by the battery, while the second term $I^2 r$ represents the power lost due to the internal resistance of the battery. The efficiency of the battery can be calculated as
+$$\text{Efficiency} = \frac{P_{\text{useful}}}{P_{\text{total}}} = \frac{I\mathcal{E} - I^2 r}{I\mathcal{E}} = 1 - \frac{Ir}{\mathcal{E}}$$
+
+### Kirchhoff's Laws
+
+- **Kirchhoff's Current Law (KCL)**: The total current entering a junction equals the total current leaving the junction.
+- **Kirchhoff's Voltage Law (KVL)**: The sum of the potential differences around any closed loop in a circuit must equal zero.

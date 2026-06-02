@@ -285,3 +285,14 @@ $$
 
 - **Weak Duality**: For any feasible solution $x$ to the primal and any feasible solution $y$ to the dual, $c^T x \leq b^T y$.
 - **Strong Duality**: If the primal has an optimal solution, and the dual  also has an optimal solution, then $c^T x^* = b^T y^*$.
+
+## RSA Cryptosystem
+
+1. Choose two distinct large prime numbers $p$ and $q$.
+2. Compute $N = p \cdot q$ and $\phi(N) = (p-1)(q-1)$.
+3. Choose an integer $e$ such that $1 < e < \phi(N)$ and $\gcd(e, \phi(N)) = 1$.
+4. Compute $d$ such that $d \equiv e^{-1} \mod \phi(N)$.
+5. The public key is $(N, e)$ and the private key is $(N, d)$.
+
+- To encrypt a message $m$ (where $0 \leq m < N$), compute the ciphertext $c = m^e \mod N$.
+- To decrypt a ciphertext $c$, compute the original message $m = c^d \mod N$.
