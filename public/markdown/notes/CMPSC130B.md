@@ -255,7 +255,26 @@ It operates on the vertices of the feasible region defined by the constraints. T
 
 ### LP Duality
 
-The dual problem is:
+The upper bound optimal value of the **primal** problem is $c^T x \leq V$. To find the tightest upper bound, we should minimize the $V \leq b^T y$.
+
+Minimize the upper bound optimal value of the primal:
+$$
+b_1 y_1 + b_2 y_2 + \ldots + b_m y_m
+$$
+Subject to:
+$$
+\begin{cases}
+a_{11} y_1 + a_{21} y_2 + \ldots + a_{m1} y_m \geq c_1 \\
+a_{12} y_1 + a_{22} y_2 + \ldots + a_{m2} y_m \geq c_2 \\
+\vdots \\
+a_{1n} y_1 + a_{2n} y_2 + \ldots + a_{mn} y_m \geq c_n \\
+y_1 \geq 0, y_2 \geq 0, \ldots, y_m \geq 0
+\end{cases}
+$$
+Reasoning: For any feasible solution $x$ to the primal and any feasible solution $y$ to the dual, we have:
+$$c^T x \leq y^T A x \leq y^T b$$
+
+The dual problem to solve $y$ is:
 $$
 \begin{aligned}
 \text{minimize} \quad & b^T y \\
@@ -263,3 +282,6 @@ $$
 & y \geq 0
 \end{aligned}
 $$
+
+- **Weak Duality**: For any feasible solution $x$ to the primal and any feasible solution $y$ to the dual, $c^T x \leq b^T y$.
+- **Strong Duality**: If the primal has an optimal solution, and the dual  also has an optimal solution, then $c^T x^* = b^T y^*$.
