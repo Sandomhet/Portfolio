@@ -1,4 +1,14 @@
 {
+  "network-flow": {
+    "type": "blogs",
+    "category": "Graph",
+    "name": "network-flow",
+    "path": "/markdown/blogs/Graph/network-flow.md",
+    "title": "Network Flow Problem",
+    "description": "maximum flow problem, minimum-cost flow problem",
+    "time": "Wed Jun 3, 2026",
+    "lang": "zh"
+  },
   "fft": {
     "type": "blogs",
     "category": "Polynomial",
@@ -476,16 +486,6 @@
     "path": "/markdown/blogs/Graph/bipartite.md",
     "title": "Bipartite Graph",
     "description": "a graph whose vertices can be divided into two disjoint and independent sets",
-    "time": "Mon Feb 1, 2024",
-    "lang": "zh"
-  },
-  "network-flow": {
-    "type": "blogs",
-    "category": "Graph",
-    "name": "network-flow",
-    "path": "/markdown/blogs/Graph/network-flow.md",
-    "title": "Network Flow Problem",
-    "description": "maximum flow problem, minimum-cost flow problem",
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },

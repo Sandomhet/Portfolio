@@ -199,9 +199,9 @@ For a subset $S$ of items,
 
 Weight is at most $T$ and value is at least $T$ if and only if the sum of the selected integers is exactly $T$.
 
-## Problem solving test space
-
 ## Linear Programming
+
+ILP (Integer Linear Programming) is NP-complete, while LP (Linear Programming) can be solved in polynomial time.
 
 ### Standard Form
 
