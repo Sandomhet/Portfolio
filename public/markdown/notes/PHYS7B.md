@@ -426,3 +426,36 @@ $$\text{Efficiency} = \frac{P_{\text{useful}}}{P_{\text{total}}} = \frac{I\mathc
 
 - **Kirchhoff's Current Law (KCL)**: The total current entering a junction equals the total current leaving the junction.
 - **Kirchhoff's Voltage Law (KVL)**: The sum of the potential differences around any closed loop in a circuit must equal zero.
+
+### RC (Resistor-Capacitor) Circuits
+
+Equations:
+$$
+\begin{aligned}
+\sum V = 0 &\Rightarrow \mathcal{E} - iR - \frac{q}{C} = 0 \\
+i = \frac{dq}{dt} &\Rightarrow \frac{dq}{dt} = \frac{\mathcal{E}}{R} - \frac{q}{RC} \\
+\frac{dq}{dt} &= \frac{q - \mathcal{E}C}{-RC} \\
+\int_0^Q \frac{dq}{q - \mathcal{E}C} &= -\int_0^t \frac{dt}{RC} \\
+\ln \left| \frac{q - \mathcal{E}C}{-\mathcal{E}C} \right| &= -\frac{t}{RC} \\
+\end{aligned}
+$$
+
+When a capacitor is **charging** through a resistor:
+$$
+\begin{aligned}
+Q(t) &= C \mathcal{E} \left(1 - e^{-\frac{t}{RC}} \right) \\
+V(t) &= \mathcal{E} \left(1 - e^{-\frac{t}{RC}} \right) \\
+I(t) &= \frac{\mathcal{E}}{R} e^{-\frac{t}{RC}} \\
+\end{aligned}
+$$
+
+Charge increases in a characteristic time scale where time constant is $\tau = RC$.
+
+When a capacitor is **discharging** through a resistor:
+$$
+\begin{aligned}
+Q(t) &= Q_0 e^{-\frac{t}{RC}} \\
+V(t) &= V_0 e^{-\frac{t}{RC}} \\
+I(t) &= -\frac{V_0}{R} e^{-\frac{t}{RC}} \\
+\end{aligned}
+$$
