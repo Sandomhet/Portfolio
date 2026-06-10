@@ -211,13 +211,13 @@ Superposition: The difference in path length traveled by two waves determines th
 - **Constructive interference**: $\Delta L = m \lambda$ where $m$ is an integer.
 - **Destructive interference**: $\Delta L = (m + \frac{1}{2}) \lambda$ where $m$ is an integer.
 
-## Electricity and Magnetism
+## Electrostatics
 
 - **Conductors**: materials that allow electrons to flow freely (e.g., metals).
 - **Insulators**: materials that do not allow electrons to flow freely (e.g., rubber, glass).
 - **Semiconductors**: materials that have electrical conductivity between that of conductors and insulators (e.g., silicon).
 
-### Electrostatics
+### Coulomb's Law
 
 **Coulomb's Law**: The electrostatic force between two point charges:
 $$
@@ -294,10 +294,13 @@ where $Q_{enc}$ is the total charge enclosed within the Gaussian surface.
 
 For a point charge $Q$ at the center of a spherical Gaussian surface of radius $r$:
 $$\Phi_E = E \cdot 4\pi r^2 = \frac{Q}{\epsilon_0} \implies E = k \frac{Q}{r^2}$$
-For an infinite line charge with linear charge density $\lambda$ and a cylindrical
 
 For a charged insulating sphere with total charge $Q$ and radius $R$:
 - For $r < R$: $Q_{enc} = \frac{Qr^3}{R^3}$, $E = k \frac{Qr}{R^3} = \frac{1}{4\pi\epsilon_0} \frac{Qr}{R^3}$
+- For $r \geq R$: $Q_{enc} = Q$, $E = k \frac{Q}{r^2} = \frac{1}{4\pi\epsilon_0} \frac{Q}{r^2}$
+
+For a charged conducting sphere with total charge $Q$ and radius $R$:
+- For $r < R$: $Q_{enc} = 0$, $E = 0$
 - For $r \geq R$: $Q_{enc} = Q$, $E = k \frac{Q}{r^2} = \frac{1}{4\pi\epsilon_0} \frac{Q}{r^2}$
 
 ### Electric Potential Energy

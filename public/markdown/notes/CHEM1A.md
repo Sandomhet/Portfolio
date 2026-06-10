@@ -928,3 +928,131 @@ Examples:
 | $\mathrm{CO_2}$ | linear | nonpolar because equal C=O dipoles cancel |
 | $\mathrm{COS}$ | linear | polar because C=O and C=S dipoles are not equal |
 | $\mathrm{H_2O}$ | bent | polar because O-H dipoles do not cancel |
+
+## Bonding Orbitals
+
+### Overlapping Orbitals
+
+Valence atomic orbitals on neighboring atoms overlap to form bonds.
+
+Types of orbital overlap:
+
+- **Sigma bond** ($\sigma$): direct overlap along the bond axis.
+- **Pi bond** ($\pi$): side-by-side overlap of orbitals above and below the bond axis.
+
+General bond patterns:
+
+| Bond Type | Orbital Overlap |
+| --- | --- |
+| single bond | 1 $\sigma$ bond |
+| double bond | 1 $\sigma$ bond and 1 $\pi$ bond |
+| triple bond | 1 $\sigma$ bond and 2 $\pi$ bonds |
+
+### Hybridization
+
+**Hybridization** is the mixing of atomic orbitals on the same atom to form hybrid orbitals.
+
+- Orbitals with similar energy can mix.
+- Hybrid orbitals give a better model for observed molecular shapes.
+- Hybridization connects VSEPR geometry with orbital bonding.
+
+### Hybridization from Steric Number
+
+| Steric Number | Hybridization | Electron Geometry |
+| --- | --- | --- |
+| 2 | $\mathrm{sp}$ | linear |
+| 3 | $\mathrm{sp^2}$ | trigonal planar |
+| 4 | $\mathrm{sp^3}$ | tetrahedral |
+| 5 | $\mathrm{dsp^3}$ or $\mathrm{sp^3d}$ | trigonal bipyramidal |
+| 6 | $\mathrm{d^2sp^3}$ or $\mathrm{sp^3d^2}$ | octahedral |
+
+Examples:
+
+| Molecule / Atom | Steric Number | Hybridization |
+| --- | --- | --- |
+| C in $\mathrm{CH_4}$ | 4 | $\mathrm{sp^3}$ |
+| C in $\mathrm{CO_2}$ | 2 | $\mathrm{sp}$ |
+| O in $\mathrm{CO_2}$ | 3 | $\mathrm{sp^2}$ |
+| O in $\mathrm{H_2O}$ | 4 | $\mathrm{sp^3}$ |
+
+For elements in the third row or lower, d orbitals may be included in expanded-octet hybridization models.
+
+#### Ethylene Bonds
+
+Ethylene: $\mathrm{C_2H_4}$
+
+Each carbon has three bonded atoms, so each carbon is approximately trigonal planar.
+
+- Each carbon is $\mathrm{sp^2}$ hybridized.
+- Each C-H bond forms by overlap of H 1s with C $\mathrm{sp^2}$.
+- The C=C double bond contains:
+  - one $\sigma$ bond from $\mathrm{sp^2}$-$\mathrm{sp^2}$ overlap
+  - one $\pi$ bond from side-by-side overlap of unhybridized 2p orbitals
+
+#### Acetylene Bonds
+
+Acetylene: $\mathrm{C_2H_2}$
+
+Each carbon has steric number 2, so each carbon is $\mathrm{sp}$ hybridized.
+
+- The 2s orbital mixes with one 2p orbital to form two $\mathrm{sp}$ hybrid orbitals.
+- Two unhybridized 2p orbitals remain on each carbon.
+- The $C \equiv C$ triple bond contains:
+  - one $\sigma$ bond
+  - two $\pi$ bonds
+
+### Molecular Orbital Theory
+
+Atomic orbitals can combine to form **molecular orbitals**.
+
+Because electrons and orbitals behave like waves, orbital overlap can be:
+
+- **Constructive interference**: orbitals of the same sign combine to form a lower-energy **bonding** orbital.
+- **Destructive interference**: orbitals of opposite sign combine to form a higher-energy **antibonding** orbital.
+
+Important rule:
+
+$$
+\text{number of atomic orbitals} = \text{number of molecular orbitals}
+$$
+
+Molecular orbitals are filled using the same rules as atomic orbitals:
+
+1. **Aufbau principle**: fill lower-energy orbitals first.
+2. **Pauli exclusion principle**: maximum two electrons per orbital with opposite spins.
+3. **Hund's rule**: fill degenerate orbitals singly before pairing.
+
+### MO Diagrams
+
+An **MO diagram** shows how atomic orbitals combine into bonding and antibonding molecular orbitals.
+
+- Bonding orbitals are lower in energy.
+- Antibonding orbitals are higher in energy and marked with an asterisk, such as $\sigma^*$.
+- MO diagrams can determine bond order and molecular stability.
+
+MO bond order:
+
+$$
+\text{bond order} = \frac{\text{bonding electrons} - \text{antibonding electrons}}{2}
+$$
+
+#### MO Diagrams with p Orbitals
+
+When p orbitals combine, they can form both sigma and pi molecular orbitals.
+
+- End-to-end p-orbital overlap forms $\sigma$ and $\sigma^*$ orbitals.
+- Side-by-side p-orbital overlap forms $\pi$ and $\pi^*$ orbitals.
+- Degenerate $\pi$ orbitals fill according to Hund's rule.
+
+#### Magnetism from MO Diagrams
+
+MO diagrams can predict magnetic behavior.
+
+- **Paramagnetic**: has unpaired electrons.
+- **Diamagnetic**: all electrons are paired.
+
+Example: $\mathrm{O_2}$
+
+- MO theory predicts two unpaired electrons in $\mathrm{O_2}$.
+- Therefore, $\mathrm{O_2}$ is **paramagnetic**.
+- Its bond order is 2, corresponding to a double bond.
