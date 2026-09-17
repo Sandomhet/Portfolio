@@ -150,8 +150,51 @@ int kth_rank(int l, int r, int k) {
 
 ## Closest Pair of Points (最近点对)
 
+Complexity: $O(n \log n)$
+
 Steps:
 1. Sort the points by their x-coordinates.
 2. Divide the points into two halves.
 3. Recursively find the closest pair in each half.
 4. Find the closest pair that straddles the dividing line.
+5. Use a strip of width $2d$ centered on the dividing line, where $d$ is the minimum distance found in the two halves.
+6. For each point in the strip, check only the next 7 points in the sorted order by y-coordinate to find the closest pair.
+
+```cpp
+struct Point {
+    int x, y;
+};
+Point points[Z];
+double closest_pair(int l, int r) {
+    if (r - l <= 3) { // base case
+        double min_dist = DBL_MAX;
+        for (int i = l; i < r; i++) {
+            for (int j = i + 1; j <= r; j++) {
+                double dist = sqrt(pow(points[i].x - points[j].x, 2) + pow(points[i].y - points[j].y, 2));
+                min_dist = min(min_dist, dist);
+            }
+        }
+        return min_dist;
+    }
+    int mid = (l + r) / 2;
+    double d1 = closest_pair(l, mid);
+    double d2 = closest_pair(mid + 1, r);
+    double d = min(d1, d2);
+
+    vector<Point> strip;
+    for (int i = l; i <= r; i++) {
+        if (abs(points[i].x - points[mid].x) < d) {
+            strip.push_back(points[i]);
+        }
+    }
+    sort(strip.begin(), strip.end(), [](const Point &a, const Point &b) { return a.y < b.y; });
+
+    for (size_t i = 0; i < strip.size(); i++) {
+        for (size_t j = i + 1; j < strip.size() && (strip[j].y - strip[i].y) < d; j++) {
+            double dist = sqrt(pow(strip[i].x - strip[j].x, 2) + pow(strip[i].y - strip[j].y, 2));
+            d = min(d, dist);
+        }
+    }
+    return d;
+}
+```

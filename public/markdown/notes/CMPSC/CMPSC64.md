@@ -48,7 +48,8 @@ Group 4 binary digits to convert to hexadecimal.
 
 ### Data Unit
 
-**1 byte (B) = 8 bits (b)**
+**1 byte (B) = 8 bits (b)**  
+**1 word = 4 bytes**
 
 $10^{-12} = \text{pico} (p)$  
 $10^{-9} = \text{nano} (n)$  

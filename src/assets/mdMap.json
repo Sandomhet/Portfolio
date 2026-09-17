@@ -1,4 +1,34 @@
 {
+  "EECS370": {
+    "type": "notes",
+    "category": "EECS",
+    "name": "EECS370",
+    "path": "/markdown/notes/EECS/EECS370.md",
+    "title": "EECS 370: Computer Organization and Architecture",
+    "description": "",
+    "time": "Thu Sep 17, 2026",
+    "lang": "zh"
+  },
+  "EECS376": {
+    "type": "notes",
+    "category": "EECS",
+    "name": "EECS376",
+    "path": "/markdown/notes/EECS/EECS376.md",
+    "title": "EECS 281+376 Algorithms",
+    "description": "",
+    "time": "Thu Sep 17, 2026",
+    "lang": "zh"
+  },
+  "ai": {
+    "type": "projects",
+    "category": "",
+    "name": "ai",
+    "path": "/markdown/projects/ai.md",
+    "title": "AI, ML, LLM, and Agent",
+    "description": "This document provides an overview of Artificial Intelligence (AI), Machine Learning (ML), Large Language Models (LLM), and Agents, explaining their definitions, differences, and applications.",
+    "time": "Sat Aug 15, 2026",
+    "lang": "zh"
+  },
   "network-flow": {
     "type": "blogs",
     "category": "Graph",
@@ -39,21 +69,11 @@
     "time": "Wed Apr 1, 2026",
     "lang": "zh"
   },
-  "CHEM1A": {
-    "type": "notes",
-    "category": "",
-    "name": "CHEM1A",
-    "path": "/markdown/notes/CHEM1A.md",
-    "title": "CHEM 1A: General Chemistry",
-    "description": "Introduction to general chemistry, covering fundamental laws, atomic structure, chemical bonding, naming conventions, stoichiometry, and solutions.",
-    "time": "Mon Apr 1, 2026",
-    "lang": "zh"
-  },
   "CMPSC130B": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC130B",
-    "path": "/markdown/notes/CMPSC130B.md",
+    "path": "/markdown/notes/CMPSC/CMPSC130B.md",
     "title": "CMPSC 130B Algorithms and Data Structures",
     "description": "Algorithm analysis and graph algorithms including maximum flow, linear programming, and NP-completeness.",
     "time": "Mon Apr 1, 2026",
@@ -61,19 +81,29 @@
   },
   "CMPSC165B": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC165B",
-    "path": "/markdown/notes/CMPSC165B.md",
+    "path": "/markdown/notes/CMPSC/CMPSC165B.md",
     "title": "CMPSC 165B Machine Learning",
     "description": "",
     "time": "Wed Apr 1, 2026",
     "lang": "zh"
   },
+  "CHEM1A": {
+    "type": "notes",
+    "category": "PHYS+CHEM",
+    "name": "CHEM1A",
+    "path": "/markdown/notes/PHYS+CHEM/CHEM1A.md",
+    "title": "CHEM 1A: General Chemistry",
+    "description": "Introduction to general chemistry, covering fundamental laws, atomic structure, chemical bonding, naming conventions, stoichiometry, and solutions.",
+    "time": "Mon Apr 1, 2026",
+    "lang": "zh"
+  },
   "PHYS7B": {
     "type": "notes",
-    "category": "",
+    "category": "PHYS+CHEM",
     "name": "PHYS7B",
-    "path": "/markdown/notes/PHYS7B.md",
+    "path": "/markdown/notes/PHYS+CHEM/PHYS7B.md",
     "title": "PHYS 7B: Basic Physics II",
     "description": "Notes for PHYS 7B: Basic Physics II, covering topics such as gravitation, oscillations, and wave motion.",
     "time": "Tue Mar 31, 2026",
@@ -91,9 +121,9 @@
   },
   "Math6A": {
     "type": "notes",
-    "category": "",
+    "category": "MATH",
     "name": "Math6A",
-    "path": "/markdown/notes/Math6A.md",
+    "path": "/markdown/notes/MATH/Math6A.md",
     "title": "MATH 6AB Vector Calculus",
     "description": "Vector Calculus",
     "time": "Tue Mar 17, 2026",
@@ -111,9 +141,9 @@
   },
   "CMPSC64": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC64",
-    "path": "/markdown/notes/CMPSC64.md",
+    "path": "/markdown/notes/CMPSC/CMPSC64.md",
     "title": "CMPSC 64: Computer Organization and Architecture",
     "description": "",
     "time": "Mon Jan 5, 2026",
@@ -121,9 +151,9 @@
   },
   "PHYS7A": {
     "type": "notes",
-    "category": "",
+    "category": "PHYS+CHEM",
     "name": "PHYS7A",
-    "path": "/markdown/notes/PHYS7A.md",
+    "path": "/markdown/notes/PHYS+CHEM/PHYS7A.md",
     "title": "PHYS 7A: Basic Physics I",
     "description": "",
     "time": "Mon Jan 5, 2026",
@@ -131,9 +161,9 @@
   },
   "CMPSC111": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC111",
-    "path": "/markdown/notes/CMPSC111.md",
+    "path": "/markdown/notes/CMPSC/CMPSC111.md",
     "title": "CMPSC 111 - Numerical Linear Algebra",
     "description": "Solving systems of linear equations using LU decomposition and iterative methods like Jacobi and Gauss-Seidel.",
     "time": "Tue Dec 9, 2025",
@@ -141,9 +171,9 @@
   },
   "CMPSC32": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC32",
-    "path": "/markdown/notes/CMPSC32.md",
+    "path": "/markdown/notes/CMPSC/CMPSC32.md",
     "title": "CMPSC 32 - Object Oriented Design",
     "description": "Object-oriented programming concepts including classes, inheritance, polymorphism, and design patterns.",
     "time": "Tue Dec 9, 2025",
@@ -151,9 +181,9 @@
   },
   "CMPSC130A": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "CMPSC130A",
-    "path": "/markdown/notes/CMPSC130A.md",
+    "path": "/markdown/notes/CMPSC/CMPSC130A.md",
     "title": "CMPSC 130A Algorithms and Data Structures",
     "description": "Algorithm analysis and graph algorithms including shortest path, 2-SAT, and minimum spanning tree.",
     "time": "Mon Dec 8, 2025",
@@ -251,9 +281,9 @@
   },
   "Pstat120A": {
     "type": "notes",
-    "category": "",
+    "category": "MATH",
     "name": "Pstat120A",
-    "path": "/markdown/notes/Pstat120A.md",
+    "path": "/markdown/notes/MATH/Pstat120A.md",
     "title": "PSTAT 120A Introduction to Probability",
     "description": "Content includes distributions, random variables...",
     "time": "Fri Jun 6, 2025",
@@ -271,9 +301,9 @@
   },
   "Cmpsc40": {
     "type": "notes",
-    "category": "",
+    "category": "CMPSC",
     "name": "Cmpsc40",
-    "path": "/markdown/notes/Cmpsc40.md",
+    "path": "/markdown/notes/CMPSC/Cmpsc40.md",
     "title": "CMPSC 40 Discrete Mathematics",
     "description": "discrete mathematics and mathematical proof",
     "time": "Wed May 28, 2025",
@@ -291,9 +321,9 @@
   },
   "Math4B": {
     "type": "notes",
-    "category": "",
+    "category": "MATH",
     "name": "Math4B",
-    "path": "/markdown/notes/Math4B.md",
+    "path": "/markdown/notes/MATH/Math4B.md",
     "title": "MATH 4B Differential Equation",
     "description": "Differential Equation Cheatsheet",
     "time": "Tue Mar 18, 2025",
@@ -749,16 +779,6 @@
     "time": "Mon Feb 1, 2024",
     "lang": "zh"
   },
-  "CMPSC181": {
-    "type": "notes",
-    "category": "",
-    "name": "CMPSC181",
-    "path": "/markdown/notes/CMPSC181.md",
-    "title": "CMPSC181",
-    "description": "",
-    "time": "Mon Jan 1, 2024",
-    "lang": "zh"
-  },
   "table": {
     "type": "notes",
     "category": "",
@@ -775,16 +795,6 @@
     "name": "all-template",
     "path": "/markdown/projects/all-template.md",
     "title": "all-template",
-    "description": "",
-    "time": "Mon Jan 1, 2024",
-    "lang": "zh"
-  },
-  "test": {
-    "type": "projects",
-    "category": "",
-    "name": "test",
-    "path": "/markdown/projects/test.md",
-    "title": "test",
     "description": "",
     "time": "Mon Jan 1, 2024",
     "lang": "zh"
