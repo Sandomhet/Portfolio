@@ -45,3 +45,8 @@ Register conventions:
 - X0-X7 used for arguments (memory used if more space is needed) 
 - X0 used for return value 
 
+## Digital Logic
+
+Transistors:
+- N-type: conducts when gate is high
+- P-type: conducts when gate is low
