@@ -579,6 +579,8 @@ $C_{out} = A B + B C + C A$
 
 ## Sequential Logic Circuits
 
+![](/public/markdown/images/image-8.png)
+
 Unlike **combinational** circuits (outputs depend only on current inputs), **sequential** circuits have **memory**: their outputs depend on the current inputs and on the **history** of past inputs. They use feedback and storage elements (latches or flip-flops).
 
 ### SR Latch (Set-Reset Latch)
