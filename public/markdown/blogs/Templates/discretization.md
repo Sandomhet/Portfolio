@@ -6,6 +6,8 @@ time: "Mon Feb 1, 2024"
 
 # Discretization
 
+Replace each value by its rank among the distinct values: sort, `unique`, then `lower_bound`. Order is preserved and values become $1..len$. $O(n \log n)$
+
 ```cpp
 int ls[Z], len;
 void discrete(int num[], int nm) {

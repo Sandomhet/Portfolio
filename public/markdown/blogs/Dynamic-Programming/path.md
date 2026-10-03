@@ -56,10 +56,12 @@ $O(n^3)$
 ```cpp
 bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
     int n = dis.size() - 1;
-    dis.assign(n + 1, vector<int>(n + 1, INF));
-    for (int i = 1; i <= n; i++)
+    dis.assign(n + 1, vector<int>(n + 1, INF / 2));
+    for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++)
             dis[i][j] = w[i][j];
+        dis[i][i] = min(dis[i][i], 0);
+    }
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)

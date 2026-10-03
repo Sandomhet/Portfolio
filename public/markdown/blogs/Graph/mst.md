@@ -116,7 +116,7 @@ int kruskal(int n, int m) {
             mst.push_back(e);
             if ((++tot) == n - 1) return sum;
         }
-    return -1; // not connected
+    return tot == n - 1 ? sum : -1; // -1: not connected
 }
 ```
 

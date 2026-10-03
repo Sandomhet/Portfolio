@@ -185,11 +185,9 @@ void SumDivisors(int n) { //约数和
     s.assign(n + 1, 0);
     primes.clear();
     s[1] = 1;
-    for (int i = 2; i <= n; ++i)
-    {
+    for (int i = 2; i <= n; ++i) {
         if (!npr[i]) primes.push_back(i), s[i] = i + 1;
-        for (int pr : primes)
-        {
+        for (int pr : primes) {
             int k = i * pr;
             if (k > n) break;
             npr[k] = true;

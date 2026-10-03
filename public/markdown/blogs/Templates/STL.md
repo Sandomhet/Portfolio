@@ -39,8 +39,8 @@ v[i], v.at(i);
 v.front(), v.back();
 it = v.begin(), v.end();
 v.empty();
-v.insert(idx, x); // insert x at index idx
-v.erase(idx); // erase element at index idx
+v.insert(v.begin() + idx, x); // insert x at index idx (takes an iterator)
+v.erase(v.begin() + idx); // erase element at index idx (takes an iterator)
 ```
 
 ---
@@ -162,7 +162,8 @@ Sorted elements with duplicates
 
 ```cpp
 ms.insert(x)
-ms.erase(x)
+ms.erase(x) // erases ALL copies of x
+ms.erase(ms.find(x)) // erases one copy (x must exist)
 ms.find(x)
 ms.count(x)
 ms.lower_bound(x)
@@ -226,7 +227,7 @@ us.size()
 
 ```cpp
 ums.insert(x)
-ums.erase(x)
+ums.erase(x) // erases ALL copies of x
 ums.count(x)
 ```
 
@@ -370,29 +371,3 @@ begin(), end()
 cbegin(), cend()
 rbegin(), rend()
 ```
-
----
-
-## Quick Interview / CP Summary
-
-| Use case              | Container         |
-| --------------------- | ----------------- |
-| Dynamic array         | `vector`          |
-| Stack                 | `stack`           |
-| Queue                 | `queue`           |
-| Max/Min heap          | `priority_queue`  |
-| Fast lookup           | `unordered_map`   |
-| Ordered data          | `map`, `set`      |
-| Frequent insert/erase | `list`            |
-| Fixed size            | `array`, `bitset` |
-
----
-
-If you want, I can:
-
-* give **time complexity tables**
-* give **CP vs production recommendations**
-* give **what NOT to use and why**
-* give **C++20/23 STL changes**
-
-Just tell me.

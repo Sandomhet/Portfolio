@@ -6,6 +6,10 @@ time: "Mon Feb 1, 2024"
 
 # Bipartite Graph
 
+## Bipartite Check
+
+A graph is bipartite iff it has no odd cycle. Color with DFS using 2 colors; an edge between two vertices of the same color means it is not bipartite. $O(n + m)$
+
 二分图的判定（染色法）
 
 ```cpp
@@ -26,6 +30,8 @@ inline bool judge() {
 }
 ```
 
+## Matching, Cover, Independent Set
+
 匹配：任意两条边都没有公共顶点。
 
 点覆盖：图中任意一条边都有至少一个端点属于该集合。
@@ -37,6 +43,10 @@ inline bool judge() {
 由某些定理得：二分图的最小点覆盖的点数 = 最大匹配的边数；
 
 二分图的最大独立集的大小 = $n$ - 最小点覆盖数（最大匹配数）。
+
+## Maximum Matching (Hungarian Algorithm)
+
+An augmenting path alternates unmatched and matched edges and starts and ends at unmatched vertices; flipping it adds one matching edge. A matching is maximum iff no augmenting path exists. Try to augment from each left vertex: $O(nm)$.
 
 匈牙利算法（增广路）：求二分图的最大匹配，当且仅当图中不存在增广路。
 

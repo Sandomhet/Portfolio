@@ -112,14 +112,18 @@ class CuckooHashTable:
     def insert(self, key):
         if self.search(key):
             return
-        cur_key = key
+        for h in self.hash_funcs:  # try both positions first
+            if self.table[h(key)] is self.EMPTY:
+                self.table[h(key)] = key
+                return
+        cur_key, pos = key, self.hash_funcs[0](key)
         for _ in range(self.MAX_LOOP):
-            for h in self.hash_funcs:
-                pos = h(cur_key)
-                if self.table[pos] is self.EMPTY:
-                    self.table[pos] = cur_key
-                    return
-                cur_key, self.table[pos] = self.table[pos], cur_key
+            cur_key, self.table[pos] = self.table[pos], cur_key  # kick out the occupant
+            p0, p1 = (h(cur_key) for h in self.hash_funcs)
+            pos = p1 if pos == p0 else p0  # the evicted key goes to its other position
+            if self.table[pos] is self.EMPTY:
+                self.table[pos] = cur_key
+                return
         print(f"Rehash needed! Insertion failed for {cur_key}")
 
     def remove(self, key):

@@ -79,7 +79,8 @@ $O(n \log n)$
 int LIS(vector<int> a) {
     int n = a.size();
     a.insert(a.begin(), 0);
-    vector<int> d(n + 1, INF);
+    vector<int> d(n + 1, INF); // d[l]: smallest tail of an increasing subsequence of length l
+    d[0] = -INF;
     for (int i = 1; i <= n; i++) {
         int j = upper_bound(d.begin(), d.end(), a[i]) - d.begin();
         if (d[j - 1] < a[i] && a[i] < d[j]) {

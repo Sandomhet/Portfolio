@@ -31,13 +31,13 @@ void dfs(int u, int cid) {
     ccid[u] = cid;
     ccs[cid].push_back(u); // current CC
     for (int v : e[u])
-        if (!ccid[v]) dfs(v, cid);
+        if (ccid[v] == -1) dfs(v, cid);
 }
 void findCC(int n) {
     ccs.clear();
-    ccid.assign(n + 1, 0);
+    ccid.assign(n + 1, -1); // -1: unvisited (component ids start from 0)
     for (int u = 1; u <= n; u++)
-        if (!ccid[u]) {
+        if (ccid[u] == -1) {
             ccs.emplace_back();
             dfs(u, ccs.size() - 1);
         }
@@ -46,7 +46,11 @@ void findCC(int n) {
 
 ### Bridge
 
+An edge whose removal increases the number of CCs. With DFS order $dfn$ and $low_u$ (the smallest $dfn$ reachable from the subtree of $u$ using at most one back edge), tree edge $(u, v)$ is a bridge iff $low_v > dfn_u$. See the Tarjan's Algorithm note.
+
 ### Articulation Point
+
+A vertex whose removal increases the number of CCs. A non-root $u$ is an articulation point iff it has a DFS child $v$ with $low_v \ge dfn_u$; the root is one iff it has at least $2$ DFS children.
 
 ## Strongly Connected Components (SCC)
 
@@ -86,7 +90,8 @@ void dfs2(int u, int cid) {
     for (int v : re[u])
         if (sccid[v] == -1) dfs2(v, cid);
 }
-void kosaraju() {
+void kosaraju(int n) {
+    order.clear(), sccs.clear();
     // construct the transpose graph re
     re.assign(n + 1, {});
     for (int u = 1; u <= n; u++)
@@ -104,7 +109,7 @@ void kosaraju() {
             dfs2(u, sccs.size() - 1);
         }
 }
-void shrink() {
+void shrink(int n) {
     se.assign(sccs.size(), {});
     for (int u = 1; u <= n; u++)
         for (int v : e[u]) {

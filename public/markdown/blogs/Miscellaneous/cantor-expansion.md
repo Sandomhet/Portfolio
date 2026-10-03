@@ -14,17 +14,14 @@ $rnk=1+\sum\limits_{i=1}^{n}A[i]*(n-i)!$---A[i]表示$\sum\limits_{j=i}^{n}[a[j]
 也就是说我们需要用到i之后的小于i的数，树状数组就可以解决这个问题。
 
 ```cpp
-int cantor(int a[], int n)
-{
+int cantor(int a[], int n) {
     fac[0] = 1;
-    for (re i = 1; i <= n; i++)
-    {
+    for (int i = 1; i <= n; i++) {
         fac[i] = fac[i - 1] * i % mod;//预处理阶乘
         update(a[i], 1);//先把所有的数插进去
     }
     int ans = 1;//自己也算一个
-    for (re i = 1; i <= n; i++)
-    {
+    for (int i = 1; i <= n; i++) {
         update(a[i], -1);//树状数组中剩下的都是i的后缀
         ans = (ans + ask(a[i] - 1) * fac[n - i] % mod) % mod;
     }

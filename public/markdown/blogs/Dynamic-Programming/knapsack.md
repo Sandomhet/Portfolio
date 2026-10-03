@@ -23,8 +23,8 @@ f_{i-1,j} & \text{if } j < w_i \\
 $$
 3. Answer: $f_{n,W}$.
 
-Optimized recurrence relation:
-$$f_j = \max\limits_{1 \leq i \leq n, j \geq w_i} \{f_{j - w_i} + v_i\}$$
+Optimized recurrence relation (for each item $i$, $j$ from $W$ down to $w_i$, so each item is used at most once):
+$$f_j \leftarrow \max\{f_j, f_{j - w_i} + v_i\}$$
 
 $O(nW)$
 
@@ -81,6 +81,8 @@ int KnapsackComplete(int n, int W, vector<int> w, vector<int> v) {
 
 ## Multiple Knapsack
 
+Item $i$ can be used at most $m_i$ times.
+
 $O(nWm)$
 
 ```cpp
@@ -96,6 +98,8 @@ int KnapsackMultiple(int n, int W, vector<int> w, vector<int> v, vector<int> m) 
     return f[W];
 }
 ```
+
+Binary splitting: split $m_i$ into $1, 2, 4, \ldots, 2^{k-1}, m_i - (2^k - 1)$; these pieces add up to every count in $[0, m_i]$, so each piece becomes one 0-1 item. If $w_i m_i \ge W$, item $i$ is effectively unlimited.
 
 $O(nW \log m)$
 
@@ -117,6 +121,8 @@ int KnapsackMultiple(int n, int W, vector<int> w, vector<int> v, vector<int> m) 
     for (int j = W; j >= cnt * w[i]; j--)
       f[j] = max(f[j], f[j - cnt * w[i]] + cnt * v[i]);
   }
+}
+    return f[W];
 }
 ```
 
@@ -147,7 +153,7 @@ $O(nV)$
 ```cpp
 int KnapsackByValue(int n, int W, vector<int> w, vector<int> v) {
     int V = accumulate(v.begin(), v.end(), 0);
-    vector<int> f(V + 1, INT_MAX);
+    vector<int> f(V + 1, INT_MAX / 2); // INT_MAX + w[i] would overflow
     f[0] = 0;
     for (int i = 1; i <= n; i++)
         for (int j = V; j >= v[i]; j--)

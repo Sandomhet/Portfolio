@@ -68,8 +68,7 @@ $1……N$依次入栈，出栈顺序的方案数。考虑$1$的顺序：
 个点，得到递推式。
 
 ```cpp
-int catalan(int n)
-{
+int catalan(int n) {
     int res = 1;
     for (int i = 0; i < n; i++)
         res = res * (2 * (2 * i + 1)) / (i + 2);

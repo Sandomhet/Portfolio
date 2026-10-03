@@ -11,10 +11,10 @@ time: "Mon Oct 20, 2025"
 ```cpp
 int a[Z];
 void quick_sort(int l, int r) {
-    int i = l, j = r, mid = (l + r) >> 1;
+    int i = l, j = r, mid = a[(l + r) >> 1]; //基准存值而不是下标（交换会移动a[mid]）
     while (i <= j) { //等号不能少
-        while (a[i] <= a[mid]) i++; //左半寻找比mid大的
-        while (a[j] >= a[mid]) j--; //右半寻找比mid小的
+        while (a[i] < mid) i++; //左半寻找不小于mid的（用<=会越界）
+        while (a[j] > mid) j--; //右半寻找不大于mid的
         if (i <= j) swap(a[i++], a[j--]); //交换大小，使得mid左边都小于mid，右边都大于mid
     }
     if (i < r) quick_sort(i, r); //区间边界
@@ -48,7 +48,7 @@ void merge_sort(int l, int r) {
 ```cpp
 //a底数，b指数，c取模数
 int binpow(int a, int b, int c) {
-    int res = 1;
+    int res = 1 % c; //c = 1 时结果为 0
     a = a % c; //防止a过大
     while (b) {
         if (b & 1) res = res * a % c; //奇数补一项
@@ -70,7 +70,7 @@ int binary_search(int l, int r, int aim) {
         int mid = (l + r) >> 1;
         if (a[mid] > aim) r = mid - 1;
         else if (a[mid] < aim) l = mid + 1;
-        else ans = mid;
+        else ans = mid, r = mid - 1; //找到后继续向左，得到最左边的aim
     }
     return ans;
 }
@@ -150,7 +150,7 @@ int kth_rank(int l, int r, int k) {
 
 ## Closest Pair of Points (最近点对)
 
-Complexity: $O(n \log n)$
+Complexity: $O(n \log n)$ (sorting the strip at every level as below gives $O(n \log^2 n)$). Sort `points[l..r]` by $x$ before the first call.
 
 Steps:
 1. Sort the points by their x-coordinates.

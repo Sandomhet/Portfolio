@@ -20,42 +20,34 @@ $Fail$
 ，都指向$0$号根节点（它只是一个虚点）。对于一个节点 x，它的$fail$只需要指向它父亲的$fail$的同字符儿子。
 
 ```cpp
-struct Trie
-{
+struct Trie {
     int kid[26];//26个字母
     int fail;//失配指针
     int end;//以该节点结尾的单词数量
     #define son ac[rt].kid[i]
 }; Trie ac[Z << 2];
 int tot = 0;
-inline void insert(char s[], int len)
-{
+inline void insert(char s[], int len) {
     int rt = 0;
-    for (int t = 1; t <= len; ++t)
-    {
+    for (int t = 1; t <= len; ++t) {
         int i = s[t] - 'a';
         if (!son) son = ++tot;//新建一个节点
         rt = son;//进入下一层
     }
     ++ac[rt].end;
 }
-void getfail()
-{
+void getfail() {
     queue <int> q;
     int rt = 0;
     for (int i = 0; i < 26; ++i)//初始化失配指针
-        if (son)
-        {
+        if (son) {
             ac[son].fail = 0;
             q.push(son);
         }
-    while (!q.empty())
-    {
+    while (!q.empty()) {
         rt = q.front(); q.pop();
-        for (int i = 0; i < 26; ++i)
-        {
-            if (son)
-            {
+        for (int i = 0; i < 26; ++i) {
+            if (son) {
                 ac[son].fail = ac[ac[rt].fail].kid[i];//扩展后缀
                 q.push(son);
             }
@@ -63,11 +55,9 @@ void getfail()
         }
     }
 }
-inline int match(char s[], int len)
-{
+inline int match(char s[], int len) {
     int rt = 0, ans = 0;
-    for (int t = 1; t <= len; ++t)
-    {
+    for (int t = 1; t <= len; ++t) {
         rt = ac[rt].kid[s[t] - 'a'];//向下走一层
         for (int j = rt; j && ac[j].end != -1; j = ac[j].fail)
             ans += ac[j].end, ac[j].end = -1;//j不断跳fail直到完全失配

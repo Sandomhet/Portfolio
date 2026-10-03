@@ -13,11 +13,9 @@ time: "Mon Dec 30, 2024"
 Time Complexity: $O(\log \min(a,b))$
 
 ```cpp
-inline int gcd(int a, int b)
-{
-    int r = a % b;
-    while (r) a = b, b = r, r = a % b;
-    return b;
+inline int gcd(int a, int b) {
+    while (b) { int r = a % b; a = b, b = r; }
+    return a;
 }
 inline int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
 inline int lcm(int a, int b) { return a / gcd(a, b) * b; }
@@ -28,8 +26,7 @@ inline int lcm(int a, int b) { return a / gcd(a, b) * b; }
 ### 判断素数
 
 ```cpp
-bool isPrime(int x)
-{
+bool isPrime(int x) {
     if (x < 2) return false;
     int m = sqrt(x);
     for (int i = 2; i <= m; ++i)
@@ -63,7 +60,7 @@ void primeFactorization(int x) {
 
 ```cpp
 int binpow(int a, int b, int p) {
-    int res = 1;
+    int res = 1 % p;
     while (b) {
         if (b & 1) res = res * a % p;
         a = a * a % p;

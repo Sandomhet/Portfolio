@@ -39,8 +39,7 @@ namespace IO {
 压缩版
 
 ```cpp
-namespace IO
-{
+namespace IO {
     const int bif = 1 << 18; char buf[bif], *p1, *p2; int wrt[20], Tp = 0;
     inline char getc() { if (p1 == p2) { p2 = (p1 = buf) + fread(buf, 1, bif, stdin); if (p1 == p2) return EOF; } return *p1++; }
     inline char gotc() { char c = getc(); while (c == ' ' || c == '\n' || c == '\r') c = getc(); return c; }

@@ -12,11 +12,9 @@ time: "Mon Feb 1, 2024"
    $$ C_n^m = C_{n - 1}^m + C_{n - 1}^{m - 1} $$
 
 ```cpp
-void init(int n)
-{
+void init(int n) {
     C[0][0] = 1;
-    for (int i = 1; i <= n; ++i)
-    {
+    for (int i = 1; i <= n; ++i) {
         C[i][0] = 1;
         for (int j = 1; j <= i; ++j)
             C[i][j] = C[i - 1][j] + C[i - 1][j - 1];
@@ -27,9 +25,8 @@ void init(int n)
 2. 乘法递推
 
 ```cpp
-void init(int n)
-{
-    C[0] = 1;
+void init(int n) {
+    C[0] = C[n] = 1;
     for (int i = 1; i * 2 <= n; ++i)
         C[i] = C[n - i] = C[i - 1] * (n - i + 1) / i;
 }
@@ -44,7 +41,7 @@ void init(int n, int p) {
     for (int i = 1; i <= n; ++i)
         fac[i] = fac[i - 1] * i % p;
     inv[n] = binpow(fac[n], p - 2, p);
-    for (int i = n - 1; i >= 1; --i)
+    for (int i = n - 1; i >= 0; --i)
         inv[i] = inv[i + 1] * (i + 1) % p;
 }
 inline int C(int n, int m, int p) { //组合数
@@ -60,8 +57,7 @@ inline int A(int n, int m, int p) { //排列数
 $$ C_n^m = C_{n \mod p}^{m \mod p} * C_{\lfloor n/p \rfloor}^{\lfloor m/p \rfloor} \pmod p $$
 
 ```cpp
-int lucas(int n, int m, int p)
-{
+int lucas(int n, int m, int p) {
     if (m == 0) return 1;
     return C(n % p, m % p, p) * lucas(n / p, m / p, p) % p;
 }
@@ -69,10 +65,14 @@ int lucas(int n, int m, int p)
 
 扩展卢卡斯定理，针对模数不为素数的大组合数求解
 
+Factor $p = \prod p_i^{k_i}$. For each $p_i^{k_i}$: write $n! = p_i^{x} \cdot r$ with $p_i \nmid r$, compute $r \bmod p_i^{k_i}$ recursively (`fac`), then
+$$\binom{n}{m} \equiv \frac{r_n}{r_m r_{n-m}} \, p_i^{x_n - x_m - x_{n-m}} \pmod{p_i^{k_i}}$$
+and merge all residues with CRT.
+
 ```cpp
 int a[Z], c[Z];
 int qpow(int a, int b, int p) {
-    int res = 1;
+    int res = 1 % p;
     while (b) {
         if (b & 1) res = res * a % p;
         a = a * a % p;
@@ -94,8 +94,7 @@ int inv(int a, int p) {
     exgcd(a, p, x, y);
     return (x % p + p) % p;
 }
-int fac(int n, int p, int pk)//n!/p^x mod p^k
-{
+int fac(int n, int p, int pk) { //n!/p^x mod p^k
     if (!n) return 1;
     int ans = 1;
     for (int i = 1; i < pk; ++i)//n/pk个循环节
@@ -105,8 +104,7 @@ int fac(int n, int p, int pk)//n!/p^x mod p^k
         if (i % p) ans = ans * i % pk;
     return ans * fac(n / p, p, pk) % pk;//余下的递归处理
 }
-int C(int n, int m, int p, int pk)//C(n, m) mod p^k
-{
+int C(int n, int m, int p, int pk) { //C(n, m) mod p^k
     if (m > n) return 0;
     int f1 = fac(n, p, pk), f2 = fac(m, p, pk), f3 = fac(n - m, p, pk);
     int k1 = 0, k2 = 0, k3 = 0;//统计阶乘中p的倍数的个数
@@ -119,8 +117,7 @@ int CRT(int n, int a[], int m[]) {
     int b, c, x, y;
     int M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) M *= m[i];
-    for (int i = 1; i <= n; ++i)
-    {
+    for (int i = 1; i <= n; ++i) {
         b = m[i]; c = M / b;
         exgcd(c, b, x, y);
         ans = (ans + a[i] * c * x % M);
@@ -129,8 +126,7 @@ int CRT(int n, int a[], int m[]) {
 }
 int exlucas(int n, int m, int p) {
     int tmp = sqrt(p), cnt = 0;
-    for (int i = 2; p > 1 && i <= tmp; ++i)
-    {
+    for (int i = 2; p > 1 && i <= tmp; ++i) {
         int t = 1;
         while (p % i == 0) p /= i, t *= i;//t = i^tot
         if (t > 1) a[++cnt] = C(n, m, i, t), c[cnt] = t;

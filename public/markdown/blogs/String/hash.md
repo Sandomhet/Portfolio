@@ -184,6 +184,7 @@ Same idea in $k$ dimensions, one base per dimension. The array is stored flat (r
 
 ```cpp
 struct HashND {
+    using ull = unsigned long long;
     static constexpr ull B[] = {131, 13331, 100003, 1000003, 10000019}; // one base per dimension, k <= 5
     int k; vector<int> d, st; vector<ull> h; vector<vector<ull>> pw;
     HashND(const vector<int> &dims) : k(dims.size()), d(dims), st(k), pw(k) { // sizes d[0..k-1]

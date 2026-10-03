@@ -44,26 +44,27 @@ Topological sort + relax edges. $O(V+E)$
 weights can be negative but no negative cycles.
 
 ```cpp
-vector<int> e[Z];
+using pii = pair<int, int>;
+vector<pii> e[Z];
 vector<int> dis;
-void dag_shortest_path(int n) {
+void dag_shortest_path(int n, int s) {
     dis.assign(n + 1, INF);
     vector<int> in_degree(n + 1, 0);
     for (int u = 1; u <= n; u++)
-        for (int v : e[u]) {
+        for (auto [v, w] : e[u]) {
             in_degree[v]++;
         }
     queue<int> q;
     for (int u = 1; u <= n; u++) {
         if (in_degree[u] == 0) {
             q.push(u);
-            dis[u] = 0;
         }
     }
-    while (!q.empty()) {
+    dis[s] = 0;
+    while (!q.empty()) { // vertices come out in topological order
         int u = q.front(); q.pop();
-        for (int v : e[u]) {
-            dis[v] = min(dis[v], dis[u] + 1); // Assuming edge weight = 1
+        for (auto [v, w] : e[u]) {
+            if (dis[u] != INF) dis[v] = min(dis[v], dis[u] + w);
             if (--in_degree[v] == 0) q.push(v);
         }
     }
@@ -121,6 +122,7 @@ int e[Z][Z];
 vector<int> dis, path;
 bool vs[Z];
 void dijkstra_dense(int s) {
+    fill(vs, vs + n + 1, false);
     dis.assign(n + 1, INF);
     path.assign(n + 1, 0);
     dis[s] = 0;
@@ -265,9 +267,9 @@ vector<int> dis;
 void dial(int s) {
     dis.assign(n + 1, INF);
     dis[s] = 0;
-    vector<vector<int>> buckets(k + 1);
+    vector<vector<int>> buckets(k * n + 1); // distances are at most k(n - 1)
     buckets[0].push_back(s);
-    for (int d = 0; d < k; d++) {
+    for (int d = 0; d <= k * n; d++) {
         while (!buckets[d].empty()) {
             int u = buckets[d].back(); buckets[d].pop_back();
             for (auto [v, w] : e[u]) {
@@ -286,8 +288,6 @@ void dial(int s) {
 ### D´Esopo-Pape Algorithm
 
 Usually faster than Dijkstra and SPFA in practice. Exponential worst-case time complexity.
-
-```cpp
 
 <details>
 <summary>Show Code</summary>
@@ -357,13 +357,16 @@ $O(n^3)$
 bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
     int n = dis.size() - 1;
     dis.assign(n + 1, vector<int>(n + 1, INF));
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++)
             dis[i][j] = w[i][j];
+        dis[i][i] = min(dis[i][i], 0);
+    }
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+                if (dis[i][k] < INF && dis[k][j] < INF) // INF + INF overflows, INF + negative is not a path
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
     
     for (int i = 1; i <= n; i++)
         if (dis[i][i] < 0) return false; // negative cycle exists
@@ -379,23 +382,22 @@ void floyd_warshall_connectivity(vector<vector<bool>>& dis) {
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                dis[i][j] |= (dis[i][k] & dis[k][j]);
+                dis[i][j] = dis[i][j] || (dis[i][k] && dis[k][j]); // vector<bool> has no |=
 }
 ```
 
 ```cpp
-int floyd_ring(vector<vector<int>>& dis, vector<vector<int>>& w) //最小环
-{
+int floyd_ring(vector<vector<int>>& dis, vector<vector<int>>& w) { //最小环
     int n = dis.size() - 1, ans = INF;
     dis.assign(n + 1, vector<int>(n + 1, INF));
     for (int i = 1; i <= n; i++)
         for (int j = 1; j <= n; j++)
             dis[i][j] = w[i][j];
-    for (int k = 1; k <= n; k++)
-    {
+    for (int k = 1; k <= n; k++) {
         for (int i = 1; i < k; i++)
             for (int j = i + 1; j < k; j++)
-                ans = min(ans, dis[i][j] + w[i][k] + w[k][j]);
+                if (dis[i][j] < INF && w[i][k] < INF && w[k][j] < INF) // INF * 3 overflows
+                    ans = min(ans, dis[i][j] + w[i][k] + w[k][j]);
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
                 dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);

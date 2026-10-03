@@ -8,7 +8,7 @@ time: "Fri Oct 19, 2025"
 
 ## Definition
 
-$f = (c_{11} \lor c_{12}) \land (c_{21} \lor c_{22}) \land ... \land (c_{m1} \lor c_{m2})$ is a 2-CNF formula with $m$ clauses and $n$ variables, where each clause has exactly 2 literals.
+$ f = (c_{11} \lor c_{12}) \land (c_{21} \lor c_{22}) \land ... \land (c_{m1} \lor c_{m2}) $ is a 2-CNF formula with $m$ clauses and $n$ variables, where each clause has exactly 2 literals.
 
 A literal is either a variable $x_i$ or its negation $\neg x_i$.
 
@@ -35,8 +35,8 @@ vector<bool> ans;
 void build_implication_graph(int n, int m) {
     e.assign(2 * n + 1, {});
     for (int i = 1; i <= m; i++) {
-        int a, b; // literals in clause (a or b)
-        bool is_neg_a, is_neg_b;
+        int a, b; // literals in clause (a or b), read from input
+        bool is_neg_a, is_neg_b; // read from input
 
         int ya = is_neg_a ? a + n : a; // node for a
         int yb = is_neg_b ? b + n : b; // node for b
@@ -47,29 +47,14 @@ void build_implication_graph(int n, int m) {
     }
 }
 bool find_answer(int n) {
-    kosaraju(); // find SCCs
+    kosaraju(2 * n); // find SCCs on all 2n nodes; sccid follows the topological order
     for (int i = 1; i <= n; i++) {
         if (sccid[i] == sccid[i + n]) // x and ¬x in same SCC
             return false; // unsatisfiable
     }
     ans.assign(n + 1, false);
-    vector<int> comp_id(sccs.size());
-    for (int i = 0; i < sccs.size(); i++)
-        comp_id[i] = i;
-    sort(comp_id.begin(), comp_id.end(), [](int a, int b) {
-        return sccs[a][0] > sccs[b][0]; // decreasing order of first node
-    });
-    vector<bool> assigned(sccs.size(), false);
-    for (int cid : comp_id) {
-        for (int u : sccs[cid]) {
-            int var = u <= n ? u : u - n;
-            if (!assigned[sccid[u]]) {
-                ans[var] = (u <= n); // assign true if u is x, false if u is ¬x
-                assigned[sccid[u]] = true;
-                assigned[sccid[u <= n ? u + n : u - n]] = true;
-            }
-        }
-    }
+    for (int i = 1; i <= n; i++)
+        ans[i] = sccid[i] > sccid[i + n]; // x is true iff x comes after ¬x in topological order
     return true; // satisfiable
 }
 ```

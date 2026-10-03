@@ -9,16 +9,15 @@ time: "Mon Feb 1, 2024"
 ## Simple Version
 
 ```cpp
+// g++ -std=c++17 -O2 test.cpp -o p && ./p < test.in > test.out
 #define sandom signed
-#define fre(x, y) freopen(#x ".in", "r", stdin), freopen(#y ".out", "w", stdout);
 #include <iostream>
 #include <algorithm>
 #include <vector>
-using namespace std; typedef long long ll; typedef unsigned long long ull; typedef pair<int, int> paint;
+using namespace std; using ll = long long; using ull = unsigned long long; using pii = pair<int, int>;
 const int Z = 1e5 + 10, inf = 2e9, mod = 998244353;
 
 int n, m, k, ans;
-
 sandom main() {
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
     return 0;
@@ -29,6 +28,7 @@ sandom main() {
 ## Complex Version
 
 ```cpp
+// g++ -std=c++17 -O2 test.cpp -o p && ./p < test.in > test.out
 #define sandom signed
 #define fre(x, y) freopen(#x ".in", "r", stdin), freopen(#y ".out", "w", stdout);
 #include <iostream>
@@ -46,7 +46,7 @@ sandom main() {
 #define rep(i, a, b) for (int i = (a); i <= (b); ++i)
 #define dwn(i, a, b) for (int i = (a); i >= (b); --i)
 // #define int long long
-using namespace std; typedef long long ll; typedef unsigned long long ull; typedef pair<int, int> paint;
+using namespace std; using ll = long long; using ull = unsigned long long; using pii = pair<int, int>;
 namespace IO {
     const int bif = 1 << 18; char buf[bif], *p1, *p2; int wrt[20], Tp = 0;
     inline char getc() { if (p1 == p2) { p2 = (p1 = buf) + fread(buf, 1, bif, stdin); if (p1 == p2) return EOF; } return *p1++; }
@@ -58,7 +58,6 @@ const int Z = 1e5 + 10, inf = 2e9, mod = 998244353;
 inline int max(int a, int b) { return a > b ? a : b; } inline int min(int a, int b) { return a < b ? a : b; } inline int abs(int x) { return x < 0 ? -x : x; }
 
 int n, m, k, ans;
-
 sandom main() {
     fre(test, test);
     ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);

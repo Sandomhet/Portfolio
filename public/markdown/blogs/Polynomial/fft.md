@@ -79,17 +79,15 @@ $O(n \log n)$
 ```cpp
 using cd = complex<double>;
 const double PI = acos(-1.0);
-void FFT(vector<cd> &a, int invert) //系数表达转点值表达
-{
+void FFT(vector<cd> &a, int invert) { //系数表达转点值表达
     int n = a.size(), m = n >> 1;
     if (n == 1) return; //递归边界
     vector<cd> a0(m), a1(m);
     for (int i = 0; i < m; ++i) //奇数与偶数分开
         a0[i] = a[i << 1], a1[i] = a[i << 1 | 1];
     FFT(a0, invert), FFT(a1, invert); //分治处理
-    cd w(1.0, 0.0), wn = (cos(PI / m), invert * sin(PI / m));
-    for (int i = 0; i < m; ++i, w *= wn) //权值汇总
-    {
+    cd w(1.0, 0.0), wn(cos(PI / m), invert * sin(PI / m)); //不能写成 wn = (a, b)，那是逗号表达式
+    for (int i = 0; i < m; ++i, w *= wn) { //权值汇总
         a[i] = a0[i] + w * a1[i]; //左半部分
         a[i + m] = a0[i] - w * a1[i]; //右半部分
         // if (invert) a[i] /= 2, a[i + m] /= 2; //逆变换时除以n
@@ -101,22 +99,17 @@ void FFT(vector<cd> &a, int invert) //系数表达转点值表达
 
 ```cpp
 int rev[Z];
-void get_rader()
-{
+void get_rader() {
     bit = log2(n + m) + 1; k = 1 << bit;//强制达到2的幂级
     for (int i = 0; i < k; ++i) rev[i] = rev[i >> 1] >> 1 | (i & 1) << bit - 1;
 }
-void FFT(complex <double> a[], int n, int opt)//系数表达转点值表达
-{
+void FFT(complex <double> a[], int n, int opt) { //系数表达转点值表达
     for (int i = 1; i < n; ++i) if (rev[i] > i) swap(a[i], a[rev[i]]);
-    for (int m = 1; m < n; m <<= 1)
-    {
+    for (int m = 1; m < n; m <<= 1) {
         complex <double> W(cos(PI / m), opt * sin(PI / m));
-        for (int i = 0; i < n; i += m << 1)
-        {
+        for (int i = 0; i < n; i += m << 1) {
             complex <double> w(1.0, 0.0);
-            for (int j = 0; j < m; ++j, w *= W)
-            {
+            for (int j = 0; j < m; ++j, w *= W) {
                 complex <double> x = a[i + j], y = w * a[i + j + m];
                 a[i + j] = x + y, a[i + j + m] = x - y;
             }
@@ -128,8 +121,7 @@ void FFT(complex <double> a[], int n, int opt)//系数表达转点值表达
 逆变换
 
 ```cpp
-void IFFT(vector<cd> &a) //point-value to coefficient
-{
+void IFFT(vector<cd> &a) { //point-value to coefficient
     int n = a.size();
     FFT(a, -1);
     for (int i = 0; i < n; ++i) a[i] = a[i].real() / n;
@@ -154,8 +146,7 @@ FFT Algorithm workflow:
 3. Compute the inverse FFT of the product to get the coefficients of the resulting polynomial.
 
 ```cpp
-void multiply(vector<int> &a, vector<int> &b, vector<int> &c)
-{
+void multiply(vector<int> &a, vector<int> &b, vector<int> &c) {
     int n = 1;
     while (n < a.size() + b.size()) n <<= 1; // Find the next power of 2
     vector<cd> A(a.begin(), a.end()), B(b.begin(), b.end()), C(n);

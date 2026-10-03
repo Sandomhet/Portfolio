@@ -12,51 +12,48 @@ time: "Mon Feb 1, 2024"
 //data generator
 inline int random(int n) { return 1ll * rand() * rand() % n + 1; }
 inline int get(int l, int r) { return 1ll * rand() * rand() % (r - l + 1) + l; }
-sandom main()
-{
+sandom main() {
     freopen("test.in", "w", stdout);
     srand((unsigned)time(0));
-    cout << random(MAX) << random(MAX) << endl;
+    cout << random(MAX) << ' ' << random(MAX) << endl;
     return 0;
 }
 ```
 
 ```cpp
-for (re i = 2; i <= n; i++)//随机生成树
-{
+for (int i = 2; i <= n; i++) { //随机生成树
     int fa = random(i - 1);
     int val = random(MAX);
     printf("%d %d %d\n", fa, i, val);
 }
 
-//随机生成无向图
+//随机生成无向图（n个点m条边，先存边，打乱后再输出）
 map <pair<int, int>, bool> be;
+struct edge { int u, v, w; } e[Z]; int tot = 0;
 //先生成一棵树，保证连通
-for (re i = 2; i <= n; i++)
-{
+for (int i = 2; i <= n; i++) {
     int fa = random(i - 1);
     int val = random(MAX);
-    printf("%d %d %d\n", i, fa, val);
+    e[++tot] = {i, fa, val};
     be[make_pair(fa, i)] = be[make_pair(i, fa)] = 1;
 }
 //添加剩余边
-for (re i = n; i <= m; i++)
-{
+for (int i = n; i <= m; i++) {
     int x, y;
-    do
-    {
+    do {
         x = random(n), y = random(n);
     } while (x == y || be[make_pair(x, y)]);
     be[make_pair(x, y)] = be[make_pair(y, x)] = 1;
+    e[++tot] = {x, y, random(MAX)};
 }
-random_shuffle(e + 1, e + 1 + m);//随机打乱
+shuffle(e + 1, e + 1 + m, mt19937(time(0)));//随机打乱（random_shuffle 在 C++17 中已删除）
+for (int i = 1; i <= m; i++) printf("%d %d %d\n", e[i].u, e[i].v, e[i].w);
 ```
 
 标准代码(std)
 
 ```cpp
-sandom main()
-{
+sandom main() {
     freopen("test.in", "r", stdin), freopen("std.out", "w", stdout);
     int a, b;
     cin >> a >> b;
@@ -68,8 +65,7 @@ sandom main()
 测试代码(test)
 
 ```cpp
-sandom main()
-{
+sandom main() {
     freopen("test.in", "r", stdin), freopen("test.out", "w", stdout);
     int a, b;
     cin >> a >> b;
@@ -93,34 +89,28 @@ using namespace chrono;
 steady_clock::time_point st, ed;
 duration <double> tm1, tm2;
 
-inline void work1()
-{
-    while (1)
-    {
+inline void work1() {
+    while (1) {
         system("./data");
         st = SCK::now(); system("./test"); ed = SCK::now(); tm1 = DCT<DRD>(ed - st);
         st = SCK::now(); system("./std"); ed = SCK::now(); tm2 = DCT<DRD>(ed - st);
         if (system("diff test.out std.out")) { puts("WA"); break; }
-        else printf("AC --- FALSE: %.0lfms &&& TRUE: %.0lfms\n", tm1.count() _ 1000, tm2.count() _ 1000);
+        else printf("AC --- FALSE: %.0lfms &&& TRUE: %.0lfms\n", tm1.count() * 1000, tm2.count() * 1000);
     }
 }
-inline void work2()
-{
-    while (1)
-    {
+inline void work2() {
+    while (1) {
         system("./data");
         st = SCK::now(); system("./test"); ed = SCK::now(); tm1 = DCT<DRD>(ed - st);
-        printf("TIME: %.0lfms\n", tm1.count() \* 1000);
+        printf("TIME: %.0lfms\n", tm1.count() * 1000);
     }
 }
-inline void work3()
-{
+inline void work3() {
     if (system("diff test.out std.out")) puts("WA");
     else puts("AC");
 }
 
-sandom main()
-{
+sandom main() {
     system("g++ data.cpp -o data");//data generator
     system("g++ std.cpp -o std");//standard code
     system("g++ test.cpp -o test");//test code
@@ -139,10 +129,8 @@ Windows 下对拍主程序（check）
 using namespace std;
 double st1, ed1, st2, ed2;
 
-inline void work1()
-{
-    while (1)
-    {
+inline void work1() {
+    while (1) {
         system("data.exe");
         st1 = clock(); system("test.exe"); ed1 = clock();
         st2 = clock(); system("std.exe"); ed2 = clock();
@@ -150,23 +138,19 @@ inline void work1()
         else printf("AC --- FALSE: %.0lfms &&& TRUE: %.0lfms\n", ed1 - st1, ed2 - st2);
     }
 }
-inline void work2()
-{
-    while (1)
-    {
+inline void work2() {
+    while (1) {
         system("data.exe");
         st1 = clock(); system("test.exe"); ed1 = clock();
         printf("TIME: %.0lfms\n", ed1 - st1);
     }
 }
-inline void work3()
-{
+inline void work3() {
     if (system("fc test.out std.out")) puts("WA");
     else puts("AC");
 }
 
-sandom main()
-{
+sandom main() {
     system("g++ data.cpp -o data");//生成数据
     system("g++ std.cpp -o std");//标准代码
     system("g++ test.cpp -o test");//测试代码

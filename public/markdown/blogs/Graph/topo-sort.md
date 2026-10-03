@@ -35,7 +35,7 @@ void find_sources_and_sinks(int n) {
 }
 ```
 
-The minimum number of edges needed to make a DAG strongly connected is $\max(\text{number of sources}, \text{number of sinks})$.
+The minimum number of edges needed to make a DAG strongly connected is $\max(\text{number of sources}, \text{number of sinks})$ ($0$ if the DAG is a single vertex).
 
 ## Definition
 

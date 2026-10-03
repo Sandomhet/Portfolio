@@ -71,23 +71,20 @@ x=x_1+k\frac{b}{gcd},& \quad y=y_1-k\frac{a}{gcd} \\
 $$
 
 ```cpp
-inline int exgcd(int a, int b, int& x, int& y) //a*x + b*y = 1;
-{
+inline int exgcd(int a, int b, int& x, int& y) { //a*x + b*y = 1;
     if (b == 0) { x = 1, y = 0; return a; }
     int x1, y1;
     int d = exgcd(b, a % b, x1, y1);
     x = y1, y = x1 - a / b * y1;
     return d;
 }
-inline int exgcd(int a, int b, int& x, int& y) //a*x + b*y = 1;
-{
+inline int exgcd(int a, int b, int& x, int& y) { //a*x + b*y = 1;
     if (b == 0) { x = 1, y = 0; return a; }
     int d = exgcd(b, a % b, y, x); //直接交换传参
     y -= a / b * x;
     return d;
 }
-inline bool solve_any(int a, int b, int c, int& x, int& y) //a*x + b*y = c
-{
+inline bool solve_any(int a, int b, int c, int& x, int& y) { //a*x + b*y = c
     int g = exgcd(abs(a), abs(b), x, y);
     if (c % g) return false; //无解
     c /= g;
@@ -96,8 +93,7 @@ inline bool solve_any(int a, int b, int c, int& x, int& y) //a*x + b*y = c
     if (b < 0) y = -y;
     return true;
 }
-inline int solve_min(int a, int b, int c) //a*x + b*y = c;
-{
+inline int solve_min(int a, int b, int c) { //a*x + b*y = c;
     int x, y, g;
     g = exgcd(a, b, x, y);
     if (c % g) return -1; //无解
@@ -105,9 +101,7 @@ inline int solve_min(int a, int b, int c) //a*x + b*y = c;
     //只要求x为最小非负整数解，而y可以为负数
     x = (x * c % b + b) % b;
     return x;
-    //x和y都要求为非负整数解
-    while (x > 0 || y < 0) x -= b, y += a;
-    x = -x, y = y;
+    //x和y都要求为非负整数解：取上面最小非负的x（此时y最大），y = (c - a * x) / b，若y < 0则无非负整数解
 }
 ```
 
@@ -122,16 +116,15 @@ $a^x\equiv b \pmod p$。$(a, p)$互质，求解$x$的最小非负整数解。
 对于所有的$j$，把$b*a^{j}\pmod p$全部插入$hash$表，枚举$i$，计算出$(a^t)^i$，在$hash$表中查找，如果有，更新答案。最优时间复杂度为$t=\sqrt{p}$，为O($\sqrt{p}$)。
 
 ```cpp
-int BSGS(int a, int b, int p)//a^x≡b (mod p)
-{
+int BSGS(int a, int b, int p) { //a^x≡b (mod p)
     map <int, int> hash; hash.clear();//多次调用时，把map定义放在外面
     b %= p;
+    if (b == 1 % p) return 0;//x = 0；表中同值保留最大的j，会漏掉 i = 0, j = 0
     int t = sqrt(p) + 1;
     for (int j = 0; j < t; ++j) hash[b * binpow(a, j, p) % p] = j;
     a = binpow(a, t, p);
     if (a == 0) return b == 0 ? 1 : -1;
-    for (int i = 0; i <= t; ++i)
-    {
+    for (int i = 0; i <= t; ++i) {
         int val = binpow(a, i, p);
         int j = hash.find(val) == hash.end() ? -1 : hash[val];
         if (j >= 0 && i * t - j >= 0) return i * t - j;
@@ -160,12 +153,10 @@ $$
 对于所有$j\ne i$，因为$c_j=\frac{M}{m_j}$，所以因数中包含$m_i$，所以$c_j\equiv 0\pmod{m_i}$，也即$a_jc_jt_j\equiv 0\pmod{m_i}$。因为$c_it_i\equiv1\pmod{m_i}$，所以$a_ic_it_i\equiv a_i\pmod{m_i}$，那么$\sum\limits_{i=1}^{n}a_ic_it_i\equiv a_i\pmod{m_i}$。同理可知$x$满足所有$n$个方程，解成立。
 
 ```cpp
-int CRT(int n, int a[], int m[])//中国剩余定理
-{
+int CRT(int n, int a[], int m[]) { //中国剩余定理
     int M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) M *= m[i];
-    for (int i = 1; i <= n; ++i)
-    {
+    for (int i = 1; i <= n; ++i) {
         int c = M / m[i], t, y; //除m[i]以外所有模数的倍数
         exgcd(c, m[i], t, y); //c*t≡1(mod m[i])
         (ans += a[i] * c * t % M) %= M; //∑ a[i]*c[i]*t[i]
@@ -179,18 +170,15 @@ int CRT(int n, int a[], int m[])//中国剩余定理
 先来考虑只有两个方程的情况。设方程分别是 $x\equiv a_1\pmod{m_1}，x\equiv a_2\pmod{m_2}$，则得到不定方程 $x=m_1p+a_1=m_2q+a_2$。移项得 $m_1p-m_2q=a_2-a_1$，首先当 $gcd(m_1, m_2) \nmid (a_2-a_1)$，方程无解；否则，可以得到一组可行解$p、q$。令 $a'=m_1p+a_1，M=lcm(m_1,m_2)$，合并得到同余方程 $x\equiv a'\pmod{M}$，多个方程的话两两合并即可。
 
 ```cpp
-int calc(int a, int b, int c) //ax+by=c
-{
+int calc(int a, int b, int c) { //ax+by=c
     int x, y, d = exgcd(a, b, x, y);
     if (c % d) return -1;
     a /= d, b /= d, c /= d;
-    return (x * c % b + b) % b;
+    return ((__int128)x * c % b + b) % b;//x * c 可能超出 long long
 }
-int EXCRT(int n, int a[], int m[])//扩展中国剩余定理
-{
+int EXCRT(int n, int a[], int m[]) { //扩展中国剩余定理
     int M = 1, ans = 0;
-    for (int i = 1; i <= n; ++i)
-    {
+    for (int i = 1; i <= n; ++i) {
         int x = calc(M, m[i], a[i] - ans);//M*x≡a[i]-ans(mod m[i])
         if (x == -1) return -1;//判断无解
         ans += x * M;//∑ ans+x[i]*M
