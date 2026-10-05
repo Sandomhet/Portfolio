@@ -6,11 +6,12 @@ time: "Mon Feb 1, 2024"
 
 # Centroid Decomposition
 
-Centroid: the vertex whose largest remaining component after removal is smallest; every component then has at most $n/2$ vertices. Process all paths through the centroid, delete it, and recurse into each component: depth $O(\log n)$, total $O(n \log n)$ times the cost of `calc`. Start with `kid[root = 0] = size = n; getroot(1, 0); solve(root);`.
+Centroid: the vertex whose largest remaining component after removal is smallest; every component then has at most $n/2$ vertices. Process all paths through the centroid, delete it, and recurse into each component: depth $O(\log n)$, total $O(n \log n)$ times the cost of `calc`. Start with `kid[root = 0] = tot = n; getroot(1, 0); solve(root);`.
 
 ```cpp
-int siz[Z], kid[Z], root, size;//kid[rt]：该点的最大子树的大小
+int siz[Z], kid[Z], root, tot;//kid[rt]：该点的最大子树的大小；tot：当前连通块大小（不能叫size：与std::size冲突）
 bool vs[Z];
+void calc(int rt); // defined below, problem-specific
 void getroot(int rt, int fa) { //求树的重心
     siz[rt] = 1, kid[rt] = 0;
     for (int i = head[rt]; i; i = e[i].ne) {
@@ -20,7 +21,7 @@ void getroot(int rt, int fa) { //求树的重心
         siz[rt] += siz[son];
         kid[rt] = max(kid[rt], siz[son]);
     }
-    kid[rt] = max(kid[rt], size - siz[rt]);//除rt子树之外的其他剩余节点也可以转化为rt的子树
+    kid[rt] = max(kid[rt], tot - siz[rt]);//除rt子树之外的其他剩余节点也可以转化为rt的子树
     if (kid[rt] < kid[root]) root = rt;//最大子树最小的点为树的重心
 }
 void solve(int rt) {
@@ -29,7 +30,7 @@ void solve(int rt) {
     for (int i = head[rt]; i; i = e[i].ne) {
         int son = e[i].v;
         if (vs[son]) continue;
-        kid[root = 0] = size = siz[son];//子树大小
+        kid[root = 0] = tot = siz[son];//子树大小
         getroot(son, 0);//寻找子树的重心
         solve(root);//递归处理子树
     }

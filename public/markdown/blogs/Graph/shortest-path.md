@@ -154,6 +154,7 @@ Proof: After $i_{th}$ iteration, all shortest paths with at most $i$ edges are f
 using pii = pair<int, int>;
 vector<pii> e[Z];
 vector<int> dis, path, cycle;
+void get_negative_cycle(int x); // defined in the SPFA block below
 bool bellman_ford(int s) {
     dis.assign(n + 1, INF);
     path.assign(n + 1, 0);
@@ -189,6 +190,7 @@ using pii = pair<int, int>;
 vector<pii> e[Z];
 vector<int> dis, path, cnt, cycle;
 vector<bool> vs;
+void get_negative_cycle(int x); // defined below
 //判断是否存在环
 bool spfa(int s) {
     dis.assign(n + 1, INF);
