@@ -169,4 +169,44 @@ int sget() {
     }
     return x;
 }
+
+### Heapify, Heap sort, Heap update
+
+class Heap {
+    vector<int> h;
+public:
+    Heap() { h.push_back(0); } // 0号位不使用
+    void push(int x) {
+        h.push_back(x);
+        int i = h.size() - 1;
+        while (i > 1 && h[i] > h[i / 2]) {
+            swap(h[i], h[i / 2]);
+            i /= 2;
+        }
+    }
+    int pop() {
+        int ret = h[1];
+        h[1] = h.back();
+        h.pop_back();
+        int i = 1;
+        while (true) {
+            int j = i * 2;
+            if (j >= h.size()) break;
+            if (j + 1 < h.size() && h[j + 1] > h[j]) j++;
+            if (h[i] >= h[j]) break;
+            swap(h[i], h[j]);
+            i = j;
+        }
+        return ret;
+    }
+    void heapsort() {
+        vector<int> sorted;
+        while (h.size() > 1) {
+            sorted.push_back(pop());
+        }
+        reverse(sorted.begin(), sorted.end());
+        h = vector<int>(1, 0); // Reset heap
+        for (int x : sorted) push(x);
+    }
+}
 ```

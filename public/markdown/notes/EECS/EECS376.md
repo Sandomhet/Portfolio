@@ -181,3 +181,14 @@ A Turing Machine $M$ **decides** a language $L$ if it recognizes $L$ and halts o
 - rejects all strings not in $L$.
 
 A language $L$ is **decidable** if there exists a Turing Machine that decides it. Otherwise, it is **undecidable**.
+
+### Countability and Uncountability
+
+- A set is **countable** if its elements can be put into a one-to-one correspondence with the natural numbers.
+- A set is **uncountable** if it is not countable.
+
+Diagonalization.
+
+1. There are countably many Turing Machines, so there are countably many decidable languages.
+2. There are uncountably many languages. 
+3. Therefore, there exist undecidable languages.

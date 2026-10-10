@@ -6,7 +6,18 @@ time: "Mon Feb 1, 2026"
 
 # C++ STL Containers Cheat Sheet
 
-## Table of Contents
+## Shared Algorithms
+
+```cpp
+#include <algorithm>
+sort(begin(a), end(a)); // sort in ascending order
+sort(begin(a), end(a), greater<>()); // sort in descending order
+reverse(begin(a), end(a)); // reverse the order of elements
+lower_bound(begin(a), end(a), x); // returns iterator to first element >= x
+upper_bound(begin(a), end(a), x); // returns iterator to first element > x
+erase(begin(a), end(a), x); // removes all occurrences of x
+unique(begin(a), end(a)); // removes consecutive duplicates, returns new end iterator
+```
 
 ## Sequence Containers
 
