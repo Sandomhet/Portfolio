@@ -1,0 +1,28 @@
+---
+import Icon from "./Icon.astro";
+import {profile, socials} from "../data/site";
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container inner">
+    <div>
+      <div class="name">{profile.name}</div>
+      <div class="small">© {year} · Notes, code and essays, written by hand.</div>
+    </div>
+    <div class="socials">
+      {socials.map(s => (
+        <a class="icon-btn" href={s.href} target={s.icon === "mail" ? undefined : "_blank"} rel="noopener noreferrer" aria-label={s.label} title={s.label}>
+          <Icon name={s.icon} size={17} />
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { margin-top: 96px; border-top: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 55%, transparent); }
+  .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 28px; padding-bottom: 28px; }
+  .name { font-weight: 650; }
+  .small { font-size: .85rem; color: var(--text-3); }
+  .socials { display: flex; gap: 8px; }
+</style>

@@ -1,0 +1,70 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import {categoryName, sections} from "../../data/site";
+import {formatDate, getItems, groupBy} from "../../lib/content";
+
+const items = await getItems("notes");
+const ORDER = ["CMPSC", "EECS", "MATH", "PHYS+CHEM"];
+const rank = (c: string) => (ORDER.indexOf(c) + 1 || 99);
+const byCode = [...items].sort((a, b) => a.entry.data.title.localeCompare(b.entry.data.title, "en", {numeric: true}));
+const groups = groupBy(byCode, i => i.category).sort(([a], [b]) => rank(a) - rank(b));
+
+// "EECS 370: Computer Organization" -> code "EECS 370", name "Computer Organization"
+const split = (title: string) => {
+  const m = title.match(/^([A-Za-z]+)\s+([\w+]+)\s*[:\-–]?\s*(.*)$/);
+  return m ? {code: `${m[1].toUpperCase()} ${m[2]}`, name: m[3] || title} : {code: "", name: title};
+};
+const info = sections.notes;
+---
+<Base title={info.title} description={info.blurb}>
+  <div class="container">
+    <header class="page-head">
+      <span class="eyebrow"><Icon name="notebook" size={14} /> {info.label}</span>
+      <h1>{info.title}</h1>
+      <p>Lecture notes and cheat sheets I keep while taking courses, rewritten so they are useful for revision. Most are in Chinese with English terminology.</p>
+      <div class="meta">{items.length} courses · {groups.length} departments</div>
+    </header>
+
+    {groups.map(([dept, list]) => (
+      <section class="dept" id={dept}>
+        <h2>{categoryName(dept)} <span>{list.length}</span></h2>
+        <div class="grid">
+          {list.map(item => {
+            const {code, name} = split(item.entry.data.title);
+            return (
+              <a href={item.href} class="course glass card-link">
+                {code && <span class="code">{code}</span>}
+                <span class="name">{name}</span>
+                {item.entry.data.description && item.entry.data.description !== name && <span class="desc">{item.entry.data.description}</span>}
+                <span class="foot">Updated {formatDate(item.entry.data.time, "short")} <Icon name="arrow" size={15} /></span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .dept { margin-bottom: 48px; scroll-margin-top: calc(var(--nav-h) + 24px); }
+  .dept h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 16px; font-size: 1.2rem; letter-spacing: -.02em; }
+  .dept h2 span { font-size: .8rem; font-weight: 500; color: var(--text-3); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .course { display: flex; flex-direction: column; gap: 6px; padding: 20px; min-height: 168px; border-radius: var(--radius-lg); }
+  .code {
+    align-self: flex-start;
+    font: 650 .78rem var(--font-mono);
+    letter-spacing: .02em;
+    padding: 4px 9px;
+    border-radius: 8px;
+    color: #fff;
+    background: var(--grad);
+  }
+  .name { margin-top: 8px; font-size: 1.05rem; font-weight: 680; line-height: 1.35; letter-spacing: -.01em; }
+  .desc { font-size: .87rem; color: var(--text-2); }
+  .foot { margin-top: auto; padding-top: 10px; display: flex; align-items: center; justify-content: space-between; font-size: .78rem; color: var(--text-3); }
+  .foot :global(svg) { color: var(--accent); opacity: 0; transform: translateX(-4px); transition: all .25s var(--ease); }
+  .course:hover .foot :global(svg) { opacity: 1; transform: none; }
+</style>

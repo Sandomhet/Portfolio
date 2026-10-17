@@ -1,0 +1,86 @@
+---
+import Icon from "./Icon.astro";
+---
+<dialog class="search glass" id="search-dialog" aria-label="Search the site">
+  <div class="head">
+    <span class="eyebrow"><Icon name="search" size={14} /> Search</span>
+    <button class="icon-btn" type="button" data-search-close aria-label="Close search"><Icon name="close" size={16} /></button>
+  </div>
+  <div id="pagefind" class="body">
+    <p class="hint">Loading search…</p>
+  </div>
+</dialog>
+
+<style>
+  .search {
+    width: min(680px, calc(100vw - 32px));
+    max-height: min(78vh, 720px);
+    margin: 10vh auto auto;
+    padding: 0;
+    color: var(--text);
+    background: var(--surface-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .search[open] { display: flex; flex-direction: column; animation: rise .25s var(--ease); }
+  .search::backdrop { background: rgba(20, 10, 50, .35); backdrop-filter: blur(4px); }
+  .head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px 6px 20px; }
+  .body { padding: 6px 20px 20px; overflow-y: auto; }
+  .hint { color: var(--text-3); font-size: .9rem; }
+</style>
+
+<script>
+  const dialog = document.getElementById("search-dialog") as HTMLDialogElement | null;
+  let loaded = false;
+
+  async function load() {
+    if (loaded) return;
+    loaded = true;
+    const target = document.getElementById("pagefind")!;
+    try {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "/pagefind/pagefind-ui.css";
+      document.head.append(link);
+      await new Promise<void>((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = "/pagefind/pagefind-ui.js";
+        s.onload = () => resolve();
+        s.onerror = () => reject();
+        document.head.append(s);
+      });
+      target.innerHTML = "";
+      const clean = (url: string) => url.replace(/\.html(?=$|#)/, "");
+      // @ts-ignore provided by pagefind-ui.js
+      new window.PagefindUI({
+        element: "#pagefind",
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+        autofocus: true,
+        processResult: (r: any) => {
+          r.url = clean(r.url);
+          r.sub_results?.forEach((s: any) => { s.url = clean(s.url); });
+          return r;
+        },
+      });
+    } catch {
+      target.innerHTML = '<p class="hint">Search is available on the built site (run <code>npm run build</code>).</p>';
+    }
+  }
+
+  function open() {
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    load().then(() => dialog.querySelector<HTMLInputElement>("input")?.focus());
+  }
+
+  document.querySelectorAll("[data-search-open]").forEach(b => b.addEventListener("click", open));
+  dialog?.querySelector("[data-search-close]")?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); open(); }
+    else if (e.key === "/" && !(e.target as HTMLElement).closest("input, textarea, [contenteditable]")) { e.preventDefault(); open(); }
+  });
+</script>
