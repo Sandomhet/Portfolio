@@ -1,20 +1,23 @@
 ---
-import Base from "../layouts/Base.astro";
+import Sidebar from "../layouts/Sidebar.astro";
 import Icon from "../components/Icon.astro";
-import EntryRow from "../components/EntryRow.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import Quote from "../components/Quote.astro";
-import Avatar from "../components/Avatar.astro";
-import {profile, sections, socials, type SectionKey} from "../data/site";
-import {getAllItems, getItems, SECTION_KEYS} from "../lib/content";
+import PreviewCard from "../components/PreviewCard.astro";
+import {categoryName, profile, sections, type SectionKey} from "../data/site";
+import {getAllItems, getItems, groupBy, SECTION_KEYS} from "../lib/content";
 
 const all = await getAllItems();
 const latest = all.filter(i => i.section !== "projects").slice(0, 6);
 const counts = Object.fromEntries(
   await Promise.all(SECTION_KEYS.map(async k => [k, (await getItems(k)).length])),
 ) as Record<SectionKey, number>;
-const projects = await getItems("projects");
-const featured = [...projects.filter(p => (p.entry.data as any).featured), ...projects.filter(p => !(p.entry.data as any).featured)].slice(0, 3);
+
+const notes = await getItems("notes");
+const DEPTS = ["CMPSC", "EECS", "MATH", "PHYS+CHEM"];
+const coursework = groupBy(
+  [...notes].sort((a, b) => a.entry.data.title.localeCompare(b.entry.data.title, "en", {numeric: true})),
+  n => n.category,
+).sort(([a], [b]) => DEPTS.indexOf(a) - DEPTS.indexOf(b));
+const courseCode = (t: string) => t.match(/^([A-Za-z]+\s+[\w+]+)/)?.[1] ?? t;
 
 const countLabel: Record<SectionKey, string> = {
   code: `${counts.code} topics`,
@@ -23,156 +26,85 @@ const countLabel: Record<SectionKey, string> = {
   blog: counts.blog ? `${counts.blog} posts` : "Coming soon",
   projects: `${counts.projects} projects`,
 };
-const order: SectionKey[] = ["code", "notes", "writing", "projects", "blog"];
+const order: SectionKey[] = ["code", "notes", "writing", "blog", "projects"];
 ---
-<Base>
-  <section class="container hero">
-    <div class="hero-text">
-      <span class="eyebrow rise">Hi, I'm {profile.name.split(" ")[0]}</span>
-      <h1 class="rise rise-2">
-        Notes on <span class="grad-text">algorithms</span>, <br class="br" />
-        coursework &amp; words.
-      </h1>
-      <p class="lead rise rise-3">{profile.intro}</p>
-      <div class="cta rise rise-4">
-        <a href="/code" class="btn btn-primary">Explore the code <Icon name="arrow" size={16} /></a>
-        <a href="/about" class="btn">About me</a>
+<Sidebar>
+  <section id="about" class="about">
+    <div class="section-head">
+      <h1 class="title-text">About me</h1>
+      <p>{profile.name} · {profile.tagline}</p>
+    </div>
+
+    <div class="intro surface">
+      <p class="lead">{profile.intro}</p>
+      {profile.about.map(p => <p>{p}</p>)}
+      <div class="cta">
+        <a class="btn btn-primary" href={`mailto:${profile.email}`}><Icon name="mail" size={16} /> Get in touch</a>
+        <a class="btn" href="https://github.com/Sandomhet" target="_blank" rel="noopener noreferrer"><Icon name="github" size={16} /> GitHub</a>
       </div>
     </div>
 
-    <aside class="hero-side rise rise-3">
-      <div class="profile glass">
-        <Avatar size={88} />
-        <div>
-          <div class="pname">{profile.short}</div>
-          <div class="ptag">{profile.tagline}</div>
-          <div class="psocials">
-            {socials.map(s => (
-              <a href={s.href} class="icon-btn" target={s.icon === "mail" ? undefined : "_blank"} rel="noopener noreferrer" aria-label={s.label} title={s.label}>
-                <Icon name={s.icon} size={16} />
-              </a>
-            ))}
+    <div class="subhead"><h2>Coursework</h2><a href="/notes">All notes →</a></div>
+    <div class="courses surface">
+      {coursework.map(([dept, list]) => (
+        <div class="dept">
+          <span class="dname">{categoryName(dept)}</span>
+          <div class="codes">
+            {list.map(n => <a class="chip course" href={n.href} title={n.entry.data.title}>{courseCode(n.entry.data.title)}</a>)}
           </div>
         </div>
-      </div>
-      <Quote />
-    </aside>
-  </section>
-
-  <section class="container block">
-    <div class="block-head">
-      <h2>Explore</h2>
-    </div>
-    <div class="sections">
-      {order.map(key => (
-        <a href={`/${key}`} class:list={["section glass card-link", `s-${key}`]}>
-          <span class="s-icon"><Icon name={sections[key].icon} size={22} /></span>
-          <span class="s-count">{countLabel[key]}</span>
-          <h3>{sections[key].title}</h3>
-          <p>{sections[key].blurb}</p>
-          <span class="s-go"><Icon name="arrow" size={18} /></span>
-        </a>
       ))}
     </div>
   </section>
 
-  <section class="container block">
-    <div class="block-head">
-      <h2>Recently updated</h2>
-    </div>
-    <div class="list">
-      {latest.map(item => <EntryRow item={item} showSection />)}
-    </div>
-  </section>
+  <div class="subhead"><h2>Explore</h2></div>
+  <div class="tiles">
+    {order.map(key => (
+      <a href={`/${key}`} class="tile surface hover-lift">
+        <span class="ticon"><Icon name={sections[key].icon} size={18} /></span>
+        <span class="tname">{sections[key].title}</span>
+        <span class="tcount">{countLabel[key]}</span>
+      </a>
+    ))}
+  </div>
 
-  {featured.length > 0 && (
-    <section class="container block">
-      <div class="block-head">
-        <h2>Projects</h2>
-        <a href="/projects" class="more">All projects <Icon name="arrow" size={15} /></a>
-      </div>
-      <div class="projects">
-        {featured.map(item => <ProjectCard item={item} />)}
-      </div>
-    </section>
-  )}
-</Base>
+  <div class="subhead"><h2>Recently updated</h2></div>
+  <div class="stack">
+    {latest.map(item => <PreviewCard item={item} label="section" />)}
+  </div>
+</Sidebar>
 
 <style>
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(300px, .9fr);
-    gap: 48px;
-    align-items: center;
-    padding-top: 72px;
-    padding-bottom: 32px;
-  }
-  h1 {
-    margin: 16px 0 18px;
-    font-size: clamp(2.5rem, 5.6vw, 4.2rem);
-    line-height: 1.04;
-    letter-spacing: -.045em;
-    font-weight: 780;
-  }
-  .lead { margin: 0; max-width: 560px; font-size: 1.12rem; color: var(--text-2); }
-  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .intro { padding: 22px 24px; border-radius: 24px; }
+  .intro p { margin: 0 0 12px; font-size: .95rem; line-height: 1.75; color: var(--text-secondary); }
+  .intro .lead { font-size: 1.05rem; color: var(--text-primary); }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 
-  .hero-side { display: flex; flex-direction: column; gap: 16px; }
-  .profile { display: flex; align-items: center; gap: 18px; padding: 20px 22px; }
-  .pname { font-size: 1.25rem; font-weight: 750; letter-spacing: -.02em; }
-  .ptag { font-size: .88rem; color: var(--text-3); }
-  .psocials { display: flex; gap: 6px; margin-top: 10px; }
-  .psocials .icon-btn { width: 34px; height: 34px; }
+  .courses { padding: 6px 20px; border-radius: 20px; }
+  .dept { display: flex; gap: 16px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--surface-border); }
+  .dept:last-child { border-bottom: 0; }
+  .dname { width: 150px; flex-shrink: 0; font-size: .8rem; font-weight: 600; color: var(--text-secondary); }
+  .codes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .course { height: 24px; padding: 0 9px; font-size: .74rem; font-weight: 500; transition: all .18s ease; }
+  .course:hover { border-color: var(--chip-inactive-hover-border); background: var(--chip-inactive-hover-bg); }
 
-  .block { margin-top: 72px; }
-  .block-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
-  .block-head h2 { margin: 0; font-size: 1.45rem; letter-spacing: -.025em; font-weight: 720; }
-  .more { display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; font-weight: 600; color: var(--accent); }
-
-  .sections { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-  .section { position: relative; grid-column: span 2; padding: 24px; border-radius: var(--radius-lg); min-height: 190px; overflow: hidden; }
-  .s-code, .s-notes { grid-column: span 3; }
-  .section::before {
-    content: "";
-    position: absolute;
-    right: -60px;
-    top: -60px;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: var(--grad);
-    opacity: .12;
-    filter: blur(10px);
-    transition: opacity .3s var(--ease), transform .4s var(--ease);
-  }
-  .section:hover::before { opacity: .22; transform: scale(1.15); }
-  .s-icon {
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .tile { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 20px; }
+  .ticon {
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 8px;
+    border-radius: 10px;
     color: #fff;
-    background: var(--grad);
-    box-shadow: 0 6px 18px rgba(124, 58, 237, .3), inset 0 1px 0 rgba(255, 255, 255, .3);
+    background: linear-gradient(135deg, #8B5CF6, #6D3FC8);
   }
-  .s-count { position: absolute; top: 26px; right: 24px; font-size: .78rem; font-weight: 600; color: var(--text-3); }
-  .section h3 { margin: 18px 0 6px; font-size: 1.15rem; font-weight: 700; letter-spacing: -.015em; }
-  .section p { margin: 0; font-size: .92rem; color: var(--text-2); max-width: 360px; }
-  .s-go { position: absolute; right: 22px; bottom: 20px; color: var(--accent); opacity: 0; transform: translateX(-6px); transition: all .25s var(--ease); }
-  .section:hover .s-go { opacity: 1; transform: none; }
+  .tname { font-size: .9rem; font-weight: 600; line-height: 1.3; color: var(--text-primary); }
+  .tcount { font-size: .73rem; color: var(--text-muted); }
 
-  .list { display: flex; flex-direction: column; gap: 10px; }
-  .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; padding-top: 48px; gap: 32px; }
-    .sections { grid-template-columns: 1fr 1fr; }
-    .section, .s-code, .s-notes { grid-column: span 1; }
-  }
-  @media (max-width: 560px) {
-    .br { display: none; }
-    .sections { grid-template-columns: 1fr; }
-    .block { margin-top: 56px; }
+  @media (max-width: 599px) {
+    .dept { flex-direction: column; gap: 6px; }
+    .dname { width: auto; }
   }
 </style>

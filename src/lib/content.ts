@@ -45,10 +45,14 @@ export function groupBy<T>(items: T[], key: (t: T) => string): [string, T[]][] {
   return [...map.entries()];
 }
 
-export const formatDate = (d: Date, style: "long" | "short" = "long") =>
-  d.toLocaleDateString("en-US", style === "long"
-    ? {year: "numeric", month: "short", day: "numeric", timeZone: "UTC"}
-    : {year: "numeric", month: "short", timeZone: "UTC"});
+export const formatDate = (d: Date, style: "long" | "short" | "weekday" = "long") =>
+  d.toLocaleDateString("en-US", {
+    ...(style === "weekday" ? {weekday: "short"} : {}),
+    year: "numeric",
+    month: "short",
+    ...(style === "short" ? {} : {day: "numeric"}),
+    timeZone: "UTC",
+  });
 
 // CJK text is read per character, everything else per word.
 export function readingMinutes(body = "") {

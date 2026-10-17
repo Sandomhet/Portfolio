@@ -3,23 +3,46 @@ import Icon from "./Icon.astro";
 import quotes from "../data/quotes.json";
 const first = quotes[0];
 ---
-<figure class="quote glass" data-quotes={JSON.stringify(quotes)}>
-  <div class="top">
-    <span class="eyebrow"><Icon name="quote" size={14} /> Quote of the day</span>
-    <button class="icon-btn small" type="button" aria-label="Another quote"><Icon name="refresh" size={15} /></button>
+<figure class="quote surface" data-quotes={JSON.stringify(quotes)}>
+  <div class="head">
+    <Icon name="book" size={16} class="book" />
+    <span class="label">QUOTE OF THE DAY</span>
+    <button type="button" aria-label="Another quote" title="Another quote"><Icon name="refresh" size={15} /></button>
   </div>
-  <blockquote data-q>{first.quote}</blockquote>
-  <figcaption data-c>{first.writer && `— ${first.writer}`}{first.source && ` · ${first.source}`}</figcaption>
+  <div class="body">
+    <blockquote data-q>"{first.quote}"</blockquote>
+    <figcaption data-c>{first.writer && `— ${first.writer}`}{first.source && ` · ${first.source}`}</figcaption>
+  </div>
 </figure>
 
 <style>
-  .quote { margin: 0; padding: 20px 22px; }
-  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .small { width: 32px; height: 32px; }
-  .small:hover :global(svg) { transform: rotate(90deg); }
-  .small :global(svg) { transition: transform .3s var(--ease); }
-  blockquote { margin: 0; font-size: 1rem; line-height: 1.75; font-style: italic; color: var(--text); min-height: 3.5em; }
-  figcaption { margin-top: 10px; text-align: right; font-size: .82rem; color: var(--text-3); }
+  .quote { width: 100%; margin: 8px 0 0; text-align: left; border-radius: 20px; overflow: hidden; transition: border-color .2s ease; }
+  .quote:hover { border-color: var(--surface-border-hover); }
+  .head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--chip-bg);
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .head :global(.book) { color: var(--nav-active); justify-self: start; }
+  .label { font-size: .8rem; font-weight: 600; letter-spacing: .06em; color: var(--nav-active); }
+  button {
+    justify-self: end;
+    display: grid;
+    place-items: center;
+    padding: 2px;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  button:hover { color: var(--nav-active); rotate: 90deg; }
+  .body { padding: 12px 16px; }
+  blockquote { margin: 0 0 8px; font-size: .82rem; line-height: 1.75; font-style: italic; color: var(--text-primary); }
+  figcaption { text-align: right; font-size: .73rem; color: var(--text-muted); }
 </style>
 
 <script>
@@ -33,7 +56,7 @@ const first = quotes[0];
       if (quotes.length > 1 && i === last) i = (i + 1) % quotes.length;
       last = i;
       const {quote, writer, source} = quotes[i];
-      q.textContent = quote;
+      q.textContent = `"${quote}"`;
       c.textContent = `${writer ? `— ${writer}` : ""}${source ? ` · ${source}` : ""}`;
     };
     show();

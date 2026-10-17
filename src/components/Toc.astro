@@ -3,29 +3,24 @@ import type {MarkdownHeading} from "astro";
 interface Props { headings: MarkdownHeading[] }
 const {headings} = Astro.props;
 ---
-<nav class="toc" aria-label="On this page">
-  <div class="toc-title">On this page</div>
-  <ol>
+<div class="toc">
+  <div class="toc-title">On This Page</div>
+  <nav class="toc-sidebar" aria-label="On this page">
     {headings.map(h => (
-      <li class={`d${h.depth}`}><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>
+      <a href={`#${h.slug}`} class={`toc-link level-${h.depth}`} data-toc={h.slug} title={h.text}>{h.text}</a>
     ))}
-  </ol>
-</nav>
+  </nav>
+</div>
 
 <style>
-  .toc-title { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin: 0 0 10px 12px; }
-  ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
-  a {
-    display: block;
-    margin-left: -1px;
-    padding: 5px 12px;
-    border-left: 2px solid transparent;
-    font-size: .84rem;
-    line-height: 1.45;
-    color: var(--text-3);
-    transition: color .15s, border-color .15s, background .15s;
+  .toc { padding: 20px 16px 16px; }
+  .toc-title {
+    padding: 0 8px;
+    margin-bottom: 12px;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
   }
-  .d3 a { padding-left: 24px; font-size: .8rem; }
-  a:hover { color: var(--text); }
-  a[aria-current="true"] { color: var(--accent); border-left-color: var(--accent-2); background: var(--accent-soft); font-weight: 550; }
 </style>

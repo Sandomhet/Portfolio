@@ -6,6 +6,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    { "source": "/about", "destination": "/#about", "permanent": false },
     { "source": "/blogs", "destination": "/code", "permanent": true },
     { "source": "/blogs/:slug", "destination": "/code/:slug", "permanent": true },
     { "source": "/articles", "destination": "/writing", "permanent": true },

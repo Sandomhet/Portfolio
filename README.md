@@ -1,10 +1,11 @@
 # Sandomhet's Portfolio
 
-Samuel Zhang's personal site: programming knowledge and C++ templates, class notes, literature essays, a personal blog, projects and an about page.
+Samuel Zhang's personal site: programming knowledge and C++ templates, class notes, literature essays, a personal blog, projects and an About me section.
 
-Built with [Astro](https://astro.build) as a fully static site. Markdown is rendered at build time with KaTeX for math and Shiki for code, and [Pagefind](https://pagefind.app) provides full text search.
+Built with [Astro](https://astro.build) as a fully static site. Markdown is rendered at build time with KaTeX for math and Prism for code, and [Pagefind](https://pagefind.app) provides full text search. The look (Misty Grape light theme, Twilight dark theme, frosted cards, profile sidebar) is kept from the original React version; its stylesheets live in `src/styles/legacy.css` and `src/styles/code.css`.
 
 ![Home page](docs/home-light.png)
+![Home page in dark mode](docs/home-dark.png)
 ![A note in dark mode](docs/note-dark.png)
 
 ## Sections
@@ -16,7 +17,7 @@ Built with [Astro](https://astro.build) as a fully static site. Markdown is rend
 | `/writing` | Literature articles and essays | `src/content/writing/` |
 | `/blog` | Personal blog posts | `src/content/blog/` |
 | `/projects` | Project showcase with illustrated cards | `src/content/projects/` |
-| `/about` | About me, built from `src/data/site.ts` | |
+| `/` | Home: profile, social links and quote of the day on the left, About me on the right | `src/data/site.ts` |
 
 The folder a file sits in becomes its category, and the file name becomes its URL (`src/content/code/Graph/mst.md` → `/code/mst`). File names must be unique within a section.
 
@@ -42,12 +43,12 @@ tech: ["C++", "Astro"]
 repo: "https://github.com/..."   # optional
 demo: "https://..."              # optional
 cover: "/images/my-cover.png"    # optional, otherwise an illustration is generated
-featured: true                   # shows on the home page first
+featured: true                   # listed first on the Projects page
 ```
 
 A blog post template is in `src/content/blog/_template.md`. Images go in `public/images/` and are referenced as `/images/name.png`.
 
-Personal details (name, intro, about text, social links, section names) are all in `src/data/site.ts`.
+Personal details (name, intro, About me text, social links, section names) are all in `src/data/site.ts`.
 
 The quote widget reads `src/data/quotes.json`. To regenerate it from `src/data/Quotes.xlsx`, run `npm run quotes`.
 
@@ -65,4 +66,4 @@ Search only works on a built site because the index is generated after `astro bu
 
 ## Deployment
 
-The site is deployed on Vercel. `vercel.json` sets the framework to Astro, the output folder to `dist`, clean URLs, and permanent redirects from the old routes (`/blogs/*` → `/code/*`, `/articles/*` → `/writing/*`, and the documents that used to live under `/projects`).
+The site is deployed on Vercel. `vercel.json` sets the framework to Astro, the output folder to `dist`, clean URLs, and redirects from the old routes (`/blogs/*` → `/code/*`, `/articles/*` → `/writing/*`, and the documents that used to live under `/projects`).

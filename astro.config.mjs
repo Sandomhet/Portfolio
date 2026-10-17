@@ -27,10 +27,6 @@ export default defineConfig({
       rehypePlugins: [[rehypeKatex, {strict: false, throwOnError: false}]],
       smartypants: false,
     }),
-    shikiConfig: {
-      themes: {light: "github-light", dark: "github-dark-dimmed"},
-      defaultColor: false,
-      wrap: false,
-    },
+    syntaxHighlight: "prism",
   },
 });

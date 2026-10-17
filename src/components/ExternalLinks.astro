@@ -1,0 +1,42 @@
+---
+import Icon from "./Icon.astro";
+import {socials} from "../data/site";
+interface Props { inline?: boolean }
+const {inline = false} = Astro.props;
+
+const hover: Record<string, [string, string]> = {
+  github: ["var(--text-primary)", "var(--nav-hover-bg)"],
+  linkedin: ["#0A66C2", "rgba(10,102,194,0.12)"],
+  leetcode: ["#FFA116", "rgba(255,161,22,0.12)"],
+  mail: ["#EA4335", "rgba(234,67,53,0.12)"],
+};
+---
+<div class:list={["links", {inline}]}>
+  {socials.map(s => (
+    <a
+      href={s.href}
+      target={s.icon === "mail" ? undefined : "_blank"}
+      rel="noopener noreferrer"
+      aria-label={s.label}
+      title={s.label}
+      style={`--hc:${hover[s.icon][0]};--hb:${hover[s.icon][1]}`}
+    >
+      <Icon name={s.icon} size={20} />
+    </a>
+  ))}
+</div>
+
+<style>
+  .links { display: flex; justify-content: center; gap: 2px; margin-bottom: 16px; }
+  .links.inline { justify-content: flex-start; margin: 4px 0 0 -6px; }
+  a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--text-muted);
+    transition: all .2s ease;
+  }
+  a:hover { color: var(--hc); background: var(--hb); transform: translateY(-2px); }
+</style>

@@ -1,0 +1,35 @@
+---
+import Avatar from "./Avatar.astro";
+import ExternalLinks from "./ExternalLinks.astro";
+import Quote from "./Quote.astro";
+import {profile} from "../data/site";
+interface Props { compact?: boolean }
+const {compact = false} = Astro.props;
+---
+{compact ? (
+  <div class="compact">
+    <Avatar size={72} />
+    <div>
+      <div class="name brand-text">{profile.short}</div>
+      <div class="sub">{profile.tagline}</div>
+      <ExternalLinks inline />
+    </div>
+  </div>
+) : (
+  <div class="full">
+    <div class="av"><Avatar size={96} /></div>
+    <div class="name brand-text">{profile.short}</div>
+    <div class="sub">{profile.tagline}</div>
+    <ExternalLinks />
+    <Quote />
+  </div>
+)}
+
+<style>
+  .full { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .av { margin: 8px 0 16px; }
+  .compact { display: flex; align-items: center; gap: 24px; }
+  .name { font-size: 1.3rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 2px; }
+  .sub { font-size: .8rem; color: var(--text-muted); }
+  .full .sub { margin-bottom: 8px; }
+</style>
