@@ -5,9 +5,6 @@ time: "Sat Nov 2, 2024"
 lang: "en"
 ---
 
-## <p align="center">Don’t be Chained by Stereotype Buckets</p>
-
-**<p align="right">Samuel Zhang</p>**
 
 Identities, including gender, race, culture, and nationality, significantly impact people's thoughts and behaviors.
 Among all of these, gender identities have either the slightest influence, because they are so common, or the greatest

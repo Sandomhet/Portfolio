@@ -76,8 +76,7 @@ Thus, $x^2 + \left( \frac{v}{\omega} \right)^2 = A^2$.
 
 $\phi = \arctan\left( -\frac{v_0}{\omega x_0} \right)$.
 
-![](/markdown/images/image-5.png)
-![](../images/image-5.png)
+![](/images/image-5.png)
 
 ### Simple Pendulum
 

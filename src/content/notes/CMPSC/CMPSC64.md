@@ -182,8 +182,7 @@ Components of MIPS program:
 
 ### Registers
 
-![](/markdown/images/image-2.png)
-![](../images/image-2.png)
+![](/images/image-2.png)
 
 Registers in MIPS (32 total):  
 `$zero`: always contains `0` and cannot be overwritten  
@@ -384,8 +383,7 @@ table of instruction formats with each field:
 ## Instruction Representation
 
 Each instruction is represented as a 32-bit binary number.
-![](/markdown/images/image-3.png)
-![](../images/image-3.png)
+![](/images/image-3.png)
 
 ### R-type Instruction Format
 
@@ -451,8 +449,7 @@ addiu $sp, $sp, 4   # Move stack pointer up by 4 bytes
 
 ## Digital Logic Circuits
 
-![](/markdown/images/image.png)
-![](../images/image.png)
+![](/images/image.png)
 
 Operation Signs:
 - NOT: $\overline{A}$
@@ -579,7 +576,7 @@ $C_{out} = A B + B C + C A$
 
 ## Sequential Logic Circuits
 
-![](/public/markdown/images/image-8.png)
+![](/images/image-8.png)
 
 Unlike **combinational** circuits (outputs depend only on current inputs), **sequential** circuits have **memory**: their outputs depend on the current inputs and on the **history** of past inputs. They use feedback and storage elements (latches or flip-flops).
 
