@@ -5,9 +5,6 @@ time: "Sun Mar 9, 2025"
 lang: "en"
 ---
 
-## <p align="center">TikTok Taking The World By Storm: Where Is Our Entertainment Headed?</p>
-
-**<p align="right">Samuel Zhang</p>**
 
 Lying in bed, sitting on a chair or sofa, or walking down the street, we keep our fingers scrolling on our phones and
 our eyes glued to the screen, unaware of the passing time. Chances are, there is someone around you—perhaps even you—who

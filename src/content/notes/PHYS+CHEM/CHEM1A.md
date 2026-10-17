@@ -51,8 +51,7 @@ $\text{Nuclear Symbol} = \begin{pmatrix} \text{Mass Number} \\ \text{Atomic Numb
 - **Space-filling model**: shows relative atom size and occupied space.
 - **Ball-and-stick model**: shows bonds clearly with 3D spheres.
 
-![](/markdown/images/image-6.png)
-![](../images/image-6.png)
+![](/images/image-6.png)
 
 ### Ions
 
@@ -63,8 +62,7 @@ $\text{Nuclear Symbol} = \begin{pmatrix} \text{Mass Number} \\ \text{Atomic Numb
 - **Anions**: **negatively** charged ions with more electrons than protons. ($OH^-$, $F^-$, $NH_2^-$)
 - **Ionic Compounds**: compounds formed from cations and anions held together by **ionic bonds**. The electrons in ionic bonds are not shared but transferred from one atom to another, resulting in the formation of ions.
 
-![](/markdown/images/image-7.png)
-![](../images/image-7.png)
+![](/images/image-7.png)
 
 ### Determining Charge
 

@@ -159,8 +159,8 @@ Four cases of rotations:
 - Left-Right Case: $x$ inserted into right subtree of left child of $\alpha$.
 - Right-Left Case: $x$ inserted into left subtree of right child of $\alpha$.
 
-<!-- ![alt text](../../images/image.png) -->
-![alt text](../../images/image-1.png)
+<!-- ![alt text](/images/image.png) -->
+![alt text](/images/image-1.png)
 
 ```cpp
 #define BST AVL

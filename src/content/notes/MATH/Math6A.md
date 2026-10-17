@@ -189,7 +189,8 @@ Estimating: If $ g \le f \le h $, then $ \int\int_R g dA \le \int\int_R f dA \le
 $(x, y) \to (u, v)$ where $ x = f_x(u, v) $ and $ y = f_y(u, v) $
 
 **Jacobian Determinant**:
-$$ J = \frac{\partial(x, y)}{\partial(u, v)} =
+$$
+J = \frac{\partial(x, y)}{\partial(u, v)} =
 \begin{vmatrix}
 \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
 \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \\
@@ -205,7 +206,8 @@ $$ \int\int_R f(x, y)\ dx dy = \int\int_S f(f_x(u, v), f_y(u, v)) \left| \frac{\
 $(x, y, z) \to (u, v, w)$ where $ x = f_x(u, v, w) $, $ y = f_y(u, v, w) $, and $ z = f_z(u, v, w) $
 
 **Jacobian Determinant**:
-$$ J = \frac{\partial(x, y, z)}{\partial(u, v, w)} =
+$$
+J = \frac{\partial(x, y, z)}{\partial(u, v, w)} =
 \begin{vmatrix}
 \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w} \\
 \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w} \\

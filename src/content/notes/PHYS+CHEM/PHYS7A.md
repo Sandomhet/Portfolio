@@ -270,8 +270,7 @@ $I = mr^2$ where $r$ is the distance from the axis of rotation to the mass.
 
 **Parallel Axis Theorem**: $I_P = I_{CM} + Md^2$. $P$ is the point of rotation, $d$ is the distance between the point of rotation and the center of mass, $M$ is the mass of the object. $I_{CM}$ is the moment of inertia about the center of mass.
 
-![](/markdown/images/image-4.png)
-![](../images/image-4.png)
+![](/images/image-4.png)
 Some Moments of Inertia:
 - Point mass: $I = mr^2$
 - Rod: $I = \frac{1}{12}mL^2$

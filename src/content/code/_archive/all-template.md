@@ -1,3 +1,10 @@
+---
+title: "all-template"
+description: ""
+time: "Mon Jan 1, 2024"
+draft: true
+---
+
 ### Simple Version
 
 ```cpp

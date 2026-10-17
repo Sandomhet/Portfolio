@@ -269,8 +269,7 @@ To prove $\forall x \in S, P(x)$ when $S$ is recursively defined.
 1. **Basis Step**: Show $P(b)$ for each base element $b$.
 2. **Recursive Step**: Assume $P$ holds for all smaller ("already constructed") elements; then show it holds for any element formed by the recursive rule.
 
-![](/markdown/images/image-1.png)
-![](../images/image-1.png)
+![](/images/image-1.png)
 
 ## Number Theory
 

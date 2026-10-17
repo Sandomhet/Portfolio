@@ -5,9 +5,6 @@ time: "Thu Feb 13, 2025"
 lang: "en"
 ---
 
-## <p align="center">The Souls Through The Book</p>
-
-**<p align="right">Samuel Zhang</p>**
 
 As my fingers gently flip through the pages of my commonplace book, thousands of black ink marks emerge from the
 slightly yellowed paper, intertwining into countless memories that flood my mind. Each page holds echoes of my past
