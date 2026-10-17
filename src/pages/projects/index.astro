@@ -1,0 +1,29 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import {sections} from "../../data/site";
+import {getItems} from "../../lib/content";
+
+const items = await getItems("projects");
+const sorted = [...items.filter(p => (p.entry.data as any).featured), ...items.filter(p => !(p.entry.data as any).featured)];
+const info = sections.projects;
+---
+<Base title={info.title} description={info.blurb}>
+  <div class="container">
+    <header class="page-head">
+      <span class="eyebrow"><Icon name="spark" size={14} /> {info.label}</span>
+      <h1>{info.title}</h1>
+      <p>{info.blurb}</p>
+      <div class="meta">{items.length} projects</div>
+    </header>
+    <div class="grid">
+      {sorted.map(item => <ProjectCard item={item} />)}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+  @media (max-width: 400px) { .grid { grid-template-columns: 1fr; } }
+</style>

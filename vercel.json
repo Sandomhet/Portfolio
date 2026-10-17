@@ -1,0 +1,27 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/blogs", "destination": "/code", "permanent": true },
+    { "source": "/blogs/:slug", "destination": "/code/:slug", "permanent": true },
+    { "source": "/articles", "destination": "/writing", "permanent": true },
+    { "source": "/articles/:slug", "destination": "/writing/:slug", "permanent": true },
+    { "source": "/projects/ai", "destination": "/code/ai", "permanent": true },
+    { "source": "/projects/interview", "destination": "/code/interview", "permanent": true },
+    { "source": "/projects/nine-point-circle", "destination": "/code/nine-point-circle", "permanent": true },
+    { "source": "/projects/new-all-template", "destination": "/code/icpc-templates", "permanent": true },
+    { "source": "/projects/all-template", "destination": "/code/icpc-templates", "permanent": true },
+    { "source": "/code/new-all-template", "destination": "/code/icpc-templates", "permanent": true },
+    { "source": "/notes/table", "destination": "/notes/Pstat120A", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/_astro/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import StoryList from "../../components/StoryList.astro";
+import {sections} from "../../data/site";
+import {getItems} from "../../lib/content";
+
+const items = await getItems("blog");
+const info = sections.blog;
+---
+<Base title={info.title} description={info.blurb}>
+  <div class="container narrow">
+    <header class="page-head">
+      <span class="eyebrow"><Icon name="coffee" size={14} /> {info.label}</span>
+      <h1>{info.title}</h1>
+      <p>Shorter, more personal posts: what I am up to, what I am thinking about, and things worth remembering.</p>
+      {items.length > 0 && <div class="meta">{items.length} posts</div>}
+    </header>
+    {items.length > 0 ? <StoryList items={items} /> : (
+      <div class="empty glass">
+        <Icon name="coffee" size={28} />
+        <h2>First post is brewing</h2>
+        <p>Nothing here yet. New posts will show up here as soon as they are written.</p>
+      </div>
+    )}
+  </div>
+</Base>
+
+<style>.narrow { max-width: 900px; }</style>

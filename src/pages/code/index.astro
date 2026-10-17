@@ -1,0 +1,137 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import EntryRow from "../../components/EntryRow.astro";
+import {categoryName, sections} from "../../data/site";
+import {getItems, groupBy} from "../../lib/content";
+
+const items = await getItems("code");
+const ORDER = ["Templates", "Data-Structures", "Graph", "String", "Dynamic-Programming", "Mathematics", "Polynomial", "Miscellaneous", "AI", "Interview"];
+const rank = (c: string) => (ORDER.indexOf(c) + 1 || 99);
+const groups = groupBy(items, i => i.category).sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
+const info = sections.code;
+---
+<Base title={info.title} description={info.blurb}>
+  <div class="container">
+    <header class="page-head">
+      <span class="eyebrow"><Icon name="code" size={14} /> {info.label}</span>
+      <h1>{info.title} <span class="grad-text">&amp; Templates</span></h1>
+      <p>Competitive programming notes, algorithm write ups and reusable C++ templates, most of them written while training for ICPC.</p>
+      <div class="meta">{items.length} entries · {groups.length} categories</div>
+    </header>
+
+    <div class="toolbar glass">
+      <label class="filter">
+        <Icon name="filter" size={15} />
+        <span class="sr-only">Filter by title</span>
+        <input type="search" placeholder="Filter topics… (e.g. segment tree)" data-filter autocomplete="off" />
+      </label>
+      <div class="chips" role="tablist" aria-label="Categories">
+        <button type="button" class="cat" data-cat="" aria-pressed="true">All <span>{items.length}</span></button>
+        {groups.map(([c, list]) => (
+          <button type="button" class="cat" data-cat={c} aria-pressed="false">{categoryName(c)} <span>{list.length}</span></button>
+        ))}
+      </div>
+    </div>
+
+    <div class="groups">
+      {groups.map(([c, list]) => (
+        <section class="group" data-group={c} id={c}>
+          <h2>{categoryName(c)} <span>{list.length}</span></h2>
+          <div class="grid">
+            {list.map(item => <EntryRow item={item} showCategory={false} />)}
+          </div>
+        </section>
+      ))}
+      <p class="empty" data-none hidden>No topics match that filter.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .toolbar {
+    position: sticky;
+    top: calc(var(--nav-h) + 12px);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 36px;
+    background: var(--surface-strong);
+  }
+  .filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-3);
+  }
+  .filter:focus-within { border-color: var(--accent-2); }
+  .filter input { flex: 1; border: 0; outline: 0; background: transparent; color: var(--text); font: inherit; font-size: .95rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  @media (max-width: 760px) { .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -14px; padding: 0 14px; } }
+  .cat {
+    flex-shrink: 0;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-size: .82rem;
+    font-weight: 550;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all .2s var(--ease);
+  }
+  .cat span { margin-left: 4px; font-size: .72rem; color: var(--text-3); }
+  .cat:hover { border-color: var(--border-strong); color: var(--accent); }
+  .cat[aria-pressed="true"] { color: #fff; border-color: transparent; background: var(--grad); box-shadow: 0 4px 14px rgba(124, 58, 237, .3); }
+  .cat[aria-pressed="true"] span { color: rgba(255, 255, 255, .8); }
+
+  .group { margin-bottom: 44px; scroll-margin-top: 200px; }
+  .group h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; font-size: 1.2rem; letter-spacing: -.02em; }
+  .group h2 span { font-size: .8rem; font-weight: 500; color: var(--text-3); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>("[data-filter]")!;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>(".cat")];
+  const groups = [...document.querySelectorAll<HTMLElement>("[data-group]")];
+  const none = document.querySelector<HTMLElement>("[data-none]")!;
+  let cat = new URLSearchParams(location.search).get("c") ?? "";
+  if (!buttons.some(b => b.dataset.cat === cat)) cat = "";
+
+  function apply() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.cat === cat)));
+    groups.forEach(g => {
+      let visible = 0;
+      g.querySelectorAll<HTMLElement>("[data-title]").forEach(row => {
+        const ok = !q || row.dataset.title!.includes(q) || row.dataset.desc!.includes(q);
+        row.hidden = !ok;
+        if (ok) visible++;
+      });
+      g.hidden = (cat !== "" && g.dataset.group !== cat) || visible === 0;
+      if (!g.hidden) shown += visible;
+    });
+    none.hidden = shown > 0;
+  }
+
+  buttons.forEach(b => b.addEventListener("click", () => {
+    cat = b.dataset.cat ?? "";
+    const url = new URL(location.href);
+    if (cat) url.searchParams.set("c", cat); else url.searchParams.delete("c");
+    history.replaceState(null, "", url);
+    apply();
+  }));
+  input.addEventListener("input", apply);
+  apply();
+</script>

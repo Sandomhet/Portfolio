@@ -1,0 +1,42 @@
+---
+import Icon from "./Icon.astro";
+import quotes from "../data/quotes.json";
+const first = quotes[0];
+---
+<figure class="quote glass" data-quotes={JSON.stringify(quotes)}>
+  <div class="top">
+    <span class="eyebrow"><Icon name="quote" size={14} /> Quote of the day</span>
+    <button class="icon-btn small" type="button" aria-label="Another quote"><Icon name="refresh" size={15} /></button>
+  </div>
+  <blockquote data-q>{first.quote}</blockquote>
+  <figcaption data-c>{first.writer && `— ${first.writer}`}{first.source && ` · ${first.source}`}</figcaption>
+</figure>
+
+<style>
+  .quote { margin: 0; padding: 20px 22px; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .small { width: 32px; height: 32px; }
+  .small:hover :global(svg) { transform: rotate(90deg); }
+  .small :global(svg) { transition: transform .3s var(--ease); }
+  blockquote { margin: 0; font-size: 1rem; line-height: 1.75; font-style: italic; color: var(--text); min-height: 3.5em; }
+  figcaption { margin-top: 10px; text-align: right; font-size: .82rem; color: var(--text-3); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".quote[data-quotes]").forEach(el => {
+    const quotes: {quote: string; writer?: string; source?: string}[] = JSON.parse(el.dataset.quotes!);
+    const q = el.querySelector("[data-q]")!;
+    const c = el.querySelector("[data-c]")!;
+    let last = -1;
+    const show = () => {
+      let i = Math.floor(Math.random() * quotes.length);
+      if (quotes.length > 1 && i === last) i = (i + 1) % quotes.length;
+      last = i;
+      const {quote, writer, source} = quotes[i];
+      q.textContent = quote;
+      c.textContent = `${writer ? `— ${writer}` : ""}${source ? ` · ${source}` : ""}`;
+    };
+    show();
+    el.querySelector("button")?.addEventListener("click", show);
+  });
+</script>
