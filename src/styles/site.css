@@ -1,0 +1,222 @@
+/* Component styles built on the original theme variables in legacy.css. */
+
+html { scroll-padding-top: 130px; }
+
+body {
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: .00938em;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 2px solid var(--purple-500); outline-offset: 2px; border-radius: 6px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 16px; top: -48px; z-index: 2000;
+  padding: 8px 14px; border-radius: 8px;
+  background: var(--purple-600); color: #fff; font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+
+/* Gradient text used by the brand, names and titles. */
+.brand-text, .title-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.brand-text { background-image: var(--brand-gradient); }
+.title-text { background-image: var(--title-gradient); }
+
+/* Frosted card (MUI Card in the old site). */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hover-lift { transition: all .22s ease; }
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-purple);
+  border-color: var(--surface-border-hover);
+  background: var(--surface-hover);
+}
+
+/* Bordered 34px icon button used in the nav and action bars. */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--surface-border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.icon-btn:hover {
+  color: var(--nav-active);
+  border-color: var(--surface-border-hover);
+  background: var(--nav-hover-bg);
+}
+
+/* Small category chip inside cards. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 8px;
+  font-size: .65rem;
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--chip-bg);
+  color: var(--chip-color);
+  border: 1px solid var(--chip-border);
+}
+
+/* Filter chips (category pickers). */
+.filter-chip {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: .78rem;
+  cursor: pointer;
+  transition: all .18s ease;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--chip-inactive-border);
+}
+.filter-chip:hover {
+  border-color: var(--chip-inactive-hover-border);
+  color: var(--chip-inactive-hover-color);
+  background: var(--chip-inactive-hover-bg);
+}
+.filter-chip[aria-pressed="true"] {
+  background: linear-gradient(135deg, #8B5CF6, #6D3FC8);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 600;
+  box-shadow: var(--chip-active-shadow);
+}
+.filter-chip .n { margin-left: 4px; opacity: .65; font-size: .7rem; }
+
+/* Buttons (MUI contained / outlined). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: .875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s ease;
+  border: 1px solid var(--surface-border);
+  background: transparent;
+  color: var(--text-secondary);
+}
+.btn:hover { border-color: var(--surface-border-hover); background: var(--nav-hover-bg); }
+.btn-primary {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, #8B5CF6, #6D3FC8);
+}
+.btn-primary:hover { background: linear-gradient(135deg, #A78BFA, #8B5CF6); box-shadow: var(--shadow-md); }
+
+/* Section heading (the old ContentTabs header). */
+.section-head { margin-bottom: 24px; }
+.section-head h1, .section-head h2 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.25;
+}
+.section-head p { margin: 0; color: var(--text-muted); font-size: .8rem; }
+.section-head .lead { margin-top: 6px; font-size: .92rem; color: var(--text-secondary); max-width: 640px; }
+
+.subhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 40px 0 14px;
+}
+.subhead h2 { margin: 0; font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-primary); }
+.subhead a { font-size: .8rem; font-weight: 500; color: var(--link-color); }
+.subhead a:hover { color: var(--link-hover); }
+
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+.empty {
+  padding: 36px 24px;
+  text-align: center;
+  border-radius: 20px;
+  color: var(--text-secondary);
+}
+.empty h2 { margin: 10px 0 4px; font-size: 1.05rem; color: var(--text-primary); }
+.empty p { margin: 0; font-size: .85rem; }
+
+/* Markdown tweaks on top of the original .markdown-zh / .markdown-en styles. */
+.markdown-zh > h1:first-child, .markdown-en > h1:first-child { display: none; }
+.markdown-zh [align="center"], .markdown-en [align="center"] { text-align: center; }
+.markdown-zh [align="right"], .markdown-en [align="right"] { text-align: right; }
+.markdown-zh .katex-display, .markdown-en .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.markdown-zh p, .markdown-en p { overflow-wrap: break-word; }
+
+.code-wrap { position: relative; }
+.code-wrap .copy {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--prism-line-num);
+  background: rgba(0, 0, 0, .18);
+  border: 1px solid rgba(255, 255, 255, .08);
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.code-wrap .copy:hover { color: var(--nav-active); background: rgba(0, 0, 0, .3); border-color: var(--surface-border-hover); }
+.code-wrap .copy[data-copied] { color: #4ade80; }
+
+@keyframes sheetIn { from { transform: translateX(var(--from, 100%)); } to { transform: none; } }
+
+/* Pagefind search modal theme. */
+.pagefind-ui {
+  --pagefind-ui-scale: .85;
+  --pagefind-ui-primary: var(--nav-active);
+  --pagefind-ui-text: var(--text-primary);
+  --pagefind-ui-background: transparent;
+  --pagefind-ui-border: var(--surface-border);
+  --pagefind-ui-tag: var(--chip-bg);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 10px;
+  --pagefind-ui-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.pagefind-ui mark { background: var(--chip-bg); color: var(--nav-active); padding: 0 2px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Old headings used scroll-margin for the nav only; the viewer adds an action bar. */
+.markdown-zh :is(h1, h2, h3, h4, h5, h6), .markdown-en :is(h1, h2, h3, h4, h5, h6) { scroll-margin-top: 130px; }

@@ -1,0 +1,42 @@
+---
+// Old HomePage layout: profile sidebar on the left, content on the right.
+import Base from "./Base.astro";
+import Profile from "../components/Profile.astro";
+
+interface Props { title?: string; description?: string }
+const {title, description} = Astro.props;
+---
+<Base title={title} description={description}>
+  <div class="shell">
+    <aside class="side"><Profile /></aside>
+    <div class="mobile-profile"><Profile compact /><hr /></div>
+    <div class="content"><slot /></div>
+  </div>
+</Base>
+
+<style>
+  .shell { display: flex; min-height: calc(100vh - 64px); }
+  .side {
+    width: 280px;
+    flex-shrink: 0;
+    padding: 28px 20px;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    border-right: 1px solid var(--sidebar-border);
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  .content { flex: 1; min-width: 0; max-width: 900px; padding: 32px 48px 64px; animation: fadeIn .35s ease; }
+  .mobile-profile { display: none; }
+  .mobile-profile hr { margin: 24px 0; border: 0; border-top: 1px solid var(--surface-border); }
+
+  @media (max-width: 1199px) { .content { padding: 32px 32px 64px; } }
+  @media (max-width: 899px) {
+    .shell { display: block; max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
+    .side { display: none; }
+    .mobile-profile { display: block; }
+    .content { padding: 0; }
+  }
+</style>

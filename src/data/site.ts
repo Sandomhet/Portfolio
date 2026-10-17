@@ -61,12 +61,12 @@ export const sections: Record<SectionKey, {label: string; title: string; blurb: 
 };
 
 export const nav: {label: string; href: string}[] = [
+  {label: "Home", href: "/"},
   {label: "Code", href: "/code"},
   {label: "Notes", href: "/notes"},
   {label: "Writing", href: "/writing"},
   {label: "Blog", href: "/blog"},
   {label: "Projects", href: "/projects"},
-  {label: "About", href: "/about"},
 ];
 
 // Display names for folder based categories.

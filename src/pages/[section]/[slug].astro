@@ -33,191 +33,235 @@ const {Content, headings} = await render(entry);
 
 const isReading = section === "writing" || section === "blog";
 const toc = isReading ? [] : headings.filter(h => h.depth >= 2 && h.depth <= 3);
-const showToc = toc.length > 2;
-const minutes = readingMinutes(entry.body);
-const sectionInfo = sections[section];
+const hasToc = toc.length > 1;
+const langClass = data.lang === "en" ? "markdown-en" : "markdown-zh";
+const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/${section}`;
 ---
-<Base title={data.title} description={data.description || data.summary || sectionInfo.blurb} lang={data.lang === "zh" ? "zh-CN" : "en"} ogType="article">
-  <div class:list={["container doc", {"has-toc": showToc, reading: isReading}]}>
-    {showToc && (
-      <aside class="toc-col">
-        <div class="toc-sticky glass">
-          <Toc headings={toc} />
-        </div>
-      </aside>
+<Base title={data.title} description={data.description || data.summary || sections[section].blurb} lang={data.lang === "zh" ? "zh-CN" : "en"} ogType="article">
+  <div class="viewer">
+    {hasToc && (
+      <aside class="toc-col"><Toc headings={toc} /></aside>
     )}
 
-    <article class="main" data-pagefind-body>
-      <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore>
-        <a href={`/${section}`} class="crumb-back"><Icon name="arrow-left" size={15} /> {sectionInfo.label}</a>
-        {category && <><span aria-hidden="true">/</span><a href={`/${section}${section === "code" ? `?c=${encodeURIComponent(category)}` : `#${category}`}`}>{categoryName(category)}</a></>}
-      </nav>
-
-      <header class="head">
-        <h1 data-pagefind-meta="title">{data.title}</h1>
-        {(data.description || data.summary) && <p class="desc">{data.description || data.summary}</p>}
-        <div class="meta" data-pagefind-ignore>
-          {isReading && <span class="by">{profile.name}</span>}
-          <span><Icon name="calendar" size={14} /> <time datetime={data.time.toISOString()}>{formatDate(data.time)}</time></span>
-          <span><Icon name="clock" size={14} /> {minutes} min read</span>
-          <span><Icon name="globe" size={14} /> {data.lang === "zh" ? "中文" : "English"}</span>
-        </div>
-        {section === "projects" && (
-          <div class="project-extra" data-pagefind-ignore>
-            {data.tech && data.tech.length > 0 && <ul class="tech">{data.tech.map(t => <li class="chip">{t}</li>)}</ul>}
-            <div class="plinks">
-              {data.repo && <a class="btn" href={data.repo} target="_blank" rel="noopener noreferrer"><Icon name="github" size={16} /> Source</a>}
-              {data.demo && <a class="btn btn-primary" href={data.demo} target="_blank" rel="noopener noreferrer">Live <Icon name="arrow-up-right" size={16} /></a>}
-            </div>
-          </div>
+    <div class="main-col">
+      <div class="action-bar">
+        {hasToc && (
+          <button class="icon-btn toc-btn" type="button" data-toc-open aria-label="Table of contents" title="Table of contents"><Icon name="menu" size={16} /></button>
         )}
-      </header>
-
-      {section === "projects" && (
-        <div class="pcover glass">
-          {data.cover ? <img src={data.cover} alt="" /> : <ProjectArt seed={data.title} class="art" />}
-        </div>
-      )}
-
-      {showToc && (
-        <details class="toc-mobile glass" data-pagefind-ignore>
-          <summary><Icon name="list" size={16} /> On this page</summary>
-          <Toc headings={toc} />
-        </details>
-      )}
-
-      <div class="prose" lang={data.lang === "zh" ? "zh" : "en"}>
-        <Content />
+        <a class="icon-btn" href={backHref} aria-label={`Back to ${sections[section].label}`} title="Go back"><Icon name="arrow-left" size={16} /></a>
+        <span class="crumb">
+          <a href={`/${section}`}>{sections[section].label}</a>
+          {category && <> · <a href={backHref}>{categoryName(category)}</a></>}
+        </span>
       </div>
 
-      {(newer || older) && (
-        <nav class="pager" aria-label="More in this category" data-pagefind-ignore>
-          {older ? (
-            <a href={older.href} class="glass card-link">
-              <span class="pl">Previous</span><span class="pt">{older.entry.data.title}</span>
-            </a>
-          ) : <span />}
-          {newer ? (
-            <a href={newer.href} class="glass card-link next">
-              <span class="pl">Next</span><span class="pt">{newer.entry.data.title}</span>
-            </a>
-          ) : <span />}
-        </nav>
-      )}
-    </article>
+      <div class="body-wrap">
+        <article class="body" data-pagefind-body>
+          <header class:list={["head", {centered: isReading}]}>
+            <h1 data-pagefind-meta="title">{data.title}</h1>
+            {(data.description || data.summary) && <p class="desc">{data.description || data.summary}</p>}
+            <div class="meta" data-pagefind-ignore>
+              {isReading && <span class="by">{profile.name}</span>}
+              <span><Icon name="calendar" size={13} /> {formatDate(data.time, "weekday")}</span>
+              <span><Icon name="clock" size={13} /> {readingMinutes(entry.body)} min read</span>
+            </div>
+            {section === "projects" && (
+              <div class="project-extra" data-pagefind-ignore>
+                {data.tech && data.tech.length > 0 && <div class="tech">{data.tech.map(t => <span class="chip">{t}</span>)}</div>}
+                <div class="plinks">
+                  {data.repo && <a class="btn" href={data.repo} target="_blank" rel="noopener noreferrer"><Icon name="github" size={15} /> Source</a>}
+                  {data.demo && <a class="btn btn-primary" href={data.demo} target="_blank" rel="noopener noreferrer">Live <Icon name="arrow-up-right" size={15} /></a>}
+                </div>
+              </div>
+            )}
+          </header>
+
+          {section === "projects" && (
+            <div class="pcover">{data.cover ? <img src={data.cover} alt="" /> : <ProjectArt seed={data.title} class="art" />}</div>
+          )}
+
+          <div class={langClass} lang={data.lang === "zh" ? "zh" : "en"}>
+            <Content />
+          </div>
+
+          {(newer || older) && (
+            <nav class="pager" aria-label="More in this category" data-pagefind-ignore>
+              {older ? (
+                <a href={older.href} class="surface hover-lift"><span class="pl">← Previous</span><span class="pt">{older.entry.data.title}</span></a>
+              ) : <span />}
+              {newer ? (
+                <a href={newer.href} class="surface hover-lift next"><span class="pl">Next →</span><span class="pt">{newer.entry.data.title}</span></a>
+              ) : <span />}
+            </nav>
+          )}
+        </article>
+      </div>
+    </div>
   </div>
+
+  {hasToc && (
+    <div class="toc-scrim" id="toc-drawer" hidden>
+      <div class="toc-drawer"><Toc headings={toc} /></div>
+    </div>
+  )}
 </Base>
 
 <style>
-  .doc { display: grid; grid-template-columns: minmax(0, var(--read-w)); justify-content: center; gap: 48px; padding-top: 40px; }
-  .doc.has-toc { grid-template-columns: 240px minmax(0, 820px); }
-  .doc.reading { --read-w: 700px; }
+  .viewer { display: flex; min-height: calc(100vh - 64px); }
 
-  .toc-col { position: relative; }
-  .toc-sticky { position: sticky; top: calc(var(--nav-h) + 24px); max-height: calc(100vh - var(--nav-h) - 48px); overflow-y: auto; padding: 18px 10px 18px 8px; }
-
-  .crumbs { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--text-3); }
-  .crumbs a { color: var(--text-2); font-weight: 550; }
-  .crumbs a:hover { color: var(--accent); }
-  .crumb-back { display: inline-flex; align-items: center; gap: 6px; }
-
-  .head { margin: 22px 0 32px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
-  .reading .head { text-align: center; }
-  h1 { margin: 0; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.15; letter-spacing: -.035em; font-weight: 780; }
-  .desc { margin: 14px 0 0; font-size: 1.08rem; color: var(--text-2); }
-  .reading .desc { font-style: italic; max-width: 560px; margin-left: auto; margin-right: auto; }
-  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: .85rem; color: var(--text-3); }
-  .reading .meta { justify-content: center; }
-  .meta span { display: inline-flex; align-items: center; gap: 6px; }
-  .by { font-weight: 650; color: var(--text-2); }
-
-  .project-extra { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
-  .tech { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-  .plinks { display: flex; gap: 10px; }
-  .pcover { overflow: hidden; border-radius: var(--radius-lg); aspect-ratio: 16 / 7; margin-bottom: 32px; }
-  .pcover img, .pcover :global(.art) { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  .toc-mobile { display: none; margin-bottom: 28px; padding: 12px 14px; }
-  .toc-mobile summary { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; font-size: .9rem; list-style: none; }
-  .toc-mobile summary::-webkit-details-marker { display: none; }
-  .toc-mobile[open] summary { margin-bottom: 12px; }
-
-  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 64px; }
-  .pager a { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
-  .pager .next { text-align: right; }
-  .pl { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
-  .pt { font-weight: 600; line-height: 1.4; }
-
-  @media (max-width: 1100px) {
-    .doc.has-toc { grid-template-columns: minmax(0, 820px); }
-    .toc-col { display: none; }
-    .toc-mobile { display: block; }
+  .toc-col {
+    width: 240px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    border-right: 1px solid var(--sidebar-border);
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
-  @media (max-width: 560px) {
-    .doc { padding-top: 24px; }
+
+  .main-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+  .action-bar {
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 40px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--nav-border);
+  }
+  .action-bar .icon-btn { width: 30px; height: 30px; }
+  .toc-btn { display: none; }
+  .crumb { font-size: .75rem; color: var(--text-muted); }
+  .crumb a:hover { color: var(--nav-active); }
+
+  .body-wrap { flex: 1; display: flex; justify-content: center; }
+  .body { width: 100%; max-width: 820px; min-width: 0; padding: 32px 40px 64px; }
+
+  .head { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--surface-border); }
+  .head h1 {
+    margin: .2em 0 .35em;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -.02em;
+    background: var(--h1-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .head .desc { margin: 0; font-size: .98rem; color: var(--text-secondary); }
+  .head .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: .78rem; line-height: 1.4; color: var(--text-muted); }
+  .head .meta span { display: inline-flex; align-items: center; gap: 5px; }
+  .head .by { font-weight: 600; color: var(--text-secondary); }
+  .centered { text-align: center; }
+  .centered .meta { justify-content: center; }
+  .centered .desc { font-style: italic; }
+
+  .project-extra { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+  .tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech .chip { height: 22px; font-size: .7rem; padding: 0 8px; }
+  .plinks { display: flex; gap: 8px; }
+  .pcover { overflow: hidden; border-radius: 20px; aspect-ratio: 16 / 7; margin-bottom: 28px; border: 1px solid var(--surface-border); }
+  .pcover img, .pcover :global(.art) { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 56px; }
+  .pager a { display: flex; flex-direction: column; gap: 4px; padding: 14px 18px; border-radius: 20px; }
+  .pager .next { text-align: right; }
+  .pl { font-size: .72rem; color: var(--text-muted); }
+  .pt { font-size: .9rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+
+  .toc-scrim { position: fixed; inset: 0; z-index: 1200; background: rgba(15, 8, 40, .35); }
+  .toc-drawer {
+    --from: -100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    overflow-y: auto;
+    padding-top: 8px;
+    background: var(--drawer-bg);
+    border-right: 1px solid var(--drawer-border);
+    animation: sheetIn .22s ease;
+  }
+
+  @media (max-width: 1199px) {
+    .toc-col { display: none; }
+    .toc-btn { display: inline-grid; }
+  }
+  @media (max-width: 899px) {
+    .action-bar { padding: 10px 24px; }
+    .body { padding: 28px 24px 56px; }
+  }
+  @media (max-width: 599px) {
+    .head h1 { font-size: 1.55rem; }
+    .action-bar { padding: 10px 16px; }
+    .body { padding: 24px 16px 48px; }
     .pager { grid-template-columns: 1fr; }
   }
 </style>
 
 <script>
-  // Copy buttons and language labels for code blocks.
-  document.querySelectorAll<HTMLPreElement>(".prose pre").forEach(pre => {
+  // Copy buttons on code blocks.
+  const copyIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+  const doneIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  document.querySelectorAll<HTMLPreElement>(".markdown-zh pre, .markdown-en pre").forEach(pre => {
     const wrap = document.createElement("div");
     wrap.className = "code-wrap";
     pre.replaceWith(wrap);
     wrap.append(pre);
-    const lang = pre.dataset.language;
-    if (lang && lang !== "plaintext") {
-      const tag = document.createElement("span");
-      tag.className = "lang";
-      tag.textContent = lang;
-      wrap.append(tag);
-    }
     const btn = document.createElement("button");
     btn.className = "copy";
     btn.type = "button";
+    btn.title = "Copy";
     btn.setAttribute("aria-label", "Copy code");
-    const copyIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
-    const doneIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
     btn.innerHTML = copyIcon;
     btn.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(pre.querySelector("code")?.innerText ?? pre.innerText);
+        await navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent ?? "");
         btn.dataset.copied = "";
+        btn.title = "Copied!";
         btn.innerHTML = doneIcon;
-        setTimeout(() => { delete btn.dataset.copied; btn.innerHTML = copyIcon; }, 1600);
+        setTimeout(() => { delete btn.dataset.copied; btn.title = "Copy"; btn.innerHTML = copyIcon; }, 2000);
       } catch {}
     });
     wrap.append(btn);
   });
 
-  // Scroll spy for the table of contents.
+  // Mobile TOC drawer.
+  const scrim = document.getElementById("toc-drawer");
+  const closeToc = () => { if (scrim) scrim.hidden = true; };
+  document.querySelector("[data-toc-open]")?.addEventListener("click", () => { if (scrim) scrim.hidden = false; });
+  scrim?.addEventListener("click", e => { if (e.target === scrim) closeToc(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeToc(); });
+
+  // Scroll spy.
   const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-toc]")];
   if (links.length) {
     const targets = [...new Set(links.map(a => a.dataset.toc!))]
       .map(id => document.getElementById(id))
       .filter((el): el is HTMLElement => !!el);
-    const setActive = (id: string) => {
-      links.forEach(a => a.setAttribute("aria-current", String(a.dataset.toc === id)));
-      const active = document.querySelector<HTMLElement>(".toc-sticky [aria-current='true']");
-      const box = document.querySelector<HTMLElement>(".toc-sticky");
-      if (active && box) {
-        const top = active.offsetTop - box.clientHeight / 2;
-        box.scrollTo({top, behavior: "smooth"});
-      }
+    const sidebar = document.querySelector<HTMLElement>(".toc-col");
+    let current = "";
+    const update = () => {
+      let id = targets[0]?.id ?? "";
+      for (const t of targets) { if (t.getBoundingClientRect().top <= 140) id = t.id; else break; }
+      if (id === current) return;
+      current = id;
+      links.forEach(a => a.classList.toggle("active", a.dataset.toc === id));
+      const active = sidebar?.querySelector<HTMLElement>(".toc-link.active");
+      if (sidebar && active) sidebar.scrollTo({top: active.offsetTop - sidebar.clientHeight / 2, behavior: "smooth"});
     };
     let ticking = false;
-    const update = () => {
-      ticking = false;
-      let current = targets[0]?.id;
-      for (const t of targets) { if (t.getBoundingClientRect().top <= 120) current = t.id; else break; }
-      if (current) setActive(current);
-    };
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, {passive: true});
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, {passive: true});
     update();
-    links.forEach(a => a.addEventListener("click", () => {
-      const d = a.closest("details");
-      if (d) d.open = false;
-    }));
+    links.forEach(a => a.addEventListener("click", closeToc));
   }
 </script>

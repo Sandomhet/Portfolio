@@ -1,5 +1,6 @@
 ---
-// Deterministic abstract illustration for projects without a cover image.
+// Deterministic abstract illustration for projects without a cover image,
+// drawn from the site's purple palette.
 interface Props { seed: string; class?: string }
 const {seed, class: className} = Astro.props;
 
@@ -7,30 +8,30 @@ let h = 2166136261;
 for (const ch of seed) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
 const rand = () => ((h = Math.imul(h ^ (h >>> 15), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909)) >>> 0) / 4294967296;
 
-const hues = [262, 280, 238, 300, 250];
-const base = hues[Math.floor(rand() * hues.length)];
-const orbs = Array.from({length: 4}, () => ({
-  cx: 40 + rand() * 320, cy: 20 + rand() * 180, r: 50 + rand() * 90,
-  hue: base + (rand() * 60 - 30), a: .45 + rand() * .35,
+const palette = ["#8B5CF6", "#A78BFA", "#6D3FC8", "#C4B5FD", "#7C9CF5"];
+const orbs = Array.from({length: 4}, (_, i) => ({
+  cx: 40 + rand() * 320, cy: 20 + rand() * 180, r: 50 + rand() * 80,
+  fill: palette[(i + Math.floor(rand() * palette.length)) % palette.length], a: .5 + rand() * .35,
 }));
-const rings = Array.from({length: 3}, (_, i) => ({cx: 200 + (rand() - .5) * 120, cy: 110 + (rand() - .5) * 60, r: 36 + i * 30}));
+const rings = Array.from({length: 3}, (_, i) => ({cx: 200 + (rand() - .5) * 120, cy: 110 + (rand() - .5) * 60, r: 34 + i * 28}));
 const id = `pa-${(h >>> 0).toString(36)}`;
 ---
-<svg class={className} viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" role="img" aria-label="">
+<svg class={className} viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>
     <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color={`hsl(${base} 70% 22%)`} />
-      <stop offset="1" stop-color={`hsl(${base + 30} 65% 12%)`} />
+      <stop offset="0" stop-color="#261D4E" />
+      <stop offset=".5" stop-color="#1E2650" />
+      <stop offset="1" stop-color="#221940" />
     </linearGradient>
-    <filter id={`${id}-blur`}><feGaussianBlur stdDeviation="28" /></filter>
+    <filter id={`${id}-blur`}><feGaussianBlur stdDeviation="26" /></filter>
     <pattern id={`${id}-grid`} width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M20 0H0V20" fill="none" stroke="white" stroke-opacity=".07" />
+      <path d="M20 0H0V20" fill="none" stroke="#C4B5FD" stroke-opacity=".08" />
     </pattern>
   </defs>
   <rect width="400" height="225" fill={`url(#${id}-bg)`} />
   <g filter={`url(#${id}-blur)`}>
-    {orbs.map(o => <circle cx={o.cx} cy={o.cy} r={o.r} fill={`hsl(${o.hue} 90% 65%)`} fill-opacity={o.a} />)}
+    {orbs.map(o => <circle cx={o.cx} cy={o.cy} r={o.r} fill={o.fill} fill-opacity={o.a} />)}
   </g>
   <rect width="400" height="225" fill={`url(#${id}-grid)`} />
-  {rings.map(r => <circle cx={r.cx} cy={r.cy} r={r.r} fill="none" stroke="white" stroke-opacity=".18" />)}
+  {rings.map(r => <circle cx={r.cx} cy={r.cy} r={r.r} fill="none" stroke="#EDE9FE" stroke-opacity=".22" />)}
 </svg>

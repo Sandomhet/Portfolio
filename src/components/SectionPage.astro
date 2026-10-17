@@ -1,0 +1,21 @@
+---
+import Sidebar from "../layouts/Sidebar.astro";
+import FilterList from "./FilterList.astro";
+import {sections, type SectionKey} from "../data/site";
+import {getItems} from "../lib/content";
+
+interface Props { section: SectionKey; lead: string; order?: string[]; search?: boolean }
+const {section, lead, order, search} = Astro.props;
+const items = await getItems(section);
+const info = sections[section];
+---
+<Sidebar title={info.title} description={info.blurb}>
+  <div class="section-head">
+    <h1 class="title-text">{info.title}</h1>
+    <p data-count>{items.length} {items.length === 1 ? "entry" : "entries"}</p>
+    <p class="lead">{lead}</p>
+  </div>
+  <slot>
+    <FilterList items={items} order={order} search={search} />
+  </slot>
+</Sidebar>

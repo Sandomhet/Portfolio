@@ -1,10 +1,10 @@
 ---
 import Icon from "./Icon.astro";
 ---
-<dialog class="search glass" id="search-dialog" aria-label="Search the site">
+<dialog class="search" id="search-dialog" aria-label="Search the site">
   <div class="head">
-    <span class="eyebrow"><Icon name="search" size={14} /> Search</span>
-    <button class="icon-btn" type="button" data-search-close aria-label="Close search"><Icon name="close" size={16} /></button>
+    <span class="label"><Icon name="search" size={15} /> Search</span>
+    <button class="icon-btn" type="button" data-search-close aria-label="Close search"><Icon name="close" size={15} /></button>
   </div>
   <div id="pagefind" class="body">
     <p class="hint">Loading search…</p>
@@ -17,17 +17,19 @@ import Icon from "./Icon.astro";
     max-height: min(78vh, 720px);
     margin: 10vh auto auto;
     padding: 0;
-    color: var(--text);
-    background: var(--surface-strong);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    background: var(--drawer-bg);
+    border: 1px solid var(--drawer-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-purple);
     overflow: hidden;
   }
-  .search[open] { display: flex; flex-direction: column; animation: rise .25s var(--ease); }
-  .search::backdrop { background: rgba(20, 10, 50, .35); backdrop-filter: blur(4px); }
-  .head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px 6px 20px; }
+  .search[open] { display: flex; flex-direction: column; animation: fadeIn .25s ease; }
+  .search::backdrop { background: rgba(15, 8, 40, .35); backdrop-filter: blur(4px); }
+  .head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 4px 20px; }
+  .label { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--nav-active); }
   .body { padding: 6px 20px 20px; overflow-y: auto; }
-  .hint { color: var(--text-3); font-size: .9rem; }
+  .hint { color: var(--text-muted); font-size: .9rem; }
 </style>
 
 <script>

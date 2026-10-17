@@ -1,0 +1,89 @@
+---
+// Chip filter + optional text filter over a list of PreviewCards (old ContentTabs).
+import Icon from "./Icon.astro";
+import PreviewCard from "./PreviewCard.astro";
+import {categoryName} from "../data/site";
+import {groupBy, type Item} from "../lib/content";
+
+interface Props { items: Item[]; order?: string[]; search?: boolean; label?: "category" | "none" }
+const {items, order = [], search = false, label = "category"} = Astro.props;
+const rank = (c: string) => (order.indexOf(c) + 1 || 99);
+const cats = groupBy(items, i => i.category)
+  .filter(([c]) => c)
+  .sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
+---
+<div class="filter-list">
+  {search && (
+    <label class="search surface">
+      <Icon name="search" size={16} />
+      <span class="sr-only">Filter by title</span>
+      <input type="search" placeholder="Filter by title or description…" data-filter autocomplete="off" />
+    </label>
+  )}
+  {cats.length > 1 && (
+    <div class="chips" aria-label="Categories">
+      <button type="button" class="filter-chip" data-cat="" aria-pressed="true">All<span class="n">{items.length}</span></button>
+      {cats.map(([c, list]) => (
+        <button type="button" class="filter-chip" data-cat={c} aria-pressed="false">{categoryName(c)}<span class="n">{list.length}</span></button>
+      ))}
+    </div>
+  )}
+  <div class="stack">
+    {items.map(item => <PreviewCard item={item} label={label} />)}
+  </div>
+  <p class="none" data-none hidden>Nothing matches that filter.</p>
+</div>
+
+<style>
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 14px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    color: var(--text-muted);
+  }
+  .search:focus-within { border-color: var(--surface-border-hover); }
+  input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-primary); font: inherit; font-size: .9rem; }
+  input::placeholder { color: var(--text-muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .none { color: var(--text-muted); font-size: .9rem; text-align: center; padding: 24px; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".filter-list").forEach(root => {
+    const input = root.querySelector<HTMLInputElement>("[data-filter]");
+    const chips = [...root.querySelectorAll<HTMLButtonElement>("[data-cat]")];
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-title]")];
+    const none = root.querySelector<HTMLElement>("[data-none]")!;
+    const count = document.querySelector<HTMLElement>("[data-count]");
+    let cat = new URLSearchParams(location.search).get("c") ?? "";
+    if (!chips.some(c => c.dataset.cat === cat)) cat = "";
+
+    const apply = () => {
+      const q = input?.value.trim().toLowerCase() ?? "";
+      let shown = 0;
+      chips.forEach(c => c.setAttribute("aria-pressed", String(c.dataset.cat === cat)));
+      cards.forEach(card => {
+        const ok = (!cat || card.dataset.category === cat) &&
+          (!q || card.dataset.title!.includes(q) || card.dataset.desc!.includes(q));
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+      none.hidden = shown > 0;
+      if (count) count.textContent = `${shown} ${shown === 1 ? "entry" : "entries"}`;
+    };
+
+    chips.forEach(c => c.addEventListener("click", () => {
+      cat = c.dataset.cat ?? "";
+      const url = new URL(location.href);
+      if (cat) url.searchParams.set("c", cat); else url.searchParams.delete("c");
+      history.replaceState(null, "", url);
+      apply();
+    }));
+    input?.addEventListener("input", apply);
+    apply();
+  });
+</script>

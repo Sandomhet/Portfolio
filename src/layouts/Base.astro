@@ -1,7 +1,8 @@
 ---
-import "../styles/global.css";
+import "../styles/legacy.css";
+import "../styles/code.css";
+import "../styles/site.css";
 import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
 import Search from "../components/Search.astro";
 import {profile} from "../data/site";
 
@@ -19,11 +20,11 @@ const {
   ogType = "website",
 } = Astro.props;
 
-const fullTitle = title ? `${title} · ${profile.handle}` : `${profile.name} · ${profile.handle}`;
+const fullTitle = title ? `${title} · ${profile.handle}` : `${profile.handle}'s Portfolio`;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,28 +38,24 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     {canonical && <meta property="og:url" content={canonical} />}
-    <meta name="theme-color" content="#ece7fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#120d26" media="(prefers-color-scheme: dark)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
     <script is:inline>
-      // Apply the saved theme before first paint to avoid a flash.
+      // Apply the saved theme before first paint (same key as the old site).
       (() => {
         let mode;
         try { mode = localStorage.getItem("theme-mode"); } catch {}
-        if (mode !== "light" && mode !== "dark") {
-          mode = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        }
-        document.documentElement.dataset.theme = mode;
+        document.documentElement.dataset.theme = mode === "dark" ? "dark" : "light";
       })();
     </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="backdrop" aria-hidden="true"><span></span><span></span><span></span></div>
     <Nav />
     <main id="main">
       <slot />
     </main>
-    <Footer />
     <Search />
   </body>
 </html>
