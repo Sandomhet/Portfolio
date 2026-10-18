@@ -1,0 +1,231 @@
+/* Reading styles for rendered Markdown (.markdown-zh / .markdown-en). */
+
+:root {
+  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Source Serif 4', 'Noto Serif SC', 'Songti SC', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --accent-bar: linear-gradient(180deg, #8B5CF6, #6D3FC8);
+}
+
+html, body { font-family: var(--font-sans); }
+
+.markdown-zh, .markdown-en {
+  max-width: 46rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  font-feature-settings: "kern", "liga", "calt";
+}
+.markdown-zh { font-size: 16.5px; line-height: 1.85; letter-spacing: .01em; }
+.markdown-zh > :first-child, .markdown-en > :first-child { margin-top: 0; }
+
+/* The page header shows the title, so drop a leading H1 from the file. */
+.markdown-zh > h1:first-child, .markdown-en > h1:first-child { display: none; }
+
+/* Headings */
+.markdown-zh :is(h1, h2, h3, h4, h5, h6),
+.markdown-en :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  line-height: 1.35;
+  letter-spacing: -.012em;
+  scroll-margin-top: 130px;
+}
+.markdown-zh h1, .markdown-en h1 {
+  margin: 2em 0 .7em;
+  font-size: 1.85rem;
+  font-weight: 700;
+  background: var(--h1-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.markdown-zh h2, .markdown-en h2 {
+  position: relative;
+  margin: 2.3em 0 .8em;
+  padding-left: 16px;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.markdown-zh h2::before, .markdown-en h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .2em;
+  bottom: .2em;
+  width: 4px;
+  border-radius: 4px;
+  background: var(--accent-bar);
+}
+.markdown-zh h3, .markdown-en h3 { margin: 1.9em 0 .6em; font-size: 1.18rem; font-weight: 650; }
+.markdown-zh h4, .markdown-en h4 { margin: 1.6em 0 .5em; font-size: 1.03rem; font-weight: 650; color: var(--text-secondary); }
+.markdown-zh :is(h5, h6), .markdown-en :is(h5, h6) { margin: 1.4em 0 .4em; font-size: .95rem; font-weight: 650; color: var(--text-secondary); }
+
+/* Text */
+.markdown-zh p, .markdown-en p { margin: 0 0 1.15em; }
+.markdown-zh strong, .markdown-en strong { font-weight: 650; color: var(--text-primary); }
+.markdown-zh a, .markdown-en a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--link-color) 40%, transparent);
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+.markdown-zh a:hover, .markdown-en a:hover { color: var(--link-hover); text-decoration-color: currentColor; }
+
+/* Lists */
+.markdown-zh :is(ul, ol), .markdown-en :is(ul, ol) { margin: 0 0 1.15em; padding-left: 1.5em; }
+.markdown-zh li, .markdown-en li { margin: .35em 0; }
+.markdown-zh li::marker, .markdown-en li::marker { color: var(--purple-500); }
+.markdown-zh li > p, .markdown-en li > p { margin-bottom: .4em; }
+
+/* Blockquote */
+.markdown-zh blockquote, .markdown-en blockquote {
+  position: relative;
+  margin: 1.6em 0;
+  padding: .9em 1.2em .9em 1.4em;
+  border-radius: 0 12px 12px 0;
+  background: var(--blockquote-bg);
+  color: var(--text-secondary);
+}
+.markdown-zh blockquote::before, .markdown-en blockquote::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--accent-bar);
+}
+.markdown-zh blockquote > :last-child, .markdown-en blockquote > :last-child { margin-bottom: 0; }
+
+.markdown-zh hr, .markdown-en hr { border: 0; border-top: 1px solid var(--surface-border); margin: 2.6em 0; }
+
+/* Images */
+.markdown-zh img, .markdown-en img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6em auto;
+  border-radius: 12px;
+  border: 1px solid var(--surface-border);
+  background: #fff;
+}
+
+/* Tables scroll on their own instead of widening the page. */
+.markdown-zh table, .markdown-en table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1.6em 0;
+  border-collapse: collapse;
+  font-size: .92em;
+  line-height: 1.6;
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.markdown-zh :is(th, td), .markdown-en :is(th, td) {
+  padding: 9px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--surface-border);
+}
+.markdown-zh th, .markdown-en th { font-weight: 650; color: var(--text-secondary); background: var(--chip-bg); }
+.markdown-zh tr:last-child td, .markdown-en tr:last-child td { border-bottom: 0; }
+
+/* Inline code */
+.markdown-zh :not(pre) > code, .markdown-en :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: .86em;
+  padding: .15em .42em;
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--code-color);
+  word-break: break-word;
+}
+
+/* KaTeX */
+.markdown-zh .katex, .markdown-en .katex { font-size: 1.05em; }
+.markdown-zh .katex-display, .markdown-en .katex-display { margin: 1.2em 0; padding: 2px 0; overflow-x: auto; overflow-y: hidden; }
+
+/* Raw HTML alignment used in older files. */
+.markdown-zh [align="center"], .markdown-en [align="center"] { text-align: center; }
+.markdown-zh [align="right"], .markdown-en [align="right"] { text-align: right; }
+
+/* Code blocks: panel + header (built by the page script). */
+.code-wrap {
+  position: relative;
+  margin: 1.5em 0;
+  border-radius: 14px;
+  border: 1px solid var(--prism-border);
+  background: var(--prism-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 6px 0 16px;
+  background: var(--prism-head-bg);
+  border-bottom: 1px solid var(--prism-border);
+}
+.code-lang {
+  font: 600 .7rem/1 var(--font-mono);
+  letter-spacing: .06em;
+  color: var(--prism-line-num);
+}
+.code-wrap .copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--prism-line-num);
+  font: 500 .72rem var(--font-sans);
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.code-wrap .copy:hover { color: var(--nav-active); background: var(--nav-hover-bg); }
+.code-wrap .copy[data-copied] { color: #16a34a; }
+:root[data-theme="dark"] .code-wrap .copy[data-copied] { color: #4ade80; }
+.code-wrap pre { max-height: none; }
+
+/* Serif body for essays and blog posts. */
+.prose-serif.markdown-zh, .prose-serif.markdown-en {
+  font-family: var(--font-serif);
+  font-size: 18.5px;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+.prose-serif.markdown-zh { font-size: 18px; line-height: 1.85; }
+.prose-serif p { margin-bottom: 1.25em; }
+.prose-serif blockquote { font-style: italic; }
+
+/* Responsive */
+@media (max-width: 899px) {
+  .markdown-en { font-size: 16.5px; }
+  .markdown-zh { font-size: 16px; }
+  .markdown-zh h2, .markdown-en h2 { font-size: 1.3rem; }
+  .markdown-zh h3, .markdown-en h3 { font-size: 1.1rem; }
+  .prose-serif.markdown-en { font-size: 17.5px; }
+  .prose-serif.markdown-zh { font-size: 17px; }
+}
+@media (max-width: 599px) {
+  .markdown-en { font-size: 16px; }
+  .markdown-zh { font-size: 15.5px; }
+  .markdown-zh h2, .markdown-en h2 { font-size: 1.2rem; }
+  .code-wrap { margin-left: -16px; margin-right: -16px; border-radius: 0; border-left: 0; border-right: 0; }
+  pre[class*="language-"] { padding: 14px 16px 16px; font-size: 12.5px; }
+}
