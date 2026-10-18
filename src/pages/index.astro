@@ -1,6 +1,5 @@
 ---
 import Sidebar from "../layouts/Sidebar.astro";
-import Icon from "../components/Icon.astro";
 import {profile} from "../data/site";
 ---
 <Sidebar>
@@ -8,21 +7,11 @@ import {profile} from "../data/site";
     <div class="section-head">
       <h1 class="title-text">About me</h1>
     </div>
-
-    <div class="intro surface">
-      <p class="lead">{profile.intro}</p>
-      {profile.about.map(p => <p>{p}</p>)}
-      <div class="cta">
-        <a class="btn btn-primary" href={`mailto:${profile.email}`}><Icon name="mail" size={16} /> Get in touch</a>
-        <a class="btn" href="https://github.com/Sandomhet" target="_blank" rel="noopener noreferrer"><Icon name="github" size={16} /> GitHub</a>
-      </div>
-    </div>
+    {profile.about.map(p => <p>{p}</p>)}
   </section>
 </Sidebar>
 
 <style>
-  .intro { padding: 22px 24px; border-radius: 24px; }
-  .intro p { margin: 0 0 12px; font-size: .95rem; line-height: 1.75; color: var(--text-secondary); }
-  .intro .lead { font-size: 1.05rem; color: var(--text-primary); }
-  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .about { max-width: 44rem; }
+  p { margin: 0 0 1.1em; font-size: 1.05rem; line-height: 1.8; color: var(--text-primary); }
 </style>

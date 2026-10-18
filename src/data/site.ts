@@ -1,4 +1,4 @@
-// Everything personal lives here so the About page and footer stay easy to edit.
+// Everything personal lives here so the profile and About me text stay easy to edit.
 
 export const profile = {
   name: "Samuel (Shaojia) Zhang",
@@ -6,12 +6,9 @@ export const profile = {
   short: "Sandom",
   avatar: "/avatar.jpg",
   email: "sandomhet@gmail.com",
-  // TODO(Samuel): replace with your own words. Kept to facts the site itself shows.
-  intro:
-    "I write down what I learn: competitive programming notes and C++ templates, class notes from CS, math and physics courses, and the occasional essay.",
   about: [
-    "This site is my notebook in public. Most of it grew out of preparing for ICPC style contests, where a clean, trusted template is worth a lot, and out of turning lecture material into notes I can actually revise from.",
-    "Alongside the technical side I keep a small set of literature essays, written in English, about books, identity and the media we live in.",
+    "I love programming and shipping reliable products. My focus is on backend systems and databases, and I'm comfortable working across the full stack, including frontend. I'm also interested in AI agent development and LLM training.",
+    "I've led engineering teams, and I care about both the product as a whole and the technical details underneath it. I enjoy taking ownership of problems and keeping a team coordinated around solving them.",
   ],
 };
 
