@@ -17,7 +17,7 @@ Built with [Astro](https://astro.build) as a fully static site. Markdown is rend
 | `/writing` | Literature articles and essays | `src/content/writing/` |
 | `/blog` | Personal blog posts | `src/content/blog/` |
 | `/projects` | Project showcase with illustrated cards | `src/content/projects/` |
-| `/` | Home: profile, social links and quote of the day on the left, About me on the right | `src/data/site.ts` |
+| `/` | About me, with profile, social links and quote of the day in the sidebar | `src/data/site.ts` |
 
 The folder a file sits in becomes its category, and the file name becomes its URL (`src/content/code/Graph/mst.md` → `/code/mst`). File names must be unique within a section.
 
@@ -66,4 +66,4 @@ Search only works on a built site because the index is generated after `astro bu
 
 ## Deployment
 
-The site is deployed on Vercel. `vercel.json` sets the framework to Astro, the output folder to `dist`, clean URLs, and redirects from the old routes (`/blogs/*` → `/code/*`, `/articles/*` → `/writing/*`, and the documents that used to live under `/projects`).
+The site is deployed on Vercel. `vercel.json` sets the framework to Astro, the output folder to `dist`, clean URLs, and redirects from the old routes (`/blogs/*` → `/code/*`, `/articles/*` → `/writing/*`, and the documents that used to live under `/projects`, which are now in the blog).

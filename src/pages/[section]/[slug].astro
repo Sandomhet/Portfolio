@@ -32,8 +32,8 @@ const data = entry.data as typeof entry.data & {summary?: string; tech?: string[
 const {Content, headings} = await render(entry);
 
 const isReading = section === "writing" || section === "blog";
-const toc = isReading ? [] : headings.filter(h => h.depth >= 2 && h.depth <= 3);
-const hasToc = toc.length > 1;
+const toc = section === "writing" ? [] : headings.filter(h => h.depth >= 2 && h.depth <= 3);
+const hasToc = toc.length > (section === "blog" ? 2 : 1);
 const langClass = data.lang === "en" ? "markdown-en" : "markdown-zh";
 const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/${section}`;
 ---

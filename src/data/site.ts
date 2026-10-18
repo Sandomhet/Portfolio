@@ -1,10 +1,9 @@
 // Everything personal lives here so the About page and footer stay easy to edit.
 
 export const profile = {
-  name: "Samuel Zhang",
+  name: "Samuel (Shaojia) Zhang",
   handle: "Sandomhet",
   short: "Sandom",
-  tagline: "Student · Developer",
   avatar: "/avatar.jpg",
   email: "sandomhet@gmail.com",
   // TODO(Samuel): replace with your own words. Kept to facts the site itself shows.
@@ -77,7 +76,6 @@ export const categoryNames: Record<string, string> = {
   CMPSC: "Computer Science",
   EECS: "EECS",
   MATH: "Math & Statistics",
-  AI: "AI",
 };
 
 export const categoryName = (c: string) => categoryNames[c] ?? c.replace(/-/g, " ");
