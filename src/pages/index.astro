@@ -1,17 +1,103 @@
 ---
+import "@fontsource-variable/fraunces/wght.css";
+import "@fontsource-variable/fraunces/wght-italic.css";
 import Sidebar from "../layouts/Sidebar.astro";
-import {profile} from "../data/site";
+import {profile, sections} from "../data/site";
+import {getItems} from "../lib/content";
+
+const [code, notes, writing, projects] = await Promise.all(
+  (["code", "notes", "writing", "projects"] as const).map(getItems),
+);
+const distinct = (items: {category: string}[]) => new Set(items.map(i => i.category).filter(Boolean)).size;
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+const cards = [
+  {
+    href: "/code",
+    title: sections.code.title,
+    meta: `${plural(code.length, "topic", "topics")} · ${plural(distinct(code), "category", "categories")}`,
+    text: "Algorithm write ups and reusable C++ templates, most of them written while training for ICPC.",
+  },
+  {
+    href: "/notes",
+    title: sections.notes.title,
+    meta: `${plural(notes.length, "course", "courses")} · ${plural(distinct(notes), "department", "departments")}`,
+    text: "Lecture notes and cheat sheets from my courses in computer science, math and physics, rewritten for revision.",
+  },
+  {
+    href: "/writing",
+    title: sections.writing.title,
+    meta: plural(writing.length, "essay", "essays"),
+    text: "Longer pieces in English on reading, identity and the media we live inside.",
+  },
+  {
+    href: "/projects",
+    title: sections.projects.title,
+    meta: plural(projects.length, "project", "projects"),
+    text: "Things I have built, with the story behind them.",
+  },
+];
+
+// `*phrase*` in the About text becomes italic. The text comes from src/data/site.ts.
+const emphasise = (text: string) =>
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\*(.+?)\*/g, "<em>$1</em>");
 ---
 <Sidebar>
   <section id="about" class="about">
-    <div class="section-head">
-      <h1 class="title-text">About me</h1>
+    <h1 class="title-text">About me</h1>
+    {profile.about.map(p => <p set:html={emphasise(p)} />)}
+  </section>
+
+  <section class="explore" aria-labelledby="explore-title">
+    <h2 id="explore-title">Explore</h2>
+    <div class="grid">
+      {cards.map(c => (
+        <a href={c.href} class="card surface hover-lift">
+          <span class="title">{c.title}</span>
+          <span class="meta">{c.meta}</span>
+          <span class="text">{c.text}</span>
+          <span class="browse">Browse <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
     </div>
-    {profile.about.map(p => <p>{p}</p>)}
   </section>
 </Sidebar>
 
 <style>
-  .about { max-width: 44rem; }
-  p { margin: 0 0 1.1em; font-size: 1.05rem; line-height: 1.8; color: var(--text-primary); }
+  .about { max-width: 42rem; }
+  .about h1 {
+    display: inline-block;
+    margin: 0 0 16px;
+    font-family: 'Fraunces Variable', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+  }
+  /* Both paragraphs share one style. */
+  .about p {
+    margin: 0 0 1em;
+    font-family: 'Fraunces Variable', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+  .about p :global(em) { font-style: italic; color: var(--text-secondary); }
+
+  .explore { margin-top: 48px; max-width: 820px; }
+  .explore h2 { margin: 0 0 14px; font-size: 1.15rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-primary); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { display: flex; flex-direction: column; gap: 2px; min-height: 170px; padding: 22px 24px; border-radius: 24px; }
+  .title { font-size: 1.08rem; font-weight: 700; letter-spacing: -.01em; color: var(--text-primary); }
+  .meta { font-size: .75rem; color: var(--text-muted); }
+  .text { margin: 8px 0 14px; font-size: .88rem; line-height: 1.6; color: var(--text-secondary); }
+  .browse { margin-top: auto; font-size: .82rem; font-weight: 600; color: var(--nav-active); }
+
+  @media (max-width: 700px) {
+    .about h1 { font-size: 2rem; }
+    .about p { font-size: 1.15rem; }
+    .grid { grid-template-columns: 1fr; }
+    .card { min-height: 0; }
+  }
 </style>

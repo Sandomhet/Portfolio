@@ -5,20 +5,22 @@ export const profile = {
   handle: "Sandomhet",
   short: "Sandom",
   avatar: "/avatar.jpg",
+  // Two short lines under the name in the profile card.
+  focus: ["Backend · Databases · Full stack", "AI agents & LLM training"],
   email: "sandomhet@gmail.com",
   about: [
-    "I love programming and shipping reliable products. My focus is on backend systems and databases, and I'm comfortable working across the full stack, including frontend. I'm also interested in AI agent development and LLM training.",
+    "I love programming and shipping *reliable products*. My focus is on backend systems and databases, and I'm comfortable working across the full stack, including frontend. I'm also interested in AI agent development and LLM training.",
     "I've led engineering teams, and I care about both the product as a whole and the technical details underneath it. I enjoy taking ownership of problems and keeping a team coordinated around solving them.",
   ],
 };
 
-export type SocialLink = {label: string; href: string; icon: "github" | "linkedin" | "leetcode" | "mail"};
+export type SocialLink = {label: string; handle: string; href: string; icon: "github" | "linkedin" | "leetcode" | "mail"};
 
 export const socials: SocialLink[] = [
-  {label: "GitHub", href: "https://github.com/Sandomhet", icon: "github"},
-  {label: "LinkedIn", href: "https://www.linkedin.com/in/shaojia-zhang/", icon: "linkedin"},
-  {label: "LeetCode", href: "https://leetcode.com/u/sandomhet/", icon: "leetcode"},
-  {label: "Email", href: "mailto:sandomhet@gmail.com", icon: "mail"},
+  {label: "GitHub", handle: "Sandomhet", href: "https://github.com/Sandomhet", icon: "github"},
+  {label: "LinkedIn", handle: "shaojia-zhang", href: "https://www.linkedin.com/in/shaojia-zhang/", icon: "linkedin"},
+  {label: "LeetCode", handle: "sandomhet", href: "https://leetcode.com/u/sandomhet/", icon: "leetcode"},
+  {label: "Email", handle: "sandomhet@gmail.com", href: "mailto:sandomhet@gmail.com", icon: "mail"},
 ];
 
 export type SectionKey = "code" | "notes" | "writing" | "blog" | "projects";
