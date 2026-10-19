@@ -44,7 +44,8 @@ const {compact = false} = Astro.props;
 )}
 
 <style>
-  .full { display: flex; flex-direction: column; text-align: center; }
+  /* The quote card adds its own 8px top margin; this gap widens the space above it. */
+  .full { display: flex; flex-direction: column; gap: 24px; text-align: center; }
   .card { padding: 26px 22px 18px; border-radius: 20px; }
   .av { display: flex; justify-content: center; margin: 2px 0 18px; }
   .compact { display: flex; align-items: center; gap: 24px; }
