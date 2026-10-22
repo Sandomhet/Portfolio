@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import ThemeMenu from "./ThemeMenu.astro";
 import {nav, profile} from "../data/site";
 
 const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "") || "/";
@@ -16,18 +17,12 @@ const isActive = (href: string) => href === "/" ? path === "/" : path === href |
         ))}
       </nav>
       <button class="icon-btn" type="button" data-search-open aria-label="Search (Ctrl K)" title="Search (Ctrl K)"><Icon name="search" size={16} /></button>
-      <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <Icon name="moon" size={17} class="i-moon" />
-        <Icon name="sun" size={17} class="i-sun" />
-      </button>
+      <ThemeMenu />
     </div>
 
     <div class="mobile">
       <button class="icon-btn" type="button" data-search-open aria-label="Search"><Icon name="search" size={16} /></button>
-      <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle dark mode">
-        <Icon name="moon" size={17} class="i-moon" />
-        <Icon name="sun" size={17} class="i-sun" />
-      </button>
+      <ThemeMenu />
       <button class="icon-btn" type="button" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer"><Icon name="menu" size={18} /></button>
     </div>
   </div>
@@ -55,8 +50,11 @@ const isActive = (href: string) => href === "/" ? path === "/" : path === href |
     box-shadow: var(--nav-shadow);
   }
   .toolbar {
+    /* Same centred width as the page shell below. */
+    max-width: 1240px;
+    margin: 0 auto;
     min-height: 64px;
-    padding: 0 32px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -72,7 +70,7 @@ const isActive = (href: string) => href === "/" ? path === "/" : path === href |
 
   .desktop { display: flex; align-items: center; gap: 2px; }
   .desktop nav { display: flex; gap: 2px; margin-right: 6px; }
-  .desktop .icon-btn { margin-left: 4px; }
+  .desktop .icon-btn, .desktop :global(.theme-menu) { margin-left: 4px; }
   .nav-btn {
     position: relative;
     padding: 6px 12px;
@@ -99,7 +97,6 @@ const isActive = (href: string) => href === "/" ? path === "/" : path === href |
   .nav-btn:hover::after, .nav-btn.active::after { transform: translateX(-50%) scaleX(1); }
   .nav-btn.active { color: var(--nav-active); font-weight: 600; }
 
-  :global([data-theme="dark"] .i-moon), :global([data-theme="light"] .i-sun) { display: none; }
 
   .mobile { display: none; align-items: center; gap: 6px; }
 
@@ -138,12 +135,7 @@ const isActive = (href: string) => href === "/" ? path === "/" : path === href |
 </style>
 
 <script>
-  const root = document.documentElement;
-  document.querySelectorAll("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => {
-    const next = root.dataset.theme === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
-    try { localStorage.setItem("theme-mode", next); } catch {}
-  }));
+
 
   const menuBtn = document.querySelector<HTMLButtonElement>("[data-menu-open]");
   const scrim = document.getElementById("nav-drawer");

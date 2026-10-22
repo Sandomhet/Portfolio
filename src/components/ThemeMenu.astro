@@ -1,0 +1,110 @@
+---
+import Icon from "./Icon.astro";
+const options = [
+  {mode: "light", label: "Light", icon: "sun"},
+  {mode: "dark", label: "Dark", icon: "moon"},
+  {mode: "system", label: "System", icon: "monitor"},
+];
+---
+<div class="theme-menu">
+  <button class="icon-btn trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Theme" title="Theme">
+    <Icon name="sun" size={17} class="t-light" />
+    <Icon name="moon" size={17} class="t-dark" />
+    <Icon name="monitor" size={16} class="t-system" />
+  </button>
+  <div class="menu" role="menu" hidden>
+    {options.map(o => (
+      <button type="button" role="menuitemradio" data-mode={o.mode} aria-checked="false">
+        <Icon name={o.icon} size={15} />
+        <span>{o.label}</span>
+        <Icon name="check" size={14} class="tick" />
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .theme-menu { position: relative; }
+  .trigger :global(svg) { display: none; }
+  :global([data-theme-mode="light"]) .trigger :global(.t-light),
+  :global([data-theme-mode="dark"]) .trigger :global(.t-dark),
+  :global([data-theme-mode="system"]) .trigger :global(.t-system) { display: block; }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 1300;
+    min-width: 150px;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--drawer-bg);
+    border: 1px solid var(--drawer-border);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: fadeIn .15s ease;
+  }
+  .menu button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font-size: .85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
+  }
+  .menu button:hover, .menu button:focus-visible { background: var(--nav-hover-bg); color: var(--text-primary); }
+  .menu button[aria-checked="true"] { color: var(--nav-active); font-weight: 600; }
+  .menu span { flex: 1; }
+  .menu :global(.tick) { visibility: hidden; }
+  .menu button[aria-checked="true"] :global(.tick) { visibility: visible; }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const media = matchMedia("(prefers-color-scheme: dark)");
+  const getMode = () => root.dataset.themeMode ?? "system";
+
+  const apply = (mode: string) => {
+    root.dataset.themeMode = mode;
+    root.dataset.theme = mode === "dark" || (mode === "system" && media.matches) ? "dark" : "light";
+    document.querySelectorAll<HTMLElement>(".theme-menu [data-mode]").forEach(b =>
+      b.setAttribute("aria-checked", String(b.dataset.mode === mode)));
+  };
+
+  const closeAll = () => document.querySelectorAll<HTMLElement>(".theme-menu").forEach(m => {
+    m.querySelector<HTMLElement>(".menu")!.hidden = true;
+    m.querySelector(".trigger")!.setAttribute("aria-expanded", "false");
+  });
+
+  document.querySelectorAll<HTMLElement>(".theme-menu").forEach(m => {
+    const menu = m.querySelector<HTMLElement>(".menu")!;
+    const trigger = m.querySelector<HTMLButtonElement>(".trigger")!;
+    trigger.addEventListener("click", e => {
+      e.stopPropagation();
+      const open = menu.hidden;
+      closeAll();
+      menu.hidden = !open;
+      trigger.setAttribute("aria-expanded", String(open));
+      if (open) menu.querySelector<HTMLElement>(`[data-mode="${getMode()}"]`)?.focus();
+    });
+    menu.querySelectorAll<HTMLButtonElement>("[data-mode]").forEach(b => b.addEventListener("click", () => {
+      const mode = b.dataset.mode!;
+      apply(mode);
+      try { localStorage.setItem("theme-mode", mode); } catch {}
+      closeAll();
+      trigger.focus();
+    }));
+  });
+
+  document.addEventListener("click", e => { if (!(e.target as HTMLElement).closest(".theme-menu")) closeAll(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeAll(); });
+  media.addEventListener("change", () => { if (getMode() === "system") apply("system"); });
+  apply(getMode());
+</script>

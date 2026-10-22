@@ -107,7 +107,8 @@ const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/
 </Base>
 
 <style>
-  .viewer { display: flex; min-height: calc(100vh - 64px); }
+  /* Centred like the nav and the sidebar pages. */
+  .viewer { display: flex; max-width: 1240px; margin: 0 auto; min-height: calc(100vh - 64px); }
 
   .toc-col {
     width: 240px;

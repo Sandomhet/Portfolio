@@ -15,7 +15,8 @@ const {title, description} = Astro.props;
 </Base>
 
 <style>
-  .shell { display: flex; min-height: calc(100vh - 64px); }
+  /* Sidebar + content as one centred block, so free space is split evenly on wide screens. */
+  .shell { display: flex; max-width: 1240px; margin: 0 auto; min-height: calc(100vh - 64px); }
   .side {
     width: 320px;
     flex-shrink: 0;
@@ -28,7 +29,7 @@ const {title, description} = Astro.props;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) transparent;
   }
-  .content { flex: 1; min-width: 0; max-width: 900px; padding: 32px 48px 64px; animation: fadeIn .35s ease; }
+  .content { flex: 1; min-width: 0; padding: 32px 48px 64px; animation: fadeIn .35s ease; }
   .mobile-profile { display: none; }
   .mobile-profile hr { margin: 24px 0; border: 0; border-top: 1px solid var(--surface-border); }
 
