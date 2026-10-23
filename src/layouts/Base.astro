@@ -5,6 +5,7 @@ import "../styles/code.css";
 import "../styles/site.css";
 import Nav from "../components/Nav.astro";
 import Search from "../components/Search.astro";
+import Analytics from "@vercel/analytics/astro";
 import {profile} from "../data/site";
 
 interface Props {
@@ -66,5 +67,6 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
       <slot />
     </main>
     <Search />
+    <Analytics />
   </body>
 </html>
