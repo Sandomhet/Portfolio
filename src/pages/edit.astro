@@ -1,0 +1,464 @@
+---
+// Owner only Markdown editor: source on the left, live preview on the right.
+// Files are read and committed through the GitHub API with a personal access token
+// kept in this browser, so the site itself stays fully static.
+import "katex/dist/katex.min.css";
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import {editor} from "../data/site";
+---
+<Base title="Editor" noindex serif>
+  <div class="editor-app" data-owner={editor.owner} data-repo={editor.repo} data-branch={editor.branch}>
+    <section class="panel surface" id="signin" hidden>
+      <h1>Sign in to edit</h1>
+      <p>The editor commits to <code>{editor.owner}/{editor.repo}</code> on <code>{editor.branch}</code> with a GitHub token that stays in this browser.</p>
+      <ol>
+        <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub → Fine-grained tokens → Generate new token</a>.</li>
+        <li>Under <b>Repository access</b> choose <b>Only select repositories</b> and pick <b>{editor.repo}</b>.</li>
+        <li>Under <b>Permissions</b> set <b>Contents</b> to <b>Read and write</b>. Nothing else is needed.</li>
+        <li>Generate it and paste it below.</li>
+      </ol>
+      <form id="token-form" class="row">
+        <input id="token-input" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" required />
+        <button class="btn btn-primary" type="submit">Sign in</button>
+      </form>
+      <p class="error" id="signin-error" role="alert"></p>
+    </section>
+
+    <section class="panel surface" id="opener" hidden>
+      <h1>Open a file</h1>
+      <p>Use the pencil button on any post, or type a path. A path that doesn't exist yet starts a new post.</p>
+      <form id="open-form" class="row">
+        <input id="path-input" type="text" spellcheck="false" placeholder="src/content/blog/my-post.md" required />
+        <button class="btn btn-primary" type="submit">Open</button>
+      </form>
+      <button class="btn signout" type="button" data-signout>Sign out of the editor</button>
+    </section>
+
+    <section class="workspace" id="workspace" data-view="write" hidden>
+      <div class="bar">
+        <a class="icon-btn" id="view-link" href="/" title="View the published page" aria-label="View the published page"><Icon name="arrow-left" size={16} /></a>
+        <span class="path" id="path-label"></span>
+        <span class="status" id="status" role="status"></span>
+        <div class="tabs" role="tablist" aria-label="Pane">
+          <button type="button" role="tab" data-view-btn="write" aria-selected="true">Write</button>
+          <button type="button" role="tab" data-view-btn="preview" aria-selected="false">Preview</button>
+        </div>
+        <input id="message" class="message" type="text" spellcheck="false" placeholder="Commit message" aria-label="Commit message" />
+        <button class="btn btn-primary" id="save" type="button" title="Save (Ctrl S)">Save</button>
+      </div>
+      <div class="panes">
+        <textarea id="source" spellcheck="false" aria-label="Markdown source"></textarea>
+        <div class="preview-scroll" id="preview-scroll">
+          <article class="body">
+            <header class="head" id="preview-head">
+              <h1 id="preview-title"></h1>
+              <p class="desc" id="preview-desc"></p>
+              <div class="meta"><span id="preview-date"></span><span class="draft" id="preview-draft" hidden>Draft</span></div>
+            </header>
+            <div id="preview"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .editor-app { max-width: 1440px; margin: 0 auto; }
+
+  .panel { max-width: 640px; margin: 48px auto; padding: 28px 32px; border-radius: 20px; color: var(--text-secondary); }
+  .panel h1 { margin: 0 0 12px; font-size: 1.5rem; color: var(--text-primary); }
+  .panel p, .panel li { line-height: 1.65; font-size: .95rem; }
+  .panel ol { padding-left: 1.3em; }
+  .panel a { color: var(--nav-active); text-decoration: underline; text-underline-offset: 3px; }
+  .panel code { font-family: "JetBrains Mono", monospace; font-size: .85em; padding: 1px 6px; border-radius: 6px; background: var(--code-bg); }
+  .row { display: flex; gap: 8px; margin-top: 16px; }
+  .row input, .message {
+    flex: 1;
+    min-width: 0;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: .875rem;
+  }
+  .error { min-height: 1.4em; margin: 10px 0 0; color: #e5484d; font-size: .875rem; }
+  .signout { margin-top: 20px; }
+
+  .workspace { display: flex; flex-direction: column; height: calc(100dvh - 64px); }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--nav-border);
+    background: var(--nav-bg);
+  }
+  .bar .icon-btn { width: 30px; height: 30px; flex-shrink: 0; }
+  .path { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "JetBrains Mono", monospace; font-size: .78rem; color: var(--text-secondary); }
+  .status { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78rem; color: var(--text-muted); }
+  .status[data-tone="error"] { color: #e5484d; }
+  .status[data-tone="ok"] { color: var(--nav-active); }
+  .status button { margin-left: 6px; padding: 0; border: 0; background: none; color: var(--nav-active); text-decoration: underline; cursor: pointer; font-size: inherit; }
+  .message { flex: 0 1 260px; }
+  .tabs { display: none; }
+
+  .panes { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; }
+  #source {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 24px 28px;
+    resize: none;
+    border: 0;
+    border-right: 1px solid var(--surface-border);
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    tab-size: 4;
+    font-variant-ligatures: none; /* show != and == as typed */
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  .preview-scroll { min-width: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+
+  /* Same reading column as the post page. */
+  .body { max-width: 820px; margin: 0 auto; padding: 32px 40px 64px; }
+  .head { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--surface-border); }
+  .head h1 {
+    margin: .2em 0 .35em;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -.02em;
+    background: var(--h1-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .head .desc { margin: 0; font-size: 1.02rem; line-height: 1.6; color: var(--text-secondary); }
+  .head .meta { display: flex; gap: 12px; margin-top: 12px; font-size: .78rem; color: var(--text-muted); }
+  .draft { padding: 0 8px; border-radius: 999px; background: var(--chip-bg); color: var(--nav-active); font-weight: 600; }
+  .head.centered { text-align: center; }
+  .head.centered .meta { justify-content: center; }
+  .head.centered .desc { font-family: var(--font-serif); font-size: 1.12rem; font-style: italic; max-width: 56ch; margin: 0 auto; }
+
+  @media (max-width: 899px) {
+    .bar { flex-wrap: wrap; padding: 10px 16px; }
+    .status { order: 5; flex-basis: 100%; }
+    .message { flex: 1 1 140px; }
+    .tabs { display: inline-flex; border: 1px solid var(--surface-border); border-radius: 8px; overflow: hidden; }
+    .tabs button { height: 30px; padding: 0 12px; border: 0; background: transparent; color: var(--text-muted); font-size: .8rem; cursor: pointer; }
+    .tabs button[aria-selected="true"] { background: var(--chip-bg); color: var(--nav-active); font-weight: 600; }
+    .panes { grid-template-columns: 1fr; }
+    #source { border-right: 0; padding: 16px; }
+    .workspace[data-view="write"] .preview-scroll { display: none; }
+    .workspace[data-view="preview"] #source { display: none; }
+    .body { padding: 24px 16px 48px; }
+    .panel { margin: 24px 16px; padding: 22px 20px; }
+  }
+</style>
+
+<script>
+  import {decorateCodeBlocks} from "../lib/code-blocks";
+  import {renderMarkdown, splitFrontMatter} from "../lib/markdown-preview";
+
+  const TOKEN_KEY = "editor-token";
+  const app = document.querySelector<HTMLElement>(".editor-app")!;
+  const {owner, repo, branch} = app.dataset as {owner: string; repo: string; branch: string};
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const signin = $("signin"), opener = $("opener"), workspace = $("workspace");
+  const source = $<HTMLTextAreaElement>("source");
+  const preview = $("preview"), previewScroll = $("preview-scroll");
+  const statusEl = $("status"), saveBtn = $<HTMLButtonElement>("save"), messageInput = $<HTMLInputElement>("message");
+
+  const store = {
+    get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} },
+    del: (k: string) => { try { localStorage.removeItem(k); } catch {} },
+  };
+
+  // ---- GitHub API ----
+
+  const apiPath = (path: string) =>
+    `https://api.github.com/repos/${owner}/${repo}/contents/${path.split("/").map(encodeURIComponent).join("/")}`;
+
+  async function gh(url: string, init: RequestInit = {}) {
+    return fetch(url, {
+      ...init,
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${store.get(TOKEN_KEY)}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...init.headers,
+      },
+    });
+  }
+
+  // GitHub wants base64 of the UTF-8 bytes.
+  const toBase64 = (text: string) => {
+    const bytes = new TextEncoder().encode(text);
+    let bin = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  };
+  const fromBase64 = (b64: string) =>
+    new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, "")), c => c.charCodeAt(0)));
+
+  // ---- State ----
+
+  let path = "";
+  let sha: string | undefined;   // undefined while the file doesn't exist on GitHub yet
+  let savedText = "";            // last text known to be on GitHub, with "\n" line endings
+  let crlf = false;              // some notes use Windows line endings; keep them on save
+  let saving = false;
+  const draftKey = () => `editor-draft:${path}`;
+  const dirty = () => source.value !== savedText;
+
+  function setStatus(text: string, tone: "" | "ok" | "error" = "", action?: {label: string; run: () => void}) {
+    statusEl.textContent = text;
+    statusEl.dataset.tone = tone;
+    if (action) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = action.label;
+      b.addEventListener("click", action.run);
+      statusEl.append(b);
+    }
+  }
+
+  function show(which: "signin" | "opener" | "workspace") {
+    signin.hidden = which !== "signin";
+    opener.hidden = which !== "opener";
+    workspace.hidden = which !== "workspace";
+  }
+
+  // src/content/code/Graph/mst.md → /code/mst
+  function liveUrl(p: string) {
+    const m = /^src\/content\/([^/]+)\/(?:.*\/)?([^/]+)\.md$/.exec(p);
+    return m ? `/${m[1]}/${m[2]}` : "/";
+  }
+
+  function newFileTemplate() {
+    const today = new Date().toLocaleDateString("en-US", {weekday: "short", year: "numeric", month: "short", day: "numeric"});
+    return `---\ntitle: "Post title"\ndescription: ""\ntime: "${today}"\nlang: "en"\ndraft: true\n---\n\nWrite here.\n`;
+  }
+
+  // ---- Load ----
+
+  async function open(p: string) {
+    path = p.replace(/^\/+/, "");
+    show("workspace");
+    $("path-label").textContent = path;
+    $<HTMLAnchorElement>("view-link").href = liveUrl(path);
+    document.title = `Edit ${path.split("/").pop()}`;
+    source.value = "";
+    source.disabled = true;
+    setStatus("Loading…");
+
+    const res = await gh(`${apiPath(path)}?ref=${encodeURIComponent(branch)}`).catch(() => null);
+    if (!res) { setStatus("Couldn't reach GitHub. Check your connection and reload.", "error"); return; }
+    if (res.status === 401) return signOut("GitHub rejected the token. Paste a new one.");
+    let remote = "";
+    if (res.status === 404) {
+      sha = undefined;
+      remote = newFileTemplate();
+      setStatus("New file. Saving creates it.");
+    } else if (!res.ok) {
+      setStatus(`Couldn't load the file (GitHub said ${res.status}).`, "error");
+      return;
+    } else {
+      const json = await res.json();
+      if (Array.isArray(json)) { setStatus("That path is a folder. Open a .md file.", "error"); return; }
+      sha = json.sha;
+      // Files over 1 MB come back without content; fetch those raw.
+      remote = json.content
+        ? fromBase64(json.content)
+        : await (await gh(`${apiPath(path)}?ref=${encodeURIComponent(branch)}`, {headers: {Accept: "application/vnd.github.raw+json"}})).text();
+      setStatus("");
+    }
+
+    crlf = remote.includes("\r\n");
+    savedText = remote.replace(/\r\n/g, "\n");
+    source.value = savedText;
+
+    const draft = store.get(draftKey());
+    if (draft !== null && draft !== savedText) {
+      source.value = draft;
+      setStatus("Restored your unsaved draft.", "", {label: "Discard it", run: () => {
+        source.value = savedText;
+        store.del(draftKey());
+        setStatus("");
+        schedulePreview();
+      }});
+    }
+    source.disabled = false;
+    source.focus();
+    schedulePreview();
+  }
+
+  // ---- Save ----
+
+  async function save() {
+    if (saving || !path) return;
+    const text = source.value;
+    if (sha && text === savedText) { setStatus("No changes to save."); return; }
+    saving = true;
+    saveBtn.disabled = true;
+    setStatus("Saving…");
+    try {
+      const name = path.split("/").pop();
+      const res = await gh(apiPath(path), {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          message: messageInput.value.trim() || `${sha ? "Edit" : "Add"} ${name} online`,
+          content: toBase64(crlf ? text.replace(/\n/g, "\r\n") : text),
+          branch,
+          ...(sha ? {sha} : {}),
+        }),
+      });
+      if (res.status === 401) return signOut("GitHub rejected the token. Paste a new one.");
+      if (res.status === 409 || res.status === 422) {
+        setStatus("The file changed on GitHub since you opened it. Your text is kept as a draft; reload to see the new version.", "error");
+        return;
+      }
+      if (res.status === 403 || res.status === 404) {
+        setStatus("The token can't write to this repo. It needs Contents: Read and write.", "error");
+        return;
+      }
+      if (!res.ok) { setStatus(`Save failed (GitHub said ${res.status}).`, "error"); return; }
+      const json = await res.json();
+      sha = json.content.sha;
+      savedText = text;
+      store.del(draftKey());
+      messageInput.value = "";
+      setStatus("Saved. The site updates after Vercel rebuilds, usually about a minute.", "ok");
+    } catch {
+      setStatus("Save failed. Check your connection; your text is kept as a draft.", "error");
+    } finally {
+      saving = false;
+      saveBtn.disabled = false;
+    }
+  }
+
+  // ---- Preview ----
+
+  const fmtDate = (v: unknown) => {
+    const d = v instanceof Date ? v : new Date(String(v ?? ""));
+    return isNaN(d.getTime()) ? "" : d.toLocaleDateString("en-US", {weekday: "short", year: "numeric", month: "short", day: "numeric", timeZone: "UTC"});
+  };
+
+  let renderId = 0;
+  async function renderPreview() {
+    const id = ++renderId;
+    const {data, body, error} = splitFrontMatter(source.value);
+    const section = /^src\/content\/([^/]+)\//.exec(path)?.[1] ?? "";
+    const reading = section === "writing" || section === "blog";
+    const html = await renderMarkdown(body);
+    if (id !== renderId) return; // a newer keystroke already started another render
+
+    $("preview-title").textContent = String(data.title ?? "");
+    const desc = String(data.description || data.summary || "");
+    $("preview-desc").textContent = desc;
+    $("preview-desc").hidden = !desc;
+    $("preview-date").textContent = fmtDate(data.time);
+    $("preview-draft").hidden = data.draft !== true;
+    $("preview-head").classList.toggle("centered", reading);
+
+    preview.className = [data.lang === "en" ? "markdown-en" : "markdown-zh", reading ? "prose-serif" : ""].join(" ").trim();
+    preview.lang = data.lang === "en" ? "en" : "zh";
+    preview.innerHTML = html;
+    decorateCodeBlocks(preview.parentElement!);
+    if (error) setStatus(`Front matter isn't valid YAML: ${error}`, "error");
+  }
+
+  let previewTimer = 0, draftTimer = 0;
+  function schedulePreview() {
+    clearTimeout(previewTimer);
+    previewTimer = window.setTimeout(renderPreview, 120);
+  }
+
+  source.addEventListener("input", () => {
+    schedulePreview();
+    clearTimeout(draftTimer);
+    draftTimer = window.setTimeout(() => {
+      if (dirty()) store.set(draftKey(), source.value); else store.del(draftKey());
+    }, 400);
+  });
+
+  // Keep the preview roughly level with the editor.
+  source.addEventListener("scroll", () => {
+    const max = source.scrollHeight - source.clientHeight;
+    if (max > 0) previewScroll.scrollTop = (source.scrollTop / max) * (previewScroll.scrollHeight - previewScroll.clientHeight);
+  }, {passive: true});
+
+  // Tab indents instead of leaving the textarea.
+  source.addEventListener("keydown", e => {
+    if (e.key === "Tab" && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "    ");
+    }
+  });
+
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s" && !workspace.hidden) { e.preventDefault(); save(); }
+  });
+  saveBtn.addEventListener("click", save);
+  addEventListener("beforeunload", e => { if (!workspace.hidden && dirty()) e.preventDefault(); });
+
+  // Phone layout: one pane at a time.
+  document.querySelectorAll<HTMLButtonElement>("[data-view-btn]").forEach(b => b.addEventListener("click", () => {
+    workspace.dataset.view = b.dataset.viewBtn;
+    document.querySelectorAll("[data-view-btn]").forEach(o => o.setAttribute("aria-selected", String(o === b)));
+  }));
+
+  // ---- Sign in / out ----
+
+  function signOut(message = "") {
+    store.del(TOKEN_KEY);
+    show("signin");
+    $("signin-error").textContent = message;
+  }
+
+  $<HTMLFormElement>("token-form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const input = $<HTMLInputElement>("token-input");
+    store.set(TOKEN_KEY, input.value.trim());
+    $("signin-error").textContent = "Checking…";
+    const res = await gh(`https://api.github.com/repos/${owner}/${repo}`).catch(() => null);
+    if (!res?.ok) {
+      store.del(TOKEN_KEY);
+      $("signin-error").textContent = res?.status === 401 ? "GitHub rejected that token." : `That token can't see ${owner}/${repo}.`;
+      return;
+    }
+    input.value = "";
+    $("signin-error").textContent = "";
+    start();
+  });
+
+  document.querySelectorAll("[data-signout]").forEach(b => b.addEventListener("click", () => signOut()));
+
+  $<HTMLFormElement>("open-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const p = $<HTMLInputElement>("path-input").value.trim();
+    history.pushState(null, "", `/edit?file=${encodeURIComponent(p)}`);
+    open(p);
+  });
+
+  function start() {
+    if (!store.get(TOKEN_KEY)) return show("signin");
+    const file = new URLSearchParams(location.search).get("file");
+    if (file) open(file); else show("opener");
+  }
+  addEventListener("popstate", start);
+  start();
+</script>

@@ -53,6 +53,9 @@ const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/
           <a href={`/${section}`}>{sections[section].label}</a>
           {category && <> · <a href={backHref}>{categoryName(category)}</a></>}
         </span>
+        {entry.filePath && (
+          <a class="icon-btn edit-btn" href={`/edit?file=${encodeURIComponent(entry.filePath)}`} data-edit-link hidden aria-label="Edit this page" title="Edit this page"><Icon name="pencil" size={15} /></a>
+        )}
       </div>
 
       <div class="body-wrap">
@@ -141,6 +144,7 @@ const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/
   .toc-btn { display: none; }
   .crumb { font-size: .75rem; color: var(--text-muted); }
   .crumb a:hover { color: var(--nav-active); }
+  .edit-btn { margin-left: auto; }
 
   .body-wrap { flex: 1; display: flex; justify-content: center; }
   .body { width: 100%; max-width: 820px; min-width: 0; padding: 32px 40px 64px; }
@@ -212,44 +216,14 @@ const backHref = category ? `/${section}?c=${encodeURIComponent(category)}` : `/
 </style>
 
 <script>
-  // Header bar (language + copy button) on code blocks.
-  const LANGS: Record<string, string> = {
-    cpp: "C++", c: "C", py: "Python", python: "Python", js: "JavaScript", javascript: "JavaScript",
-    ts: "TypeScript", typescript: "TypeScript", jsx: "JSX", tsx: "TSX", java: "Java", go: "Go",
-    rust: "Rust", sh: "Shell", bash: "Shell", shell: "Shell", zsh: "Shell", json: "JSON", yaml: "YAML",
-    yml: "YAML", html: "HTML", css: "CSS", sql: "SQL", md: "Markdown", markdown: "Markdown",
-    tex: "LaTeX", latex: "LaTeX", txt: "Text", text: "Text", plaintext: "Text", asm: "Assembly",
-    mips: "MIPS", armasm: "Assembly", verilog: "Verilog", matlab: "MATLAB", r: "R", kotlin: "Kotlin",
-  };
-  const copyIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
-  const doneIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-  document.querySelectorAll<HTMLPreElement>(".markdown-zh pre, .markdown-en pre").forEach(pre => {
-    const id = [...pre.classList].find(c => c.startsWith("language-"))?.slice(9) ?? "";
-    const wrap = document.createElement("div");
-    wrap.className = "code-wrap";
-    const head = document.createElement("div");
-    head.className = "code-head";
-    const label = document.createElement("span");
-    label.className = "code-lang";
-    label.textContent = LANGS[id.toLowerCase()] ?? (id ? id.toUpperCase() : "Code");
-    const btn = document.createElement("button");
-    btn.className = "copy";
-    btn.type = "button";
-    btn.setAttribute("aria-label", "Copy code");
-    const idle = `${copyIcon}<span>Copy</span>`;
-    btn.innerHTML = idle;
-    btn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent ?? "");
-        btn.dataset.copied = "";
-        btn.innerHTML = `${doneIcon}<span>Copied</span>`;
-        setTimeout(() => { delete btn.dataset.copied; btn.innerHTML = idle; }, 2000);
-      } catch {}
-    });
-    head.append(label, btn);
-    pre.replaceWith(wrap);
-    wrap.append(head, pre);
-  });
+  import {decorateCodeBlocks} from "../../lib/code-blocks";
+
+  decorateCodeBlocks();
+
+  // The edit button only appears in a browser that has signed in to /edit.
+  try {
+    if (localStorage.getItem("editor-token")) document.querySelector<HTMLElement>("[data-edit-link]")?.removeAttribute("hidden");
+  } catch {}
 
   // Mobile TOC drawer.
   const scrim = document.getElementById("toc-drawer");

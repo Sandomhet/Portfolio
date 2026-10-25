@@ -52,6 +52,16 @@ Personal details (name, intro, About me text, social links, section names) are a
 
 The quote widget reads `src/data/quotes.json`. To regenerate it from `src/data/Quotes.xlsx`, run `npm run quotes`.
 
+## Editing online
+
+`/edit` is a side by side editor: Markdown on the left, a live preview on the right that runs the same Markdown pipeline as the build (GFM, KaTeX, Prism, the TOC heading filter), so it looks like the published page.
+
+1. Create a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new) with access to only this repository and **Contents: Read and write**.
+2. Open `/edit` on the site and paste it. It is stored in that browser's local storage and sent only to the GitHub API.
+3. Every post now shows a pencil button next to the breadcrumb (only in a browser that has signed in). Or open `/edit?file=src/content/blog/new-post.md` to start a new file.
+
+Save (or Ctrl/Cmd S) commits the file to `main` through the GitHub API, and Vercel rebuilds the site, so changes go live after about a minute. Unsaved text is kept as a draft in the browser until it is saved or discarded. The repository and branch are set in `editor` in `src/data/site.ts`.
+
 ## Development
 
 ```sh

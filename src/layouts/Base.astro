@@ -14,6 +14,7 @@ interface Props {
   lang?: string;
   ogType?: "website" | "article";
   serif?: boolean;
+  noindex?: boolean;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   lang = "en",
   ogType = "website",
   serif = false,
+  noindex = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${profile.handle}` : `${profile.handle}'s Portfolio`;
@@ -35,6 +37,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={profile.name} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/Logo.png" />

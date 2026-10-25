@@ -78,3 +78,7 @@ export const categoryNames: Record<string, string> = {
 };
 
 export const categoryName = (c: string) => categoryNames[c] ?? c.replace(/-/g, " ");
+
+// The /edit page loads and commits Markdown through the GitHub API on this branch.
+// Vercel deploys every commit to it, so a save goes live after the next build.
+export const editor = {owner: "Sandomhet", repo: "Portfolio", branch: "main"};
