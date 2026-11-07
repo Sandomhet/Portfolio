@@ -98,22 +98,22 @@ void FFT(vector<cd> &a, int invert) { //系数表达转点值表达
 迭代版本
 
 ```cpp
-int rev[Z];
-void get_rader() {
-    bit = log2(n + m) + 1; k = 1 << bit;//强制达到2的幂级
-    for (int i = 0; i < k; ++i) rev[i] = rev[i >> 1] >> 1 | (i & 1) << bit - 1;
-}
-void FFT(complex <double> a[], int n, int opt) { //系数表达转点值表达
-    for (int i = 1; i < n; ++i) if (rev[i] > i) swap(a[i], a[rev[i]]);
+using cd = complex<double>;
+const double PI = acos(-1.0);
+void fft(vector<cd> &a, int opt) { // opt = 1: coefficients -> values, -1: back (without dividing by n); a.size() is a power of 2
+    int n = a.size(), L = __lg(n);
+    if (n == 1) return;
+    vector<int> rev(n);
+    for (int i = 0; i < n; ++i) rev[i] = rev[i >> 1] >> 1 | (i & 1) << (L - 1);
+    for (int i = 0; i < n; ++i) if (i < rev[i]) swap(a[i], a[rev[i]]);
     for (int m = 1; m < n; m <<= 1) {
-        complex <double> W(cos(PI / m), opt * sin(PI / m));
-        for (int i = 0; i < n; i += m << 1) {
-            complex <double> w(1.0, 0.0);
-            for (int j = 0; j < m; ++j, w *= W) {
-                complex <double> x = a[i + j], y = w * a[i + j + m];
+        vector<cd> w(m); // roots computed directly, more precise than repeated multiplication
+        for (int j = 0; j < m; ++j) w[j] = polar(1.0, opt * PI * j / m);
+        for (int i = 0; i < n; i += m << 1)
+            for (int j = 0; j < m; ++j) {
+                cd x = a[i + j], y = w[j] * a[i + j + m];
                 a[i + j] = x + y, a[i + j + m] = x - y;
             }
-        }
     }
 }
 ```
@@ -121,10 +121,9 @@ void FFT(complex <double> a[], int n, int opt) { //系数表达转点值表达
 逆变换
 
 ```cpp
-void IFFT(vector<cd> &a) { //point-value to coefficient
-    int n = a.size();
-    FFT(a, -1);
-    for (int i = 0; i < n; ++i) a[i] = a[i].real() / n;
+void ifft(vector<cd> &a) { //point-value to coefficient
+    fft(a, -1);
+    for (cd &x : a) x /= a.size();
 }
 ```
 
@@ -146,18 +145,73 @@ FFT Algorithm workflow:
 3. Compute the inverse FFT of the product to get the coefficients of the resulting polynomial.
 
 ```cpp
-void multiply(vector<int> &a, vector<int> &b, vector<int> &c) {
+vector<ll> conv(const vector<ll> &a, const vector<ll> &b) { // exact while every |c_k| < about 1e15
+    if (a.empty() || b.empty()) return {};
     int n = 1;
-    while (n < a.size() + b.size()) n <<= 1; // Find the next power of 2
-    vector<cd> A(a.begin(), a.end()), B(b.begin(), b.end()), C(n);
+    while (n < (int)(a.size() + b.size() - 1)) n <<= 1; // Find the next power of 2
+    vector<cd> A(a.begin(), a.end()), B(b.begin(), b.end());
     A.resize(n), B.resize(n);
-    FFT(A, 1); // Forward FFT on A
-    FFT(B, 1); // Forward FFT on B
-    for (int i = 0; i < n; ++i) C[i] = A[i] * B[i]; // Point-wise multiplication
-    IFFT(C); // Inverse FFT to get the coefficients of the product polynomial
-    c.resize(a.size() + b.size() - 1);
-    for (int i = 0; i < c.size(); ++i) c[i] = round(C[i].real());
+    fft(A, 1), fft(B, 1); // Forward FFT
+    for (int i = 0; i < n; ++i) A[i] *= B[i]; // Point-wise multiplication
+    ifft(A); // Inverse FFT to get the coefficients of the product polynomial
+    vector<ll> c(a.size() + b.size() - 1);
+    for (size_t i = 0; i < c.size(); ++i) c[i] = llround(A[i].real());
+    return c;
 }
+```
+
+Usage:
+
+```cpp
+vector<ll> c = conv(a, b); // c[k] = sum a[i] * b[k - i], 0-indexed coefficients
+```
+
+## Number Theoretic Transform (NTT)
+
+The same butterfly over $\mathbb{Z}_p$ with $p = 998244353 = 119 \cdot 2^{23} + 1$ and primitive root $g = 3$: $g^{(p-1)/n}$ plays the role of $\omega_n$. Exact, no precision issues, results mod $p$ (`mod` from the starter), lengths up to $2^{23}$.
+
+```cpp
+void ntt(vector<ll> &a, bool invert) { // mod = 998244353, a.size() is a power of 2
+    auto pw = [](ll x, ll e) { ll r = 1; for (x %= mod; e; e >>= 1, x = x * x % mod) if (e & 1) r = r * x % mod; return r; };
+    int n = a.size();
+    for (int i = 1, j = 0; i < n; i++) { // bit reversal
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) swap(a[i], a[j]);
+    }
+    for (int m = 1; m < n; m <<= 1) {
+        ll wn = pw(3, (mod - 1) / (2 * m));
+        if (invert) wn = pw(wn, mod - 2);
+        for (int i = 0; i < n; i += m << 1)
+            for (int j = 0, w = 1; j < m; j++, w = w * wn % mod) {
+                ll x = a[i + j], y = a[i + j + m] * w % mod;
+                a[i + j] = x + y < mod ? x + y : x + y - mod;
+                a[i + j + m] = x - y >= 0 ? x - y : x - y + mod;
+            }
+    }
+    if (invert) {
+        ll ni = pw(n, mod - 2);
+        for (ll &x : a) x = x * ni % mod;
+    }
+}
+vector<ll> conv_mod(vector<ll> a, vector<ll> b) { // coefficients in [0, mod)
+    if (a.empty() || b.empty()) return {};
+    int n = 1, sz = a.size() + b.size() - 1;
+    while (n < sz) n <<= 1;
+    a.resize(n), b.resize(n);
+    ntt(a, false), ntt(b, false);
+    for (int i = 0; i < n; i++) a[i] = a[i] * b[i] % mod;
+    ntt(a, true);
+    a.resize(sz);
+    return a;
+}
+```
+
+Usage:
+
+```cpp
+vector<ll> c = conv_mod(a, b); // c[k] = sum a[i] * b[k - i] mod 998244353
 ```
 
 ## Applications of FFT

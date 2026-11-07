@@ -10,20 +10,19 @@ time: "Mon Feb 1, 2024"
 
 ```cpp
 //data generator
-inline int random(int n) { return 1ll * rand() * rand() % n + 1; }
-inline int get(int l, int r) { return 1ll * rand() * rand() % (r - l + 1) + l; }
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+ll rnd(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); } // uniform in [l, r]
 sandom main() {
     freopen("test.in", "w", stdout);
-    srand((unsigned)time(0));
-    cout << random(MAX) << ' ' << random(MAX) << endl;
+    cout << rnd(1, MAX) << ' ' << rnd(1, MAX) << endl;
     return 0;
 }
 ```
 
 ```cpp
 for (int i = 2; i <= n; i++) { //随机生成树
-    int fa = random(i - 1);
-    int val = random(MAX);
+    int fa = rnd(1, i - 1);
+    int val = rnd(1, MAX);
     printf("%d %d %d\n", fa, i, val);
 }
 
@@ -32,8 +31,8 @@ map <pair<int, int>, bool> be;
 struct edge { int u, v, w; } e[Z]; int tot = 0;
 //先生成一棵树，保证连通
 for (int i = 2; i <= n; i++) {
-    int fa = random(i - 1);
-    int val = random(MAX);
+    int fa = rnd(1, i - 1);
+    int val = rnd(1, MAX);
     e[++tot] = {i, fa, val};
     be[make_pair(fa, i)] = be[make_pair(i, fa)] = 1;
 }
@@ -41,12 +40,12 @@ for (int i = 2; i <= n; i++) {
 for (int i = n; i <= m; i++) {
     int x, y;
     do {
-        x = random(n), y = random(n);
+        x = rnd(1, n), y = rnd(1, n);
     } while (x == y || be[make_pair(x, y)]);
     be[make_pair(x, y)] = be[make_pair(y, x)] = 1;
-    e[++tot] = {x, y, random(MAX)};
+    e[++tot] = {x, y, rnd(1, MAX)};
 }
-shuffle(e + 1, e + 1 + m, mt19937(time(0)));//随机打乱（random_shuffle 在 C++17 中已删除）
+shuffle(e + 1, e + 1 + m, rng);//随机打乱（random_shuffle 在 C++17 中已删除）
 for (int i = 1; i <= m; i++) printf("%d %d %d\n", e[i].u, e[i].v, e[i].w);
 ```
 

@@ -29,18 +29,21 @@ $$f_j \leftarrow \max\{f_j, f_{j - w_i} + v_i\}$$
 $O(nW)$
 
 ```cpp
-int Knapsack01(int n, int W, vector<int> w, vector<int> v) {
-  vector<int> f(W + 1, 0);
-  for (int i = 1; i <= n; i++)
-      for (int j = W; j >= w[i]; j--)
-        f[j] = max(f[j], f[j - w[i]] + v[i]);
+// items 1..n: weight w[i], value v[i] (vectors of size n + 1)
+ll Knapsack01(int n, int W, const vector<int> &w, const vector<ll> &v) {
+    vector<ll> f(W + 1, 0); // "exactly full": f[0] = 0, others LLONG_MIN / 2
+    for (int i = 1; i <= n; i++)
+        for (int j = W; j >= w[i]; j--)
+            f[j] = max(f[j], f[j - w[i]] + v[i]);
     return f[W];
 }
 ```
 
+2D version (keeps every row, needed to recover which items were chosen):
+
 ```cpp
-int Knapsack01(int n, int W, vector<int> w, vector<int> v) {
-    vector<vector<int>> f(n + 1, vector<int>(W + 1, 0));
+ll Knapsack01_2D(int n, int W, const vector<int> &w, const vector<ll> &v) {
+    vector<vector<ll>> f(n + 1, vector<ll>(W + 1, 0));
     for (int i = 1; i <= n; i++) {
         for (int j = 0; j <= W; j++) {
             if (j < w[i]) {
@@ -70,8 +73,8 @@ $$
 $O(nW)$
 
 ```cpp
-int KnapsackComplete(int n, int W, vector<int> w, vector<int> v) {
-    vector<int> f(W + 1, 0);
+ll KnapsackComplete(int n, int W, const vector<int> &w, const vector<ll> &v) {
+    vector<ll> f(W + 1, 0);
     for (int i = 1; i <= n; i++)
         for (int j = w[i]; j <= W; j++)
             f[j] = max(f[j], f[j - w[i]] + v[i]);
@@ -86,15 +89,12 @@ Item $i$ can be used at most $m_i$ times.
 $O(nWm)$
 
 ```cpp
-int KnapsackMultiple(int n, int W, vector<int> w, vector<int> v, vector<int> m) {
-    vector<int> f(W + 1, 0);
-    for (int i = 1; i <= n; i++) {
-        for (int j = W; j >= w[i]; j--) {
-            for (int k = 1; k <= m[i] && k * w[i] <= j; k++) {
+ll KnapsackMultiple(int n, int W, const vector<int> &w, const vector<ll> &v, const vector<int> &m) {
+    vector<ll> f(W + 1, 0);
+    for (int i = 1; i <= n; i++)
+        for (int j = W; j >= w[i]; j--)
+            for (int k = 1; k <= m[i] && k * w[i] <= j; k++)
                 f[j] = max(f[j], f[j - k * w[i]] + k * v[i]);
-            }
-        }
-    }
     return f[W];
 }
 ```
@@ -104,24 +104,36 @@ Binary splitting: split $m_i$ into $1, 2, 4, \ldots, 2^{k-1}, m_i - (2^k - 1)$; 
 $O(nW \log m)$
 
 ```cpp
-int KnapsackMultiple(int n, int W, vector<int> w, vector<int> v, vector<int> m) {
-    vector<int> f(W + 1, 0);
+ll KnapsackMultipleBin(int n, int W, const vector<int> &w, const vector<ll> &v, const vector<int> &m) {
+    vector<ll> f(W + 1, 0);
+    auto item = [&](ll wt, ll val) { // one 0-1 item
+        for (ll j = W; j >= wt; j--) f[j] = max(f[j], f[j - wt] + val);
+    };
     for (int i = 1; i <= n; i++) {
-        if (w[i] * m[i] >= W) {
-            for (int j = w[i]; j <= W; j++)
-                f[j] = max(f[j], f[j - w[i]] + v[i]);
-        } else {
-    int k = 1, cnt = m[i];
-    while (k < cnt) {
-      for (int j = W; j >= k * w[i]; j--)
-        f[j] = max(f[j], f[j - k * w[i]] + k * v[i]);
-      cnt -= k;
-      k <<= 1;
+        if ((ll)w[i] * m[i] >= W) { // effectively unlimited
+            for (int j = w[i]; j <= W; j++) f[j] = max(f[j], f[j - w[i]] + v[i]);
+            continue;
+        }
+        int cnt = m[i];
+        for (int k = 1; k <= cnt; cnt -= k, k <<= 1) item((ll)k * w[i], k * v[i]);
+        if (cnt) item((ll)cnt * w[i], cnt * v[i]);
     }
-    for (int j = W; j >= cnt * w[i]; j--)
-      f[j] = max(f[j], f[j - cnt * w[i]] + cnt * v[i]);
-  }
+    return f[W];
 }
+```
+
+### Group Knapsack
+
+Items are split into groups and at most one item per group can be taken: loop over capacity outside and over the group's items inside.
+
+```cpp
+// groups[g] = list of (weight, value)
+ll KnapsackGroup(int W, const vector<vector<pair<int, ll>>> &groups) {
+    vector<ll> f(W + 1, 0);
+    for (auto &g : groups)
+        for (int j = W; j >= 0; j--)
+            for (auto [wt, val] : g)
+                if (j >= wt) f[j] = max(f[j], f[j - wt] + val);
     return f[W];
 }
 ```
@@ -151,14 +163,13 @@ $$
 $O(nV)$
 
 ```cpp
-int KnapsackByValue(int n, int W, vector<int> w, vector<int> v) {
-    int V = accumulate(v.begin(), v.end(), 0);
-    vector<int> f(V + 1, INT_MAX / 2); // INT_MAX + w[i] would overflow
+ll KnapsackByValue(int n, ll W, const vector<ll> &w, const vector<int> &v) { // small values, huge weights
+    int V = accumulate(v.begin() + 1, v.end(), 0);
+    vector<ll> f(V + 1, LLONG_MAX); // f[j]: min weight for total value j
     f[0] = 0;
     for (int i = 1; i <= n; i++)
         for (int j = V; j >= v[i]; j--)
-            f[j] = min(f[j], f[j - v[i]] + w[i]);
-
+            if (f[j - v[i]] != LLONG_MAX) f[j] = min(f[j], f[j - v[i]] + w[i]);
     for (int j = V; j >= 0; j--)
         if (f[j] <= W)
             return j;

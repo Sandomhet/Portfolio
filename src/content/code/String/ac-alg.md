@@ -20,48 +20,57 @@ $Fail$
 ，都指向$0$号根节点（它只是一个虚点）。对于一个节点 x，它的$fail$只需要指向它父亲的$fail$的同字符儿子。
 
 ```cpp
-struct Trie {
-    int kid[26];//26个字母
-    int fail;//失配指针
-    int end;//以该节点结尾的单词数量
-    #define son ac[rt].kid[i]
-}; Trie ac[Z << 2];
-int tot = 0;
-inline void insert(char s[], int len) {
-    int rt = 0;
-    for (int t = 1; t <= len; ++t) {
-        int i = s[t] - 'a';
-        if (!son) son = ++tot;//新建一个节点
-        rt = son;//进入下一层
-    }
-    ++ac[rt].end;
-}
-void getfail() {
-    queue <int> q;
-    int rt = 0;
-    for (int i = 0; i < 26; ++i)//初始化失配指针
-        if (son) {
-            ac[son].fail = 0;
-            q.push(son);
+struct AC {
+    struct Node { int ch[26], fail, end; }; //end: 以该节点结尾的单词数量
+    vector<Node> t{Node{}}; vector<int> ord; //0号根节点; ord: BFS order
+    int insert(const string &s) { // returns the node of s
+        int u = 0;
+        for (char c : s) {
+            int i = c - 'a';
+            if (!t[u].ch[i]) t[u].ch[i] = t.size(), t.push_back(Node{}); //新建一个节点
+            u = t[u].ch[i]; //进入下一层
         }
-    while (!q.empty()) {
-        rt = q.front(); q.pop();
-        for (int i = 0; i < 26; ++i) {
-            if (son) {
-                ac[son].fail = ac[ac[rt].fail].kid[i];//扩展后缀
-                q.push(son);
+        t[u].end++;
+        return u;
+    }
+    void build() { //构造失配指针
+        queue<int> q;
+        for (int i = 0; i < 26; ++i) if (t[0].ch[i]) q.push(t[0].ch[i]); //第一层的fail指向根
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            ord.push_back(u);
+            for (int i = 0; i < 26; ++i) {
+                int v = t[u].ch[i];
+                if (v) t[v].fail = t[t[u].fail].ch[i], q.push(v); //扩展后缀
+                else t[u].ch[i] = t[t[u].fail].ch[i]; //保证字符串能沿着路径走完
             }
-            else son = ac[ac[rt].fail].kid[i];//保证字符串能沿着路径走完
         }
     }
-}
-inline int match(char s[], int len) {
-    int rt = 0, ans = 0;
-    for (int t = 1; t <= len; ++t) {
-        rt = ac[rt].kid[s[t] - 'a'];//向下走一层
-        for (int j = rt; j && ac[j].end != -1; j = ac[j].fail)
-            ans += ac[j].end, ac[j].end = -1;//j不断跳fail直到完全失配
+    int count_distinct(const string &s) { // number of inserted patterns (with multiplicity) occurring in s
+        vector<bool> vis(t.size()); int res = 0;
+        for (int u = 0, k = 0; k < (int)s.size(); ++k) {
+            u = t[u].ch[s[k] - 'a']; //向下走一层
+            for (int j = u; j && !vis[j]; j = t[j].fail) res += t[j].end, vis[j] = 1; //跳fail直到已访问
+        }
+        return res;
     }
-    return ans;
-}
+    vector<ll> occurrences(const string &s) { // cnt[node]: occurrences in s of the string ending at node
+        vector<ll> cnt(t.size());
+        for (int u = 0, k = 0; k < (int)s.size(); ++k) u = t[u].ch[s[k] - 'a'], cnt[u]++;
+        for (int i = ord.size() - 1; i >= 0; i--) cnt[t[ord[i]].fail] += cnt[ord[i]]; // fail tree: children before parents
+        return cnt;
+    }
+};
+```
+
+Usage:
+
+```cpp
+AC ac;
+vector<int> id(k);
+for (int i = 0; i < k; i++) id[i] = ac.insert(p[i]);
+ac.build();
+ac.count_distinct(text);           // how many patterns occur at least once
+auto cnt = ac.occurrences(text);
+cnt[id[i]];                        // number of occurrences of p[i] in text
 ```

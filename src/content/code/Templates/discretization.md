@@ -9,12 +9,18 @@ time: "Mon Feb 1, 2024"
 Replace each value by its rank among the distinct values: sort, `unique`, then `lower_bound`. Order is preserved and values become $1..len$. $O(n \log n)$
 
 ```cpp
-int ls[Z], len;
-void discrete(int num[], int nm) {
-    for (int i = 1; i <= nm; i++)    ls[i] = num[i];//转移临时数组
-    sort(ls + 1, ls + 1 + nm);//排序
-    len = unique(ls + 1, ls + 1 + nm) - ls - 1;//去重
-    for (int i = 1; i <= nm; i++)//离散
-        num[i] = lower_bound(ls + 1, ls + 1 + len, num[i]) - ls;
+template<class T> vector<T> discrete(int n, T *a) { // a[1..n] becomes ranks 1..len; returns the sorted distinct values
+    vector<T> ls(a + 1, a + n + 1); //转移临时数组
+    sort(ls.begin(), ls.end()); //排序
+    ls.erase(unique(ls.begin(), ls.end()), ls.end()); //去重
+    for (int i = 1; i <= n; i++) a[i] = lower_bound(ls.begin(), ls.end(), a[i]) - ls.begin() + 1; //离散
+    return ls;
 }
+```
+
+Usage:
+
+```cpp
+auto vals = discrete(n, a);  // a: global array a[Z] (or v.data() for a vector)
+int len = vals.size();       // a[i] in 1..len now, original value = vals[a[i] - 1]
 ```
