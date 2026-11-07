@@ -15,14 +15,16 @@ time: "Mon Oct 27, 2025"
 
 单源最短路
 
+The graph is the global adjacency list `vector<pii> e[Z]` with `e[u] = {(v, w)}`; distances are `ll` and `LLONG_MAX` means unreachable. Call each function with the number of vertices `n` and the source `s`.
+
 ### BFS For Unweighted Graphs
 
 BFS from source. $O(V+E)$
 
 ```cpp
 vector<int> e[Z];
-vector<int> dis;
-void bfs(int s) {
+vector<int> dis; // -1 = unreachable
+void bfs(int n, int s) {
     dis.assign(n + 1, -1);
     queue<int> q;
     q.push(s);
@@ -44,28 +46,22 @@ Topological sort + relax edges. $O(V+E)$
 weights can be negative but no negative cycles.
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis;
+vector<pii> e[Z]; // e[u]: (v, w)
+vector<ll> dis;   // LLONG_MAX = unreachable
 void dag_shortest_path(int n, int s) {
-    dis.assign(n + 1, INF);
-    vector<int> in_degree(n + 1, 0);
+    dis.assign(n + 1, LLONG_MAX);
+    vector<int> indeg(n + 1, 0);
     for (int u = 1; u <= n; u++)
-        for (auto [v, w] : e[u]) {
-            in_degree[v]++;
-        }
+        for (auto [v, w] : e[u]) indeg[v]++;
     queue<int> q;
-    for (int u = 1; u <= n; u++) {
-        if (in_degree[u] == 0) {
-            q.push(u);
-        }
-    }
+    for (int u = 1; u <= n; u++)
+        if (indeg[u] == 0) q.push(u);
     dis[s] = 0;
     while (!q.empty()) { // vertices come out in topological order
         int u = q.front(); q.pop();
         for (auto [v, w] : e[u]) {
-            if (dis[u] != INF) dis[v] = min(dis[v], dis[u] + w);
-            if (--in_degree[v] == 0) q.push(v);
+            if (dis[u] != LLONG_MAX) dis[v] = min(dis[v], dis[u] + w);
+            if (--indeg[v] == 0) q.push(v);
         }
     }
 }
@@ -82,12 +78,12 @@ Prerequisites: edge weights are non-negative $w(e) \geq 0$.
 3. **Priority_queue:** no decrease-key → overall $O((n + m) \log m)$ worst case, but usually faster in practice.
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis, path;
-void dijkstra(int s) {
-    priority_queue<pii, vector<pii>, greater<pii>> q;
-    dis.assign(n + 1, INF);
+vector<pii> e[Z]; // e[u]: (v, w)
+vector<ll> dis;   // LLONG_MAX = unreachable
+vector<int> path;
+void dijkstra(int n, int s) {
+    priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> q;
+    dis.assign(n + 1, LLONG_MAX);
     path.assign(n + 1, 0);
     dis[s] = 0;
     q.push({0, s});
@@ -118,24 +114,23 @@ For dense graph: $O(n^2)$
 <summary>Show Code</summary>
 
 ```cpp
-int e[Z][Z];
-vector<int> dis, path;
-bool vs[Z];
-void dijkstra_dense(int s) {
-    fill(vs, vs + n + 1, false);
-    dis.assign(n + 1, INF);
+vector<ll> dis;
+vector<int> path;
+void dijkstra_dense(int n, int s, const vector<vector<ll>> &w) { // w[i][j]: weight, LLONG_MAX = no edge
+    vector<bool> vs(n + 1, false);
+    dis.assign(n + 1, LLONG_MAX);
     path.assign(n + 1, 0);
     dis[s] = 0;
     for (int i = 1; i <= n; i++) {
         int k = 0;
         for (int j = 1; j <= n; j++) //寻找与此点距离最小的点
-            if (!vs[j] && dis[j] < dis[k])
+            if (!vs[j] && dis[j] != LLONG_MAX && (!k || dis[j] < dis[k]))
                 k = j;
         if (k == 0) break;
         vs[k] = 1;
         for (int j = 1; j <= n; j++) //更新经过k点到其他点的最小距离
-            if (!vs[j] && dis[j] > dis[k] + e[k][j]) {
-                dis[j] = dis[k] + e[k][j];
+            if (!vs[j] && w[k][j] != LLONG_MAX && dis[j] > dis[k] + w[k][j]) {
+                dis[j] = dis[k] + w[k][j];
                 path[j] = k;
             }
     }
@@ -151,19 +146,28 @@ Can handle negative weights and detect negative cycles. $O(nm)$.
 Proof: After $i_{th}$ iteration, all shortest paths with at most $i$ edges are found. A negative cycle exists if we can still relax an edge in the $n_{th}$ iteration.
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis, path, cycle;
-void get_negative_cycle(int x); // defined in the SPFA block below
-bool bellman_ford(int s) {
-    dis.assign(n + 1, INF);
+vector<pii> e[Z]; // e[u]: (v, w)
+vector<ll> dis;   // LLONG_MAX = unreachable
+vector<int> path, cycle; // cycle: a negative cycle, if found
+void get_negative_cycle(int n, int x) {
+    // retrace to find a vertex definitely inside the cycle
+    for (int i = 1; i <= n; i++) x = path[x];
+    cycle.clear();
+    for (int v = x; ; v = path[v]) {
+        cycle.push_back(v);
+        if (v == x && cycle.size() > 1) break;
+    }
+    reverse(cycle.begin(), cycle.end());
+}
+bool bellman_ford(int n, int s) { // true if a negative cycle is reachable from s
+    dis.assign(n + 1, LLONG_MAX);
     path.assign(n + 1, 0);
     dis[s] = 0;
     int x = -1; // last updated vertex
     for (int i = 1; i <= n; i++) {
         x = -1;
         for (int u = 1; u <= n; u++) {
-            if (dis[u] == INF) continue;
+            if (dis[u] == LLONG_MAX) continue;
             for (auto [v, w] : e[u]) {
                 if (dis[v] > dis[u] + w) {
                     dis[v] = dis[u] + w;
@@ -174,8 +178,7 @@ bool bellman_ford(int s) {
         }
         if (x == -1) return false; // no negative cycle
     }
-
-    get_negative_cycle(x);
+    get_negative_cycle(n, x);
     return true;
 }
 ```
@@ -186,14 +189,23 @@ Faster version of Bellman-Ford using a queue to process vertices.
 It is $O(nm)$ in the worst case but can perform in $O(m)$ on average for many graphs.
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis, path, cnt, cycle;
+vector<pii> e[Z]; // e[u]: (v, w)
+vector<ll> dis;   // LLONG_MAX = unreachable
+vector<int> path, cnt, cycle; // cycle: a negative cycle, if found
 vector<bool> vs;
-void get_negative_cycle(int x); // defined below
+void get_negative_cycle(int n, int x) {
+    // retrace to find a vertex definitely inside the cycle
+    for (int i = 1; i <= n; i++) x = path[x];
+    cycle.clear();
+    for (int v = x; ; v = path[v]) {
+        cycle.push_back(v);
+        if (v == x && cycle.size() > 1) break;
+    }
+    reverse(cycle.begin(), cycle.end());
+}
 //判断是否存在环
-bool spfa(int s) {
-    dis.assign(n + 1, INF);
+bool spfa(int n, int s) { // true if a negative cycle is reachable from s
+    dis.assign(n + 1, LLONG_MAX);
     path.assign(n + 1, 0);
     cnt.assign(n + 1, 0);
     vs.assign(n + 1, false);
@@ -208,7 +220,7 @@ bool spfa(int s) {
                 if (!vs[v]) {
                     q.push(v); vs[v] = true;
                     if ((++cnt[v]) >= n) {
-                        get_negative_cycle(v);
+                        get_negative_cycle(n, v);
                         return true;
                     }
                 }
@@ -216,15 +228,6 @@ bool spfa(int s) {
         }
     }
     return false;
-}
-void get_negative_cycle(int x) {
-    // retrace to find a vertex definitely inside the cycle
-    for (int i = 1; i <= n; i++) x = path[x];
-    for (int v = x; ; v = path[v]) {
-        cycle.push_back(v);
-        if (v == x && cycle.size() > 1) break;
-    }
-    reverse(cycle.begin(), cycle.end());
 }
 ```
 
@@ -235,11 +238,10 @@ For graphs with edge weights of $0$ or $1$. $O(V+E)$
 Same idea as Dijkstra, but the queue would only look like this: $Q = [d_u, \cdots, d_u, d_u + 1, \cdots, d_u + 1]$.
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis;
-void zero_one_bfs(int s) {
-    dis.assign(n + 1, INF);
+vector<pii> e[Z]; // e[u]: (v, w), w in {0, 1}
+vector<ll> dis;
+void zero_one_bfs(int n, int s) {
+    dis.assign(n + 1, LLONG_MAX);
     deque<int> q;
     dis[s] = 0;
     q.push_front(s);
@@ -263,17 +265,17 @@ For graphs with small integer weights. $O(kV + E)$ where $k$ is the maximum edge
 <summary>Show Code</summary>
 
 ```cpp
-using pii = pair<int, int>;
-vector<pii> e[Z];
-vector<int> dis;
-void dial(int s) {
-    dis.assign(n + 1, INF);
+vector<pii> e[Z]; // e[u]: (v, w), 0 <= w <= maxw
+vector<ll> dis;
+void dial(int n, int s, int maxw) {
+    dis.assign(n + 1, LLONG_MAX);
     dis[s] = 0;
-    vector<vector<int>> buckets(k * n + 1); // distances are at most k(n - 1)
+    vector<vector<int>> buckets((ll)maxw * n + 1); // distances are at most maxw * (n - 1)
     buckets[0].push_back(s);
-    for (int d = 0; d <= k * n; d++) {
+    for (int d = 0; d < (int)buckets.size(); d++) {
         while (!buckets[d].empty()) {
             int u = buckets[d].back(); buckets[d].pop_back();
+            if (dis[u] != d) continue; // outdated
             for (auto [v, w] : e[u]) {
                 if (dis[v] > dis[u] + w) {
                     dis[v] = dis[u] + w;
@@ -295,38 +297,24 @@ Usually faster than Dijkstra and SPFA in practice. Exponential worst-case time c
 <summary>Show Code</summary>
 
 ```cpp
-struct Edge {
-    int to, w;
-};
-
-int n;
-vector<vector<Edge>> adj;
-
-const int INF = 1e9;
-
-void shortest_paths(int v0, vector<int>& d, vector<int>& p) {
-    d.assign(n, INF);
-    d[v0] = 0;
-    vector<int> m(n, 2);
+vector<pii> e[Z]; // e[u]: (v, w)
+vector<ll> dis;
+vector<int> path;
+void desopo_pape(int n, int s) {
+    dis.assign(n + 1, LLONG_MAX);
+    path.assign(n + 1, 0);
+    vector<int> st(n + 1, 2); // 2: never queued, 1: in the queue, 0: was queued before
     deque<int> q;
-    q.push_back(v0);
-    p.assign(n, -1);
-
+    dis[s] = 0, q.push_back(s);
     while (!q.empty()) {
-        int u = q.front();
-        q.pop_front();
-        m[u] = 0;
-        for (Edge e : adj[u]) {
-            if (d[e.to] > d[u] + e.w) {
-                d[e.to] = d[u] + e.w;
-                p[e.to] = u;
-                if (m[e.to] == 2) {
-                    m[e.to] = 1;
-                    q.push_back(e.to);
-                } else if (m[e.to] == 0) {
-                    m[e.to] = 1;
-                    q.push_front(e.to);
-                }
+        int u = q.front(); q.pop_front();
+        st[u] = 0;
+        for (auto [v, w] : e[u]) {
+            if (dis[v] > dis[u] + w) {
+                dis[v] = dis[u] + w;
+                path[v] = u;
+                if (st[v] == 2) st[v] = 1, q.push_back(v);
+                else if (st[v] == 0) st[v] = 1, q.push_front(v);
             }
         }
     }
@@ -356,20 +344,14 @@ $$
 $O(n^3)$
 
 ```cpp
-bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
-    int n = dis.size() - 1;
-    dis.assign(n + 1, vector<int>(n + 1, INF));
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++)
-            dis[i][j] = w[i][j];
-        dis[i][i] = min(dis[i][i], 0);
-    }
+bool floyd_warshall(int n, vector<vector<ll>> &dis, const vector<vector<ll>> &w) { // w: LLONG_MAX = no edge; false on a negative cycle
+    dis = w;
+    for (int i = 1; i <= n; i++) dis[i][i] = min(dis[i][i], 0LL);
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                if (dis[i][k] < INF && dis[k][j] < INF) // INF + INF overflows, INF + negative is not a path
+                if (dis[i][k] != LLONG_MAX && dis[k][j] != LLONG_MAX) // INF + INF overflows, INF + negative is not a path
                     dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
-    
     for (int i = 1; i <= n; i++)
         if (dis[i][i] < 0) return false; // negative cycle exists
     return true;
@@ -379,30 +361,28 @@ bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
 Get Connectivity:
 
 ```cpp
-void floyd_warshall_connectivity(vector<vector<bool>>& dis) {
-    int n = dis.size() - 1;
+void floyd_warshall_connectivity(int n, vector<vector<bool>> &dis) { // dis[i][j]: edge i -> j, becomes reachability
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
-            for (int j = 1; j <= n; j++)
-                dis[i][j] = dis[i][j] || (dis[i][k] && dis[k][j]); // vector<bool> has no |=
+            if (dis[i][k])
+                for (int j = 1; j <= n; j++)
+                    if (dis[k][j]) dis[i][j] = true;
 }
 ```
 
 ```cpp
-int floyd_ring(vector<vector<int>>& dis, vector<vector<int>>& w) { //最小环
-    int n = dis.size() - 1, ans = INF;
-    dis.assign(n + 1, vector<int>(n + 1, INF));
-    for (int i = 1; i <= n; i++)
-        for (int j = 1; j <= n; j++)
-            dis[i][j] = w[i][j];
+ll floyd_ring(int n, const vector<vector<ll>> &w) { //最小环 (undirected, w: LLONG_MAX = no edge), LLONG_MAX if none
+    vector<vector<ll>> dis = w;
+    ll ans = LLONG_MAX;
     for (int k = 1; k <= n; k++) {
         for (int i = 1; i < k; i++)
             for (int j = i + 1; j < k; j++)
-                if (dis[i][j] < INF && w[i][k] < INF && w[k][j] < INF) // INF * 3 overflows
+                if (dis[i][j] != LLONG_MAX && w[i][k] != LLONG_MAX && w[k][j] != LLONG_MAX) // INF * 3 overflows
                     ans = min(ans, dis[i][j] + w[i][k] + w[k][j]);
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+                if (dis[i][k] != LLONG_MAX && dis[k][j] != LLONG_MAX)
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
     }
     return ans;
 }

@@ -23,17 +23,13 @@ $$
 $O(nm)$
 
 ```cpp
-int BellmanFord(int n, int m, vector<tuple<int, int, int>> edges, int s, int t) {
-    vector<int> d(n, INT_MAX);
+ll bellman_ford_dp(int n, const vector<tuple<int, int, ll>> &edges, int s, int t) { // LLONG_MAX if unreachable
+    vector<ll> d(n + 1, LLONG_MAX); // d[v] after round i: shortest path with at most i edges
     d[s] = 0;
-    for (int i = 1; i < n; i++) {
-        for (auto [u, v, w] : edges) {
-            if (d[u] != INT_MAX) {
-                d[v] = min(d[v], d[u] + w);
-            }
-        }
-    }
-    return d[t] == INT_MAX ? -1 : d[t];
+    for (int i = 1; i < n; i++)
+        for (auto [u, v, w] : edges)
+            if (d[u] != LLONG_MAX) d[v] = min(d[v], d[u] + w);
+    return d[t];
 }
 ```
 
@@ -54,19 +50,14 @@ $$
 $O(n^3)$
 
 ```cpp
-bool floyd_warshall(vector<vector<int>>& dis, vector<vector<int>>& w) {
-    int n = dis.size() - 1;
-    dis.assign(n + 1, vector<int>(n + 1, INF / 2));
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++)
-            dis[i][j] = w[i][j];
-        dis[i][i] = min(dis[i][i], 0);
-    }
+bool floyd_warshall(int n, vector<vector<ll>> &dis, const vector<vector<ll>> &w) { // w: LLONG_MAX = no edge; false on a negative cycle
+    dis = w;
+    for (int i = 1; i <= n; i++) dis[i][i] = min(dis[i][i], 0LL);
     for (int k = 1; k <= n; k++)
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
-    
+                if (dis[i][k] != LLONG_MAX && dis[k][j] != LLONG_MAX)
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
     for (int i = 1; i <= n; i++)
         if (dis[i][i] < 0) return false; // negative cycle exists
     return true;

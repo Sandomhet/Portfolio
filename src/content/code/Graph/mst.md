@@ -44,25 +44,19 @@ Start from a vertex, grow the MST by adding the minimum weight edge connecting t
 $O(n^2)$
 
 ```cpp
-int e[Z][Z];
-vector<bool> vs;
-vector<int> dis;
-int prim(int s) {
-    vs.assign(n + 1, false);
-    dis.assign(n + 1, INF);
-    int sum = 0;
-    dis[s] = 0;
+ll prim_dense(int n, const vector<vector<ll>> &w) { // w[i][j]: weight, LLONG_MAX = no edge; -1 if not connected
+    vector<bool> vs(n + 1);
+    vector<ll> dis(n + 1, LLONG_MAX);
+    ll sum = 0;
+    dis[1] = 0;
     for (int i = 1; i <= n; i++) {
         int k = 0;
         for (int j = 1; j <= n; j++) //寻找与此点距离最小的点
-            if (!vs[j] && dis[j] < dis[k])
-                k = j;
-        if (k == 0) return -1; // not connected
-        vs[k] = 1;
-        sum += dis[k];
+            if (!vs[j] && (!k || dis[j] < dis[k])) k = j;
+        if (dis[k] == LLONG_MAX) return -1; // not connected
+        vs[k] = 1, sum += dis[k];
         for (int j = 1; j <= n; j++) //更新k点到其他点的最小距离
-            if (!vs[j] && e[k][j] < dis[j])
-                dis[j] = e[k][j];
+            if (!vs[j] && w[k][j] < dis[j]) dis[j] = w[k][j];
     }
     return sum;
 }
@@ -73,21 +67,17 @@ int prim(int s) {
 $O(m \log m)$ with priority queue
 
 ```cpp
-vector<vector<pii>> e;
-vector<bool> vs;
-int prim(int s) {
-    priority_queue<pii, vector<pii>, greater<pii>> q;
-    vs.assign(n + 1, false);
-    int sum = 0, cnt = 0;
-    q.push({0, s});
+ll prim(int n, const vector<vector<pair<int, ll>>> &e) { // e[u]: (v, w), undirected; -1 if not connected
+    priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> q;
+    vector<bool> vs(n + 1);
+    ll sum = 0; int cnt = 0;
+    q.push({0, 1});
     while (!q.empty()) {
         auto [d, u] = q.top(); q.pop();
         if (vs[u]) continue; // outdated
-        vs[u] = 1;
-        sum += d;
-        if ((++cnt) == n) return sum;
-        for (auto [v, w] : e[u])
-            if (!vs[v]) q.push({w, v});
+        vs[u] = 1, sum += d;
+        if (++cnt == n) return sum;
+        for (auto [v, w] : e[u]) if (!vs[v]) q.push({w, v});
     }
     return -1; // not connected
 }
@@ -101,23 +91,52 @@ Sort edges by weight. Add edges in order, skipping those that form a cycle. $O(m
 
 （用到了并查集、集合思想；记得先排序）
 
+Uses the `DSU` struct from the Disjoint Set Union note.
+
 ```cpp
-struct kusk {
-    int u, v, w;
-    friend bool operator <(const kusk& A, const kusk& B) { return A.w < B.w; }
-}; vector<kusk> edges, mst;
-int kruskal(int n, int m) {
-    int tot = 0, sum = 0;
-    sort(edges.begin(), edges.end());
-    for (kusk &e : edges)
-        if (find(e.u) != find(e.v)) { // 不在同一集合中
-            un(e.u, e.v);
-            sum += e.w;
-            mst.push_back(e);
-            if ((++tot) == n - 1) return sum;
+struct Edge { int u, v; ll w; };
+ll kruskal(int n, vector<Edge> edges, vector<Edge> *mst = nullptr) { // -1 if not connected
+    sort(edges.begin(), edges.end(), [](const Edge &a, const Edge &b) { return a.w < b.w; });
+    DSU dsu(n);
+    ll sum = 0; int cnt = 0;
+    for (auto &e : edges)
+        if (dsu.unite(e.u, e.v)) { // 不在同一集合中
+            sum += e.w, cnt++;
+            if (mst) mst->push_back(e);
         }
-    return tot == n - 1 ? sum : -1; // -1: not connected
+    return cnt == n - 1 ? sum : -1;
 }
+```
+
+Usage:
+
+```cpp
+vector<Edge> edges;
+edges.push_back({u, v, w});
+ll cost = kruskal(n, edges);       // or kruskal(n, edges, &tree) to get the chosen edges
+// maximum spanning tree: sort by a.w > b.w
+```
+
+### Kruskal Reconstruction Tree
+
+Kruskal 重构树: each successful union creates a new node whose value is the edge weight and whose children are the two old roots. Leaves are $1..n$, internal nodes $n+1..2n-1$. On a path from a leaf up, values never decrease, and the minimax edge weight between $u$ and $v$ is `val[lca(u, v)]`. The vertices reachable from $u$ using edges $\le x$ form the subtree of the highest ancestor of $u$ with `val` $\le x$.
+
+```cpp
+struct KruskalTree {
+    int n, tot; vector<int> pa, fa; vector<ll> val; vector<vector<int>> ch; // fa: parent in the tree, 0 for the root
+    int find(int x) { return x == pa[x] ? x : pa[x] = find(pa[x]); }
+    KruskalTree(int n, vector<Edge> edges) : n(n), tot(n), pa(2 * n), fa(2 * n), val(2 * n), ch(2 * n) {
+        iota(pa.begin(), pa.end(), 0);
+        sort(edges.begin(), edges.end(), [](const Edge &a, const Edge &b) { return a.w < b.w; });
+        for (auto &e : edges) {
+            int x = find(e.u), y = find(e.v);
+            if (x == y) continue;
+            val[++tot] = e.w;
+            pa[x] = pa[y] = fa[x] = fa[y] = tot;
+            ch[tot] = {x, y};
+        }
+    }
+};
 ```
 
 ## Dynamic MST

@@ -64,6 +64,8 @@ void topo_sort(int n) {
 }
 ```
 
+The DFS version does not detect cycles; use Kahn's algorithm (or an SCC) when the input may not be a DAG. For the lexicographically smallest order, replace the queue in Kahn's algorithm with a min-heap.
+
 ### Kahn's Algorithm
 
 Kahn's algorithm uses in-degrees to find a topological ordering. It repeatedly removes nodes with in-degree 0 and updates the in-degrees of their neighbors.
@@ -71,7 +73,7 @@ Kahn's algorithm uses in-degrees to find a topological ordering. It repeatedly r
 ```cpp
 vector<vector<int>> e;
 vector<int> indeg, order;
-void topo_sort_kahn(int n) {
+bool topo_sort_kahn(int n) { // false if the graph has a cycle
     indeg.assign(n + 1, 0);
     for (int u = 1; u <= n; u++)
         for (int v : e[u])
@@ -87,5 +89,6 @@ void topo_sort_kahn(int n) {
         for (int v : e[u])
             if (--indeg[v] == 0) q.push(v);
     }
+    return (int)order.size() == n; // vertices on or after a cycle never reach in-degree 0
 }
 ```

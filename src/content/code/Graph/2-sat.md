@@ -28,33 +28,49 @@ k-SAT is NP-complete for $k \geq 3$, where input is in CNF with $k$ literals per
 
 ### Construction
 
-Implementation of the algorithm:
-```cpp
-vector<vector<int>> e;
-vector<bool> ans;
-void build_implication_graph(int n, int m) {
-    e.assign(2 * n + 1, {});
-    for (int i = 1; i <= m; i++) {
-        int a, b; // literals in clause (a or b), read from input
-        bool is_neg_a, is_neg_b; // read from input
+Variables are $1..n$ and a literal is "$x = v$" with $v \in \{0, 1\}$. Node `2x + v` is that literal and `2x + !v` its negation. Tarjan numbers SCCs in reverse topological order, so $x$ takes the value whose literal has the smaller SCC id (the one later in topological order).
 
-        int ya = is_neg_a ? a + n : a; // node for a
-        int yb = is_neg_b ? b + n : b; // node for b
-        int na = is_neg_a ? a : a + n; // node for ¬a
-        int nb = is_neg_b ? b : b + n; // node for ¬b
-        e[na].push_back(yb); // ¬a -> b
-        e[nb].push_back(ya); // ¬b -> a
+```cpp
+struct TwoSat {
+    int n, tim = 0, cnt = 0; vector<vector<int>> e;
+    vector<int> dfn, low, bel, stk; vector<bool> ins, val;
+    TwoSat(int n) : n(n), e(2 * n + 2), dfn(2 * n + 2), low(2 * n + 2), bel(2 * n + 2), ins(2 * n + 2), val(n + 1) {}
+    void add_clause(int x, bool a, int y, bool b) { // (x == a) or (y == b)
+        e[2 * x + !a].push_back(2 * y + b); // not(x == a) -> (y == b)
+        e[2 * y + !b].push_back(2 * x + a); // not(y == b) -> (x == a)
     }
-}
-bool find_answer(int n) {
-    kosaraju(2 * n); // find SCCs on all 2n nodes; sccid follows the topological order
-    for (int i = 1; i <= n; i++) {
-        if (sccid[i] == sccid[i + n]) // x and ¬x in same SCC
-            return false; // unsatisfiable
+    void imply(int x, bool a, int y, bool b) { add_clause(x, !a, y, b); } // (x == a) -> (y == b)
+    void must(int x, bool a) { add_clause(x, a, x, a); }                  // x == a
+    void tarjan(int u) {
+        dfn[u] = low[u] = ++tim, stk.push_back(u), ins[u] = 1;
+        for (int v : e[u]) {
+            if (!dfn[v]) tarjan(v), low[u] = min(low[u], low[v]);
+            else if (ins[v]) low[u] = min(low[u], dfn[v]);
+        }
+        if (dfn[u] == low[u]) {
+            cnt++;
+            int x;
+            do x = stk.back(), stk.pop_back(), ins[x] = 0, bel[x] = cnt; while (x != u);
+        }
     }
-    ans.assign(n + 1, false);
-    for (int i = 1; i <= n; i++)
-        ans[i] = sccid[i] > sccid[i + n]; // x is true iff x comes after ¬x in topological order
-    return true; // satisfiable
-}
+    bool solve() { // false if unsatisfiable, otherwise val[1..n] is a solution
+        for (int u = 2; u <= 2 * n + 1; u++) if (!dfn[u]) tarjan(u);
+        for (int x = 1; x <= n; x++) {
+            if (bel[2 * x] == bel[2 * x + 1]) return false; // x and not x in the same SCC
+            val[x] = bel[2 * x + 1] < bel[2 * x];
+        }
+        return true;
+    }
+};
+```
+
+Usage:
+
+```cpp
+TwoSat ts(n);
+ts.add_clause(x, 1, y, 0); // x or not y
+ts.imply(x, 1, y, 1);      // x -> y
+ts.must(x, 0);             // x is false
+if (ts.solve()) for (int i = 1; i <= n; i++) cout << ts.val[i] << ' ';
+else cout << "IMPOSSIBLE";
 ```
