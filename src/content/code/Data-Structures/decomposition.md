@@ -12,87 +12,74 @@ Heavy child: the child with the largest subtree. Any path to the root crosses $O
 
 重链剖分
 
+The struct owns the tree. `dfn[u]` is the position of $u$ in the heavy-first DFS order, so build a segment tree over `b[dfn[u]] = a[u]`. `path(u, v, f)` calls `f(l, r)` on the $O(\log n)$ `dfn` ranges that make up the path.
+
 ```cpp
-int dep[Z], siz[Z], dad[Z], kid[Z];//kid[rt]：rt的重儿子编号
-int tim, dfn[Z], rnk[Z], top[Z];//rnk[rt]：dfs序为rt的节点编号; top[rt]：rt所在重链的顶部节点
-void search(int rt, int fa) { //寻找重边和重儿子
-    dad[rt] = fa;
-    dep[rt] = dep[fa] + 1, siz[rt] = 1;
-    for (int i = head[rt]; i; i = e[i].ne) {
-        int son = e[i].to;
-        if (son == fa) continue;
-        search(son, rt);
-        siz[rt] += siz[son];
-        if (siz[son] > siz[kid[rt]]) kid[rt] = son;//更新重儿子
+struct HLD {
+    int n, tim = 0; vector<vector<int>> e;
+    vector<int> fa, dep, siz, son, top, dfn, rnk; // son: heavy child; rnk[dfn[u]] = u; top: head of u's heavy chain
+    HLD(int n) : n(n), e(n + 1), fa(n + 1), dep(n + 1), siz(n + 1), son(n + 1), top(n + 1), dfn(n + 1), rnk(n + 1) {}
+    void add_edge(int u, int v) { e[u].push_back(v), e[v].push_back(u); }
+    void dfs1(int u) { //寻找重边和重儿子
+        siz[u] = 1;
+        for (int v : e[u]) if (v != fa[u]) {
+            fa[v] = u, dep[v] = dep[u] + 1;
+            dfs1(v);
+            siz[u] += siz[v];
+            if (siz[v] > siz[son[u]]) son[u] = v; //更新重儿子
+        }
     }
-}
-void connect(int rt, int pa) { //连接重边构成重链
-    dfn[rt] = ++tim, rnk[tim] = rt;
-    top[rt] = pa;
-    if (kid[rt]) connect(kid[rt], pa);//优先递归重儿子
-    for (int i = head[rt]; i; i = e[i].ne) {
-        int son = e[i].to;
-        if (son == kid[rt] || son == dad[rt]) continue;
-        connect(son, son);//新建立一条重链
+    void dfs2(int u, int t) { //连接重边构成重链
+        top[u] = t, dfn[u] = ++tim, rnk[tim] = u;
+        if (son[u]) dfs2(son[u], t); //优先递归重儿子
+        for (int v : e[u]) if (v != fa[u] && v != son[u]) dfs2(v, v); //新建立一条重链
     }
-}
+    void build(int root = 1) { fa[root] = 0, dep[root] = 1, dfs1(root), dfs2(root, root); }
+    int lca(int u, int v) {
+        while (top[u] != top[v]) {
+            if (dep[top[u]] < dep[top[v]]) swap(u, v);
+            u = fa[top[u]];
+        }
+        return dep[u] < dep[v] ? u : v;
+    }
+    int dist(int u, int v) { return dep[u] + dep[v] - 2 * dep[lca(u, v)]; }
+    template<class F> void path(int u, int v, F f, bool edge = false) { // edge: values stored on the child end of each edge
+        while (top[u] != top[v]) { //没在一条重链上
+            if (dep[top[u]] < dep[top[v]]) swap(u, v);
+            f(dfn[top[u]], dfn[u]);
+            u = fa[top[u]]; //向上翻
+        }
+        if (dep[u] > dep[v]) swap(u, v);
+        if (dfn[u] + edge <= dfn[v]) f(dfn[u] + edge, dfn[v]);
+    }
+    pii subtree(int u) { return {dfn[u], dfn[u] + siz[u] - 1}; }
+    int jump(int u, int anc) { // child of ancestor anc on the path to u (u != anc)
+        while (top[u] != top[anc]) {
+            if (fa[top[u]] == anc) return top[u];
+            u = fa[top[u]];
+        }
+        return rnk[dfn[anc] + 1];
+    }
+};
 ```
 
 ## Path Operations
 
+Pair it with any range structure, for example the `SegTree` from the segment tree note.
+
 ```cpp
-void modify(int x, int y, int val) { //对从x到y的简单路径上的点权值加val
-    while (top[x] != top[y]) { //没在一条重链上
-        if (dep[top[x]] < dep[top[y]]) swap(x, y);
-        update(1, dfn[top[x]], dfn[x], val);
-        x = dad[top[x]];//向上翻
-    }
-    if (dep[x] > dep[y]) swap(x, y);
-    update(1, dfn[x], dfn[y], val);
-}
-int ask_sum(int x, int y) { //查询从x到y的简单路径上的点权值之和
-    int ans = 0;
-    while (top[x] != top[y]) { //没在一条重链上
-        if (dep[top[x]] < dep[top[y]]) swap(x, y);
-        ans += query_sum(1, dfn[top[x]], dfn[x]);
-        x = dad[top[x]];//向上翻
-    }
-    if (dep[x] > dep[y]) swap(x, y);
-    ans += query_sum(1, dfn[x], dfn[y]);
-    return ans;
-}
-int ask_max(int x, int y) {
-    int ans = -1e8;
-    while (top[x] != top[y]) {
-        if (dep[top[x]] < dep[top[y]]) swap(x, y);
-        ans = max(ans, query_max(1, dfn[top[x]], dfn[x]));
-        x = dad[top[x]];
-    }
-    if (dep[x] > dep[y]) swap(x, y);
-    ans = max(ans, query_max(1, dfn[x], dfn[y]));
-    return ans;
-}
-int LCA(int x, int y) {
-    while (top[x] != top[y]) {
-        if (dep[top[x]] < dep[top[y]]) swap(x, y);
-        x = dad[top[x]];
-    }
-    if (dep[x] > dep[y]) swap(x, y);
-    return x;
-}
-int nxt_son(int x, int y) { //x, y中一个是另一个的祖先，求祖先在通往另一点的路径上的儿子
-    if (dep[x] < dep[y]) swap(x, y);//x为深的点，y为祖先
-    while (top[x] != top[y]) {
-        if (dad[top[x]] == y) return top[x];//不在一条重链上
-        x = dad[top[x]];
-    }
-    return kid[y];//跳到了同一条重链上
-}
-sandom main() {
-    search(1, 0);
-    connect(1, 1);
-    build(1, 1, n);
-    work();
-    return 0;
-}
+HLD h(n);
+for (int i = 1; i < n; i++) h.add_edge(u, v);
+h.build(1);
+
+vector<ll> b(n + 1);
+for (int u = 1; u <= n; u++) b[h.dfn[u]] = a[u];
+SegTree seg(n); seg.build(b);
+
+h.path(u, v, [&](int l, int r) { seg.add(l, r, x); });           // vertices on path u..v += x
+ll s = 0; h.path(u, v, [&](int l, int r) { s += seg.sum(l, r); }); // sum on path u..v
+ll mx = LLONG_MIN; h.path(u, v, [&](int l, int r) { mx = max(mx, seg.max(l, r)); });
+auto [l, r] = h.subtree(u); seg.add(l, r, x);                      // subtree of u += x
+h.lca(u, v), h.dist(u, v);
+// edge weights: store w(fa[v], v) at b[h.dfn[v]] and call h.path(u, v, f, true)
 ```

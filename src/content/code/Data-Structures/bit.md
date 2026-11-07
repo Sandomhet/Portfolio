@@ -15,7 +15,6 @@ $$
 ### Point Add, Range Sum
 
 ```cpp
-using ll = long long;
 struct BIT {
     int n; vector<ll> c;
     BIT(int n) : n(n), c(n + 1) {}
@@ -70,7 +69,6 @@ $$
 $$
 
 ```cpp
-using ll = long long;
 struct RangeBIT {
     int n; vector<ll> d, e; // d: difference, e: i * difference
     RangeBIT(int n) : n(n), d(n + 1), e(n + 1) {}
@@ -104,7 +102,6 @@ bit.sum(l, r);    // a[l] + ... + a[r]
 ### Point Add, Rectangle Sum
 
 ```cpp
-using ll = long long;
 struct BIT2D {
     int n, m; vector<vector<ll>> c;
     BIT2D(int n, int m) : n(n), m(m), c(n + 1, vector<ll>(m + 1)) {}
@@ -150,7 +147,6 @@ $$
 $$
 
 ```cpp
-using ll = long long;
 struct RangeBIT2D {
     int n, m; vector<vector<array<ll, 4>>> c; // d, d*i, d*j, d*i*j
     RangeBIT2D(int n, int m) : n(n), m(m), c(n + 1, vector<array<ll, 4>>(m + 1)) {}

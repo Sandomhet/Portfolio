@@ -17,7 +17,6 @@ $$
 `ull` natural overflow (mod $2^{64}$). Shortest and fastest, but the Thue–Morse string breaks it for **every** base.
 
 ```cpp
-using ull = unsigned long long;
 struct Hash {
     static constexpr ull B = 131;
     int n; vector<ull> h, p;
@@ -51,7 +50,6 @@ int cmp(Hash &a, int l1, int r1, Hash &b, int l2, int r2) {
 Mod $10^9+7$. With $10^5$ or more substrings compared at once, collisions become likely (birthday paradox).
 
 ```cpp
-using ll = long long;
 struct HashM {
     static constexpr ll M = 1e9 + 7, B = 131;
     int n; vector<ll> h, p;
@@ -94,7 +92,6 @@ A single large prime modulus: collision probability per comparison is about $n /
 
 ```cpp
 struct Hash61 {
-    using ull = unsigned long long;
     static constexpr ull M = (1ULL << 61) - 1, B = 131;
     int n; vector<ull> h, p;
     static ull mul(ull a, ull b) { return (__int128)a * b % M; }
@@ -113,7 +110,6 @@ Two independent hashes (different bases and different mods). Two substrings are 
 
 ```cpp
 struct DoubleHash {
-    using ll = long long;
     static constexpr ll M1 = 1e9 + 7, M2 = 998244353, B1 = 131, B2 = 13331;
     int n; vector<ll> h1, h2, p1, p2;
     DoubleHash(const string &s) : n(s.size()), h1(n + 1), h2(n + 1), p1(n + 1, 1), p2(n + 1, 1) {
@@ -140,7 +136,6 @@ where $r = x_2 - x_1 + 1$, $c = y_2 - y_1 + 1$.
 
 ```cpp
 struct Hash2D {
-    using ull = unsigned long long;
     static constexpr ull Bx = 131, By = 13331; // Bx: between rows, By: between columns
     int n, m;
     vector<vector<ull>> h; vector<ull> px, py;
@@ -184,7 +179,6 @@ Same idea in $k$ dimensions, one base per dimension. The array is stored flat (r
 
 ```cpp
 struct HashND {
-    using ull = unsigned long long;
     static constexpr ull B[] = {131, 13331, 100003, 1000003, 10000019}; // one base per dimension, k <= 5
     int k; vector<int> d, st; vector<ull> h; vector<vector<ull>> pw;
     HashND(const vector<int> &dims) : k(dims.size()), d(dims), st(k), pw(k) { // sizes d[0..k-1]

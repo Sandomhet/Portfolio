@@ -25,92 +25,90 @@ private:
         T val;
         int cnt, siz, het; // count of duplicates, size of subtree, height
         ptr ch[2]; // children
-        #define lk ((rt)->ch[0])
-        #define rk ((rt)->ch[1])
         Node(const T& v) : val(v), cnt(1), siz(1), het(1) {}
     };
     ptr root;
     int cnt(const ptr& rt) const { return rt ? rt->cnt : 0; }
     int siz(const ptr& rt) const { return rt ? rt->siz : 0; }
     int het(const ptr& rt) const { return rt ? rt->het : 0; }
-    void pushup(ptr& rt) { if (rt) rt->siz = siz(lk) + siz(rk) + rt->cnt, rt->het = max(het(lk), het(rk)) + 1; }
+    void pushup(ptr& rt) { if (rt) rt->siz = siz(rt->ch[0]) + siz(rt->ch[1]) + rt->cnt, rt->het = max(het(rt->ch[0]), het(rt->ch[1])) + 1; }
 
     bool contains(const ptr& rt, const T& v) const {
         if (!rt) return false;
         if (v == rt->val) return true;
-        return contains(v < rt->val ? lk : rk, v);
+        return contains(v < rt->val ? rt->ch[0] : rt->ch[1], v);
     }
     void insert(ptr& rt, const T& v) {
         if (!rt) { rt = make_unique<Node>(v); return; }
         if (v == rt->val) rt->cnt++;
-        else insert(v < rt->val ? lk : rk, v);
+        else insert(v < rt->val ? rt->ch[0] : rt->ch[1], v);
         pushup(rt);
     }
     void remove(ptr& rt, const T& v) {
         if (!rt) return;
         if (v == rt->val) {
             if (rt->cnt > 1) { rt->cnt--; pushup(rt); return; }
-            if (!lk) { rt = move(rk); return; }
-            if (!rk) { rt = move(lk); return; }
+            if (!rt->ch[0]) { rt = move(rt->ch[1]); return; }
+            if (!rt->ch[1]) { rt = move(rt->ch[0]); return; }
             Node* succ = getSuccessor(rt.get());
             rt->val = succ->val;
             rt->cnt = succ->cnt;
             succ->cnt = 1; // reset count before removal
-            remove(rk, succ->val);
-        } else remove(v < rt->val ? lk : rk, v);
+            remove(rt->ch[1], succ->val);
+        } else remove(v < rt->val ? rt->ch[0] : rt->ch[1], v);
         pushup(rt);
     }
     Node* findMin(Node* rt) const {
         if (!rt) return nullptr;
-        while (lk) rt = lk.get();
+        while (rt->ch[0]) rt = rt->ch[0].get();
         return rt;
     }
     Node* findMax(Node* rt) const {
         if (!rt) return nullptr;
-        while (rk) rt = rk.get();
+        while (rt->ch[1]) rt = rt->ch[1].get();
         return rt;
     }
     Node* getPredecessor(Node* rt) const {
         if (!rt) return nullptr;
-        return findMax(lk.get());
+        return findMax(rt->ch[0].get());
     }
     Node* getSuccessor(Node* rt) const {
         if (!rt) return nullptr;
-        return findMin(rk.get());
+        return findMin(rt->ch[1].get());
     }
     Node* getPredecessor(Node* rt, const T& v) const {
         Node* cur = nullptr;
         while (rt) { //不断向右逼近
-            if (rt->val < v) cur = rt, rt = rk.get();
-            else rt = lk.get();
+            if (rt->val < v) cur = rt, rt = rt->ch[1].get();
+            else rt = rt->ch[0].get();
         }
         return cur;
     }
     Node* getSuccessor(Node* rt, const T& v) const {
         Node* cur = nullptr;
         while (rt) { //不断向左逼近
-            if (rt->val > v) cur = rt, rt = lk.get();
-            else rt = rk.get();
+            if (rt->val > v) cur = rt, rt = rt->ch[0].get();
+            else rt = rt->ch[1].get();
         }
         return cur;
     }
     int getRank(const ptr& rt, const T& v) const { //权值为v的排名（比v小的个数+1）
         if (!rt) return 1;
-        if (v == rt->val) return siz(lk) + 1;
-        if (v < rt->val) return getRank(lk, v);
-        return siz(lk) + rt->cnt + getRank(rk, v);
+        if (v == rt->val) return siz(rt->ch[0]) + 1;
+        if (v < rt->val) return getRank(rt->ch[0], v);
+        return siz(rt->ch[0]) + rt->cnt + getRank(rt->ch[1], v);
     }
     Node* getByRank(const ptr& rt, int rnk) const { //排名为rnk的节点
         if (!rt) return nullptr;
-        if (siz(lk) >= rnk) return getByRank(lk, rnk);
-        if (siz(lk) + rt->cnt >= rnk) return rt.get();
-        return getByRank(rk, rnk - siz(lk) - rt->cnt);
+        if (siz(rt->ch[0]) >= rnk) return getByRank(rt->ch[0], rnk);
+        if (siz(rt->ch[0]) + rt->cnt >= rnk) return rt.get();
+        return getByRank(rt->ch[1], rnk - siz(rt->ch[0]) - rt->cnt);
     }
     void inorder(const ptr& rt, vector<T>& res) const {
         if (!rt) return;
-        inorder(lk, res);
+        inorder(rt->ch[0], res);
         res.push_back(rt->val);
-        inorder(rk, res);
+        inorder(rt->ch[1], res);
     }
 
 public:
@@ -162,62 +160,76 @@ Four cases of rotations:
 <!-- ![alt text](/images/image.png) -->
 ![alt text](/images/image-1.png)
 
+
+Every tree below has the same interface; values are `ll`, duplicates are allowed, and `cap` is the maximum number of nodes (insertions).
+
+| call | meaning |
+|---|---|
+| `insert(v)` / `erase(v)` | add / remove one copy of `v` |
+| `rank(v)` | number of values $< v$, plus $1$ |
+| `kth(k)` | $k$-th smallest value ($1 \le k \le$ size) |
+| `prev(v)` / `next(v)` | largest value $< v$ / smallest value $> v$ (`-inf` / `inf` if none) |
+
 ```cpp
-#define BST AVL
-struct BST {
-    int son[2];//左右子节点
-    int val;//节点权值
-    int siz, het;//节点个数、子树高度
-    #define lk bt[rt].son[0]
-    #define rk bt[rt].son[1]
-}; BST bt[Z];
-int root, tot;
-inline void pushup(int rt) { //更新信息
-    bt[rt].siz = bt[lk].siz + bt[rk].siz + 1;
-    bt[rt].het = max(bt[lk].het, bt[rk].het) + 1;
-}
-inline void rotate(int &rt, int op) { //旋转
-    int to = bt[rt].son[op ^ 1];
-    bt[rt].son[op ^ 1] = bt[to].son[op], bt[to].son[op] = rt, rt = to;
-    pushup(bt[rt].son[op]), pushup(rt);
-}
-void insert(int &rt, int val) { //插入新节点
-    if (!rt) { bt[++tot].val = val; bt[tot].siz = bt[tot].het = 1; rt = tot; return; }
-    if (val < bt[rt].val) insert(lk, val);
-    else insert(rk, val);
-    pushup(rt);
-    if (bt[lk].het - bt[rk].het == 2) {
-        if (val < bt[lk].val) rotate(rt, 1);//左左
-        else { rotate(lk, 0), rotate(rt, 1); }//左右
+struct AVL {
+    struct Node { int ch[2], siz, het; ll val; };
+    vector<Node> t; int root = 0, tot = 0;
+    AVL(int cap) : t(cap + 1) {}
+    void pushup(int x) { //更新信息
+        t[x].siz = t[t[x].ch[0]].siz + t[t[x].ch[1]].siz + 1;
+        t[x].het = max(t[t[x].ch[0]].het, t[t[x].ch[1]].het) + 1;
     }
-    else if (bt[rk].het - bt[lk].het == 2) {
-        if (val >= bt[rk].val) rotate(rt, 0);//右右（相等的值插在右子树）
-        else { rotate(rk, 1), rotate(rt, 0); }//右左
+    void rotate(int &x, int d) { //d = 1: 右旋 (left child goes up), d = 0: 左旋
+        int y = t[x].ch[d ^ 1];
+        t[x].ch[d ^ 1] = t[y].ch[d], t[y].ch[d] = x;
+        pushup(x), pushup(y), x = y;
     }
-}
-void remove(int &rt, int val) { //删除节点
-    if (!rt) return;
-    if (val == bt[rt].val) {
-        if (bt[lk].siz && bt[rk].siz) {
-            int to = lk;
-            while (bt[to].son[1]) to = bt[to].son[1];
-            bt[rt].val = bt[to].val;
-            remove(lk, bt[to].val);
+    void balance(int &x) {
+        int &l = t[x].ch[0], &r = t[x].ch[1];
+        if (t[l].het - t[r].het == 2) {
+            if (t[t[l].ch[0]].het < t[t[l].ch[1]].het) rotate(l, 0); //左右
+            rotate(x, 1); //左左
+        } else if (t[r].het - t[l].het == 2) {
+            if (t[t[r].ch[1]].het < t[t[r].ch[0]].het) rotate(r, 1); //右左
+            rotate(x, 0); //右右
         }
-        else rt = bt[lk].siz ? lk : rk;
     }
-    else val < bt[rt].val ? remove(lk, val) : remove(rk, val);
-    if (!rt) return;
-    pushup(rt);
-    if (bt[lk].het - bt[rk].het == 2) {
-        if (bt[bt[lk].son[0]].het >= bt[bt[lk].son[1]].het) rotate(rt, 1);//左左
-        else { rotate(lk, 0), rotate(rt, 1); }//左右
+    void insert(int &x, ll v) {
+        if (!x) { x = ++tot, t[x] = {{0, 0}, 1, 1, v}; return; }
+        insert(t[x].ch[v >= t[x].val], v); //相等的值插在右子树
+        pushup(x), balance(x);
     }
-    else if (bt[rk].het - bt[lk].het == 2) {
-        if (bt[bt[rk].son[1]].het >= bt[bt[rk].son[0]].het) rotate(rt, 0);//右右
-        else { rotate(rk, 1), rotate(rt, 0); }//右左
+    void erase(int &x, ll v) {
+        if (!x) return;
+        if (v == t[x].val) {
+            int l = t[x].ch[0], r = t[x].ch[1];
+            if (!l || !r) { x = l + r; return; }
+            while (t[l].ch[1]) l = t[l].ch[1]; //用前驱替换
+            t[x].val = t[l].val;
+            erase(t[x].ch[0], t[l].val);
+        } else erase(t[x].ch[v > t[x].val], v);
+        pushup(x), balance(x);
     }
-}
+    void insert(ll v) { insert(root, v); }
+    void erase(ll v) { erase(root, v); }
+    int rank(ll v) {
+        int res = 1;
+        for (int x = root; x; )
+            if (t[x].val < v) res += t[t[x].ch[0]].siz + 1, x = t[x].ch[1];
+            else x = t[x].ch[0];
+        return res;
+    }
+    ll kth(int k) {
+        for (int x = root; ; ) {
+            int l = t[x].ch[0];
+            if (k <= t[l].siz) x = l;
+            else if (k == t[l].siz + 1) return t[x].val;
+            else k -= t[l].siz + 1, x = t[x].ch[1];
+        }
+    }
+    ll prev(ll v) { ll res = -inf; for (int x = root; x; ) if (t[x].val < v) res = t[x].val, x = t[x].ch[1]; else x = t[x].ch[0]; return res; }
+    ll next(ll v) { ll res = inf; for (int x = root; x; ) if (t[x].val > v) res = t[x].val, x = t[x].ch[0]; else x = t[x].ch[1]; return res; }
+};
 ```
 
 ## Treap
@@ -225,184 +237,272 @@ void remove(int &rt, int val) { //删除节点
 根据随机数据的平衡性，利用某一个评判标准（这里为大根堆），使二叉查找树有序化，使得其深度保持在$logn$。
 
 ```cpp
-#define BST Treap
-struct BST {
-    int son[2];//左右子节点
-    int val, dat;//节点权值、大根堆判断标准
-    int cnt, siz;//节点个数、子树大小
-    #define lk bt[rt].son[0]
-    #define rk bt[rt].son[1]
-}; BST bt[Z];
-int root, tot;
-inline void pushup(int rt) { //更新信息
-    bt[rt].siz = bt[lk].siz + bt[rk].siz + bt[rt].cnt;
-}
-inline int est(int val) { //建立新节点
-    bt[++tot].val = val;
-    bt[tot].dat = rand();
-    bt[tot].cnt = bt[tot].siz = 1;
-    return tot;
-}
-inline void build() { //初始化
-    root = est(-inf);
-    bt[root].son[1] = est(inf);
-    pushup(root);
-}
-inline void rotate(int &rt, int op) { //旋转维护大根堆
-    int to = bt[rt].son[op ^ 1];
-    bt[rt].son[op ^ 1] = bt[to].son[op], bt[to].son[op] = rt, rt = to;
-    pushup(lk), pushup(rk), pushup(rt);
-}
-void insert(int &rt, int val) { //插入新节点
-    if (!rt) { rt = est(val); return; }
-    if (val == bt[rt].val) bt[rt].cnt++;
-    else val < bt[rt].val ? insert(lk, val) : insert(rk, val);
-    if (bt[rt].dat < bt[lk].dat) rotate(rt, 1);
-    if (bt[rt].dat < bt[rk].dat) rotate(rt, 0);
-    pushup(rt);
-}
-void remove(int &rt, int val) { //删除节点
-    if (!rt) return;
-    if (val == bt[rt].val) {
-        if (bt[rt].cnt > 1) bt[rt].cnt--;
-        else if (lk || rk) { //不是叶子节点，向下旋转使之成为叶子
-            if (!lk || bt[lk].dat < bt[rk].dat) rotate(rt, 0), remove(lk, val);
-            else rotate(rt, 1), remove(rk, val);
-        }
-        else rt = 0;
+struct Treap {
+    struct Node { int ch[2], pri, cnt, siz; ll val; }; //pri: 大根堆判断标准, cnt: 相同值的个数
+    vector<Node> t; int root = 0, tot = 0; mt19937 rng{random_device{}()};
+    Treap(int cap) : t(cap + 1) {}
+    void pushup(int x) { t[x].siz = t[t[x].ch[0]].siz + t[t[x].ch[1]].siz + t[x].cnt; }
+    void rotate(int &x, int d) { //把 ch[d ^ 1] 转上来
+        int y = t[x].ch[d ^ 1];
+        t[x].ch[d ^ 1] = t[y].ch[d], t[y].ch[d] = x;
+        pushup(x), pushup(y), x = y;
     }
-    else val < bt[rt].val ? remove(lk, val) : remove(rk, val);
-    pushup(rt);
-}
+    void insert(int &x, ll v) {
+        if (!x) { x = ++tot, t[x] = {{0, 0}, (int)rng(), 1, 1, v}; return; }
+        if (v == t[x].val) t[x].cnt++;
+        else {
+            int d = v > t[x].val;
+            insert(t[x].ch[d], v);
+            if (t[t[x].ch[d]].pri > t[x].pri) rotate(x, d ^ 1); //维护大根堆
+        }
+        pushup(x);
+    }
+    void erase(int &x, ll v) {
+        if (!x) return;
+        if (v == t[x].val) {
+            if (t[x].cnt > 1) { t[x].cnt--, pushup(x); return; }
+            int l = t[x].ch[0], r = t[x].ch[1];
+            if (!l || !r) { x = l + r; return; }
+            int d = t[l].pri > t[r].pri ? 0 : 1; //向下旋转使之成为叶子
+            rotate(x, d ^ 1);
+            erase(t[x].ch[d ^ 1], v);
+        } else erase(t[x].ch[v > t[x].val], v);
+        pushup(x);
+    }
+    void insert(ll v) { insert(root, v); }
+    void erase(ll v) { erase(root, v); }
+    int rank(ll v) {
+        int res = 1;
+        for (int x = root; x; )
+            if (t[x].val < v) res += t[t[x].ch[0]].siz + t[x].cnt, x = t[x].ch[1];
+            else x = t[x].ch[0];
+        return res;
+    }
+    ll kth(int k) {
+        for (int x = root; ; ) {
+            int l = t[x].ch[0];
+            if (k <= t[l].siz) x = l;
+            else if (k <= t[l].siz + t[x].cnt) return t[x].val;
+            else k -= t[l].siz + t[x].cnt, x = t[x].ch[1];
+        }
+    }
+    ll prev(ll v) { ll res = -inf; for (int x = root; x; ) if (t[x].val < v) res = t[x].val, x = t[x].ch[1]; else x = t[x].ch[0]; return res; }
+    ll next(ll v) { ll res = inf; for (int x = root; x; ) if (t[x].val > v) res = t[x].val, x = t[x].ch[0]; else x = t[x].ch[1]; return res; }
+};
 ```
 
 ## Splay
 
 每次对一个节点操作，都把它旋转到根，据说是有什么数据趋势平衡（玄学），精髓便在于$splay$函数。
 
+Every operation splays the last node it touches to the root, which gives amortized $O(\log n)$.
+
 ```cpp
-#define BST Splay
-struct BST {
-    int son[2], dad;//子节点、父节点
-    int val;//节点权值
-    int cnt, siz;//节点个数、子树大小
-    #define lk bt[rt].son[0]
-    #define rk bt[rt].son[1]
-    #define fa bt[rt].dad
-    #define pa bt[bt[rt].dad].dad
-}; BST bt[Z];
-int root, tot;
-inline void pushup(int rt) { //更新信息
-    bt[rt].siz = bt[lk].siz + bt[rk].siz + bt[rt].cnt;
-}
-inline int est(int val, int dad) { //建立新节点
-    bt[++tot].val = val;
-    bt[tot].dad = dad;
-    bt[tot].cnt = bt[tot].siz = 1;
-    return tot;
-}
-inline void build() { //初始化
-    root = est(-inf, 0);
-    bt[root].son[1] = est(inf, root);
-    pushup(root);
-}
-void build(int &rt, int dad, int l, int r) { //递归建树
-    if (l > r) return;
-    int mid = l + r >> 1; rt = est(a[mid], dad);
-    build(lk, rt, l, mid - 1), build(rk, rt, mid + 1, r);
-    pushup(rt);
-}
-inline bool get(int rt) { //左孩子还是右孩子
-    return bt[fa].son[1] == rt;
-}
-inline void un(int rt, int dad, int kid) { //把rt接在dad的kid儿子上
-    bt[dad].son[kid] = rt, fa = dad;
-}
-inline void rotate(int rt) { //上旋
-    int dad = fa, kid = get(rt);
-    un(rt, pa, get(fa));//儿子先取代父亲
-    un(bt[rt].son[kid ^ 1], dad, kid);//把儿子的孩子给父亲
-    un(dad, rt, kid ^ 1);//把父亲变为rt的儿子
-    pushup(dad), pushup(rt);
-}
-inline void splay(int rt, int to) { //将rt旋转为to的儿子
-    while (fa != to) {
-        if (pa != to) rotate(get(rt) == get(fa) ? fa : rt);
-        rotate(rt);
+struct Splay {
+    struct Node { int ch[2], fa, cnt, siz; ll val; };
+    vector<Node> t; int root = 0, tot = 0;
+    Splay(int cap) : t(cap + 1) {}
+    void pushup(int x) { t[x].siz = t[t[x].ch[0]].siz + t[t[x].ch[1]].siz + t[x].cnt; }
+    bool get(int x) { return t[t[x].fa].ch[1] == x; } //左孩子还是右孩子
+    void rotate(int x) { //上旋
+        int y = t[x].fa, z = t[y].fa, k = get(x);
+        if (z) t[z].ch[get(y)] = x; //儿子先取代父亲
+        t[x].fa = z;
+        t[y].ch[k] = t[x].ch[k ^ 1]; //把儿子的孩子给父亲
+        if (t[x].ch[k ^ 1]) t[t[x].ch[k ^ 1]].fa = y;
+        t[x].ch[k ^ 1] = y, t[y].fa = x; //把父亲变为x的儿子
+        pushup(y), pushup(x);
     }
-    if (!to) root = rt;//更新树根
-}
-void insert(int &rt, int val, int dad) { //插入节点
-    if (!rt) { rt = est(val, dad), splay(rt, 0); return; }
-    if (val == bt[rt].val) bt[rt].cnt++, bt[rt].siz++, splay(rt, 0);
-    else val < bt[rt].val ? insert(lk, val, rt) : insert(rk, val, rt);
-}
-void remove(int rt, int val) { //删除节点
-    if (!rt) return;
-    if (val == bt[rt].val) {
-        if (bt[rt].cnt > 1) bt[rt].cnt--, bt[rt].siz--, splay(rt, 0);
-        else if (lk) rotate(lk), remove(rt, val);
-        else if (rk) rotate(rk), remove(rt, val);
-        else bt[fa].son[get(rt)] = 0, pushup(fa), splay(fa, 0);//成为了叶子节点
+    void splay(int x, int goal = 0) { //将x旋转为goal的儿子
+        while (t[x].fa != goal) {
+            int y = t[x].fa;
+            if (t[y].fa != goal) rotate(get(x) == get(y) ? y : x);
+            rotate(x);
+        }
+        if (!goal) root = x; //更新树根
     }
-    else val < bt[rt].val ? remove(lk, val) : remove(rk, val);
-}
+    void find(ll v) { //把 v 或与 v 相邻的节点转到根
+        int x = root;
+        if (!x) return;
+        while (t[x].val != v && t[x].ch[v > t[x].val]) x = t[x].ch[v > t[x].val];
+        splay(x);
+    }
+    void insert(ll v) {
+        int x = root, f = 0;
+        while (x && t[x].val != v) f = x, x = t[x].ch[v > t[x].val];
+        if (x) t[x].cnt++, pushup(x);
+        else {
+            x = ++tot, t[x] = {{0, 0}, f, 1, 1, v};
+            if (f) t[f].ch[v > t[f].val] = x;
+        }
+        splay(x);
+    }
+    void erase(ll v) {
+        find(v);
+        int x = root;
+        if (!x || t[x].val != v) return;
+        if (t[x].cnt > 1) { t[x].cnt--, pushup(x); return; }
+        int l = t[x].ch[0], r = t[x].ch[1];
+        if (!l) { root = r, t[r].fa = 0; return; }
+        while (t[l].ch[1]) l = t[l].ch[1];
+        splay(l, x); //前驱转到根的左儿子，它没有右儿子
+        t[l].ch[1] = r;
+        if (r) t[r].fa = l;
+        t[l].fa = 0, root = l, pushup(l);
+    }
+    int rank(ll v) {
+        find(v);
+        int x = root;
+        return x ? t[t[x].ch[0]].siz + (t[x].val < v ? t[x].cnt : 0) + 1 : 1;
+    }
+    ll kth(int k) {
+        int x = root;
+        while (true) {
+            int l = t[x].ch[0];
+            if (k <= t[l].siz) x = l;
+            else if (k <= t[l].siz + t[x].cnt) break;
+            else k -= t[l].siz + t[x].cnt, x = t[x].ch[1];
+        }
+        splay(x);
+        return t[x].val;
+    }
+    ll prev(ll v) {
+        find(v);
+        int x = root;
+        if (!x) return -inf;
+        if (t[x].val < v) return t[x].val;
+        x = t[x].ch[0];
+        if (!x) return -inf;
+        while (t[x].ch[1]) x = t[x].ch[1];
+        splay(x);
+        return t[x].val;
+    }
+    ll next(ll v) {
+        find(v);
+        int x = root;
+        if (!x) return inf;
+        if (t[x].val > v) return t[x].val;
+        x = t[x].ch[1];
+        if (!x) return inf;
+        while (t[x].ch[0]) x = t[x].ch[0];
+        splay(x);
+        return t[x].val;
+    }
+};
 ```
 
 ## FHQ-Treap
 
-Treap without rotations. `split(rt, v, x, y)`: $x$ gets keys $\le v$, $y$ gets keys $> v$. `merge(x, y)` (all keys of $x$ $\le$ all keys of $y$): the root with the larger `dat` stays on top. Every operation is a combination of split and merge, expected $O(\log n)$.
+Treap without rotations. `split(x, v, a, b)`: $a$ gets keys $\le v$, $b$ gets keys $> v$. `merge(a, b)` (all keys of $a$ $\le$ all keys of $b$): the root with the larger `pri` stays on top. Every operation is a combination of split and merge, expected $O(\log n)$. This is the one to use in a contest.
 
 ```cpp
-#define BST FHQ_Treap
-struct BST {
-    int son[2];//左右子节点
-    int val, dat;//节点权值、大根堆判断标准
-    int siz;//节点个数、子树大小
-    #define lk bt[rt].son[0]
-    #define rk bt[rt].son[1]
-}; BST bt[Z];
-int root, tot;
-inline int est(int val) {
-    bt[++tot].val = val;
-    bt[tot].dat = rand();
-    bt[tot].siz = 1;
-    return tot;
-}
-inline void pushup(int rt) {
-    bt[rt].siz = bt[lk].siz + bt[rk].siz + 1;
-}
-inline void build() {
-    root = est(-inf);
-    bt[root].son[1] = est(inf);
-    pushup(root);
-}
-void split(int rt, int val, int &x, int &y) {
-    if (!rt) { x = y = 0; return; }
-    if (bt[rt].val <= val) x = rt, split(rk, val, rk, y);
-    else y = rt, split(lk, val, x, lk);
-    pushup(rt);
-}
-int merge(int x, int y) {
-    int rt = x + y;
-    if (!x || !y) return rt;
-    if (bt[x].dat > bt[y].dat) rt = x, rk = merge(rk, y);
-    else rt = y, lk = merge(x, lk);
-    pushup(rt); return rt;
-}
-inline void insert(int val) {
-    int x, y;
-    split(root, val - 1, x, y);
-    root = merge(merge(x, est(val)), y);
-}
-inline void remove(int val) {
-    int x, y, z;
-    split(root, val, x, z);
-    split(x, val - 1, x, y);
-    //只删除一个
-    if (y) y = merge(bt[y].son[0], bt[y].son[1]);
-    root = merge(merge(x, y), z);
-    //删除全部
-    // root = merge(x, z);
-}
+struct FHQ {
+    struct Node { int ch[2], pri, siz; ll val; };
+    vector<Node> t; int root = 0, tot = 0; mt19937 rng{random_device{}()};
+    FHQ(int cap) : t(cap + 1) {}
+    void pushup(int x) { t[x].siz = t[t[x].ch[0]].siz + t[t[x].ch[1]].siz + 1; }
+    void split(int x, ll v, int &a, int &b) { // a: <= v, b: > v
+        if (!x) { a = b = 0; return; }
+        if (t[x].val <= v) a = x, split(t[x].ch[1], v, t[x].ch[1], b);
+        else b = x, split(t[x].ch[0], v, a, t[x].ch[0]);
+        pushup(x);
+    }
+    int merge(int a, int b) {
+        if (!a || !b) return a + b;
+        if (t[a].pri > t[b].pri) { t[a].ch[1] = merge(t[a].ch[1], b), pushup(a); return a; }
+        t[b].ch[0] = merge(a, t[b].ch[0]), pushup(b); return b;
+    }
+    void insert(ll v) {
+        int a, b;
+        t[++tot] = {{0, 0}, (int)rng(), 1, v};
+        split(root, v, a, b);
+        root = merge(merge(a, tot), b);
+    }
+    void erase(ll v) { //只删除一个
+        int a, b, c;
+        split(root, v, a, c), split(a, v - 1, a, b);
+        if (b) b = merge(t[b].ch[0], t[b].ch[1]); //删除全部: b = 0
+        root = merge(merge(a, b), c);
+    }
+    int rank(ll v) {
+        int a, b;
+        split(root, v - 1, a, b);
+        int res = t[a].siz + 1;
+        root = merge(a, b);
+        return res;
+    }
+    ll kth(int k) {
+        for (int x = root; ; ) {
+            int l = t[x].ch[0];
+            if (k <= t[l].siz) x = l;
+            else if (k == t[l].siz + 1) return t[x].val;
+            else k -= t[l].siz + 1, x = t[x].ch[1];
+        }
+    }
+    ll prev(ll v) { ll res = -inf; for (int x = root; x; ) if (t[x].val < v) res = t[x].val, x = t[x].ch[1]; else x = t[x].ch[0]; return res; }
+    ll next(ll v) { ll res = inf; for (int x = root; x; ) if (t[x].val > v) res = t[x].val, x = t[x].ch[0]; else x = t[x].ch[1]; return res; }
+    int size() { return t[root].siz; }
+};
+```
+
+Usage (the same for `AVL`, `Treap`, `Splay`):
+
+```cpp
+FHQ s(n);          // n = maximum number of insertions
+s.insert(x), s.erase(x);
+s.rank(x);         // number of values < x, plus 1
+s.kth(k);          // k-th smallest
+s.prev(x), s.next(x);
+```
+
+### Sequence (Implicit Key)
+
+文艺平衡树: split by size instead of value, so the tree stores a sequence. A lazy `rev` tag reverses a range in $O(\log n)$.
+
+```cpp
+struct FHQSeq {
+    struct Node { int ch[2], pri, siz; bool rev; ll val; };
+    vector<Node> t; int root = 0, tot = 0; mt19937 rng{random_device{}()};
+    FHQSeq(int cap) : t(cap + 1) {}
+    void pushup(int x) { t[x].siz = t[t[x].ch[0]].siz + t[t[x].ch[1]].siz + 1; }
+    void pushdown(int x) {
+        if (!t[x].rev) return;
+        swap(t[x].ch[0], t[x].ch[1]);
+        for (int c : t[x].ch) if (c) t[c].rev ^= 1;
+        t[x].rev = 0;
+    }
+    void split(int x, int k, int &a, int &b) { // a: first k elements
+        if (!x) { a = b = 0; return; }
+        pushdown(x);
+        if (t[t[x].ch[0]].siz < k) a = x, split(t[x].ch[1], k - t[t[x].ch[0]].siz - 1, t[x].ch[1], b);
+        else b = x, split(t[x].ch[0], k, a, t[x].ch[0]);
+        pushup(x);
+    }
+    int merge(int a, int b) {
+        if (!a || !b) return a + b;
+        if (t[a].pri > t[b].pri) { pushdown(a), t[a].ch[1] = merge(t[a].ch[1], b), pushup(a); return a; }
+        pushdown(b), t[b].ch[0] = merge(a, t[b].ch[0]), pushup(b); return b;
+    }
+    void push_back(ll v) { t[++tot] = {{0, 0}, (int)rng(), 1, 0, v}; root = merge(root, tot); }
+    void reverse(int l, int r) { // 1-indexed positions
+        int a, b, c;
+        split(root, r, a, c), split(a, l - 1, a, b);
+        if (b) t[b].rev ^= 1;
+        root = merge(merge(a, b), c);
+    }
+    void dfs(int x, vector<ll> &out) {
+        if (!x) return;
+        pushdown(x), dfs(t[x].ch[0], out), out.push_back(t[x].val), dfs(t[x].ch[1], out);
+    }
+    vector<ll> get() { vector<ll> out; dfs(root, out); return out; }
+};
+```
+
+Usage:
+
+```cpp
+FHQSeq s(n);
+for (int i = 1; i <= n; i++) s.push_back(i);
+s.reverse(l, r);
+for (ll x : s.get()) cout << x << ' ';
 ```

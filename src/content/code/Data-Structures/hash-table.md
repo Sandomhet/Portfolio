@@ -272,3 +272,34 @@ Thus $E[n_i^2] < 2$.
 So $E[\sum\limits_{i} n_i^2] < 2m = 2n$.  
 By Markov's inequality, $Pr(\sum\limits_{i} n_i^2 \geq 4n) \leq \frac{E[\sum\limits_{i} n_i^2]}{4n} < \frac{2n}{4n} = \frac{1}{2}$.  
 Therefore, $Pr(\sum\limits_{i} n_i^2 \leq 4n) \geq \frac{1}{2}$.
+
+## In Contests (C++)
+
+`unordered_map` with the default hash of an integer is the identity modulo a prime bucket count, so a crafted input (for example multiples of that prime) puts every key in one bucket and gives $O(n^2)$. A random-seeded splitmix64 fixes it. `gp_hash_table` (pb_ds) is open addressing and usually faster.
+
+```cpp
+struct SafeHash {
+    static ull splitmix64(ull x) {
+        x += 0x9e3779b97f4a7c15ULL;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+        return x ^ (x >> 31);
+    }
+    size_t operator()(ull x) const {
+        static const ull seed = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + seed);
+    }
+    size_t operator()(pii p) const { return (*this)(ull(p.first) << 32 | (unsigned)p.second); }
+};
+```
+
+Usage:
+
+```cpp
+unordered_map<ll, int, SafeHash> cnt;
+unordered_set<pii, SafeHash> seen;
+cnt.reserve(1 << 20); // optional: fewer rehashes
+
+#include <ext/pb_ds/assoc_container.hpp>
+__gnu_pbds::gp_hash_table<ll, int, SafeHash> mp; // mp[x]++ works like unordered_map
+```

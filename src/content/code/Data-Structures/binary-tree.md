@@ -14,30 +14,20 @@ time: "Mon Feb 1, 2024"
 
 二叉树遍历
 
+Children are `lc[u]`, `rc[u]` (0 = none); the functions append node ids to `out`.
+
 ```cpp
-void front(int rt) { //先序遍历
-    if (rt) {
-        tree g = e[rt];
-        write(g.data);
-        front(g.lk);
-        front(g.rk);
-    }
+void preorder(int u, const vector<int> &lc, const vector<int> &rc, vector<int> &out) { //先序遍历
+    if (!u) return;
+    out.push_back(u), preorder(lc[u], lc, rc, out), preorder(rc[u], lc, rc, out);
 }
-void middle(int rt) { //中序遍历
-    if (rt) {
-        tree g = e[rt];
-        middle(g.lk);
-        write(g.data);
-        middle(g.rk);
-    }
+void inorder(int u, const vector<int> &lc, const vector<int> &rc, vector<int> &out) { //中序遍历
+    if (!u) return;
+    inorder(lc[u], lc, rc, out), out.push_back(u), inorder(rc[u], lc, rc, out);
 }
-void back(int rt) { //后序遍历
-    if (rt) {
-        tree g = e[rt];
-        back(g.lk);
-        back(g.rk);
-        write(g.data);
-    }
+void postorder(int u, const vector<int> &lc, const vector<int> &rc, vector<int> &out) { //后序遍历
+    if (!u) return;
+    postorder(lc[u], lc, rc, out), postorder(rc[u], lc, rc, out), out.push_back(u);
 }
 ```
 
@@ -45,168 +35,71 @@ void back(int rt) { //后序遍历
 
 The first (preorder) or last (postorder) element is the root; its position in the inorder sequence splits the left and right subtrees.
 
-已知两遍历求另一遍历
+已知两遍历求另一遍历 (labels must be distinct)
 
 ```cpp
-void back_ans(string s1, string s2) { //已知先序和中序求后序
-    int len = s1.length();//长度
-    char k = s1[0];//根节点
-    if (len == 1) { write(k); return; }//结束
-
-    int zb = s2.find(k, 0);//根节点的位置
-    string s3, s4;
-    if (zb > 0) { //左子树遍历
-        s3 = s1.substr(1, zb);
-        s4 = s2.substr(0, zb);
-        back_ans(s3, s4);
-    }
-    if (zb < len - 1) { //右子树遍历
-        s3 = s1.substr(zb + 1);
-        s4 = s2.substr(zb + 1);
-        back_ans(s3, s4);
-    }
-    write(k);//输出后序
+string post_from_pre_in(const string &pre, const string &in) { //已知先序和中序求后序
+    if (pre.empty()) return "";
+    int k = in.find(pre[0]); //根节点的位置
+    return post_from_pre_in(pre.substr(1, k), in.substr(0, k))
+         + post_from_pre_in(pre.substr(k + 1), in.substr(k + 1)) + pre[0];
 }
-void front_ans(string s1, string s2) { //已知后序和中序求前序
-    int len = s1.length();//长度
-    char k = s1[len - 1];//根节点
-    if (len == 1) { write(k); return; }//结束
-    write(k);//输出先序
-
-    int zb = s2.find(k, 0);//根节点的位置
-    string s3, s4;
-    if (zb > 0) { //左子树遍历
-        s3 = s1.substr(0, zb);
-        s4 = s2.substr(0, zb);
-        front_ans(s3, s4);
-    }
-    if (zb < len - 1) { //右子树遍历
-        s3 = s1.substr(zb, len - zb - 1);
-        s4 = s2.substr(zb + 1);
-        front_ans(s3, s4);
-    }
+string pre_from_post_in(const string &post, const string &in) { //已知后序和中序求先序
+    if (post.empty()) return "";
+    char root = post.back();
+    int k = in.find(root);
+    return root + pre_from_post_in(post.substr(0, k), in.substr(0, k))
+         + pre_from_post_in(post.substr(k, post.size() - k - 1), in.substr(k + 1));
 }
+```
+
+Usage:
+
+```cpp
+post_from_pre_in("ABDEC", "DBEAC"); // "DEBCA"
+pre_from_post_in("DEBCA", "DBEAC"); // "ABDEC"
 ```
 
 ## Binary Search Tree (BST)
 
-```cpp
-void set_tree(int a, tree& g) { //建立二叉排序树
-    //要先初始化根节点：e[1].data=a;
-    if (a < g.data) { //左子树
-        if (g.lk == 0) { g.lk = ++tot; e[tot].data = a; }
-        else set_tree(a, e[g.lk]);
-    }
-    else { //右子树
-        if (g.rk == 0) { g.rk = ++tot; e[tot].data = a; }
-        else set_tree(a, e[g.rk]);
-    }
-}//中序遍历为有序数列
-```
+The left subtree holds smaller keys and the right subtree larger ones, so the inorder traversal is sorted. See the Balanced Binary Search Tree note for the full implementations.
 
 ## Binary Heap
 
-Array `h[1..n]`: children of $i$ are $2i$ and $2i+1$, parent is $\lfloor i/2 \rfloor$. Insert sifts up, pop moves the last element to the root and sifts down, both $O(\log n)$.
+Array `h[1..n]`: children of $i$ are $2i$ and $2i+1$, parent is $\lfloor i/2 \rfloor$. Insert sifts up, pop moves the last element to the root and sifts down, both $O(\log n)$. In a contest just use `priority_queue`.
 
-手打堆（下辈子再写第二次吧）
+手打堆
 
 ```cpp
-int b[W], s[W];//b大根堆,s小根堆,手打优先队列
-int tb = 0, ts = 0;//记录指针
-void bput(int a) {
-    int kid, dad;
-    kid = ++tb;   b[kid] = a;
-    while (kid > 1) {
-        dad = kid >> 1;
-        if (b[kid] > b[dad]) {
-            swap(b[kid], b[dad]);
-            kid = dad;
-        }
-        else break;
-    }
-}
-void sput(int a) {
-    int kid, dad;
-    kid = ++ts;   s[kid] = a;
-    while (kid > 1) {
-        dad = kid >> 1;
-        if (s[kid] < s[dad]) {
-            swap(s[kid], s[dad]);
-            kid = dad;
-        }
-        else break;
-    }
-}
-int bget() {
-    int kid, dad;
-    int x = b[1];
-    b[1] = b[tb--];
-    dad = 1;  kid = dad << 1;
-    while (kid <= tb) {
-        if (kid < tb && b[kid] < b[kid+1]) kid++;
-        if (b[kid] > b[dad]) {
-            swap(b[kid], b[dad]);
-            dad = kid;
-            kid = dad << 1;
-        }
-        else break;
-    }
-    return x;
-}
-int sget() {
-    int kid, dad;
-    int x = s[1];
-    s[1] = s[ts--];
-    dad = 1;  kid = dad << 1;
-    while (kid <= ts) {
-        if (kid < ts && s[kid] > s[kid+1])  kid++;
-        if (s[kid] < s[dad]) {
-            swap(s[kid], s[dad]);
-            dad = kid;
-            kid = dad << 1;
-        }
-        else break;
-    }
-    return x;
-}
-
-### Heapify, Heap sort, Heap update
-
-class Heap {
-    vector<int> h;
-public:
-    Heap() { h.push_back(0); } // 0号位不使用
-    void push(int x) {
+template<class T, class Cmp = less<T>> struct Heap { // Cmp = less: max-heap, greater: min-heap
+    vector<T> h{T()}; Cmp cmp; // h[0] unused
+    void push(const T &x) {
         h.push_back(x);
-        int i = h.size() - 1;
-        while (i > 1 && h[i] > h[i / 2]) {
-            swap(h[i], h[i / 2]);
-            i /= 2;
-        }
+        for (int i = h.size() - 1; i > 1 && cmp(h[i / 2], h[i]); i /= 2) swap(h[i], h[i / 2]);
     }
-    int pop() {
-        int ret = h[1];
-        h[1] = h.back();
-        h.pop_back();
-        int i = 1;
-        while (true) {
-            int j = i * 2;
-            if (j >= h.size()) break;
-            if (j + 1 < h.size() && h[j + 1] > h[j]) j++;
-            if (h[i] >= h[j]) break;
+    void pop() {
+        h[1] = h.back(), h.pop_back();
+        for (int i = 1, j; (j = i * 2) < (int)h.size(); i = j) {
+            if (j + 1 < (int)h.size() && cmp(h[j], h[j + 1])) j++;
+            if (!cmp(h[i], h[j])) break;
             swap(h[i], h[j]);
-            i = j;
         }
-        return ret;
     }
-    void heapsort() {
-        vector<int> sorted;
-        while (h.size() > 1) {
-            sorted.push_back(pop());
-        }
-        reverse(sorted.begin(), sorted.end());
-        h = vector<int>(1, 0); // Reset heap
-        for (int x : sorted) push(x);
-    }
-}
+    const T &top() const { return h[1]; }
+    int size() const { return h.size() - 1; }
+    bool empty() const { return h.size() == 1; }
+};
+```
+
+Usage:
+
+```cpp
+Heap<ll> big;                    // max-heap
+Heap<ll, greater<ll>> small;     // min-heap
+big.push(x), big.top(), big.pop(), big.size();
+
+// heap sort
+Heap<ll, greater<ll>> hp;
+for (int i = 1; i <= n; i++) hp.push(a[i]);
+for (int i = 1; i <= n; i++) a[i] = hp.top(), hp.pop();
 ```
