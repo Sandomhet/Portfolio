@@ -15,7 +15,8 @@ a[]为全体实数集
 首先我们累加a[i]，直到sum出现了负数，这时候不管后面的数如何，舍弃前面这一段一定比保留更优，因为舍弃后sum=0。
 
 ```cpp
-template<class T> ll max_sum(int n, const T &a) { // a[1..n], non-empty subarray
+ll max_sum(const vector<ll> &a) { // a[1..n] (a.size() == n + 1), non-empty subarray
+    int n = a.size() - 1;
     ll ans = a[1], cur = 0;
     // ll ans = 0; //允许空子段，答案至少为0
     for (int i = 1; i <= n; i++) {
@@ -31,7 +32,8 @@ template<class T> ll max_sum(int n, const T &a) { // a[1..n], non-empty subarray
 对于每一个子段和∑[aj,ai]可以用前缀和表示为s[i]-s[j-1]，要使结果更大，则为s[i]-min{s[j]}，j∈[0，i)。枚举i即可。
 
 ```cpp
-template<class T> ll max_sum_prefix(int n, const T &a) { // a[1..n], non-empty subarray
+ll max_sum_prefix(const vector<ll> &a) { // a[1..n] (a.size() == n + 1), non-empty subarray
+    int n = a.size() - 1;
     ll s = 0, mn = 0, ans = LLONG_MIN; // s: 前缀和, mn: 最小前缀 (s[0] = 0)
     for (int i = 1; i <= n; i++) {
         s += a[i];

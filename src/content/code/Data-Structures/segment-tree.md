@@ -26,7 +26,7 @@ struct SegTree {
     void pushdown(int rt) {
         if (lz[rt]) apply(rt << 1, lz[rt]), apply(rt << 1 | 1, lz[rt]), lz[rt] = 0;
     }
-    template<class T> void build(const T &a, int rt, int l, int r) {
+    void build(const vector<ll> &a, int rt, int l, int r) {
         if (l == r) { t[rt] = {a[l], a[l], 1}; return; }
         int mid = (l + r) >> 1;
         build(a, rt << 1, l, mid), build(a, rt << 1 | 1, mid + 1, r);
@@ -57,7 +57,7 @@ struct SegTree {
         return query(rt << 1, l, mid, x, y) + query(rt << 1 | 1, mid + 1, r, x, y);
     }
     // 1-indexed interface
-    template<class T> void build(const T &a) { build(a, 1, 1, n); } // a[1..n]
+    void build(const vector<ll> &a) { build(a, 1, 1, n); }          // a[1..n], a.size() == n + 1
     void add(int l, int r, ll v) { update(1, 1, n, l, r, v); }       // a[l..r] += v
     void assign(int p, ll v) { assign(1, 1, n, p, v); }              // a[p] = v
     Node query(int l, int r) { return query(1, 1, n, l, r); }
@@ -70,7 +70,7 @@ Usage:
 
 ```cpp
 SegTree seg(n);
-seg.build(a);      // a[1..n], any array or vector
+seg.build(a);      // vector<ll> a(n + 1), a[1..n]
 seg.add(l, r, v);  // a[l..r] += v
 seg.assign(p, v);  // a[p] = v
 seg.sum(l, r);     // a[l] + ... + a[r]
@@ -275,7 +275,7 @@ struct Beats {
         }
         x.a1 = x.b1 = x.a2 = x.b2 = 0;
     }
-    template<class T> void build(const T &a, int rt, int l, int r) {
+    void build(const vector<ll> &a, int rt, int l, int r) {
         t[rt] = {0, 0, NEG, 0, 0, 0, 0, 0, 1, r - l + 1};
         if (l == r) { t[rt].sum = t[rt].mx = t[rt].hmx = a[l]; return; }
         int mid = (l + r) >> 1;
@@ -311,7 +311,7 @@ struct Beats {
             }
         return res;
     }
-    template<class T> void build(const T &a) { build(a, 1, 1, n); } // a[1..n]
+    void build(const vector<ll> &a) { build(a, 1, 1, n); }          // a[1..n], a.size() == n + 1
     void add(int l, int r, ll v) { add(1, 1, n, l, r, v); }        // a[l..r] += v
     void chmin(int l, int r, ll v) { chmin(1, 1, n, l, r, v); }    // a[i] = min(a[i], v)
     ll sum(int l, int r) { return query(1, 1, n, l, r, 0); }
@@ -324,7 +324,7 @@ Usage:
 
 ```cpp
 Beats bt(n);
-bt.build(a);         // a[1..n]
+bt.build(a);         // vector<ll> a(n + 1), a[1..n]
 bt.add(l, r, v);     // a[l..r] += v
 bt.chmin(l, r, v);   // a[i] = min(a[i], v) on [l, r]
 bt.sum(l, r), bt.max(l, r), bt.hmax(l, r);

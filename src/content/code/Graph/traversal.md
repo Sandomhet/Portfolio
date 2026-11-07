@@ -21,17 +21,18 @@ $G = (V, E)$ where $V$ is the set of vertices and $E$ is the set of edges.
 
 链式前向星（模拟链表）
 ```cpp
-struct edge { int v, w, ne; } e[Z << 1];
-int head[Z], cnt = 1;
+struct edge { int v, w, ne; };
+vector<edge> e(2); // edges start at index 2, so the reverse of edge i is i ^ 1
+vector<int> head;  // head.assign(n + 1, 0); loop: for (int i = head[u]; i; i = e[i].ne)
 inline void add(int x, int y, int z) {
-    e[++cnt] = edge{y, z, head[x]};
-    head[x] = cnt;
+    e.push_back({y, z, head[x]});
+    head[x] = e.size() - 1;
 }
 ```
 
 Adjacency Matrix
 ```cpp
-int e[Z][Z];
+vector<vector<int>> e; // e.assign(n + 1, vector<int>(n + 1))
 inline void add(int x, int y, int z) {
     e[x][y] = z;
 }
@@ -39,7 +40,7 @@ inline void add(int x, int y, int z) {
 
 Adjacency List
 ```cpp
-vector<pii> e[Z];
+vector<vector<pii>> e; // e.assign(n + 1, {})
 inline void add(int x, int y, int z) {
     e[x].push_back({y, z});
 }
@@ -59,7 +60,7 @@ inline void add(int x, int y, int z) {
 $O(n + m)$
 
 ```cpp
-vector<int> e[Z];
+vector<vector<int>> e; // e.assign(n + 1, {})
 vector<bool> vs;
 void dfs(int u) {
     vs[u] = true;
@@ -95,7 +96,7 @@ void example_dfs(int n) {
 $O(n + m)$
 
 ```cpp
-vector<int> e[Z];
+vector<vector<int>> e; // e.assign(n + 1, {})
 vector<bool> vs;
 vector<int> dis, path;
 void bfs(int st) {

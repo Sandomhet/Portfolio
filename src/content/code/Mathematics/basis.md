@@ -11,7 +11,7 @@ XOR linear basis: `p[i]` is $0$ or a number whose highest bit is $i$. Every XOR 
 ```cpp
 struct LinearBasis {
     static const int B = 62;
-    ll p[B] = {}; bool zero = false; // zero: some nonempty subset XORs to 0
+    vector<ll> p = vector<ll>(B); bool zero = false; // zero: some nonempty subset XORs to 0
     bool insert(ll x) { //插入构造线性基, false if x was already representable
         for (int i = B - 1; i >= 0; i--) if (x >> i & 1) {
             if (!p[i]) { p[i] = x; return true; }

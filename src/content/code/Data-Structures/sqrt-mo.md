@@ -15,7 +15,7 @@ Split the array into blocks of size $\sqrt n$. A range operation touches $O(\sqr
 ```cpp
 struct Block { // range add, range sum, 1-indexed
     int n, B; vector<int> bel; vector<ll> a, sum, add;
-    template<class T> Block(int n, const T &v) : n(n), B(max(1, (int)sqrt(n))), bel(n + 1), a(n + 1) {
+    Block(int n, const vector<ll> &v) : n(n), B(max(1, (int)sqrt(n))), bel(n + 1), a(n + 1) {
         for (int i = 1; i <= n; i++) a[i] = v[i], bel[i] = (i - 1) / B;
         sum.assign(bel[n] + 1, 0), add.assign(bel[n] + 1, 0);
         for (int i = 1; i <= n; i++) sum[bel[i]] += a[i];
@@ -43,7 +43,7 @@ struct Block { // range add, range sum, 1-indexed
 Usage:
 
 ```cpp
-Block blk(n, a);       // a[1..n]
+Block blk(n, a);       // vector<ll> a(n + 1), a[1..n]
 blk.modify(l, r, v);   // a[l..r] += v
 blk.query(l, r);       // a[l] + ... + a[r]
 ```
@@ -102,7 +102,7 @@ struct MoUpd {
     vector<Q> qs; vector<pair<int, ll>> us; // us: (position, new value)
     void add_query(int l, int r) { qs.push_back({l, r, (int)us.size(), (int)qs.size()}); }
     void add_update(int p, ll v) { us.push_back({p, v}); }
-    template<class A, class Add, class Del, class Get> void run(int n, A &a, Add add, Del del, Get get) {
+    template<class Add, class Del, class Get> void run(int n, vector<ll> &a, Add add, Del del, Get get) { // a[1..n] is updated in place
         int B = max(1, (int)pow(n, 2.0 / 3)); //带修莫队块长取 n^(2/3)
         sort(qs.begin(), qs.end(), [&](const Q &x, const Q &y) {
             if (x.l / B != y.l / B) return x.l < y.l;
@@ -137,7 +137,7 @@ Usage:
 MoUpd mo; int qc = 0;
 // 'Q l r': mo.add_query(l, r), qc++;   'R p v': mo.add_update(p, v);
 vector<int> cnt(m + 1), res(qc); int cur = 0;
-mo.run(n, a,
+mo.run(n, a, // vector<ll> a(n + 1)
     [&](int i) { if (cnt[a[i]]++ == 0) cur++; },
     [&](int i) { if (--cnt[a[i]] == 0) cur--; },
     [&](int id) { res[id] = cur; });

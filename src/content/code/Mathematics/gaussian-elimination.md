@@ -68,20 +68,21 @@ ll det_mod(int n, vector<vector<ll>> a, ll p = mod) { // determinant of a[1..n][
 Over GF(2) each row is a `bitset`, and elimination is `xor`. $O(n^3 / 64)$.
 
 ```cpp
-const int MAXV = 2005; // number of variables + 1
-int gauss_xor(int n, int m, vector<bitset<MAXV>> a, bitset<MAXV> &x) { // m equations, n variables x[0..n-1], a[i][n] = rhs; returns rank, -1 if none
-    int r = 0; vector<int> where(n, -1);
-    for (int c = 0; c < n && r < m; c++) {
+const int MAXV = 2005; // number of variables + 2
+// m equations a[1..m] (a.size() == m + 1), variables x[1..n], a[i][n + 1] = rhs; returns rank, -1 if none
+int gauss_xor(int n, int m, vector<bitset<MAXV>> a, bitset<MAXV> &x) {
+    int r = 1; vector<int> where(n + 1, 0);
+    for (int c = 1; c <= n && r <= m; c++) {
         int piv = r;
-        while (piv < m && !a[piv][c]) piv++;
-        if (piv == m) continue;
+        while (piv <= m && !a[piv][c]) piv++;
+        if (piv > m) continue;
         swap(a[piv], a[r]), where[c] = r;
-        for (int i = 0; i < m; i++) if (i != r && a[i][c]) a[i] ^= a[r];
+        for (int i = 1; i <= m; i++) if (i != r && a[i][c]) a[i] ^= a[r];
         r++;
     }
-    for (int i = r; i < m; i++) if (a[i][n]) return -1;
+    for (int i = r; i <= m; i++) if (a[i][n + 1]) return -1;
     x.reset();
-    for (int c = 0; c < n; c++) if (where[c] >= 0) x[c] = a[where[c]][n]; // free variables = 0
-    return r;
+    for (int c = 1; c <= n; c++) if (where[c]) x[c] = a[where[c]][n + 1]; // free variables = 0
+    return r - 1;
 }
 ```

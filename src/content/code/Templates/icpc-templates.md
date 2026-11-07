@@ -20,6 +20,8 @@ time: "Sat Oct 3, 2026"
 
 ### 1.1 Starter
 
+Conventions for every template below: containers are `vector`s; anything indexed by position, vertex or rank is 1-indexed in a vector of size $n + 1$; plain lists (edges, queries, points, results) are 0-indexed; strings are `std::string` with 1-indexed positions; polynomial coefficients start at $x^0$.
+
 ```cpp
 // g++ -std=c++17 -O2 test.cpp -o p && ./p < test.in > test.out
 #define sandom signed
@@ -42,20 +44,23 @@ sandom main() {
 Value $\to$ rank among distinct values, order preserved. $O(n \log n)$
 
 ```cpp
-template<class T> vector<T> discrete(int n, T *a) { // a[1..n] becomes ranks 1..len; returns the sorted distinct values
-    vector<T> ls(a + 1, a + n + 1); //转移临时数组
-    sort(ls.begin(), ls.end()); //排序
-    ls.erase(unique(ls.begin(), ls.end()), ls.end()); //去重
-    for (int i = 1; i <= n; i++) a[i] = lower_bound(ls.begin(), ls.end(), a[i]) - ls.begin() + 1; //离散
-    return ls;
+// a[1..n] (a.size() == n + 1) becomes ranks 1..len; returns vals[1..len], vals[r] = the original value of rank r
+template<class T> vector<T> discrete(vector<T> &a) {
+    vector<T> vals(a.begin() + 1, a.end()); //转移临时数组
+    sort(vals.begin(), vals.end()); //排序
+    vals.erase(unique(vals.begin(), vals.end()), vals.end()); //去重
+    vals.insert(vals.begin(), T()); //vals[0] unused
+    for (size_t i = 1; i < a.size(); i++) a[i] = lower_bound(vals.begin() + 1, vals.end(), a[i]) - vals.begin(); //离散
+    return vals;
 }
 ```
 
 Usage:
 
 ```cpp
-auto vals = discrete(n, a);  // a: global array a[Z] (or v.data() for a vector)
-int len = vals.size();       // a[i] in 1..len now, original value = vals[a[i] - 1]
+vector<ll> a(n + 1);         // a[1..n]
+auto vals = discrete(a);
+int len = vals.size() - 1;   // a[i] in 1..len now, original value = vals[a[i]]
 ```
 
 ### 1.3 Binary / Ternary Search on Answer
@@ -380,7 +385,9 @@ $dp_{i,j} = \max(dp_{i,j-1}, dp_{i+2^{j-1},j-1})$; query with $t = \lfloor \log_
 ```cpp
 template<class T, class Op> struct SparseTable {
     Op op; vector<vector<T>> f;
-    SparseTable(int n, const T *a, Op op) : op(op), f(__lg(max(n, 1)) + 1, vector<T>(n + 1)) { // a[1..n]
+    SparseTable(const vector<T> &a, Op op) : op(op) { // a[1..n], a.size() == n + 1
+        int n = a.size() - 1;
+        f.assign(__lg(max(n, 1)) + 1, vector<T>(n + 1));
         for (int i = 1; i <= n; i++) f[0][i] = a[i];
         for (int j = 1; j < (int)f.size(); j++)
             for (int i = 1; i + (1 << j) - 1 <= n; i++)
@@ -396,9 +403,9 @@ template<class T, class Op> struct SparseTable {
 Usage:
 
 ```cpp
-// a is a global array a[Z] or a vector (pass a.data()), 1-indexed
-SparseTable mx(n, a, [](ll x, ll y) { return max(x, y); });
-SparseTable g(n, a, [](ll x, ll y) { return __gcd(x, y); });
+// vector<ll> a(n + 1), a[1..n]
+SparseTable mx(a, [](ll x, ll y) { return max(x, y); });
+SparseTable g(a, [](ll x, ll y) { return __gcd(x, y); });
 mx.query(l, r);
 ```
 
@@ -418,7 +425,7 @@ struct SegTree {
     void pushdown(int rt) {
         if (lz[rt]) apply(rt << 1, lz[rt]), apply(rt << 1 | 1, lz[rt]), lz[rt] = 0;
     }
-    template<class T> void build(const T &a, int rt, int l, int r) {
+    void build(const vector<ll> &a, int rt, int l, int r) {
         if (l == r) { t[rt] = {a[l], a[l], 1}; return; }
         int mid = (l + r) >> 1;
         build(a, rt << 1, l, mid), build(a, rt << 1 | 1, mid + 1, r);
@@ -449,7 +456,7 @@ struct SegTree {
         return query(rt << 1, l, mid, x, y) + query(rt << 1 | 1, mid + 1, r, x, y);
     }
     // 1-indexed interface
-    template<class T> void build(const T &a) { build(a, 1, 1, n); } // a[1..n]
+    void build(const vector<ll> &a) { build(a, 1, 1, n); }          // a[1..n], a.size() == n + 1
     void add(int l, int r, ll v) { update(1, 1, n, l, r, v); }       // a[l..r] += v
     void assign(int p, ll v) { assign(1, 1, n, p, v); }              // a[p] = v
     Node query(int l, int r) { return query(1, 1, n, l, r); }
@@ -462,7 +469,7 @@ Usage:
 
 ```cpp
 SegTree seg(n);
-seg.build(a);      // a[1..n], any array or vector
+seg.build(a);      // vector<ll> a(n + 1), a[1..n]
 seg.add(l, r, v);  // a[l..r] += v
 seg.assign(p, v);  // a[p] = v
 seg.sum(l, r);     // a[l] + ... + a[r]
@@ -827,7 +834,7 @@ struct MoUpd {
     vector<Q> qs; vector<pair<int, ll>> us; // us: (position, new value)
     void add_query(int l, int r) { qs.push_back({l, r, (int)us.size(), (int)qs.size()}); }
     void add_update(int p, ll v) { us.push_back({p, v}); }
-    template<class A, class Add, class Del, class Get> void run(int n, A &a, Add add, Del del, Get get) {
+    template<class Add, class Del, class Get> void run(int n, vector<ll> &a, Add add, Del del, Get get) { // a[1..n] is updated in place
         int B = max(1, (int)pow(n, 2.0 / 3)); //带修莫队块长取 n^(2/3)
         sort(qs.begin(), qs.end(), [&](const Q &x, const Q &y) {
             if (x.l / B != y.l / B) return x.l < y.l;
@@ -862,7 +869,7 @@ Usage:
 MoUpd mo; int qc = 0;
 // 'Q l r': mo.add_query(l, r), qc++;   'R p v': mo.add_update(p, v);
 vector<int> cnt(m + 1), res(qc); int cur = 0;
-mo.run(n, a,
+mo.run(n, a, // vector<ll> a(n + 1)
     [&](int i) { if (cnt[a[i]]++ == 0) cur++; },
     [&](int i) { if (--cnt[a[i]] == 0) cur--; },
     [&](int id) { res[id] = cur; });
@@ -923,7 +930,7 @@ Blocks of size $\sqrt n$: whole blocks by tags, ends by brute force. $O(\sqrt n)
 ```cpp
 struct Block { // range add, range sum, 1-indexed
     int n, B; vector<int> bel; vector<ll> a, sum, add;
-    template<class T> Block(int n, const T &v) : n(n), B(max(1, (int)sqrt(n))), bel(n + 1), a(n + 1) {
+    Block(int n, const vector<ll> &v) : n(n), B(max(1, (int)sqrt(n))), bel(n + 1), a(n + 1) {
         for (int i = 1; i <= n; i++) a[i] = v[i], bel[i] = (i - 1) / B;
         sum.assign(bel[n] + 1, 0), add.assign(bel[n] + 1, 0);
         for (int i = 1; i <= n; i++) sum[bel[i]] += a[i];
@@ -951,7 +958,7 @@ struct Block { // range add, range sum, 1-indexed
 Usage:
 
 ```cpp
-Block blk(n, a);       // a[1..n]
+Block blk(n, a);       // vector<ll> a(n + 1), a[1..n]
 blk.modify(l, r, v);   // a[l..r] += v
 blk.query(l, r);       // a[l] + ... + a[r]
 ```
@@ -1039,7 +1046,7 @@ struct Beats {
         }
         x.a1 = x.b1 = x.a2 = x.b2 = 0;
     }
-    template<class T> void build(const T &a, int rt, int l, int r) {
+    void build(const vector<ll> &a, int rt, int l, int r) {
         t[rt] = {0, 0, NEG, 0, 0, 0, 0, 0, 1, r - l + 1};
         if (l == r) { t[rt].sum = t[rt].mx = t[rt].hmx = a[l]; return; }
         int mid = (l + r) >> 1;
@@ -1075,7 +1082,7 @@ struct Beats {
             }
         return res;
     }
-    template<class T> void build(const T &a) { build(a, 1, 1, n); } // a[1..n]
+    void build(const vector<ll> &a) { build(a, 1, 1, n); }          // a[1..n], a.size() == n + 1
     void add(int l, int r, ll v) { add(1, 1, n, l, r, v); }        // a[l..r] += v
     void chmin(int l, int r, ll v) { chmin(1, 1, n, l, r, v); }    // a[i] = min(a[i], v)
     ll sum(int l, int r) { return query(1, 1, n, l, r, 0); }
@@ -1088,7 +1095,7 @@ Usage:
 
 ```cpp
 Beats bt(n);
-bt.build(a);         // a[1..n]
+bt.build(a);         // vector<ll> a(n + 1), a[1..n]
 bt.add(l, r, v);     // a[l..r] += v
 bt.chmin(l, r, v);   // a[i] = min(a[i], v) on [l, r]
 bt.sum(l, r), bt.max(l, r), bt.hmax(l, r);
@@ -1099,8 +1106,9 @@ bt.sum(l, r), bt.max(l, r), bt.hmax(l, r);
 BST on index, min-heap on value; monotonic stack, $O(n)$. `cartesian` returns the root.
 
 ```cpp
-// 笛卡尔树: min-heap on a[1..n]; returns the root, lc/rc = children (0 = none)
-template<class T> int cartesian(int n, const T &a, vector<int> &lc, vector<int> &rc) {
+// 笛卡尔树: min-heap on a[1..n] (a.size() == n + 1); returns the root, lc/rc = children (0 = none)
+template<class T> int cartesian(const vector<T> &a, vector<int> &lc, vector<int> &rc) {
+    int n = a.size() - 1;
     lc.assign(n + 1, 0), rc.assign(n + 1, 0);
     vector<int> stk; //单调栈，保存右链
     for (int i = 1; i <= n; i++) {
@@ -1118,7 +1126,7 @@ Usage:
 
 ```cpp
 vector<int> lc, rc;
-int root = cartesian(n, a, lc, rc);  // a[1..n]; equal values: the left one is the ancestor
+int root = cartesian(a, lc, rc);  // vector a(n + 1), a[1..n]; equal values: the left one is the ancestor
 // max-heap: change a[stk.back()] > a[i] to a[stk.back()] < a[i]
 ```
 
@@ -1217,14 +1225,15 @@ kd.farthest(x, y);             // max Manhattan distance (-1 if empty)
 
 ### 3.1 Graph Storage
 
-Forward star; `cnt = 1` so edges `i` and `i ^ 1` are a pair.
+Forward star in vectors; edges start at index 2, so edges `i` and `i ^ 1` are a pair.
 
 ```cpp
-struct edge { int v, w, ne; } e[Z << 1];
-int head[Z], cnt = 1;
+struct edge { int v, w, ne; };
+vector<edge> e(2); // edges start at index 2, so the reverse of edge i is i ^ 1
+vector<int> head;  // head.assign(n + 1, 0); loop: for (int i = head[u]; i; i = e[i].ne)
 inline void add(int x, int y, int z) {
-    e[++cnt] = edge{y, z, head[x]};
-    head[x] = cnt;
+    e.push_back({y, z, head[x]});
+    head[x] = e.size() - 1;
 }
 ```
 
@@ -1233,7 +1242,7 @@ inline void add(int x, int y, int z) {
 Non-negative weights. $O((n + m) \log m)$
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 vector<int> path;
 void dijkstra(int n, int s) {
@@ -1268,7 +1277,7 @@ vector<int> get_path(int t) { // from s to t
 A vertex enqueued $n$ times means a negative cycle. Worst case $O(nm)$.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 vector<int> path, cnt, cycle; // cycle: a negative cycle, if found
 vector<bool> vs;
@@ -1315,7 +1324,7 @@ bool spfa(int n, int s) { // true if a negative cycle is reachable from s
 Weights 0/1: push to the front for 0, back for 1. $O(n + m)$
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w), w in {0, 1}
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1, w in {0, 1}
 vector<ll> dis;
 void zero_one_bfs(int n, int s) {
     dis.assign(n + 1, LLONG_MAX);
@@ -2392,7 +2401,8 @@ exLucas::exlucas(n, m, P); // C(n, m) mod P, P not necessarily prime
 Coprime moduli: $x = \sum a_i c_i t_i \bmod M$, $c_i = M / m_i$, $t_i = c_i^{-1} \bmod m_i$. General: merge two at a time, $m_1 p - m_2 q = a_2 - a_1$, new modulus $\operatorname{lcm}(m_1, m_2)$.
 
 ```cpp
-ll CRT(int n, const ll *a, const ll *m) { // x = a[i] (mod m[i]), i = 1..n, m pairwise coprime, product fits in ll
+ll CRT(const vector<ll> &a, const vector<ll> &m) { // x = a[i] (mod m[i]), i = 1..n (size n + 1), m pairwise coprime, product fits in ll
+    int n = a.size() - 1;
     ll M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) M *= m[i];
     for (int i = 1; i <= n; ++i) {
@@ -2406,7 +2416,8 @@ ll CRT(int n, const ll *a, const ll *m) { // x = a[i] (mod m[i]), i = 1..n, m pa
 ```
 
 ```cpp
-pair<ll, ll> EXCRT(int n, const ll *a, const ll *m) { // returns {x, lcm}, or {-1, -1} if no solution; lcm must fit in ll
+pair<ll, ll> EXCRT(const vector<ll> &a, const vector<ll> &m) { // i = 1..n (size n + 1); returns {x, lcm}, or {-1, -1} if no solution; lcm must fit in ll
+    int n = a.size() - 1;
     ll M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) {
         ll x, y, g = exgcd(M, m[i], x, y), c = ((a[i] - ans) % m[i] + m[i]) % m[i]; //M*x≡a[i]-ans(mod m[i])
@@ -2537,21 +2548,22 @@ ll det_mod(int n, vector<vector<ll>> a, ll p = mod) { // determinant of a[1..n][
 ```
 
 ```cpp
-const int MAXV = 2005; // number of variables + 1
-int gauss_xor(int n, int m, vector<bitset<MAXV>> a, bitset<MAXV> &x) { // m equations, n variables x[0..n-1], a[i][n] = rhs; returns rank, -1 if none
-    int r = 0; vector<int> where(n, -1);
-    for (int c = 0; c < n && r < m; c++) {
+const int MAXV = 2005; // number of variables + 2
+// m equations a[1..m] (a.size() == m + 1), variables x[1..n], a[i][n + 1] = rhs; returns rank, -1 if none
+int gauss_xor(int n, int m, vector<bitset<MAXV>> a, bitset<MAXV> &x) {
+    int r = 1; vector<int> where(n + 1, 0);
+    for (int c = 1; c <= n && r <= m; c++) {
         int piv = r;
-        while (piv < m && !a[piv][c]) piv++;
-        if (piv == m) continue;
+        while (piv <= m && !a[piv][c]) piv++;
+        if (piv > m) continue;
         swap(a[piv], a[r]), where[c] = r;
-        for (int i = 0; i < m; i++) if (i != r && a[i][c]) a[i] ^= a[r];
+        for (int i = 1; i <= m; i++) if (i != r && a[i][c]) a[i] ^= a[r];
         r++;
     }
-    for (int i = r; i < m; i++) if (a[i][n]) return -1;
+    for (int i = r; i <= m; i++) if (a[i][n + 1]) return -1;
     x.reset();
-    for (int c = 0; c < n; c++) if (where[c] >= 0) x[c] = a[where[c]][n]; // free variables = 0
-    return r;
+    for (int c = 1; c <= n; c++) if (where[c]) x[c] = a[where[c]][n + 1]; // free variables = 0
+    return r - 1;
 }
 ```
 
@@ -2562,7 +2574,7 @@ int gauss_xor(int n, int m, vector<bitset<MAXV>> a, bitset<MAXV> &x) { // m equa
 ```cpp
 struct LinearBasis {
     static const int B = 62;
-    ll p[B] = {}; bool zero = false; // zero: some nonempty subset XORs to 0
+    vector<ll> p = vector<ll>(B); bool zero = false; // zero: some nonempty subset XORs to 0
     bool insert(ll x) { //插入构造线性基, false if x was already representable
         for (int i = B - 1; i >= 0; i--) if (x >> i & 1) {
             if (!p[i]) { p[i] = x; return true; }
@@ -2813,7 +2825,7 @@ auto z = z_function(s + '#' + t); // matches of s in t: positions i > |s| + 1 wi
 Insert separators; reuse the mirror radius inside the rightmost palindrome, $O(n)$. Longest palindrome length $= \max d_i - 1$.
 
 ```cpp
-// s = "^#t1#t2#...#tn#$"; d[i]: radius at s[i] (d[i] - 1 = length of that palindrome in t)
+// s = "^#t1#t2#...#tn#$", so t[j] (1-indexed) sits at s[2j]; d[i]: radius at s[i] (d[i] - 1 = length of that palindrome in t)
 vector<int> manacher(const string &t) {
     string s = "^#"; //在字符中间加隔板，两端哨兵防止越界
     for (char c : t) s += c, s += '#';
@@ -2829,7 +2841,7 @@ vector<int> manacher(const string &t) {
 string longest_palindrome(const string &t) {
     auto d = manacher(t);
     int i = max_element(d.begin(), d.end()) - d.begin();
-    return t.substr((i - d[i]) / 2, d[i] - 1); // start index in t (0-indexed), length
+    return t.substr((i - d[i]) / 2, d[i] - 1); // the palindrome starts at t[(i - d[i]) / 2 + 1] (1-indexed)
 }
 ```
 
@@ -2837,8 +2849,9 @@ Usage:
 
 ```cpp
 auto d = manacher(t);
-// odd palindrome centered at t[j]: d[2 * j + 2] - 1 = its max length
-// even palindrome centered between t[j] and t[j + 1]: d[2 * j + 3] - 1
+// positions j are 1-indexed
+// odd palindrome centered at t[j]: d[2 * j] - 1 = its max length
+// even palindrome centered between t[j] and t[j + 1]: d[2 * j + 1] - 1
 longest_palindrome("abacabad"); // "abacaba"
 ```
 
@@ -3036,9 +3049,10 @@ ll KnapsackGroup(int W, const vector<vector<pair<int, ll>>> &groups) {
 LIS: $d_l$ = smallest tail of an increasing subsequence of length $l$; binary search, $O(n \log n)$. LCS: $f_{i,j} = f_{i-1,j-1} + 1$ if $a_i = b_j$, else $\max(f_{i-1,j}, f_{i,j-1})$.
 
 ```cpp
-int LIS(const vector<ll> &a, bool strict = true) { // non-decreasing when strict = false
+int LIS(const vector<ll> &a, bool strict = true) { // a[1..n]; non-decreasing when strict = false
     vector<ll> d; // d[l]: smallest tail of an increasing subsequence of length l + 1
-    for (ll x : a) {
+    for (size_t i = 1; i < a.size(); i++) {
+        ll x = a[i];
         auto it = strict ? lower_bound(d.begin(), d.end(), x) : upper_bound(d.begin(), d.end(), x);
         if (it == d.end()) d.push_back(x);
         else *it = x;
@@ -3456,12 +3470,12 @@ for (int i = 2; i <= n; i++) { //随机生成树
 
 //随机生成无向图（n个点m条边，先存边，打乱后再输出）
 map <pair<int, int>, bool> be;
-struct edge { int u, v, w; } e[Z]; int tot = 0;
+struct edge { int u, v, w; }; vector<edge> e(1); // e[1..m]
 //先生成一棵树，保证连通
 for (int i = 2; i <= n; i++) {
     int fa = rnd(1, i - 1);
     int val = rnd(1, MAX);
-    e[++tot] = {i, fa, val};
+    e.push_back({i, fa, val});
     be[make_pair(fa, i)] = be[make_pair(i, fa)] = 1;
 }
 //添加剩余边
@@ -3471,9 +3485,9 @@ for (int i = n; i <= m; i++) {
         x = rnd(1, n), y = rnd(1, n);
     } while (x == y || be[make_pair(x, y)]);
     be[make_pair(x, y)] = be[make_pair(y, x)] = 1;
-    e[++tot] = {x, y, rnd(1, MAX)};
+    e.push_back({x, y, (int)rnd(1, MAX)});
 }
-shuffle(e + 1, e + 1 + m, rng);//随机打乱（random_shuffle 在 C++17 中已删除）
+shuffle(e.begin() + 1, e.end(), rng);//随机打乱（random_shuffle 在 C++17 中已删除）
 for (int i = 1; i <= m; i++) printf("%d %d %d\n", e[i].u, e[i].v, e[i].w);
 ```
 

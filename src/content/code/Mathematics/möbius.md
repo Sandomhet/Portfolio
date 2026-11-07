@@ -228,7 +228,7 @@ $h$因为内存问题，显然不能全部预处理出来。而根据整除函�
 较大，且连续段很短，根本没有必要整除分块，直接暴算即可。对于后面的$t$，$\lfloor \frac{n}{t} \rfloor$
 较小，因为内存开的下，所以可以选择预处理。记块长为$B$，取$[35, 50]$都行，来作为$h$前两维所管辖的范围。
 
-当然需要用到一些卡常技巧，比如说动态内存池。
+当然需要用到一些卡常技巧：`g`、`h` 只开到各自需要的长度。
 
 <details>
 
@@ -240,9 +240,10 @@ const int N = 1e5 + 2, M = 50;
 ll qpow(ll a, ll b, ll c) { ll r = 1; for (a %= c; b; b >>= 1, a = a * a % c) if (b & 1) r = r * a % c; return r; }
 
 int ans;
-bool prime[N];
-int ip[N], miu[N], phi[N], inv[N];
-int f[N], *g[N], *h[M + 2][M + 2];
+vector<bool> prime(N);
+vector<int> ip(N), miu(N), phi(N), inv(N), f(N); // ip[0]: number of primes, ip[1..]: primes
+vector<vector<int>> g(N);                        // g[j][i] = sum_{t <= i} phi(t * j)
+vector<vector<vector<int>>> h(M + 2, vector<vector<int>>(M + 2));
 void Linear(int n) { //线性筛莫比乌斯函数和欧拉函数
     miu[1] = phi[1] = 1;
     for (int i = 2; i <= n; ++i) {
@@ -264,12 +265,12 @@ void init(int n, int m) { //递推预处理相关函数
     for (int j = 1; j <= n; ++j) for (int i = j; i <= n; i += j) (f[i] += 1ll * j * miu[i / j] * inv[j] % mod) %= mod;
     for (int j = 1; j <= n; ++j) {
         int tmp = n / j;
-        g[j] = new int [tmp + 2](); //()：清零，g[j][0] = 0
+        g[j].assign(tmp + 2, 0); //g[j][0] = 0
         for (int i = 1; i <= tmp; ++i) g[j][i] = (g[j][i - 1] + phi[i * j]) % mod;
     }
     for (int a = 1; a <= m; ++a) for (int b = 1; b <= m; ++b) {
         int tmp = n / max(a, b);
-        h[a][b] = new int [tmp + 2](); 
+        h[a][b].assign(tmp + 2, 0);
         for (int i = 1; i <= tmp; ++i) h[a][b][i] = (h[a][b][i - 1] + 1ll * f[i] * g[i][a] % mod * g[i][b] % mod) % mod;
     }
 }

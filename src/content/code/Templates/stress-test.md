@@ -28,12 +28,12 @@ for (int i = 2; i <= n; i++) { //随机生成树
 
 //随机生成无向图（n个点m条边，先存边，打乱后再输出）
 map <pair<int, int>, bool> be;
-struct edge { int u, v, w; } e[Z]; int tot = 0;
+struct edge { int u, v, w; }; vector<edge> e(1); // e[1..m]
 //先生成一棵树，保证连通
 for (int i = 2; i <= n; i++) {
     int fa = rnd(1, i - 1);
     int val = rnd(1, MAX);
-    e[++tot] = {i, fa, val};
+    e.push_back({i, fa, val});
     be[make_pair(fa, i)] = be[make_pair(i, fa)] = 1;
 }
 //添加剩余边
@@ -43,9 +43,9 @@ for (int i = n; i <= m; i++) {
         x = rnd(1, n), y = rnd(1, n);
     } while (x == y || be[make_pair(x, y)]);
     be[make_pair(x, y)] = be[make_pair(y, x)] = 1;
-    e[++tot] = {x, y, rnd(1, MAX)};
+    e.push_back({x, y, (int)rnd(1, MAX)});
 }
-shuffle(e + 1, e + 1 + m, rng);//随机打乱（random_shuffle 在 C++17 中已删除）
+shuffle(e.begin() + 1, e.end(), rng);//随机打乱（random_shuffle 在 C++17 中已删除）
 for (int i = 1; i <= m; i++) printf("%d %d %d\n", e[i].u, e[i].v, e[i].w);
 ```
 

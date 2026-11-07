@@ -9,18 +9,21 @@ time: "Mon Feb 1, 2024"
 Replace each value by its rank among the distinct values: sort, `unique`, then `lower_bound`. Order is preserved and values become $1..len$. $O(n \log n)$
 
 ```cpp
-template<class T> vector<T> discrete(int n, T *a) { // a[1..n] becomes ranks 1..len; returns the sorted distinct values
-    vector<T> ls(a + 1, a + n + 1); //转移临时数组
-    sort(ls.begin(), ls.end()); //排序
-    ls.erase(unique(ls.begin(), ls.end()), ls.end()); //去重
-    for (int i = 1; i <= n; i++) a[i] = lower_bound(ls.begin(), ls.end(), a[i]) - ls.begin() + 1; //离散
-    return ls;
+// a[1..n] (a.size() == n + 1) becomes ranks 1..len; returns vals[1..len], vals[r] = the original value of rank r
+template<class T> vector<T> discrete(vector<T> &a) {
+    vector<T> vals(a.begin() + 1, a.end()); //转移临时数组
+    sort(vals.begin(), vals.end()); //排序
+    vals.erase(unique(vals.begin(), vals.end()), vals.end()); //去重
+    vals.insert(vals.begin(), T()); //vals[0] unused
+    for (size_t i = 1; i < a.size(); i++) a[i] = lower_bound(vals.begin() + 1, vals.end(), a[i]) - vals.begin(); //离散
+    return vals;
 }
 ```
 
 Usage:
 
 ```cpp
-auto vals = discrete(n, a);  // a: global array a[Z] (or v.data() for a vector)
-int len = vals.size();       // a[i] in 1..len now, original value = vals[a[i] - 1]
+vector<ll> a(n + 1);         // a[1..n]
+auto vals = discrete(a);
+int len = vals.size() - 1;   // a[i] in 1..len now, original value = vals[a[i]]
 ```

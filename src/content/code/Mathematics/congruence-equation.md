@@ -144,7 +144,8 @@ $$
 对于所有$j\ne i$，因为$c_j=\frac{M}{m_j}$，所以因数中包含$m_i$，所以$c_j\equiv 0\pmod{m_i}$，也即$a_jc_jt_j\equiv 0\pmod{m_i}$。因为$c_it_i\equiv1\pmod{m_i}$，所以$a_ic_it_i\equiv a_i\pmod{m_i}$，那么$\sum\limits_{i=1}^{n}a_ic_it_i\equiv a_i\pmod{m_i}$。同理可知$x$满足所有$n$个方程，解成立。
 
 ```cpp
-ll CRT(int n, const ll *a, const ll *m) { // x = a[i] (mod m[i]), i = 1..n, m pairwise coprime, product fits in ll
+ll CRT(const vector<ll> &a, const vector<ll> &m) { // x = a[i] (mod m[i]), i = 1..n (size n + 1), m pairwise coprime, product fits in ll
+    int n = a.size() - 1;
     ll M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) M *= m[i];
     for (int i = 1; i <= n; ++i) {
@@ -162,7 +163,8 @@ ll CRT(int n, const ll *a, const ll *m) { // x = a[i] (mod m[i]), i = 1..n, m pa
 先来考虑只有两个方程的情况。设方程分别是 $x\equiv a_1\pmod{m_1}，x\equiv a_2\pmod{m_2}$，则得到不定方程 $x=m_1p+a_1=m_2q+a_2$。移项得 $m_1p-m_2q=a_2-a_1$，首先当 $gcd(m_1, m_2) \nmid (a_2-a_1)$，方程无解；否则，可以得到一组可行解$p、q$。令 $a'=m_1p+a_1，M=lcm(m_1,m_2)$，合并得到同余方程 $x\equiv a'\pmod{M}$，多个方程的话两两合并即可。
 
 ```cpp
-pair<ll, ll> EXCRT(int n, const ll *a, const ll *m) { // returns {x, lcm}, or {-1, -1} if no solution; lcm must fit in ll
+pair<ll, ll> EXCRT(const vector<ll> &a, const vector<ll> &m) { // i = 1..n (size n + 1); returns {x, lcm}, or {-1, -1} if no solution; lcm must fit in ll
+    int n = a.size() - 1;
     ll M = 1, ans = 0;
     for (int i = 1; i <= n; ++i) {
         ll x, y, g = exgcd(M, m[i], x, y), c = ((a[i] - ans) % m[i] + m[i]) % m[i]; //M*x≡a[i]-ans(mod m[i])

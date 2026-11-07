@@ -13,8 +13,9 @@ A BST on the index and a (min-)heap on the value $p_i$. Built in $O(n)$ with a m
 构建
 
 ```cpp
-// 笛卡尔树: min-heap on a[1..n]; returns the root, lc/rc = children (0 = none)
-template<class T> int cartesian(int n, const T &a, vector<int> &lc, vector<int> &rc) {
+// 笛卡尔树: min-heap on a[1..n] (a.size() == n + 1); returns the root, lc/rc = children (0 = none)
+template<class T> int cartesian(const vector<T> &a, vector<int> &lc, vector<int> &rc) {
+    int n = a.size() - 1;
     lc.assign(n + 1, 0), rc.assign(n + 1, 0);
     vector<int> stk; //单调栈，保存右链
     for (int i = 1; i <= n; i++) {
@@ -32,6 +33,6 @@ Usage:
 
 ```cpp
 vector<int> lc, rc;
-int root = cartesian(n, a, lc, rc);  // a[1..n]; equal values: the left one is the ancestor
+int root = cartesian(a, lc, rc);  // vector a(n + 1), a[1..n]; equal values: the left one is the ancestor
 // max-heap: change a[stk.back()] > a[i] to a[stk.back()] < a[i]
 ```

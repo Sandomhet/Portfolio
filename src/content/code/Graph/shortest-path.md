@@ -15,14 +15,14 @@ time: "Mon Oct 27, 2025"
 
 单源最短路
 
-The graph is the global adjacency list `vector<pii> e[Z]` with `e[u] = {(v, w)}`; distances are `ll` and `LLONG_MAX` means unreachable. Call each function with the number of vertices `n` and the source `s`.
+The graph is the global adjacency list `vector<vector<pii>> e` of size $n + 1$ (`e.assign(n + 1, {})`, then `e[u].push_back({v, w})`); distances are `ll` and `LLONG_MAX` means unreachable. Call each function with the number of vertices `n` and the source `s`.
 
 ### BFS For Unweighted Graphs
 
 BFS from source. $O(V+E)$
 
 ```cpp
-vector<int> e[Z];
+vector<vector<int>> e; // e.assign(n + 1, {})
 vector<int> dis; // -1 = unreachable
 void bfs(int n, int s) {
     dis.assign(n + 1, -1);
@@ -46,7 +46,7 @@ Topological sort + relax edges. $O(V+E)$
 weights can be negative but no negative cycles.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 void dag_shortest_path(int n, int s) {
     dis.assign(n + 1, LLONG_MAX);
@@ -78,7 +78,7 @@ Prerequisites: edge weights are non-negative $w(e) \geq 0$.
 3. **Priority_queue:** no decrease-key → overall $O((n + m) \log m)$ worst case, but usually faster in practice.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 vector<int> path;
 void dijkstra(int n, int s) {
@@ -146,7 +146,7 @@ Can handle negative weights and detect negative cycles. $O(nm)$.
 Proof: After $i_{th}$ iteration, all shortest paths with at most $i$ edges are found. A negative cycle exists if we can still relax an edge in the $n_{th}$ iteration.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 vector<int> path, cycle; // cycle: a negative cycle, if found
 void get_negative_cycle(int n, int x) {
@@ -189,7 +189,7 @@ Faster version of Bellman-Ford using a queue to process vertices.
 It is $O(nm)$ in the worst case but can perform in $O(m)$ on average for many graphs.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;   // LLONG_MAX = unreachable
 vector<int> path, cnt, cycle; // cycle: a negative cycle, if found
 vector<bool> vs;
@@ -238,7 +238,7 @@ For graphs with edge weights of $0$ or $1$. $O(V+E)$
 Same idea as Dijkstra, but the queue would only look like this: $Q = [d_u, \cdots, d_u, d_u + 1, \cdots, d_u + 1]$.
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w), w in {0, 1}
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1, w in {0, 1}
 vector<ll> dis;
 void zero_one_bfs(int n, int s) {
     dis.assign(n + 1, LLONG_MAX);
@@ -265,7 +265,7 @@ For graphs with small integer weights. $O(kV + E)$ where $k$ is the maximum edge
 <summary>Show Code</summary>
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w), 0 <= w <= maxw
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1, 0 <= w <= maxw
 vector<ll> dis;
 void dial(int n, int s, int maxw) {
     dis.assign(n + 1, LLONG_MAX);
@@ -297,7 +297,7 @@ Usually faster than Dijkstra and SPFA in practice. Exponential worst-case time c
 <summary>Show Code</summary>
 
 ```cpp
-vector<pii> e[Z]; // e[u]: (v, w)
+vector<vector<pii>> e; // e[u]: (v, w), size n + 1
 vector<ll> dis;
 vector<int> path;
 void desopo_pape(int n, int s) {

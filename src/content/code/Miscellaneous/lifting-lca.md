@@ -37,7 +37,9 @@ $dp_{j,i} = op(dp_{j-1,i}, dp_{j-1,i+2^{j-1}})$; query $[l, r]$ with $t = \lfloo
 ```cpp
 template<class T, class Op> struct SparseTable {
     Op op; vector<vector<T>> f;
-    SparseTable(int n, const T *a, Op op) : op(op), f(__lg(max(n, 1)) + 1, vector<T>(n + 1)) { // a[1..n]
+    SparseTable(const vector<T> &a, Op op) : op(op) { // a[1..n], a.size() == n + 1
+        int n = a.size() - 1;
+        f.assign(__lg(max(n, 1)) + 1, vector<T>(n + 1));
         for (int i = 1; i <= n; i++) f[0][i] = a[i];
         for (int j = 1; j < (int)f.size(); j++)
             for (int i = 1; i + (1 << j) - 1 <= n; i++)
@@ -53,9 +55,9 @@ template<class T, class Op> struct SparseTable {
 Usage:
 
 ```cpp
-// a is a global array a[Z] or a vector (pass a.data()), 1-indexed
-SparseTable mx(n, a, [](ll x, ll y) { return max(x, y); });
-SparseTable g(n, a, [](ll x, ll y) { return __gcd(x, y); });
+// vector<ll> a(n + 1), a[1..n]
+SparseTable mx(a, [](ll x, ll y) { return max(x, y); });
+SparseTable g(a, [](ll x, ll y) { return __gcd(x, y); });
 mx.query(l, r);
 ```
 
