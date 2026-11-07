@@ -1,3 +1,8 @@
+---
+title: "EECS 376 Notes: Algorithms and Computability"
+description: ""
+time: "Thu Sep 17, 2026"
+---
 # EECS 376 Notes: Algorithms and Computability
 
 **Notation.** $\perp$ is the blank tape symbol. $\langle M\rangle$ is the string encoding of a Turing machine $M$; every string is treated as the encoding of some TM (a string that is not a valid encoding stands for a fixed machine that rejects every input). $D_B$ is a black box that decides language $B$. $M_A$ is a machine being constructed to decide $A$. $n$ is the input size unless stated otherwise.
