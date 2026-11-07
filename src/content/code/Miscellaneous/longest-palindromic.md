@@ -20,19 +20,31 @@ time: "Mon Feb 1, 2024"
 只会在r右侧一点点扩展，r是单调指针，只一次次向右移动，直到n，因此时间复杂度为O(n)。
 
 ```cpp
-int d[Z];//d[i]：以i为对称中心的最大回文串的半径为d[i]，原串最长回文长度为max(d[i]) - 1
-void manacher(char t[], int len) {
-    n = len * 2 + 1;//新串
-    s[0] = '{', s[n + 1] = '}';//防止字符串之间冲突
-    for (int i = 1; i <= len; i++)
-        s[i << 1] = t[i], s[(i << 1) - 1] = '|';//在字符中间加隔板
-    s[n] = '|';
-    int mid = 0, r = 0;
-    for (int i = 1; i <= n; i++) {
-        if (i <= r) d[i] = min(d[mid * 2 - i], r - i + 1);//取对称点
-        else d[i] = 1;
-        while (s[i - d[i]] == s[i + d[i]]) d[i]++;//扩展半径
-        if (i + d[i] > r) r = i + d[i] - 1, mid = i;//扩展最右侧右端点
+// s = "^#t1#t2#...#tn#$"; d[i]: radius at s[i] (d[i] - 1 = length of that palindrome in t)
+vector<int> manacher(const string &t) {
+    string s = "^#"; //在字符中间加隔板，两端哨兵防止越界
+    for (char c : t) s += c, s += '#';
+    s += '$';
+    int n = s.size(); vector<int> d(n);
+    for (int i = 1, mid = 0, r = 0; i < n - 1; i++) {
+        d[i] = i <= r ? min(d[2 * mid - i], r - i + 1) : 1; //取对称点
+        while (s[i - d[i]] == s[i + d[i]]) d[i]++; //扩展半径
+        if (i + d[i] - 1 > r) r = i + d[i] - 1, mid = i; //扩展最右侧右端点
     }
+    return d;
 }
+string longest_palindrome(const string &t) {
+    auto d = manacher(t);
+    int i = max_element(d.begin(), d.end()) - d.begin();
+    return t.substr((i - d[i]) / 2, d[i] - 1); // start index in t (0-indexed), length
+}
+```
+
+Usage:
+
+```cpp
+auto d = manacher(t);
+// odd palindrome centered at t[j]: d[2 * j + 2] - 1 = its max length
+// even palindrome centered between t[j] and t[j + 1]: d[2 * j + 3] - 1
+longest_palindrome("abacabad"); // "abacaba"
 ```

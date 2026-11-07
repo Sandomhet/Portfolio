@@ -9,27 +9,33 @@ time: "Mon Feb 1, 2024"
 Hill climbing only moves to better neighbors and can get stuck in a local optimum. Simulated annealing also accepts a worse neighbor with probability $e^{-\Delta / T}$ (Metropolis criterion, $\Delta > 0$ is how much worse), where the temperature $T$ decreases geometrically; early on it explores, later it behaves like hill climbing. Keep the current point and the best point separately.
 
 ```cpp
-const double down = 0.996;//降温系数
-const double eps = 1e-15;//终止温度
-double ansx, ansy, answ, nowx, nowy, T;//ans：最优解；now：当前解
-struct point { int x, y, w; } a[Z];
-inline double dis(double x1, double x2, double y1, double y2) { return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)); }
-inline double calc(double x, double y) { //计算答案值
-    double res = 0;
-    for (int i = 1; i <= n; i++) res += dis(x, a[i].x, y, a[i].y) * a[i].w;
-    if (res < answ) ansx = x, ansy = y, answ = res;
-    return res;
-}
-inline double get(double x) { return x + (rand() * 2.0 - RAND_MAX) * T; }//随机获得新解（2.0：rand() * 2 会溢出int）
-void SA() {
-    T = 3000;//初始温度
-    nowx = ansx, nowy = ansy;
+// minimize f over states; neighbor(s, T) returns a random state near s (step size ~ T)
+template<class S, class F, class N> S anneal(S cur, F f, N neighbor, double T = 3000, double down = 0.996, double eps = 1e-15) {
+    static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+    uniform_real_distribution<double> U(0, 1);
+    S best = cur; double fc = f(cur), fb = fc; //best: 最优解；cur: 当前解
     while (T > eps) {
-        double ex = get(nowx), ey = get(nowy);
-        double delta = calc(ex, ey) - calc(nowx, nowy);
-        if (exp(-delta / T) * RAND_MAX > rand()) nowx = ex, nowy = ey;//根据Metropolis准则保留
-        T *= down;//不断降温
+        S nx = neighbor(cur, T);
+        double fn = f(nx), delta = fn - fc;
+        if (delta < 0 || exp(-delta / T) > U(rng)) cur = nx, fc = fn; //根据Metropolis准则保留
+        if (fc < fb) best = cur, fb = fc;
+        T *= down; //不断降温
     }
-    for (int i = 1; i <= 1000; i++) calc(get(ansx), get(ansy));//最后在接近的范围里跳
+    return best;
 }
+```
+
+Usage:
+
+```cpp
+// 吊打XXX: point minimizing sum of w[i] * dist(p, (x[i], y[i]))
+mt19937 rng(114514); uniform_real_distribution<double> U(-1, 1);
+auto f = [&](pair<double, double> p) {
+    double s = 0;
+    for (int i = 1; i <= n; i++) s += hypot(p.first - x[i], p.second - y[i]) * w[i];
+    return s;
+};
+auto nb = [&](pair<double, double> p, double T) { return make_pair(p.first + U(rng) * T, p.second + U(rng) * T); };
+pair<double, double> best = {avgx, avgy};
+for (int t = 0; t < 5; t++) best = anneal(best, f, nb); // restart a few times while time allows
 ```

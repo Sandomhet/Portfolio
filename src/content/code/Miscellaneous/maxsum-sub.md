@@ -15,13 +15,12 @@ a[]为全体实数集
 首先我们累加a[i]，直到sum出现了负数，这时候不管后面的数如何，舍弃前面这一段一定比保留更优，因为舍弃后sum=0。
 
 ```cpp
-int max_sum() {
-    int ans = a[1], tmp = 0;//子段非空，全为负数时答案为最大的数
-    // int ans = 0, tmp = 0;//原版：允许空子段，答案至少为0
+template<class T> ll max_sum(int n, const T &a) { // a[1..n], non-empty subarray
+    ll ans = a[1], cur = 0;
+    // ll ans = 0; //允许空子段，答案至少为0
     for (int i = 1; i <= n; i++) {
-        if (tmp > 0) tmp += a[i];//可以累加
-        else tmp = a[i];//舍弃前一段和为负数的部分
-        if (tmp > ans) ans = tmp;//更新答案
+        cur = cur > 0 ? cur + a[i] : a[i]; //可以累加 / 舍弃前一段和为负数的部分
+        ans = max(ans, cur); //更新答案
     }
     return ans;
 }
@@ -32,13 +31,12 @@ int max_sum() {
 对于每一个子段和∑[aj,ai]可以用前缀和表示为s[i]-s[j-1]，要使结果更大，则为s[i]-min{s[j]}，j∈[0，i)。枚举i即可。
 
 ```cpp
-int max_sum() {
-    int ans = a[1];//子段非空；s[0] = mn[0] = 0
-    // int ans = 0;//原版：允许空子段，答案至少为0
+template<class T> ll max_sum_prefix(int n, const T &a) { // a[1..n], non-empty subarray
+    ll s = 0, mn = 0, ans = LLONG_MIN; // s: 前缀和, mn: 最小前缀 (s[0] = 0)
     for (int i = 1; i <= n; i++) {
-        s[i] = s[i - 1] + a[i];//前缀和
-        mn[i] = min(mn[i - 1], s[i]);//最小前缀
-        ans = max(ans, s[i] - mn[i - 1]);//更新答案
+        s += a[i];
+        ans = max(ans, s - mn); //更新答案
+        mn = min(mn, s);
     }
     return ans;
 }

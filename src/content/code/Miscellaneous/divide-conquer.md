@@ -9,16 +9,15 @@ time: "Mon Oct 20, 2025"
 ## Quick Sort (快速排序)
 
 ```cpp
-int a[Z];
-void quick_sort(int l, int r) {
-    int i = l, j = r, mid = a[(l + r) >> 1]; //基准存值而不是下标（交换会移动a[mid]）
+template<class T> void quick_sort(T *a, int l, int r) { // sorts a[l..r]
+    int i = l, j = r; T mid = a[l + (r - l) / 2]; //基准存值而不是下标（交换会移动a[mid]）
     while (i <= j) { //等号不能少
         while (a[i] < mid) i++; //左半寻找不小于mid的（用<=会越界）
         while (a[j] > mid) j--; //右半寻找不大于mid的
         if (i <= j) swap(a[i++], a[j--]); //交换大小，使得mid左边都小于mid，右边都大于mid
     }
-    if (i < r) quick_sort(i, r); //区间边界
-    if (j > l) quick_sort(l, j);
+    if (i < r) quick_sort(a, i, r); //区间边界
+    if (j > l) quick_sort(a, l, j);
 }
 ```
 
@@ -27,34 +26,30 @@ void quick_sort(int l, int r) {
 $O(n \log n)$, 稳定排序算法，适合链表排序和大数据排序（外部排序）。
 
 ```cpp
-int a[Z], b[Z];
-void merge_sort(int l, int r) {
-    if (l >= r) return; //base case
+template<class T> ll merge_sort(T *a, T *b, int l, int r) { // sorts a[l..r] (b: buffer of the same size), returns the number of inversions
+    if (l >= r) return 0; //base case
     int mid = (l + r) >> 1;
-    merge_sort(l, mid), merge_sort(mid + 1, r);
+    ll inv = merge_sort(a, b, l, mid) + merge_sort(a, b, mid + 1, r);
     int i = l, j = mid + 1, k = l;
     while (i <= mid && j <= r) { //排序
         if (a[i] <= a[j]) b[k++] = a[i++];
-        else b[k++] = a[j++];
+        else b[k++] = a[j++], inv += mid - i + 1; //a[i..mid] are all > a[j]
     }
     while (i <= mid) b[k++] = a[i++]; //左剩余
     while (j <= r) b[k++] = a[j++]; //右剩余
-    for (int u = l; u <= r; u++)  a[u] = b[u]; //剩余转移
+    for (int u = l; u <= r; u++) a[u] = b[u]; //剩余转移
+    return inv;
 }
 ```
 
 ## Binary Exponentiation (快速幂)
 
 ```cpp
-//a底数，b指数，c取模数
-int binpow(int a, int b, int c) {
-    int res = 1 % c; //c = 1 时结果为 0
-    a = a % c; //防止a过大
-    while (b) {
-        if (b & 1) res = res * a % c; //奇数补一项
-        a = a * a % c;
-        b >>= 1;
-    }
+ll binpow(ll a, ll b, ll p) { // a^b mod p, b >= 0
+    ll res = 1 % p; //p = 1 时结果为 0
+    a %= p; if (a < 0) a += p; //防止a过大
+    for (; b; b >>= 1, a = (__int128)a * a % p) //__int128: p may exceed 2^31
+        if (b & 1) res = (__int128)res * a % p; //奇数补一项
     return res;
 }
 ```
@@ -64,16 +59,19 @@ int binpow(int a, int b, int c) {
 数组有序
 
 ```cpp
-int binary_search(int l, int r, int aim) {
+// a[l..r] sorted ascending; first position of aim, or -1
+template<class T> int binary_search(const T *a, int l, int r, T aim) {
     int ans = -1;
     while (l <= r) {
-        int mid = (l + r) >> 1;
+        int mid = l + (r - l) / 2;
         if (a[mid] > aim) r = mid - 1;
         else if (a[mid] < aim) l = mid + 1;
         else ans = mid, r = mid - 1; //找到后继续向左，得到最左边的aim
     }
     return ans;
 }
+// with STL: lower_bound(a + l, a + r + 1, aim) - a  (first >= aim)
+//           upper_bound(a + l, a + r + 1, aim) - a  (first >  aim)
 ```
 
 ## Karatsuba Multiplication
@@ -99,15 +97,16 @@ $T(n) = 3T(\frac{n}{2}) + O(n)$.
 $O(n^{\log_2 3})$, faster than the traditional $O(n^2)$ algorithm.
 
 ```cpp
-int karatsuba(int X, int Y) {
+ll karatsuba(ll X, ll Y) { // illustration only: real big numbers use digit vectors (see Bignum / FFT)
     if (X < 10 || Y < 10) return X * Y; // base case
     int m = max(to_string(X).size(), to_string(Y).size()) / 2;
-    int power = pow(10, m);
-    int Xl = X / power, Xr = X % power;
-    int Yl = Y / power, Yr = Y % power;
-    int P1 = karatsuba(Xl, Yl);
-    int P2 = karatsuba(Xr, Yr);
-    int P3 = karatsuba(Xl + Xr, Yl + Yr);
+    ll power = 1;
+    for (int i = 0; i < m; i++) power *= 10;
+    ll Xl = X / power, Xr = X % power;
+    ll Yl = Y / power, Yr = Y % power;
+    ll P1 = karatsuba(Xl, Yl);
+    ll P2 = karatsuba(Xr, Yr);
+    ll P3 = karatsuba(Xl + Xr, Yl + Yr);
     return P1 * power * power + (P3 - P1 - P2) * power + P2;
 }
 ```
@@ -133,24 +132,28 @@ Steps:
 4. If $|A_1| + |A_2| \geq k$, the $k$-th smallest number is $p$.
 
 ```cpp
-int kth_rank(int l, int r, int k) {
-    if (l == r) return a[l]; // base case
-    int pivot = a[rand() % (r - l + 1) + l]; //随机选取一个数作为pivot
-    int i = l, j = r;
-    while (i <= j) {
-        while (a[i] < pivot) i++;
-        while (a[j] > pivot) j--;
-        if (i <= j) swap(a[i++], a[j--]);
+template<class T> T kth_rank(T *a, int l, int r, int k) { // k-th smallest of a[l..r] (1-based k), reorders a; O(n) expected
+    static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+    while (l < r) {
+        T pivot = a[l + rng() % (r - l + 1)]; //随机选取一个数作为pivot
+        int i = l, j = r;
+        while (i <= j) {
+            while (a[i] < pivot) i++;
+            while (a[j] > pivot) j--;
+            if (i <= j) swap(a[i++], a[j--]);
+        }
+        if (k <= j - l + 1) r = j;
+        else if (k > i - l) k -= i - l, l = i;
+        else return pivot;
     }
-    if (k <= j - l + 1) return kth_rank(l, j, k);
-    else if (k > i - l) return kth_rank(i, r, k - (i - l));
-    else return pivot;
+    return a[l];
 }
+// with STL: nth_element(a + l, a + l + k - 1, a + r + 1); a[l + k - 1]
 ```
 
 ## Closest Pair of Points (最近点对)
 
-Complexity: $O(n \log n)$ (sorting the strip at every level as below gives $O(n \log^2 n)$). Sort `points[l..r]` by $x$ before the first call.
+Complexity: $O(n \log n)$: the recursion also merge-sorts the points by $y$, so the strip is already sorted. Distances are squared and exact (`ll`); take `sqrt` at the end if needed.
 
 Steps:
 1. Sort the points by their x-coordinates.
@@ -161,40 +164,31 @@ Steps:
 6. For each point in the strip, check only the next 7 points in the sorted order by y-coordinate to find the closest pair.
 
 ```cpp
-struct Point {
-    int x, y;
-};
-Point points[Z];
-double closest_pair(int l, int r) {
-    if (r - l <= 3) { // base case
-        double min_dist = DBL_MAX;
+struct Pt { ll x, y; };
+ll closest_pair(vector<Pt> p) { // minimum squared distance, p.size() >= 2, |x|, |y| <= 1e9
+    auto d2 = [](const Pt &a, const Pt &b) { return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y); };
+    auto byy = [](const Pt &a, const Pt &b) { return a.y < b.y; };
+    sort(p.begin(), p.end(), [](const Pt &a, const Pt &b) { return a.x < b.x; });
+    vector<Pt> strip(p.size());
+    function<ll(int, int)> rec = [&](int l, int r) -> ll { // [l, r), returns sorted by y
+        if (r - l <= 3) { // base case
+            ll d = LLONG_MAX;
+            for (int i = l; i < r; i++) for (int j = i + 1; j < r; j++) d = min(d, d2(p[i], p[j]));
+            sort(p.begin() + l, p.begin() + r, byy);
+            return d;
+        }
+        int m = (l + r) / 2; ll midx = p[m].x;
+        ll d = min(rec(l, m), rec(m, r));
+        inplace_merge(p.begin() + l, p.begin() + m, p.begin() + r, byy);
+        int k = 0;
         for (int i = l; i < r; i++) {
-            for (int j = i + 1; j <= r; j++) {
-                double dist = sqrt(pow(points[i].x - points[j].x, 2) + pow(points[i].y - points[j].y, 2));
-                min_dist = min(min_dist, dist);
-            }
+            if ((p[i].x - midx) * (p[i].x - midx) >= d) continue; // outside the strip of width 2d
+            for (int j = k - 1; j >= 0 && (p[i].y - strip[j].y) * (p[i].y - strip[j].y) < d; j--)
+                d = min(d, d2(p[i], strip[j]));
+            strip[k++] = p[i];
         }
-        return min_dist;
-    }
-    int mid = (l + r) / 2;
-    double d1 = closest_pair(l, mid);
-    double d2 = closest_pair(mid + 1, r);
-    double d = min(d1, d2);
-
-    vector<Point> strip;
-    for (int i = l; i <= r; i++) {
-        if (abs(points[i].x - points[mid].x) < d) {
-            strip.push_back(points[i]);
-        }
-    }
-    sort(strip.begin(), strip.end(), [](const Point &a, const Point &b) { return a.y < b.y; });
-
-    for (size_t i = 0; i < strip.size(); i++) {
-        for (size_t j = i + 1; j < strip.size() && (strip[j].y - strip[i].y) < d; j++) {
-            double dist = sqrt(pow(strip[i].x - strip[j].x, 2) + pow(strip[i].y - strip[j].y, 2));
-            d = min(d, dist);
-        }
-    }
-    return d;
+        return d;
+    };
+    return rec(0, p.size());
 }
 ```
