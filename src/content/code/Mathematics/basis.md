@@ -6,63 +6,59 @@ time: "Mon Feb 1, 2024"
 
 # Basis of a Vector Space
 
-XOR linear basis: `p[i]` is $0$ or a number whose highest bit is $i$. Every XOR of a subset of the inserted numbers equals the XOR of a subset of the nonzero `p[i]`, and with $cnt$ nonzero `p[i]` there are exactly $2^{cnt}$ distinct values. Insert in $O(\log V)$. Values need 62 bits, so `int` is `long long` here.
+XOR linear basis: `p[i]` is $0$ or a number whose highest bit is $i$. Every XOR of a subset of the inserted numbers equals the XOR of a subset of the nonzero `p[i]`, and with $cnt$ nonzero `p[i]` there are exactly $2^{cnt}$ distinct values. Insert in $O(\log V)$. Values are `ll` (up to 62 bits).
 
 ```cpp
-inline void insert(int x) { //插入构造线性基
-    for (int i = 61; i >= 0; i--)
-        if (x >> i) {
-            if (p[i]) x ^= p[i];
-            else { p[i] = x; return; }
+struct LinearBasis {
+    static const int B = 62;
+    ll p[B] = {}; bool zero = false; // zero: some nonempty subset XORs to 0
+    bool insert(ll x) { //插入构造线性基, false if x was already representable
+        for (int i = B - 1; i >= 0; i--) if (x >> i & 1) {
+            if (!p[i]) { p[i] = x; return true; }
+            x ^= p[i];
         }
-    flag = 1;//x被消成0，说明能异或出0
-}
-inline int getmax() { //最大异或和
-    int ans = 0;
-    for (int i = 61; i >= 0; i--)
-        if ((ans ^ p[i]) > ans) ans ^= p[i];
-    return ans;
-}
-inline int getmin() { //最小异或和
-    if (flag) return 0;//异或和为0
-    for (int i = 0; i <= 61; ++i)
-        if (p[i]) return p[i];
-    return 0;
-}
-inline void merge(int g[]) { //线性基合并
-    for (int i = 0; i <= 61; ++i)
-        if (g[i]) insert(g[i]);
-}
+        zero = true; //x被消成0，说明能异或出0
+        return false;
+    }
+    bool contains(ll x) { for (int i = B - 1; i >= 0; i--) if (x >> i & 1) x ^= p[i]; return x == 0; }
+    ll max_xor(ll x = 0) { for (int i = B - 1; i >= 0; i--) x = max(x, x ^ p[i]); return x; } //最大异或和
+    ll min_xor() { //最小异或和 (nonempty subset)
+        if (zero) return 0;
+        for (int i = 0; i < B; i++) if (p[i]) return p[i];
+        return -1; // empty basis
+    }
+    void merge(const LinearBasis &o) { for (int i = 0; i < B; i++) if (o.p[i]) insert(o.p[i]); } //线性基合并
+    vector<ll> reduced() { //将线性基转为对角矩阵, returns the basis from small to large
+        vector<ll> r;
+        for (int i = B - 1; i >= 0; i--) for (int j = i - 1; j >= 0; j--) if (p[i] >> j & 1) p[i] ^= p[j];
+        for (int i = 0; i < B; i++) if (p[i]) r.push_back(p[i]);
+        return r;
+    }
+    ll kth(ll k) { // k-th smallest distinct nonempty-subset XOR (k >= 1), -1 if k is too large
+        auto r = reduced();
+        if (zero) k--; // 0 is the smallest
+        if (k == 0) return 0;
+        if (k >= (1LL << r.size())) return -1;
+        ll ans = 0;
+        for (int i = 0; i < (int)r.size(); i++) if (k >> i & 1) ans ^= r[i];
+        return ans;
+    }
+    ll rank(ll q) { // rank of a representable q among the 2^cnt distinct values in span (0 has rank 1)
+        auto r = reduced(); ll ans = 0;
+        for (int i = 0; i < (int)r.size(); i++) if (q >> __lg(r[i]) & 1) ans |= 1LL << i; //这一位为1可以参与构造q
+        return ans + 1;
+    }
+};
 ```
 
-```cpp
-inline void rebuild() { //将线性基转为对角矩阵
-    for (int i = 61; i >= 0; i--)//除最高位为1外，其他尽量通过异或变为0
-        for (int j = i - 1; j >= 0; j--)
-            if ((p[i] >> j) & 1) p[i] ^= p[j];
-    for (int i = 0; i <= 61; i++)
-        if (p[i]) r[cnt++] = p[i];//下标从零开始，从小到大（记录基底）
-}
-inline int query(int k, int cnt) { //查询第k小的非零异或和（若flag，即能异或出0，则第k小为query(k - 1)）
-    int ans = 0;
-    for (int i = 0; i < cnt; ++i)
-        if ((k >> i) & 1) ans ^= r[i];
-    return ans;
-}
-```
+Usage:
 
 ```cpp
-inline void rebuild() { //将线性基转为对角矩阵
-    for (int i = 61; i >= 0; i--)//除最高位为1外，其他尽量通过异或变为0
-        for (int j = i - 1; j >= 0; j--)
-            if ((p[i] >> j) & 1) p[i] ^= p[j];
-    for (int i = 0; i <= 61; i++)
-        if (p[i]) r[cnt++] = i;//下标从零开始，从小到大（记录位置）
-}
-inline int getrank(int q) { //查询一个异或和的排名
-    int ans = 0;
-    for (int i = 0; i < cnt; ++i)//这一位为1可以参与构造q
-        if ((q >> r[i]) & 1) ans = ans + (1ll << i);//低位部分随便放
-    return ans + 1;
-}
+LinearBasis lb;
+for (int i = 1; i <= n; i++) lb.insert(a[i]);
+lb.max_xor();      // max XOR of a subset
+lb.min_xor();      // min XOR of a nonempty subset
+lb.kth(k);         // k-th smallest
+lb.contains(x);
+lb.merge(other);
 ```

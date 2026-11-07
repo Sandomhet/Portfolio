@@ -148,59 +148,46 @@ $$
 <summary> 代码实现 </summary>
 
 ```cpp
-#define sandom signed
-#include <cstdio>
-#include <iostream>
-#define int long long 
-using namespace std;
-const int Z = 5e4 + 10;
-inline int read() { int x = 0; int f = 0; char c = getchar(); while (!isdigit(c)) f |= c == '-', c = getchar(); while (isdigit(c)) x = (x << 1) + (x << 3) + (c ^ 48), c = getchar(); return f ? -x : x; }
-inline void write(int x) { static int wrt[20]; int TP = 0; if (x < 0) putchar('-'), x = -x; while (x >= 10) wrt[++TP] = x % 10, x /= 10; wrt[++TP] = x; while (TP) putchar(wrt[TP--] | 48); putchar('\n'); }
+struct Mobius {
+    vector<int> mu, primes; vector<ll> pre; // pre[i] = mu[1] + ... + mu[i]
+    Mobius(int n) : mu(n + 1), pre(n + 1) {
+        vector<bool> np(n + 1);
+        mu[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            if (!np[i]) primes.push_back(i), mu[i] = -1;
+            for (int p : primes) {
+                if ((ll)i * p > n) break;
+                np[i * p] = 1;
+                if (i % p == 0) { mu[i * p] = 0; break; }
+                mu[i * p] = -mu[i];
+            }
+        }
+        for (int i = 1; i <= n; i++) pre[i] = pre[i - 1] + mu[i]; //前缀和
+    }
+    // sum over d <= min(n, m) of mu(d) * f(n / d, m / d), grouping equal quotients (整除分块); n, m <= size
+    template<class F> ll block_sum(ll n, ll m, F f) {
+        ll res = 0;
+        for (ll l = 1, r; l <= min(n, m); l = r + 1) {
+            r = min(n / (n / l), m / (m / l));
+            res += (pre[r] - pre[l - 1]) * f(n / l, m / l);
+        }
+        return res;
+    }
+};
+```
 
-int n, m, s, ans;
-bool prime[Z];
-int ip[Z];
-int miu[Z], f[Z];
-void Mobius(int n) {
-miu[1] = 1;
-for (int i = 2; i <= n; i++) {
-if (!prime[i]) ip[++ip[0]] = i, miu[i] = -1;
-for (int j = 1; j <= ip[0]; j++) {
-int k = i * ip[j];
-if (k > n) break;
-prime[k] = 1;
-if (i % ip[j] == 0) { miu[k] = 0; break; }
-else miu[k] = -miu[i];
-}
-}
-for (int i = 1; i <= n; i++) miu[i] += miu[i - 1];//前缀和
-}
-void init(int n) { //整除分块预处理的函数
-for (int k = 1; k <= n; k++)
-for (int l = 1, r; l <= k; l = r + 1) {
-r = k / (k / l);
-f[k] += (k / l) * (r - l + 1);
-}
-}
-inline int NTB(int n, int m) {
-int k = min(n, m);
-int ans = 0;
-for (int l = 1, r; l <= k; l = r + 1) {
-r = min(n / (n / l), m / (m / l));
-ans += f[n / l] * f[m / l] * (miu[r] - miu[l - 1]);
-}
-return ans;
-}
+Usage:
 
-sandom main() {
-Mobius(5e4); init(5e4);
-int T = read();
-while (T--) {
-n = read(), m = read();
-write(NTB(n, m));
-}
-return 0;
-}
+```cpp
+Mobius mb(5e4);
+// pairs (i, j), i <= n, j <= m with gcd(i, j) = 1 (use n / k, m / k for gcd = k)
+mb.block_sum(n, m, [](ll a, ll b) { return a * b; });
+
+// this problem: sum of d(ij) = sum mu(d) f(n / d) f(m / d), f(x) = sum_{i <= x} floor(x / i)
+vector<ll> f(5e4 + 1);
+for (int x = 1; x <= 5e4; x++) //整除分块预处理的函数
+    for (int l = 1, r; l <= x; l = r + 1) r = x / (x / l), f[x] += (ll)(x / l) * (r - l + 1);
+mb.block_sum(n, m, [&](ll a, ll b) { return f[a] * f[b]; });
 ```
 
 </details>
@@ -248,20 +235,14 @@ $h$因为内存问题，显然不能全部预处理出来。而根据整除函�
 <summary> 代码实现 </summary>
 
 ```cpp
-#define sandom signed
-#include <bits/stdc++.h>
-using namespace std; 
-const int Z = 1e5 + 2; const int M = 50; const int mod = 998244353;
-inline char getc() { static char buf[1 << 18], *p1, *p2; if (p1 == p2) { p1 = buf, p2 = buf + fread(buf, 1, 1 << 18, stdin); if (p1 == p2) return EOF; } return *p1++; }
-inline int read() { int x = 0, f = 0; char c = getc(); while (!isdigit(c)) f = c == '-', c = getc(); while (isdigit(c)) x = (x << 1) + (x << 3) + (c ^ 48), c = getc(); return f ? -x : x; }
-inline void write(int x) { static int wrt[20]; int TP = 0; if (x < 0) putchar('-'), x = -x; while (x >= 10) wrt[++TP] = x % 10, x /= 10; wrt[++TP] = x; while (TP) putchar(wrt[TP--] | 48); putchar('\n'); }
-inline int max(int a, int b) { return a > b ? a : b; } inline int min(int a, int b) { return a < b ? a : b; }
-inline int qpow(int a, int b, int c) { int res = 1; while (b) { if (b & 1) res = 1ll * res * a % c; a = 1ll * a * a % c; b >>= 1; } return res; }
+namespace PhiSum { // sum_{i<=n} sum_{j<=m} phi(i*j) mod 998244353, many queries, n, m <= 1e5
+const int N = 1e5 + 2, M = 50;
+ll qpow(ll a, ll b, ll c) { ll r = 1; for (a %= c; b; b >>= 1, a = a * a % c) if (b & 1) r = r * a % c; return r; }
 
-int n, m, ans;
-bool prime[Z];
-int ip[Z], miu[Z], phi[Z], inv[Z];
-int f[Z], *g[Z], *h[M + 2][M + 2];
+int ans;
+bool prime[N];
+int ip[N], miu[N], phi[N], inv[N];
+int f[N], *g[N], *h[M + 2][M + 2];
 void Linear(int n) { //线性筛莫比乌斯函数和欧拉函数
     miu[1] = phi[1] = 1;
     for (int i = 2; i <= n; ++i) {
@@ -308,16 +289,16 @@ int solve(int n, int m) { //整除分块
     return ans;
 }
 
-sandom main() {
-    int T = read();
-    Linear(1e5); init(1e5, M);
-    while (T--) {
-        n = read(), m = read();
-        if (n > m) swap(n, m);
-        write((solve(n, m) + mod) % mod);
-    }
-    return 0;
-}
+} // namespace PhiSum
+```
+
+Usage:
+
+```cpp
+PhiSum::Linear(1e5), PhiSum::init(1e5, PhiSum::M);
+// each query:
+if (n > m) swap(n, m);
+cout << (PhiSum::solve(n, m) + mod) % mod << '\n';
 ```
 
 </details>

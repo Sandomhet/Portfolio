@@ -68,10 +68,17 @@ $1……N$依次入栈，出栈顺序的方案数。考虑$1$的顺序：
 个点，得到递推式。
 
 ```cpp
-int catalan(int n) {
-    int res = 1;
-    for (int i = 0; i < n; i++)
-        res = res * (2 * (2 * i + 1)) / (i + 2);
+vector<ll> catalan(int n, ll p = mod) { // Cat[0..n] mod prime p (n < p), via Cat_n = Cat_{n-1} * (4n - 2) / (n + 1)
+    vector<ll> c(n + 1), inv(n + 2);
+    inv[1] = 1;
+    for (int i = 2; i <= n + 1; i++) inv[i] = (p - p / i) * inv[p % i] % p;
+    c[0] = 1 % p;
+    for (int i = 1; i <= n; i++) c[i] = c[i - 1] * ((4LL * i - 2) % p) % p * inv[i + 1] % p;
+    return c;
+}
+ll catalan_exact(int n) { // exact, n <= 35
+    ll res = 1;
+    for (int i = 0; i < n; i++) res = (__int128)res * (4 * i + 2) / (i + 2);
     return res;
 }
 ```
