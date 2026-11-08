@@ -16,16 +16,15 @@ A binary search tree (BST) is a binary tree in which each node has a comparable 
 一颗二叉搜索树应该做到的事情
 
 ```cpp
-template<typename T>
-class BST {
+class BST { // values are ll
 private:
     struct Node;
     using ptr = unique_ptr<Node>;
     struct Node {
-        T val;
+        ll val;
         int cnt, siz, het; // count of duplicates, size of subtree, height
         ptr ch[2]; // children
-        Node(const T& v) : val(v), cnt(1), siz(1), het(1) {}
+        Node(const ll& v) : val(v), cnt(1), siz(1), het(1) {}
     };
     ptr root;
     int cnt(const ptr& rt) const { return rt ? rt->cnt : 0; }
@@ -33,18 +32,18 @@ private:
     int het(const ptr& rt) const { return rt ? rt->het : 0; }
     void pushup(ptr& rt) { if (rt) rt->siz = siz(rt->ch[0]) + siz(rt->ch[1]) + rt->cnt, rt->het = max(het(rt->ch[0]), het(rt->ch[1])) + 1; }
 
-    bool contains(const ptr& rt, const T& v) const {
+    bool contains(const ptr& rt, const ll& v) const {
         if (!rt) return false;
         if (v == rt->val) return true;
         return contains(v < rt->val ? rt->ch[0] : rt->ch[1], v);
     }
-    void insert(ptr& rt, const T& v) {
+    void insert(ptr& rt, const ll& v) {
         if (!rt) { rt = make_unique<Node>(v); return; }
         if (v == rt->val) rt->cnt++;
         else insert(v < rt->val ? rt->ch[0] : rt->ch[1], v);
         pushup(rt);
     }
-    void remove(ptr& rt, const T& v) {
+    void remove(ptr& rt, const ll& v) {
         if (!rt) return;
         if (v == rt->val) {
             if (rt->cnt > 1) { rt->cnt--; pushup(rt); return; }
@@ -76,7 +75,7 @@ private:
         if (!rt) return nullptr;
         return findMin(rt->ch[1].get());
     }
-    Node* getPredecessor(Node* rt, const T& v) const {
+    Node* getPredecessor(Node* rt, const ll& v) const {
         Node* cur = nullptr;
         while (rt) { //不断向右逼近
             if (rt->val < v) cur = rt, rt = rt->ch[1].get();
@@ -84,7 +83,7 @@ private:
         }
         return cur;
     }
-    Node* getSuccessor(Node* rt, const T& v) const {
+    Node* getSuccessor(Node* rt, const ll& v) const {
         Node* cur = nullptr;
         while (rt) { //不断向左逼近
             if (rt->val > v) cur = rt, rt = rt->ch[0].get();
@@ -92,7 +91,7 @@ private:
         }
         return cur;
     }
-    int getRank(const ptr& rt, const T& v) const { //权值为v的排名（比v小的个数+1）
+    int getRank(const ptr& rt, const ll& v) const { //权值为v的排名（比v小的个数+1）
         if (!rt) return 1;
         if (v == rt->val) return siz(rt->ch[0]) + 1;
         if (v < rt->val) return getRank(rt->ch[0], v);
@@ -104,7 +103,7 @@ private:
         if (siz(rt->ch[0]) + rt->cnt >= rnk) return rt.get();
         return getByRank(rt->ch[1], rnk - siz(rt->ch[0]) - rt->cnt);
     }
-    void inorder(const ptr& rt, vector<T>& res) const {
+    void inorder(const ptr& rt, vector<ll>& res) const {
         if (!rt) return;
         inorder(rt->ch[0], res);
         res.push_back(rt->val);
@@ -112,17 +111,17 @@ private:
     }
 
 public:
-    bool contains(const T& v) const { return contains(root, v); }
-    void insert(const T& v) { insert(root, v); }
-    void remove(const T& v) { remove(root, v); }
-    T getMin() const { Node* res = findMin(root.get()); if (!res) throw runtime_error("Tree is empty"); return res->val; }
-    T getMax() const { Node* res = findMax(root.get()); if (!res) throw runtime_error("Tree is empty"); return res->val; }
-    T getPredecessor(const T& v) const { Node* res = getPredecessor(root.get(), v); if (!res) throw runtime_error("No predecessor"); return res->val; }
-    T getSuccessor(const T& v) const { Node* res = getSuccessor(root.get(), v); if (!res) throw runtime_error("No successor"); return res->val; }
-    int getRank(const T& v) const { return getRank(root, v); }
-    T getByRank(int rnk) const { Node* res = getByRank(root, rnk); if (!res) throw runtime_error("Rank out of bounds"); return res->val; }
+    bool contains(const ll& v) const { return contains(root, v); }
+    void insert(const ll& v) { insert(root, v); }
+    void remove(const ll& v) { remove(root, v); }
+    ll getMin() const { Node* res = findMin(root.get()); if (!res) throw runtime_error("Tree is empty"); return res->val; }
+    ll getMax() const { Node* res = findMax(root.get()); if (!res) throw runtime_error("Tree is empty"); return res->val; }
+    ll getPredecessor(const ll& v) const { Node* res = getPredecessor(root.get(), v); if (!res) throw runtime_error("No predecessor"); return res->val; }
+    ll getSuccessor(const ll& v) const { Node* res = getSuccessor(root.get(), v); if (!res) throw runtime_error("No successor"); return res->val; }
+    int getRank(const ll& v) const { return getRank(root, v); }
+    ll getByRank(int rnk) const { Node* res = getByRank(root, rnk); if (!res) throw runtime_error("Rank out of bounds"); return res->val; }
 
-    vector<T> inorder() const { vector<T> v; inorder(root, v); return v; }
+    vector<ll> inorder() const { vector<ll> v; inorder(root, v); return v; }
 };
 ```
 

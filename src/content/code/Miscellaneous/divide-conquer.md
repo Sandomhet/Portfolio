@@ -9,8 +9,8 @@ time: "Mon Oct 20, 2025"
 ## Quick Sort (快速排序)
 
 ```cpp
-template<class T> void quick_sort(vector<T> &a, int l, int r) { // sorts a[l..r]; whole array: quick_sort(a, 1, n)
-    int i = l, j = r; T mid = a[l + (r - l) / 2]; //基准存值而不是下标（交换会移动a[mid]）
+void quick_sort(vector<ll> &a, int l, int r) { // sorts a[l..r]; whole array: quick_sort(a, 1, n)
+    int i = l, j = r; ll mid = a[l + (r - l) / 2]; //基准存值而不是下标（交换会移动a[mid]）
     while (i <= j) { //等号不能少
         while (a[i] < mid) i++; //左半寻找不小于mid的（用<=会越界）
         while (a[j] > mid) j--; //右半寻找不大于mid的
@@ -26,7 +26,7 @@ template<class T> void quick_sort(vector<T> &a, int l, int r) { // sorts a[l..r]
 $O(n \log n)$, 稳定排序算法，适合链表排序和大数据排序（外部排序）。
 
 ```cpp
-template<class T> ll merge_sort(vector<T> &a, vector<T> &b, int l, int r) { // sorts a[l..r], b: buffer of a.size(); returns the number of inversions
+ll merge_sort(vector<ll> &a, vector<ll> &b, int l, int r) { // sorts a[l..r], b: buffer of a.size(); returns the number of inversions
     if (l >= r) return 0; //base case
     int mid = (l + r) >> 1;
     ll inv = merge_sort(a, b, l, mid) + merge_sort(a, b, mid + 1, r);
@@ -60,7 +60,7 @@ ll binpow(ll a, ll b, ll p) { // a^b mod p, b >= 0
 
 ```cpp
 // a[l..r] sorted ascending; first position of aim, or -1
-template<class T> int binary_search(const vector<T> &a, int l, int r, T aim) {
+int binary_search(const vector<ll> &a, int l, int r, ll aim) {
     int ans = -1;
     while (l <= r) {
         int mid = l + (r - l) / 2;
@@ -132,10 +132,10 @@ Steps:
 4. If $|A_1| + |A_2| \geq k$, the $k$-th smallest number is $p$.
 
 ```cpp
-template<class T> T kth_rank(vector<T> &a, int l, int r, int k) { // k-th smallest of a[l..r] (1-based k), reorders a; O(n) expected
+ll kth_rank(vector<ll> &a, int l, int r, int k) { // k-th smallest of a[l..r] (1-based k), reorders a; O(n) expected
     static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
     while (l < r) {
-        T pivot = a[l + rng() % (r - l + 1)]; //随机选取一个数作为pivot
+        ll pivot = a[l + rng() % (r - l + 1)]; //随机选取一个数作为pivot
         int i = l, j = r;
         while (i <= j) {
             while (a[i] < pivot) i++;

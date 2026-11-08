@@ -165,7 +165,7 @@ struct Mobius {
         for (int i = 1; i <= n; i++) pre[i] = pre[i - 1] + mu[i]; //前缀和
     }
     // sum over d <= min(n, m) of mu(d) * f(n / d, m / d), grouping equal quotients (整除分块); n, m <= size
-    template<class F> ll block_sum(ll n, ll m, F f) {
+    ll block_sum(ll n, ll m, function<ll(ll, ll)> f) {
         ll res = 0;
         for (ll l = 1, r; l <= min(n, m); l = r + 1) {
             r = min(n / (n / l), m / (m / l));

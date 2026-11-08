@@ -43,7 +43,7 @@ struct HLD {
         return dep[u] < dep[v] ? u : v;
     }
     int dist(int u, int v) { return dep[u] + dep[v] - 2 * dep[lca(u, v)]; }
-    template<class F> void path(int u, int v, F f, bool edge = false) { // edge: values stored on the child end of each edge
+    void path(int u, int v, function<void(int, int)> f, bool edge = false) { // edge: values stored on the child end of each edge
         while (top[u] != top[v]) { //没在一条重链上
             if (dep[top[u]] < dep[top[v]]) swap(u, v);
             f(dfn[top[u]], dfn[u]);

@@ -30,22 +30,23 @@ dfs_order(1, 0, e);
 
 ## Sparse Table (RMQ)
 
-$dp_{j,i} = op(dp_{j-1,i}, dp_{j-1,i+2^{j-1}})$; query $[l, r]$ with $t = \lfloor \log_2(r-l+1) \rfloor$: $op(dp_{t,l}, dp_{t,r-2^t+1})$. $O(n \log n)$ build, $O(1)$ query. Works for any idempotent $op$ ($\max$, $\min$, $\gcd$, AND, OR).
+$dp_{j,i} = op(dp_{j-1,i}, dp_{j-1,i+2^{j-1}})$; query $[l, r]$ with $t = \lfloor \log_2(r-l+1) \rfloor$: $op(dp_{t,l}, dp_{t,r-2^t+1})$. $O(n \log n)$ build, $O(1)$ query. Works for any idempotent $op$ (edit the one-line `op`) ($\max$, $\min$, $\gcd$, AND, OR).
 
 预处理 ST 表，区间 RMQ 问题：f[j][i]：以 i 为起点，长度为 2^j 的区间
 
 ```cpp
-template<class T, class Op> struct SparseTable {
-    Op op; vector<vector<T>> f;
-    SparseTable(const vector<T> &a, Op op) : op(op) { // a[1..n], a.size() == n + 1
+struct SparseTable {
+    vector<vector<ll>> f;
+    static ll op(ll x, ll y) { return max(x, y); } // min / __gcd / & / | also work
+    SparseTable(const vector<ll> &a) { // a[1..n], a.size() == n + 1
         int n = a.size() - 1;
-        f.assign(__lg(max(n, 1)) + 1, vector<T>(n + 1));
+        f.assign(__lg(max(n, 1)) + 1, vector<ll>(n + 1));
         for (int i = 1; i <= n; i++) f[0][i] = a[i];
         for (int j = 1; j < (int)f.size(); j++)
             for (int i = 1; i + (1 << j) - 1 <= n; i++)
                 f[j][i] = op(f[j - 1][i], f[j - 1][i + (1 << (j - 1))]);
     }
-    T query(int l, int r) {
+    ll query(int l, int r) {
         int t = __lg(r - l + 1);
         return op(f[t][l], f[t][r - (1 << t) + 1]);
     }
@@ -55,10 +56,8 @@ template<class T, class Op> struct SparseTable {
 Usage:
 
 ```cpp
-// vector<ll> a(n + 1), a[1..n]
-SparseTable mx(a, [](ll x, ll y) { return max(x, y); });
-SparseTable g(a, [](ll x, ll y) { return __gcd(x, y); });
-mx.query(l, r);
+SparseTable st(a); // vector<ll> a(n + 1), a[1..n]
+st.query(l, r);    // op over a[l..r]; edit op() for min / gcd
 ```
 
 ## Binary Lifting

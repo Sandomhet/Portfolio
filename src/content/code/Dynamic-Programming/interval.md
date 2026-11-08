@@ -24,7 +24,9 @@ $$
 $O(n^3)$
 
 ```cpp
-template<class F> ll IntervalDP(int n, F cost) { // cost(i, k, j): merging [i, k] and [k + 1, j]
+vector<ll> s; // problem-specific data used by cost (stone merging: prefix sums of the weights)
+ll cost(int i, int k, int j) { return s[j] - s[i - 1]; } // merging [i, k] and [k + 1, j]; rewrite per problem
+ll IntervalDP(int n) {
     vector<vector<ll>> f(n + 1, vector<ll>(n + 1, 0));
     for (int d = 2; d <= n; d++) {
         for (int i = 1; i + d - 1 <= n; i++) {
@@ -41,8 +43,9 @@ template<class F> ll IntervalDP(int n, F cost) { // cost(i, k, j): merging [i, k
 Usage:
 
 ```cpp
-// stone merging: cost = total weight of [i, j]
-vector<ll> s(n + 1); for (int i = 1; i <= n; i++) s[i] = s[i - 1] + a[i];
-IntervalDP(n, [&](int i, int k, int j) { return s[j] - s[i - 1]; });
+// stone merging
+s.assign(n + 1, 0);
+for (int i = 1; i <= n; i++) s[i] = s[i - 1] + a[i];
+IntervalDP(n);
 // circular: duplicate the array (a[i + n] = a[i]), run on 2n, answer = min over i of f[i][i + n - 1]
 ```

@@ -22,7 +22,7 @@ struct Centroid {
         for (auto [v, w] : e[u]) if (v != fa && !vis[v] && siz[v] * 2 > tot) return find(v, u, tot);
         return u;
     }
-    template<class F> void run(F &&calc, int u = 1) {
+    void run(const function<void(int)> &calc, int u = 1) {
         int c = find(u, 0, get_siz(u, 0));
         vis[c] = 1;
         calc(c); //统计经过重心的路径，因题而异

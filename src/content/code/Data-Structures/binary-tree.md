@@ -71,9 +71,10 @@ Array `h[1..n]`: children of $i$ are $2i$ and $2i+1$, parent is $\lfloor i/2 \rf
 手打堆
 
 ```cpp
-template<class T, class Cmp = less<T>> struct Heap { // Cmp = less: max-heap, greater: min-heap
-    vector<T> h{T()}; Cmp cmp; // h[0] unused
-    void push(const T &x) {
+struct Heap { // max-heap; for a min-heap flip cmp to a > b
+    vector<ll> h{0}; // h[0] unused
+    static bool cmp(ll a, ll b) { return a < b; } // true: a must sit below b
+    void push(ll x) {
         h.push_back(x);
         for (int i = h.size() - 1; i > 1 && cmp(h[i / 2], h[i]); i /= 2) swap(h[i], h[i / 2]);
     }
@@ -85,7 +86,7 @@ template<class T, class Cmp = less<T>> struct Heap { // Cmp = less: max-heap, gr
             swap(h[i], h[j]);
         }
     }
-    const T &top() const { return h[1]; }
+    ll top() const { return h[1]; }
     int size() const { return h.size() - 1; }
     bool empty() const { return h.size() == 1; }
 };
@@ -94,12 +95,10 @@ template<class T, class Cmp = less<T>> struct Heap { // Cmp = less: max-heap, gr
 Usage:
 
 ```cpp
-Heap<ll> big;                    // max-heap
-Heap<ll, greater<ll>> small;     // min-heap
-big.push(x), big.top(), big.pop(), big.size();
+Heap hp;
+hp.push(x), hp.top(), hp.pop(), hp.size();
 
-// heap sort
-Heap<ll, greater<ll>> hp;
+// heap sort (ascending) with the max-heap
 for (int i = 1; i <= n; i++) hp.push(a[i]);
-for (int i = 1; i <= n; i++) a[i] = hp.top(), hp.pop();
+for (int i = n; i >= 1; i--) a[i] = hp.top(), hp.pop();
 ```

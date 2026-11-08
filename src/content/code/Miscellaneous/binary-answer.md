@@ -10,7 +10,7 @@ time: "Mon Feb 1, 2024"
 
 ```cpp
 // check monotone: true ... true false ... false. Largest x in [l, r] with check(x), or l - 1 if none
-template<class F> ll last_true(ll l, ll r, F check) { //二分答案
+ll last_true(ll l, ll r, function<bool(ll)> check) { //二分答案
     ll ans = l - 1;
     while (l <= r) {
         ll mid = l + (r - l) / 2;
@@ -20,7 +20,7 @@ template<class F> ll last_true(ll l, ll r, F check) { //二分答案
     return ans;
 }
 // check monotone: false ... false true ... true. Smallest x in [l, r] with check(x), or r + 1 if none
-template<class F> ll first_true(ll l, ll r, F check) {
+ll first_true(ll l, ll r, function<bool(ll)> check) {
     ll ans = r + 1;
     while (l <= r) {
         ll mid = l + (r - l) / 2;
@@ -30,7 +30,7 @@ template<class F> ll first_true(ll l, ll r, F check) {
     return ans;
 }
 // real numbers: 100 halvings are enough for any double range
-template<class F> double last_true_real(double l, double r, F check, int it = 100) {
+double last_true_real(double l, double r, function<bool(double)> check, int it = 100) {
     while (it--) {
         double mid = (l + r) / 2;
         if (check(mid)) l = mid; else r = mid;
@@ -51,7 +51,7 @@ double r = last_true_real(0, 1e9, [&](double mid) { return feasible(mid); });
 
 ```cpp
 // f unimodal on integers (strictly decreasing then strictly increasing): returns an argmin in [l, r]
-template<class F> ll ternary_min(ll l, ll r, F f) { //单谷函数求最小值（单峰函数传 -f）
+ll ternary_min(ll l, ll r, function<ll(ll)> f) { //单谷函数求最小值（单峰函数传 -f）
     while (r - l > 2) { //区间太小时lmid、rmid可能与端点重合，不再缩小
         ll lmid = l + (r - l) / 3, rmid = r - (r - l) / 3;
         if (f(lmid) < f(rmid)) r = rmid;
@@ -61,7 +61,7 @@ template<class F> ll ternary_min(ll l, ll r, F f) { //单谷函数求最小值�
     for (ll i = l + 1; i <= r; i++) if (f(i) < f(best)) best = i; //剩下不超过3个点直接枚举
     return best;
 }
-template<class F> double ternary_min_real(double l, double r, F f, int it = 200) {
+double ternary_min_real(double l, double r, function<double(double)> f, int it = 200) {
     while (it--) {
         double lmid = l + (r - l) / 3, rmid = r - (r - l) / 3;
         if (f(lmid) < f(rmid)) r = rmid;

@@ -45,11 +45,11 @@ Value $\to$ rank among distinct values, order preserved. $O(n \log n)$
 
 ```cpp
 // a[1..n] (a.size() == n + 1) becomes ranks 1..len; returns vals[1..len], vals[r] = the original value of rank r
-template<class T> vector<T> discrete(vector<T> &a) {
-    vector<T> vals(a.begin() + 1, a.end()); //转移临时数组
+vector<ll> discrete(vector<ll> &a) {
+    vector<ll> vals(a.begin() + 1, a.end()); //转移临时数组
     sort(vals.begin(), vals.end()); //排序
     vals.erase(unique(vals.begin(), vals.end()), vals.end()); //去重
-    vals.insert(vals.begin(), T()); //vals[0] unused
+    vals.insert(vals.begin(), 0); //vals[0] unused
     for (size_t i = 1; i < a.size(); i++) a[i] = lower_bound(vals.begin() + 1, vals.end(), a[i]) - vals.begin(); //离散
     return vals;
 }
@@ -69,7 +69,7 @@ Binary search: `check` monotone, find the last `mid` with `check(mid)` true. Ter
 
 ```cpp
 // check monotone: true ... true false ... false. Largest x in [l, r] with check(x), or l - 1 if none
-template<class F> ll last_true(ll l, ll r, F check) { //二分答案
+ll last_true(ll l, ll r, function<bool(ll)> check) { //二分答案
     ll ans = l - 1;
     while (l <= r) {
         ll mid = l + (r - l) / 2;
@@ -79,7 +79,7 @@ template<class F> ll last_true(ll l, ll r, F check) { //二分答案
     return ans;
 }
 // check monotone: false ... false true ... true. Smallest x in [l, r] with check(x), or r + 1 if none
-template<class F> ll first_true(ll l, ll r, F check) {
+ll first_true(ll l, ll r, function<bool(ll)> check) {
     ll ans = r + 1;
     while (l <= r) {
         ll mid = l + (r - l) / 2;
@@ -89,7 +89,7 @@ template<class F> ll first_true(ll l, ll r, F check) {
     return ans;
 }
 // real numbers: 100 halvings are enough for any double range
-template<class F> double last_true_real(double l, double r, F check, int it = 100) {
+double last_true_real(double l, double r, function<bool(double)> check, int it = 100) {
     while (it--) {
         double mid = (l + r) / 2;
         if (check(mid)) l = mid; else r = mid;
@@ -108,7 +108,7 @@ double r = last_true_real(0, 1e9, [&](double mid) { return feasible(mid); });
 
 ```cpp
 // f unimodal on integers (strictly decreasing then strictly increasing): returns an argmin in [l, r]
-template<class F> ll ternary_min(ll l, ll r, F f) { //单谷函数求最小值（单峰函数传 -f）
+ll ternary_min(ll l, ll r, function<ll(ll)> f) { //单谷函数求最小值（单峰函数传 -f）
     while (r - l > 2) { //区间太小时lmid、rmid可能与端点重合，不再缩小
         ll lmid = l + (r - l) / 3, rmid = r - (r - l) / 3;
         if (f(lmid) < f(rmid)) r = rmid;
@@ -118,7 +118,7 @@ template<class F> ll ternary_min(ll l, ll r, F f) { //单谷函数求最小值�
     for (ll i = l + 1; i <= r; i++) if (f(i) < f(best)) best = i; //剩下不超过3个点直接枚举
     return best;
 }
-template<class F> double ternary_min_real(double l, double r, F f, int it = 200) {
+double ternary_min_real(double l, double r, function<double(double)> f, int it = 200) {
     while (it--) {
         double lmid = l + (r - l) / 3, rmid = r - (r - l) / 3;
         if (f(lmid) < f(rmid)) r = rmid;
@@ -383,17 +383,18 @@ bit.sum(x1, y1, x2, y2);    // sum of rows x1..x2, columns y1..y2
 $dp_{i,j} = \max(dp_{i,j-1}, dp_{i+2^{j-1},j-1})$; query with $t = \lfloor \log_2(r-l+1) \rfloor$. $O(1)$ query.
 
 ```cpp
-template<class T, class Op> struct SparseTable {
-    Op op; vector<vector<T>> f;
-    SparseTable(const vector<T> &a, Op op) : op(op) { // a[1..n], a.size() == n + 1
+struct SparseTable {
+    vector<vector<ll>> f;
+    static ll op(ll x, ll y) { return max(x, y); } // min / __gcd / & / | also work
+    SparseTable(const vector<ll> &a) { // a[1..n], a.size() == n + 1
         int n = a.size() - 1;
-        f.assign(__lg(max(n, 1)) + 1, vector<T>(n + 1));
+        f.assign(__lg(max(n, 1)) + 1, vector<ll>(n + 1));
         for (int i = 1; i <= n; i++) f[0][i] = a[i];
         for (int j = 1; j < (int)f.size(); j++)
             for (int i = 1; i + (1 << j) - 1 <= n; i++)
                 f[j][i] = op(f[j - 1][i], f[j - 1][i + (1 << (j - 1))]);
     }
-    T query(int l, int r) {
+    ll query(int l, int r) {
         int t = __lg(r - l + 1);
         return op(f[t][l], f[t][r - (1 << t) + 1]);
     }
@@ -403,10 +404,8 @@ template<class T, class Op> struct SparseTable {
 Usage:
 
 ```cpp
-// vector<ll> a(n + 1), a[1..n]
-SparseTable mx(a, [](ll x, ll y) { return max(x, y); });
-SparseTable g(a, [](ll x, ll y) { return __gcd(x, y); });
-mx.query(l, r);
+SparseTable st(a); // vector<ll> a(n + 1), a[1..n]
+st.query(l, r);    // op over a[l..r]; edit op() for min / gcd
 ```
 
 ### 2.4 Segment Tree (Lazy)
@@ -793,25 +792,30 @@ struct Splay {
 Sort queries by (block of $l$, $r$), move two pointers: $O((n + m)\sqrt n)$. With modifications: add a time pointer, block $n^{2/3}$, $O(n^{5/3})$. Rollback: only add, undo the left part with a stack.
 
 ```cpp
+vector<int> a, cnt; ll cur = 0; // problem-specific: a[1..n] (discretized to 1..m), counts in the window, answer
+void mo_add(int i) { cur += cnt[a[i]]++; } // example: pairs i < j in the window with a[i] == a[j]
+void mo_del(int i) { cur -= --cnt[a[i]]; }
 struct Mo {
     struct Q { int l, r, id; };
     vector<Q> qs;
     void add_query(int l, int r) { qs.push_back({l, r, (int)qs.size()}); }
-    template<class Add, class Del, class Get> void run(int n, Add add, Del del, Get get) {
+    vector<ll> run(int n) { // answers in query order
         int B = max(1, (int)(n / sqrt(max<int>(1, qs.size()))));
         sort(qs.begin(), qs.end(), [&](const Q &a, const Q &b) { //奇偶性排序
             int x = (a.l - 1) / B, y = (b.l - 1) / B; // block of l, same formula as everywhere on this page
             if (x != y) return x < y;
             return x & 1 ? a.r > b.r : a.r < b.r;
         });
+        vector<ll> res(qs.size());
         int L = 1, R = 0;
         for (auto &q : qs) {
-            while (L > q.l) add(--L); //区间扩大
-            while (R < q.r) add(++R);
-            while (L < q.l) del(L++); //区间缩小
-            while (R > q.r) del(R--);
-            get(q.id);
+            while (L > q.l) mo_add(--L); //区间扩大
+            while (R < q.r) mo_add(++R);
+            while (L < q.l) mo_del(L++); //区间缩小
+            while (R > q.r) mo_del(R--);
+            res[q.id] = cur;
         }
+        return res;
     }
 };
 ```
@@ -819,46 +823,47 @@ struct Mo {
 Usage:
 
 ```cpp
-// number of pairs i < j in [l, r] with a[i] == a[j], a[] discretized to 1..m
+a.assign(n + 1, 0), cnt.assign(m + 1, 0); // read a[1..n]
 Mo mo;
 for (int i = 0; i < q; i++) mo.add_query(l, r);
-vector<int> cnt(m + 1); vector<ll> res(q); ll cur = 0;
-mo.run(n,
-    [&](int i) { cur += cnt[a[i]]++; },
-    [&](int i) { cur -= --cnt[a[i]]; },
-    [&](int id) { res[id] = cur; });
+vector<ll> res = mo.run(n);
 ```
 
 ```cpp
+vector<int> a, cnt; ll cur = 0; // problem-specific: a[1..n] colors (discretized, update values too), counts, answer
+void mo_add(int i) { if (cnt[a[i]]++ == 0) cur++; } // example: distinct colors in the window
+void mo_del(int i) { if (--cnt[a[i]] == 0) cur--; }
 struct MoUpd {
     struct Q { int l, r, t, id; };
-    vector<Q> qs; vector<pair<int, ll>> us; // us: (position, new value)
+    vector<Q> qs; vector<pii> us; // us: (position, new value)
     void add_query(int l, int r) { qs.push_back({l, r, (int)us.size(), (int)qs.size()}); }
-    void add_update(int p, ll v) { us.push_back({p, v}); }
-    template<class Add, class Del, class Get> void run(int n, vector<ll> &a, Add add, Del del, Get get) { // a[1..n] is updated in place
+    void add_update(int p, int v) { us.push_back({p, v}); }
+    vector<ll> run(int n) { // answers in query order; a[] is modified while running
         int B = max(1, (int)pow(n, 2.0 / 3)); //带修莫队块长取 n^(2/3)
         sort(qs.begin(), qs.end(), [&](const Q &x, const Q &y) {
             if ((x.l - 1) / B != (y.l - 1) / B) return x.l < y.l;
             if ((x.r - 1) / B != (y.r - 1) / B) return x.r < y.r;
             return x.t < y.t; //再加一维时间戳
         });
+        vector<ll> res(qs.size());
         int L = 1, R = 0, T = 0;
         auto apply = [&](int t) {
             auto &[p, v] = us[t];
             bool in = L <= p && p <= R;
-            if (in) del(p);
+            if (in) mo_del(p);
             swap(a[p], v);
-            if (in) add(p);
+            if (in) mo_add(p);
         };
         for (auto &q : qs) {
             while (T < q.t) apply(T++); //继续修改
             while (T > q.t) apply(--T); //修改回溯
-            while (L > q.l) add(--L);
-            while (R < q.r) add(++R);
-            while (L < q.l) del(L++);
-            while (R > q.r) del(R--);
-            get(q.id);
+            while (L > q.l) mo_add(--L);
+            while (R < q.r) mo_add(++R);
+            while (L < q.l) mo_del(L++);
+            while (R > q.r) mo_del(R--);
+            res[q.id] = cur;
         }
+        return res;
     }
 };
 ```
@@ -866,45 +871,48 @@ struct MoUpd {
 Usage:
 
 ```cpp
-// distinct colors in [l, r] with point recoloring (colors discretized to 1..m, including update values)
-MoUpd mo; int qc = 0;
-// 'Q l r': mo.add_query(l, r), qc++;   'R p v': mo.add_update(p, v);
-vector<int> cnt(m + 1), res(qc); int cur = 0;
-mo.run(n, a, // vector<ll> a(n + 1)
-    [&](int i) { if (cnt[a[i]]++ == 0) cur++; },
-    [&](int i) { if (--cnt[a[i]] == 0) cur--; },
-    [&](int id) { res[id] = cur; });
+a.assign(n + 1, 0), cnt.assign(m + 1, 0); // read a[1..n]
+MoUpd mo;
+// 'Q l r': mo.add_query(l, r);   'R p v': mo.add_update(p, v);
+vector<ll> res = mo.run(n);
 ```
 
 ```cpp
+// problem-specific: id[1..n] = discretized a[i] in 1..m, val[x] = original value of x; example: max over x of x * (count of x)
+vector<int> id, cnt, stk; vector<ll> val; ll cur = 0, saved = 0; size_t mark = 0;
+void mo_add(int i) { cnt[id[i]]++, stk.push_back(id[i]), cur = max(cur, cnt[id[i]] * val[id[i]]); }
+void mo_save() { mark = stk.size(), saved = cur; }
+void mo_undo() { while (stk.size() > mark) cnt[stk.back()]--, stk.pop_back(); cur = saved; }
+void mo_reset() { for (int x : stk) cnt[x]--; stk.clear(), cur = 0; }
 struct MoRollback {
     struct Q { int l, r, id; };
     vector<Q> qs;
     void add_query(int l, int r) { qs.push_back({l, r, (int)qs.size()}); }
-    template<class Add, class Save, class Undo, class Reset, class Get>
-    void run(int n, Add add, Save save, Undo undo, Reset reset, Get get) {
+    vector<ll> run(int n) { // answers in query order
         int B = max(1, (int)sqrt(n));
         sort(qs.begin(), qs.end(), [&](const Q &a, const Q &b) {
             if ((a.l - 1) / B != (b.l - 1) / B) return a.l < b.l;
             return a.r < b.r; //保证同一块内右端点只扩展
         });
+        vector<ll> res(qs.size());
         for (size_t i = 0, j; i < qs.size(); i = j) {
             int blk = (qs[i].l - 1) / B, end = min(n, (blk + 1) * B), R = end;
-            reset(); //进入下一块清空
+            mo_reset(); //进入下一块清空
             for (j = i; j < qs.size() && (qs[j].l - 1) / B == blk; j++) {
                 auto &q = qs[j];
                 if (q.r <= end) { //同一块暴力扫
-                    save();
-                    for (int k = q.l; k <= q.r; k++) add(k);
-                    get(q.id), undo();
+                    mo_save();
+                    for (int k = q.l; k <= q.r; k++) mo_add(k);
+                    res[q.id] = cur, mo_undo();
                     continue;
                 }
-                while (R < q.r) add(++R); //持续扩展
-                save();
-                for (int k = end; k >= q.l; k--) add(k); //扩展完撤销
-                get(q.id), undo(); //回滚撤销
+                while (R < q.r) mo_add(++R); //持续扩展
+                mo_save();
+                for (int k = end; k >= q.l; k--) mo_add(k); //扩展完撤销
+                res[q.id] = cur, mo_undo(); //回滚撤销
             }
         }
+        return res;
     }
 };
 ```
@@ -912,16 +920,10 @@ struct MoRollback {
 Usage:
 
 ```cpp
-// max over x of x * (occurrences of x in a[l..r]); id[i] = discretized a[i] in 1..m, val[id] = original value
+id.assign(n + 1, 0), cnt.assign(m + 1, 0), val.assign(m + 1, 0); // fill id[1..n], val[1..m]
 MoRollback mo;
 for (int i = 0; i < q; i++) mo.add_query(l, r);
-vector<int> cnt(m + 1), stk; vector<ll> res(q); ll cur = 0, saved = 0; size_t mark = 0;
-mo.run(n,
-    [&](int i) { cnt[id[i]]++, stk.push_back(id[i]), cur = max(cur, cnt[id[i]] * val[id[i]]); },
-    [&] { mark = stk.size(), saved = cur; },
-    [&] { while (stk.size() > mark) cnt[stk.back()]--, stk.pop_back(); cur = saved; },
-    [&] { for (int x : stk) cnt[x]--; stk.clear(), cur = 0; },
-    [&](int qid) { res[qid] = cur; });
+vector<ll> res = mo.run(n);
 ```
 
 ### 2.10 Square Root Decomposition
@@ -1108,7 +1110,7 @@ BST on index, min-heap on value; monotonic stack, $O(n)$. `cartesian` returns th
 
 ```cpp
 // 笛卡尔树: min-heap on a[1..n] (a.size() == n + 1); returns the root, lc/rc = children (0 = none)
-template<class T> int cartesian(const vector<T> &a, vector<int> &lc, vector<int> &rc) {
+int cartesian(const vector<ll> &a, vector<int> &lc, vector<int> &rc) {
     int n = a.size() - 1;
     lc.assign(n + 1, 0), rc.assign(n + 1, 0);
     vector<int> stk; //单调栈，保存右链
@@ -1127,7 +1129,7 @@ Usage:
 
 ```cpp
 vector<int> lc, rc;
-int root = cartesian(a, lc, rc);  // vector a(n + 1), a[1..n]; equal values: the left one is the ancestor
+int root = cartesian(a, lc, rc);  // vector<ll> a(n + 1), a[1..n]; equal values: the left one is the ancestor
 // max-heap: change a[stk.back()] > a[i] to a[stk.back()] < a[i]
 ```
 
@@ -1560,7 +1562,7 @@ struct HLD {
         return dep[u] < dep[v] ? u : v;
     }
     int dist(int u, int v) { return dep[u] + dep[v] - 2 * dep[lca(u, v)]; }
-    template<class F> void path(int u, int v, F f, bool edge = false) { // edge: values stored on the child end of each edge
+    void path(int u, int v, function<void(int, int)> f, bool edge = false) { // edge: values stored on the child end of each edge
         while (top[u] != top[v]) { //没在一条重链上
             if (dep[top[u]] < dep[top[v]]) swap(u, v);
             f(dfn[top[u]], dfn[u]);
@@ -1995,7 +1997,7 @@ struct Centroid {
         for (auto [v, w] : e[u]) if (v != fa && !vis[v] && siz[v] * 2 > tot) return find(v, u, tot);
         return u;
     }
-    template<class F> void run(F &&calc, int u = 1) {
+    void run(const function<void(int)> &calc, int u = 1) {
         int c = find(u, 0, get_siz(u, 0));
         vis[c] = 1;
         calc(c); //统计经过重心的路径，因题而异
@@ -2652,7 +2654,7 @@ struct Mobius {
         for (int i = 1; i <= n; i++) pre[i] = pre[i - 1] + mu[i]; //前缀和
     }
     // sum over d <= min(n, m) of mu(d) * f(n / d, m / d), grouping equal quotients (整除分块); n, m <= size
-    template<class F> ll block_sum(ll n, ll m, F f) {
+    ll block_sum(ll n, ll m, function<ll(ll, ll)> f) {
         ll res = 0;
         for (ll l = 1, r; l <= min(n, m); l = r + 1) {
             r = min(n / (n / l), m / (m / l));
@@ -2861,7 +2863,8 @@ longest_palindrome("abacabad"); // "abacaba"
 Path from the root spells a prefix; `end` counts words ending at a node, `pass` words through it. Root is node 0. 01-trie: max XOR.
 
 ```cpp
-template<int K = 26, char base = 'a'> struct Trie { // K letters starting at base
+struct Trie {
+    static const int K = 26; static const char base = 'a'; // alphabet: K letters from base (digits: 10, '0')
     struct Node { int ch[K], end, pass; }; //end: 以此结尾的串数, pass: 经过此点的串数
     vector<Node> t{Node{}};
     void insert(const string &s) { //插入一个字符串
@@ -2887,8 +2890,7 @@ template<int K = 26, char base = 'a'> struct Trie { // K letters starting at bas
 Usage:
 
 ```cpp
-Trie<> tr;           // lowercase letters
-Trie<10, '0'> dig;   // digit strings
+Trie tr;             // lowercase letters; for digits set K = 10, base = '0'
 tr.insert(s);
 tr.count(s);         // how many times s was inserted
 tr.prefix(p);        // how many inserted strings start with p
@@ -3086,7 +3088,9 @@ int LCS(string A, string B) {
 $f_{i,j} = \min_{i \le k < j} (f_{i,k} + f_{k+1,j} + cost(i, k, j))$, by increasing length. $O(n^3)$
 
 ```cpp
-template<class F> ll IntervalDP(int n, F cost) { // cost(i, k, j): merging [i, k] and [k + 1, j]
+vector<ll> s; // problem-specific data used by cost (stone merging: prefix sums of the weights)
+ll cost(int i, int k, int j) { return s[j] - s[i - 1]; } // merging [i, k] and [k + 1, j]; rewrite per problem
+ll IntervalDP(int n) {
     vector<vector<ll>> f(n + 1, vector<ll>(n + 1, 0));
     for (int d = 2; d <= n; d++) {
         for (int i = 1; i + d - 1 <= n; i++) {
@@ -3103,9 +3107,10 @@ template<class F> ll IntervalDP(int n, F cost) { // cost(i, k, j): merging [i, k
 Usage:
 
 ```cpp
-// stone merging: cost = total weight of [i, j]
-vector<ll> s(n + 1); for (int i = 1; i <= n; i++) s[i] = s[i - 1] + a[i];
-IntervalDP(n, [&](int i, int k, int j) { return s[j] - s[i - 1]; });
+// stone merging
+s.assign(n + 1, 0);
+for (int i = 1; i <= n; i++) s[i] = s[i - 1] + a[i];
+IntervalDP(n);
 // circular: duplicate the array (a[i + n] = a[i]), run on 2n, answer = min over i of f[i][i + n - 1]
 ```
 
@@ -3116,13 +3121,14 @@ IntervalDP(n, [&](int i, int k, int j) { return s[j] - s[i - 1]; });
 Accept a worse neighbor with probability $e^{-\Delta / T}$, $T \leftarrow 0.996\,T$. Keep the current and best points separately.
 
 ```cpp
+using State = pair<double, double>; // change to the problem's state (a point here)
 // minimize f over states; neighbor(s, T) returns a random state near s (step size ~ T)
-template<class S, class F, class N> S anneal(S cur, F f, N neighbor, double T = 3000, double down = 0.996, double eps = 1e-15) {
+State anneal(State cur, function<double(State)> f, function<State(State, double)> neighbor, double T = 3000, double down = 0.996, double eps = 1e-15) {
     static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
     uniform_real_distribution<double> U(0, 1);
-    S best = cur; double fc = f(cur), fb = fc; //best: 最优解；cur: 当前解
+    State best = cur; double fc = f(cur), fb = fc; //best: 最优解；cur: 当前解
     while (T > eps) {
-        S nx = neighbor(cur, T);
+        State nx = neighbor(cur, T);
         double fn = f(nx), delta = fn - fc;
         if (delta < 0 || exp(-delta / T) > U(rng)) cur = nx, fc = fn; //根据Metropolis准则保留
         if (fc < fb) best = cur, fb = fc;
@@ -3137,13 +3143,13 @@ Usage:
 ```cpp
 // 吊打XXX: point minimizing sum of w[i] * dist(p, (x[i], y[i]))
 mt19937 rng(114514); uniform_real_distribution<double> U(-1, 1);
-auto f = [&](pair<double, double> p) {
+auto f = [&](State p) {
     double s = 0;
     for (int i = 1; i <= n; i++) s += hypot(p.first - x[i], p.second - y[i]) * w[i];
     return s;
 };
-auto nb = [&](pair<double, double> p, double T) { return make_pair(p.first + U(rng) * T, p.second + U(rng) * T); };
-pair<double, double> best = {avgx, avgy};
+auto nb = [&](State p, double T) { return State(p.first + U(rng) * T, p.second + U(rng) * T); };
+State best = {avgx, avgy};
 for (int t = 0; t < 5; t++) best = anneal(best, f, nb); // restart a few times while time allows
 ```
 

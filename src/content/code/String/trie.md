@@ -6,10 +6,11 @@ time: "Mon Feb 1, 2024"
 
 # Trie Tree
 
-Each edge is a character; the path from the root spells a prefix, and `ed[rt]` marks nodes where an inserted string ends. Insert and search are $O(|s|)$; memory is (number of nodes) $\times$ (alphabet size). Below: the alphabet is a template parameter, root is node $0$.
+Each edge is a character; the path from the root spells a prefix, and `ed[rt]` marks nodes where an inserted string ends. Insert and search are $O(|s|)$; memory is (number of nodes) $\times$ (alphabet size). Below: the alphabet is set by the two constants `K` and `base`, root is node $0$.
 
 ```cpp
-template<int K = 26, char base = 'a'> struct Trie { // K letters starting at base
+struct Trie {
+    static const int K = 26; static const char base = 'a'; // alphabet: K letters from base (digits: 10, '0')
     struct Node { int ch[K], end, pass; }; //end: 以此结尾的串数, pass: 经过此点的串数
     vector<Node> t{Node{}};
     void insert(const string &s) { //插入一个字符串
@@ -35,8 +36,7 @@ template<int K = 26, char base = 'a'> struct Trie { // K letters starting at bas
 Usage:
 
 ```cpp
-Trie<> tr;           // lowercase letters
-Trie<10, '0'> dig;   // digit strings
+Trie tr;             // lowercase letters; for digits set K = 10, base = '0'
 tr.insert(s);
 tr.count(s);         // how many times s was inserted
 tr.prefix(p);        // how many inserted strings start with p
