@@ -49,21 +49,22 @@ Binary trie on the bits of integers, from the highest bit. Maximum XOR with a st
 ```cpp
 struct XorTrie {
     static const int B = 30; // bits 0..B-1, values < 2^B (use 60 for ll values)
-    vector<array<int, 2>> ch{{0, 0}}; vector<int> cnt{0};
+    struct Node { int ch[2], cnt; }; //cnt: 经过此点的数的个数
+    vector<Node> t{Node{}};
     void insert(ll x, int v = 1) { // v = -1 removes one copy
         int u = 0;
         for (int i = B - 1; i >= 0; i--) {
             int b = x >> i & 1;
-            if (!ch[u][b]) ch[u][b] = ch.size(), ch.push_back({0, 0}), cnt.push_back(0);
-            u = ch[u][b], cnt[u] += v;
+            if (!t[u].ch[b]) t[u].ch[b] = t.size(), t.push_back(Node{});
+            u = t[u].ch[b], t[u].cnt += v;
         }
     }
     ll max_xor(ll x) { // max of x ^ y over stored y (the trie must be nonempty)
         int u = 0; ll res = 0;
         for (int i = B - 1; i >= 0; i--) {
-            int b = x >> i & 1;
-            if (ch[u][!b] && cnt[ch[u][!b]]) u = ch[u][!b], res |= 1LL << i;
-            else u = ch[u][b];
+            int b = x >> i & 1, o = t[u].ch[!b];
+            if (o && t[o].cnt) u = o, res |= 1LL << i;
+            else u = t[u].ch[b];
         }
         return res;
     }

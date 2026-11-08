@@ -62,8 +62,9 @@ struct Mo {
     template<class Add, class Del, class Get> void run(int n, Add add, Del del, Get get) {
         int B = max(1, (int)(n / sqrt(max<int>(1, qs.size()))));
         sort(qs.begin(), qs.end(), [&](const Q &a, const Q &b) { //奇偶性排序
-            if (a.l / B != b.l / B) return a.l < b.l;
-            return (a.l / B) & 1 ? a.r > b.r : a.r < b.r;
+            int x = (a.l - 1) / B, y = (b.l - 1) / B; // block of l, same formula as everywhere on this page
+            if (x != y) return x < y;
+            return x & 1 ? a.r > b.r : a.r < b.r;
         });
         int L = 1, R = 0;
         for (auto &q : qs) {
@@ -105,8 +106,8 @@ struct MoUpd {
     template<class Add, class Del, class Get> void run(int n, vector<ll> &a, Add add, Del del, Get get) { // a[1..n] is updated in place
         int B = max(1, (int)pow(n, 2.0 / 3)); //带修莫队块长取 n^(2/3)
         sort(qs.begin(), qs.end(), [&](const Q &x, const Q &y) {
-            if (x.l / B != y.l / B) return x.l < y.l;
-            if (x.r / B != y.r / B) return x.r < y.r;
+            if ((x.l - 1) / B != (y.l - 1) / B) return x.l < y.l;
+            if ((x.r - 1) / B != (y.r - 1) / B) return x.r < y.r;
             return x.t < y.t; //再加一维时间戳
         });
         int L = 1, R = 0, T = 0;

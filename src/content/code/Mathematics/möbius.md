@@ -241,24 +241,21 @@ ll qpow(ll a, ll b, ll c) { ll r = 1; for (a %= c; b; b >>= 1, a = a * a % c) if
 
 int ans;
 vector<bool> prime(N);
-vector<int> ip(N), miu(N), phi(N), inv(N), f(N); // ip[0]: number of primes, ip[1..]: primes
+vector<int> primes, miu(N), phi(N), inv(N), f(N);
 vector<vector<int>> g(N);                        // g[j][i] = sum_{t <= i} phi(t * j)
 vector<vector<vector<int>>> h(M + 2, vector<vector<int>>(M + 2));
 void Linear(int n) { //线性筛莫比乌斯函数和欧拉函数
     miu[1] = phi[1] = 1;
     for (int i = 2; i <= n; ++i) {
-        if (!prime[i]) {
-            ip[++ip[0]] = i;
-            miu[i] = -1; phi[i] = i - 1;
-        }
-        for (int j = 1; j <= ip[0]; ++j) {
-            int k = i * ip[j];
+        if (!prime[i]) primes.push_back(i), miu[i] = -1, phi[i] = i - 1;
+        for (int p : primes) {
+            int k = i * p;
             if (k > n) break;
             prime[k] = 1;
-            if (i % ip[j] == 0) { miu[k] = 0, phi[k] = phi[i] * ip[j]; break; }
-            else miu[k] = -miu[i], phi[k] = phi[i] * (ip[j] - 1);
+            if (i % p == 0) { miu[k] = 0, phi[k] = phi[i] * p; break; }
+            else miu[k] = -miu[i], phi[k] = phi[i] * (p - 1);
         }
-    } 
+    }
     for (int i = 1; i <= n; ++i) inv[i] = qpow(phi[i], mod - 2, mod);//计算欧拉函数的逆元
 }
 void init(int n, int m) { //递推预处理相关函数

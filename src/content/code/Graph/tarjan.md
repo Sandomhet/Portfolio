@@ -22,7 +22,7 @@ $low_u = \min(dfn_u,\ low_v \text{ for tree edges } (u, v),\ dfn_v \text{ for } 
 struct SCC {
     int n, tim = 0, cnt = 0; vector<vector<int>> e;
     vector<int> dfn, low, bel, stk; vector<bool> ins; //bel: 所属强连通分量
-    vector<vector<int>> comps;                         //该强连通分量集合
+    vector<vector<int>> comps{{}};                     //该强连通分量集合, comps[1..cnt]
     SCC(int n) : n(n), e(n + 1), dfn(n + 1), low(n + 1), bel(n + 1), ins(n + 1) {}
     void add_edge(int u, int v) { e[u].push_back(v); }
     void tarjan(int u) {
@@ -61,7 +61,7 @@ s.add_edge(u, v);
 s.run();
 s.cnt;          // number of SCCs
 s.bel[u];       // SCC of u, 1..cnt
-s.comps[c - 1]; // vertices of SCC c
+s.comps[c];     // vertices of SCC c
 auto g = s.dag();
 ```
 
@@ -86,7 +86,7 @@ struct BCC {
     int n, m = 0, tim = 0; vector<vector<pii>> e; // e[u]: (v, edge id)
     vector<int> dfn, low, s1, s2, ebel;            // ebel[u]: E-DCC of u
     vector<bool> cut, bridge;                      // cut[u]: 割点, bridge[id]: 割边
-    vector<vector<int>> vdcc, edcc;                // 点双连通分量 / 边双连通分量
+    vector<vector<int>> vdcc{{}}, edcc{{}};        // 点双连通分量 / 边双连通分量, 1-indexed ([0] unused)
     BCC(int n) : n(n), e(n + 1), dfn(n + 1), low(n + 1), ebel(n + 1), cut(n + 1) {}
     int add_edge(int u, int v) { e[u].push_back({v, m}), e[v].push_back({u, m}); return m++; }
     void tarjan(int u, int pe) {
@@ -131,6 +131,6 @@ int id = b.add_edge(u, v);   // undirected
 b.run();
 b.cut[u];       // u is a cut vertex
 b.bridge[id];   // edge id is a bridge
-b.vdcc, b.edcc; // lists of vertex / edge biconnected components
-b.ebel[u];      // E-DCC index of u (0-based); bridges connect different E-DCCs into a tree
+b.vdcc[i], b.edcc[i]; // i-th vertex / edge biconnected component, i from 1
+b.ebel[u];      // E-DCC index of u (from 1); bridges connect different E-DCCs into a tree
 ```
