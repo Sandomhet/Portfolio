@@ -14,6 +14,8 @@ time: "Sun Nov 2, 2025"
 4. [Insertion Sort](#insertion-sort)
 5. [Merge Sort](#merge-sort)
 6. [Quick Sort](#quick-sort)
+7. [Heap Sort](#heap-sort)
+8. [Sorting a Linked List](#sorting-a-linked-list)
 
 ## Overview
 
@@ -27,6 +29,7 @@ Table of comparisons:
 | Insertion Sort  | $O(n)$                   | $O(n^2)$                    | $O(n^2)$                  | $O(1)$             | Stable          |
 | Merge Sort      | $O(n \log n)$            | $O(n \log n)$               | $O(n \log n)$             | $O(n)$             | Stable          |
 | Quick Sort      | $O(n \log n)$            | $O(n \log n)$               | $O(n^2)$                  | $O(\log n)$ or $O(n)$ | Not Stable      |
+| Heap Sort       | $O(n \log n)$            | $O(n \log n)$               | $O(n \log n)$             | $O(1)$             | Not Stable      |
 
 ## Selection Sort
 
@@ -163,5 +166,75 @@ void quickSort(vector<int>& arr, int low, int high) {
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
     }
+}
+```
+
+## Heap Sort
+
+Heap Sort first rearranges the array into a max-heap (the children of index $i$ are $2i+1$ and $2i+2$, and every parent is at least as large as its children), so the maximum is at index $0$. It then swaps the maximum to the end, shrinks the heap by one, and sifts the new root down to restore the heap. Repeating this places the elements at the back in decreasing order, so the array ends up sorted.
+
+- **Time Complexity**: 
+    - Best Case: $O(n \log n)$ ($O(n)$ only when all keys are equal, because nothing sifts down)
+    - Average Case: $O(n \log n)$
+    - Worst Case: $O(n \log n)$
+    - Building the heap bottom-up is $O(n)$; the $n - 1$ extractions cost $O(\log n)$ each.
+- **Space Complexity**: $O(1)$ (in place, no recursion).
+- Not stable: the swap to the end can jump an element over equal ones.
+
+```cpp
+void siftDown(vector<int>& arr, int i, int n) { // the heap is arr[0..n-1]
+    while (true) {
+        int largest = i, l = 2 * i + 1, r = 2 * i + 2;
+        if (l < n && arr[l] > arr[largest]) largest = l;
+        if (r < n && arr[r] > arr[largest]) largest = r;
+        if (largest == i) return;
+        swap(arr[i], arr[largest]);
+        i = largest;
+    }
+}
+void heapSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--) siftDown(arr, i, n); // build a max-heap, O(n)
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]); // move the current maximum to its final place
+        siftDown(arr, 0, i);  // restore the heap on arr[0..i-1]
+    }
+}
+```
+
+## Sorting a Linked List
+
+A singly linked list has no random access: reaching the $k$-th node takes $O(k)$ steps, and you can only walk forward. On the other hand, moving a node is $O(1)$ by relinking pointers, with no shifting of the elements after it. These two facts change which algorithms work well.
+
+| Algorithm      | Time on a list | Extra space | Stable | Notes |
+|----------------|----------------|-------------|--------|-------|
+| Selection Sort | $O(n^2)$ | $O(1)$ | Yes, if you unlink the first minimum and append it | Swapping values instead of nodes is not stable |
+| Bubble Sort    | $O(n^2)$, $O(n)$ best with early stop | $O(1)$ | Yes | Only compares neighbors, so it needs no random access |
+| Insertion Sort | $O(n^2)$, $O(n)$ best with a tail check | $O(1)$ | Yes, if inserted after equal keys | Insertion itself is $O(1)$, but finding the place is a forward scan from the head; check the tail first so an already sorted list costs $O(n)$ |
+| Merge Sort     | $O(n \log n)$ | $O(\log n)$ recursive, $O(1)$ bottom-up | Yes | **The best choice**: merging relinks nodes, so the $O(n)$ temporary array disappears. `std::list::sort` uses it |
+| Quick Sort     | $O(n \log n)$ average, $O(n^2)$ worst | $O(\log n)$ average stack, $O(n)$ worst | Yes, with three-way partition into separate lists | Without random access the pivot is usually the head, so sorted input hits the worst case; walking to a random pivot costs $O(n)$ per call, the same as the partition, so it keeps the $O(n \log n)$ average |
+| Heap Sort      | $O(n^2 \log n)$ in place | $O(1)$ | No | Needs index arithmetic (parent, children), and every index costs a walk; in practice copy to an array first, which needs $O(n)$ space |
+
+Merge sort on a list: find the middle with a slow and a fast pointer, cut the list there, sort both halves, and merge them by relinking nodes. No node is copied.
+
+```cpp
+struct ListNode { int val; ListNode* next; };
+ListNode* mergeLists(ListNode* a, ListNode* b) {
+    ListNode dummy{0, nullptr}, *tail = &dummy;
+    while (a && b) {
+        if (a->val <= b->val) tail->next = a, a = a->next; // <= keeps it stable
+        else tail->next = b, b = b->next;
+        tail = tail->next;
+    }
+    tail->next = a ? a : b;
+    return dummy.next;
+}
+ListNode* mergeSortList(ListNode* head) {
+    if (!head || !head->next) return head;
+    ListNode *slow = head, *fast = head->next; // slow stops at the end of the first half
+    while (fast && fast->next) slow = slow->next, fast = fast->next->next;
+    ListNode* second = slow->next;
+    slow->next = nullptr; // cut the list into two halves
+    return mergeLists(mergeSortList(head), mergeSortList(second));
 }
 ```
